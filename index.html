@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="dark">
+<html lang="ko" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,36 +9,38 @@
    tokens — LearningPage 디자인 시스템 그대로 이식
    ============================================================ */
 :root{
-  --radius-1:6px; --radius-2:10px;
+  --radius-1:10px; --radius-2:16px;
   --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:36px;
-  --topbar-h:52px;
+  --topbar-h:58px;
   --font:"Pretendard","Noto Sans KR","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Consolas,monospace;
 }
-:root,[data-theme="dark"]{
-  --bg-0:#010409; --bg-1:#0d1117; --bg-2:#161b22; --bg-3:#21262d;
-  --border-1:#30363d; --border-2:#3d444d;
-  --text-1:#f0f6fc; --text-2:#9198a1; --text-3:#656c76;
-  --accent:#3ecfb2; --accent-2:#6fe3cb; --accent-dim:rgba(62,207,178,.15); --accent-text:#04231e;
-  --primary:#0d7a6b; --primary-hover:#109083; --primary-text:#fff;
-  --danger:#f85149; --warn:#d29922; --info:#6fe3cb;
-  --advanced:#3fb950; --advanced-dim:rgba(63,185,80,.15);
-  --practice-dim:rgba(210,153,34,.13);
-  --shadow-1:0 2px 10px rgba(1,4,9,.6); --shadow-2:0 12px 40px rgba(1,4,9,.7);
+/* 배너에서 뽑은 팔레트 — 수채 민트, 잉크 브라운, 금빛 포인트 */
+:root,[data-theme="light"]{
+  --bg-0:#e6efe3; --bg-1:#f4f8f1; --bg-2:#ffffff; --bg-3:#eef4ea;
+  --border-1:#dde6d7; --border-2:#c3d3ba;
+  --text-1:#3d2b21; --text-2:#6d5b4e; --text-3:#9c8b7d;
+  --accent:#2f8f63; --accent-2:#1f7350; --accent-dim:#e2f2e7; --accent-text:#ffffff;
+  --primary:#2f8f63; --primary-hover:#1f7350; --primary-text:#fff;
+  --danger:#c4553b; --warn:#b8830c; --info:#2f8f63;
+  --advanced:#2f8f63; --advanced-dim:#e2f2e7;
+  --practice-dim:#fdf1d5;
+  --gold:#d99b09; --gold-dim:#fdf1d5; --gold-ink:#5a3f06;
+  --shadow-1:0 1px 2px rgba(61,43,33,.05),0 6px 18px rgba(61,43,33,.05);
+  --shadow-2:0 4px 12px rgba(61,43,33,.09),0 18px 46px rgba(61,43,33,.09);
 }
-[data-theme="light"]{
-  --bg-0:#eceef2; --bg-1:#f5f6f8; --bg-2:#fff; --bg-3:#f0f2f5;
-  --border-1:#e3e7ee; --border-2:#d2d9e3;
-  --text-1:#1f2733; --text-2:#5a6573; --text-3:#8c97a5;
-  --accent:#0b8072; --accent-2:#08675c; --accent-dim:#dcf4ef; --accent-text:#ffffff;
-  --primary:#0b8072; --primary-hover:#08675c; --primary-text:#fff;
-  --danger:#d64545; --warn:#e8890c; --info:#0b8072;
-  --advanced:#1a7f37; --advanced-dim:#e7f6ec;
-  --practice-dim:#fdf2dd;
-  --shadow-1:0 1px 3px rgba(20,30,50,.08),0 6px 20px rgba(20,30,50,.05);
-  --shadow-2:0 4px 12px rgba(20,30,50,.12),0 16px 48px rgba(20,30,50,.10);
+[data-theme="dark"]{
+  --bg-0:#1a1613; --bg-1:#221d19; --bg-2:#2b2521; --bg-3:#352e28;
+  --border-1:#3d352e; --border-2:#4f453c;
+  --text-1:#f2ece4; --text-2:#b6a89a; --text-3:#877a6d;
+  --accent:#6cc396; --accent-2:#8fd6b0; --accent-dim:rgba(108,195,150,.15); --accent-text:#14261d;
+  --primary:#3f9c6f; --primary-hover:#4fb180; --primary-text:#fff;
+  --danger:#e0785c; --warn:#e0ab3c; --info:#8fd6b0;
+  --advanced:#8fd6b0; --advanced-dim:rgba(108,195,150,.15);
+  --practice-dim:rgba(224,171,60,.13);
+  --gold:#f0c04a; --gold-dim:rgba(240,192,74,.15); --gold-ink:#f0c04a;
+  --shadow-1:0 2px 10px rgba(0,0,0,.35); --shadow-2:0 12px 40px rgba(0,0,0,.45);
 }
-
 /* ============================================================ base */
 *,::before,::after{box-sizing:border-box}
 html,body{margin:0;padding:0;height:100%}
@@ -548,6 +550,84 @@ img.img-sel{outline:2px solid var(--accent);outline-offset:2px}
 #toasts div{background:var(--bg-2);border:1px solid var(--border-1);border-left:3px solid var(--accent);
   border-radius:var(--radius-1);box-shadow:var(--shadow-1);padding:11px 15px;font-size:13px}
 #toasts div.e{border-left-color:var(--danger)}
+
+/* ============================================================ 배너 컨셉 보정 */
+body{background:var(--bg-1)}
+.topbar{background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--border-1)}
+[data-theme="dark"] .topbar{background:rgba(43,37,33,.82)}
+
+/* 히어로 — 수채 얼룩 두 겹 */
+.hero{padding:64px 0 52px}
+.hero::before{left:-18%;top:-70%;width:78%;height:210%;
+  background:radial-gradient(closest-side,rgba(47,143,99,.16),transparent 70%)}
+.hero::after{content:"";position:absolute;right:-12%;top:-30%;width:46%;height:150%;
+  background:radial-gradient(closest-side,rgba(217,155,9,.14),transparent 70%);pointer-events:none}
+.hero-eyebrow{color:var(--gold-ink);background:var(--gold-dim);padding:5px 12px;border-radius:999px;
+  letter-spacing:.12em}
+.hero-eyebrow::before{display:none}
+[data-theme="dark"] .hero-eyebrow{color:var(--gold)}
+.hero h1{letter-spacing:-.035em}
+.hero h1 b{color:var(--accent-2)}
+[data-theme="dark"] .hero h1 b{color:var(--accent-2)}
+.hero-art{width:100%;max-width:520px;margin:30px 0 0;border-radius:18px;display:block;
+  border:2px solid var(--text-1);box-shadow:6px 6px 0 var(--accent-dim)}
+.hchip{border-width:1.5px;border-radius:999px}
+.hero-stats{border-top:1.5px dashed var(--border-2)}
+.hstat b{color:var(--accent-2)}
+
+/* 섹션 */
+.sec + .sec{border-top:1.5px dashed var(--border-2)}
+.sec-num{color:var(--gold-ink);background:var(--gold-dim);padding:3px 9px;border-radius:999px;letter-spacing:.1em}
+[data-theme="dark"] .sec-num{color:var(--gold)}
+.sec-line{background:var(--border-1)}
+
+/* 카드 — 굵은 잉크 테두리 + 오프셋 그림자 */
+.bcard{border:2px solid var(--text-1);border-radius:18px;box-shadow:5px 5px 0 var(--accent-dim)}
+.bcard:hover{border-color:var(--text-1);transform:translate(-2px,-2px);box-shadow:9px 9px 0 var(--accent-dim)}
+.bcard-cover{border-bottom:2px solid var(--text-1)}
+.bcard-ph{background:linear-gradient(135deg,var(--accent-dim),var(--gold-dim))}
+.bcard-title{letter-spacing:-.02em}
+.tg{border-radius:999px;background:var(--bg-3);border:1px solid var(--border-2)}
+.bcard-go{color:var(--accent-2);font-weight:700}
+
+.mcard{border:1.5px solid var(--border-2);border-radius:16px}
+.mcard:hover{border-color:var(--text-1);box-shadow:4px 4px 0 var(--gold-dim);transform:translate(-1px,-2px)}
+.mcard::after{background:linear-gradient(180deg,var(--gold),var(--accent))}
+
+.rowitem{border-radius:12px}
+.rowitem:hover{border-color:var(--border-2);box-shadow:3px 3px 0 var(--accent-dim)}
+.rowitem-dot{background:var(--gold);width:8px;height:8px}
+
+/* 프로젝트 페이지 */
+.pj-hero{border-bottom:2px solid var(--text-1)}
+.pj-title{letter-spacing:-.03em}
+.toc{background:rgba(244,248,241,.92);backdrop-filter:blur(8px);border-bottom:1.5px dashed var(--border-2)}
+[data-theme="dark"] .toc{background:rgba(34,29,25,.92)}
+.toc button{border-width:1.5px;border-radius:999px}
+.toc button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pj-sec + .pj-sec{border-top:1.5px dashed var(--border-2)}
+.pj-sec-tag{background:var(--gold-dim);color:var(--gold-ink)}
+[data-theme="dark"] .pj-sec-tag{color:var(--gold)}
+.pj-foot{border-top:1.5px dashed var(--border-2)}
+
+/* 본문 요소 */
+.doc h2{border-bottom:1.5px dashed var(--border-2)}
+.doc h3{color:var(--accent-2)}
+.callout{border:1.5px solid var(--border-2);border-left:4px solid var(--accent);border-radius:14px}
+.callout.insight{border-left-color:var(--accent)}
+.callout.problem{border-left-color:var(--gold)}
+.quote{border:1.5px dashed var(--border-2);border-radius:16px;background:var(--bg-2)}
+.quote span{color:var(--text-3)}
+.doc-img{border:2px solid var(--text-1);border-radius:14px}
+.skill{border:1.5px solid var(--border-2);border-radius:14px}
+.skill:hover{border-color:var(--text-1);box-shadow:3px 3px 0 var(--gold-dim)}
+.skill-level{background:var(--accent-dim);color:var(--accent-2)}
+.skill-level.l1{background:var(--gold-dim);color:var(--gold-ink)}
+[data-theme="dark"] .skill-level.l1{color:var(--gold)}
+table{border-radius:12px;overflow:hidden}
+th{background:var(--bg-3)}
+.btn{border-radius:999px;border-width:1.5px}
+.btn.accent{border-color:var(--accent)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -558,7 +638,7 @@ img.img-sel{outline:2px solid var(--accent);outline-offset:2px}
     <div class="topbar-title" id="topbarTitle">포트폴리오</div>
     <div class="topbar-right">
       <a class="btn ghost" id="notionLink" href="https://app.notion.com/p/0009d4ab6bba82c5b160816e3f7c494a" target="_blank" rel="noopener" title="Notion 원본 문서 열기">↗ Notion</a>
-      <button class="btn ghost" id="themeToggle" title="테마 전환">☀ 라이트</button>
+      <button class="btn ghost" id="themeToggle" title="테마 전환">☾ 어둡게</button>
       <a class="btn accent" href="admin.html" title="편집기 열기">✏️ 편집</a>
     </div>
   </header>
@@ -597,6 +677,7 @@ function renderHome(){
     <h1>${esc(PROFILE.name)}<br><b>${esc(PROFILE.title)}</b></h1>
     <p class="hero-tag">${esc(PROFILE.tagline)}</p>
     <div class="hero-chips">${chips}</div>
+    <img class="hero-art" src="banner.png" alt="" onerror="this.remove()">
     <div class="hero-stats">
       <div class="hstat"><b>${projCount()}</b><span>PROJECTS</span></div>
       <div class="hstat"><b>${countDocs()}</b><span>DOCUMENTS</span></div>
@@ -757,11 +838,11 @@ view.addEventListener("click", e => {
 const themeToggle = document.getElementById("themeToggle");
 function setTheme(t){
   document.documentElement.dataset.theme = t;
-  themeToggle.textContent = t === "dark" ? "☀ 라이트" : "☾ 다크";
+  themeToggle.textContent = t === "dark" ? "☀ 밝게" : "☾ 어둡게";
   try { localStorage.setItem("pf-theme", t); } catch(_) {}
 }
 themeToggle.onclick = () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
-let _t = "dark"; try { _t = localStorage.getItem("pf-theme") || "dark"; } catch(_) {}
+let _t = "light"; try { _t = localStorage.getItem("pf-theme") || "light"; } catch(_) {}
 setTheme(_t);
 
 route();
