@@ -170,6 +170,25 @@ th{background:var(--bg-2);color:var(--text-2);font-weight:600;font-size:12px;
 td{color:var(--text-2)}
 td strong{color:var(--text-1)}
 .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 var(--space-4)}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:var(--space-3);margin-bottom:var(--space-3)}
+.gcard{display:flex;flex-direction:column;padding:0;overflow:hidden;text-align:left;
+  background:var(--bg-2);border:1px solid var(--border-1);border-radius:var(--radius-2);
+  cursor:pointer;font-family:var(--font);color:var(--text-1);
+  transition:border-color .12s,transform .12s,box-shadow .12s}
+.gcard:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-1)}
+.gcard-cover{position:relative;width:100%;aspect-ratio:16/9;background:var(--bg-3);
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
+.gcard-cover img{width:100%;height:100%;object-fit:cover;display:block;border:none;border-radius:0;margin:0}
+.gcard-ph{font-size:13px;color:var(--text-3);padding:0 14px;text-align:center}
+.gcard-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}
+.gcard-title{font-size:15px;font-weight:700}
+.gcard-meta{font-size:12px;color:var(--text-3)}
+.gcard-count{font-size:11px;color:var(--accent-2);margin-top:2px}
+.proj-hero{width:100%;aspect-ratio:21/9;object-fit:cover;border-radius:var(--radius-2);
+  border:1px solid var(--border-1);display:block;margin-bottom:var(--space-4)}
+.crumb-link{color:inherit;text-decoration:none;cursor:pointer}
+.crumb-link:hover{color:var(--accent-2);text-decoration:underline}
 .doc-img{max-width:100%;height:auto;display:block;border-radius:8px;
   border:1px solid var(--border-1);margin:0 0 8px}
 .doc-img.center{margin-left:auto;margin-right:auto}
@@ -246,7 +265,7 @@ const topbarLeft = document.getElementById("topbarLeft");
 // 평탄화된 레슨 인덱스 (이전/다음 이동용)
 const FLAT = [];
 UNITS.forEach((u, ui) => u.mids.forEach((m, mi) => m.lessons.forEach((l, li) => {
-  FLAT.push({ unit: u.title, mid: m.title, lesson: l, key: `${ui}-${mi}-${li}` });
+  FLAT.push({ unit: u.title, mid: m.title, lesson: l, ui, mi, key: `${ui}-${mi}-${li}` });
 })));
 
 const openMids = new Set(["1-0"]); // 첫 프로젝트는 펼친 상태로 시작
@@ -262,6 +281,23 @@ function renderHome(){
   ).join("");
 
   const units = UNITS.map((u, ui) => {
+    const head = `<h2 class="learn-unit-title"><span class="learn-unit-num">${ui + 1}.</span><span> ${esc(u.title)}</span></h2>`;
+
+    if (u.layout === "gallery"){
+      const cards = u.mids.map((m, mi) => `
+        <button class="gcard" type="button" data-proj="${ui}-${mi}">
+          <span class="gcard-cover">${m.cover
+            ? `<img src="${m.cover}" alt="${esc(m.title)}">`
+            : `<span class="gcard-ph">${esc(m.title)}</span>`}</span>
+          <span class="gcard-body">
+            <span class="gcard-title">${esc(m.title)}</span>
+            ${m.meta ? `<span class="gcard-meta">${esc(m.meta)}</span>` : ""}
+            <span class="gcard-count">문서 ${m.lessons.length}개 →</span>
+          </span>
+        </button>`).join("");
+      return `<section class="learn-unit">${head}<div class="gallery-grid">${cards}</div></section>`;
+    }
+
     const mids = u.mids.map((m, mi) => {
       const key = `${ui}-${mi}`;
       const isOpen = openMids.has(key);
@@ -280,10 +316,7 @@ function renderHome(){
         </button>
         <div class="learn-sublist${isOpen ? " open" : ""}" data-sublist="${key}">${lessons}</div>`;
     }).join("");
-    return `<section class="learn-unit">
-      <h2 class="learn-unit-title"><span class="learn-unit-num">${ui + 1}.</span><span> ${esc(u.title)}</span></h2>
-      ${mids}
-    </section>`;
+    return `<section class="learn-unit">${head}${mids}</section>`;
   }).join("");
 
   view.innerHTML = `<div class="container learn-root">
@@ -301,15 +334,42 @@ function renderHome(){
   view.scrollTop = 0;
 }
 
+function renderProject(key){
+  const [ui, mi] = key.split("-").map(Number);
+  const u = UNITS[ui], m = u && u.mids[mi];
+  if (!m) return renderHome();
+
+  topbarTitle.textContent = m.title;
+  topbarLeft.innerHTML = `<button class="btn ghost" id="backBtn">← 목록</button>`;
+  document.getElementById("backBtn").onclick = () => go("");
+
+  const lessons = m.lessons.map((l, li) => `
+    <button class="learn-lesson" type="button" data-lesson="${ui}-${mi}-${li}">
+      <span class="learn-lesson-bullet">ㄴ</span>
+      <span class="learn-lesson-title">${esc(l.title)}</span>
+      ${l.tag ? `<span class="learn-lesson-tag">${esc(l.tag)}</span>` : ""}
+    </button>`).join("");
+
+  view.innerHTML = `<div class="lesson-inner">
+    <div class="lesson-breadcrumb">${esc(u.title)}</div>
+    <h1 class="lesson-heading">${esc(m.title)}</h1>
+    ${m.meta ? `<p class="learn-intro-desc" style="margin:0 0 var(--space-4);font-size:14px">${esc(m.meta)}</p>` : ""}
+    ${m.cover ? `<img class="proj-hero" src="${m.cover}" alt="${esc(m.title)}">` : ""}
+    <div style="margin-left:0">${lessons}</div>
+  </div>`;
+  view.scrollTop = 0;
+}
+
 function renderLesson(key){
   const idx = FLAT.findIndex(f => f.key === key);
   if (idx < 0) return renderHome();
-  const { unit, mid, lesson } = FLAT[idx];
+  const { unit, mid, lesson, ui, mi } = FLAT[idx];
+  const gallery = UNITS[ui] && UNITS[ui].layout === "gallery";
   const prev = FLAT[idx - 1], next = FLAT[idx + 1];
 
   topbarTitle.textContent = lesson.title;
-  topbarLeft.innerHTML = `<button class="btn ghost" id="backBtn">← 목록</button>`;
-  document.getElementById("backBtn").onclick = () => go("");
+  topbarLeft.innerHTML = `<button class="btn ghost" id="backBtn">← ${gallery ? esc(mid) : "목록"}</button>`;
+  document.getElementById("backBtn").onclick = () => go(gallery ? `p-${ui}-${mi}` : "");
 
   const links = (lesson.links || []).map(l =>
     `<a class="btn accent sm" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
@@ -322,7 +382,8 @@ function renderLesson(key){
     : `<span style="flex:1 1 0"></span>`;
 
   view.innerHTML = `<div class="lesson-inner">
-    <div class="lesson-breadcrumb">${esc(unit)} · ${esc(mid)}</div>
+    <div class="lesson-breadcrumb">${esc(unit)} · ${gallery
+      ? `<a class="crumb-link" href="#p-${ui}-${mi}">${esc(mid)}</a>` : esc(mid)}</div>
     <h1 class="lesson-heading">${esc(lesson.title)}</h1>
     ${links ? `<div class="lesson-links">${links}</div>` : ""}
     <div class="doc">${lesson.html}</div>
@@ -338,7 +399,9 @@ function go(hash){
 }
 function route(){
   const key = location.hash.slice(1);
-  key ? renderLesson(key) : renderHome();
+  if (!key) return renderHome();
+  if (key.startsWith("p-")) return renderProject(key.slice(2));
+  renderLesson(key);
 }
 window.addEventListener("hashchange", route);
 
@@ -354,6 +417,8 @@ view.addEventListener("click", e => {
     nowOpen ? openMids.add(key) : openMids.delete(key);
     return;
   }
+  const projBtn = e.target.closest("[data-proj]");
+  if (projBtn) return go("p-" + projBtn.dataset.proj);
   const lessonBtn = e.target.closest("[data-lesson]");
   if (lessonBtn) go(lessonBtn.dataset.lesson);
 });
