@@ -105,6 +105,22 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text-1);
 
 
 /* ---------- 본문 블록 조작 ---------- */
+.editor-wrap{position:relative;margin-left:34px}
+#blkRail{position:absolute;left:-34px;top:0;width:30px;height:100%;pointer-events:none}
+#blkRail .g{position:absolute;left:0;width:26px;height:24px;display:flex;align-items:center;
+  justify-content:center;border-radius:6px;color:var(--text-3);font-size:13px;line-height:1;
+  cursor:grab;pointer-events:auto;user-select:none;opacity:.35;
+  transition:opacity .12s,background .12s,color .12s}
+.editor-wrap:hover #blkRail .g{opacity:.75}
+#blkRail .g:hover{opacity:1;background:var(--bg-3);color:var(--accent)}
+#blkRail .g:active{cursor:grabbing}
+#blkRail .g.on{opacity:1;background:var(--accent-dim);color:var(--accent)}
+.editor:hover > *{outline:1px dashed rgba(255,255,255,.07);outline-offset:5px;border-radius:3px}
+[data-theme="light"] .editor:hover > *{outline-color:rgba(0,0,0,.08)}
+.editor > .blk-hi{outline:1px dashed var(--accent)!important;outline-offset:5px}
+.blk-drag{opacity:.3}
+.blk-drop{box-shadow:0 -2px 0 var(--accent)}
+.blk-drop-after{box-shadow:0 2px 0 var(--accent)}
 #blkTools{position:fixed;z-index:70;display:none;align-items:center;gap:1px;padding:3px;
   background:var(--bg-2);border:1px solid var(--border-2);border-radius:8px;
   box-shadow:var(--shadow-1);white-space:nowrap}
@@ -114,12 +130,6 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text-1);
   border-radius:5px;font-size:12px;line-height:1}
 #blkTools button:hover{background:var(--bg-3);color:var(--text-1)}
 #blkTools button.del:hover{background:var(--danger);color:#fff}
-#blkTools .grip{cursor:grab;color:var(--text-3)}
-#blkTools .grip:active{cursor:grabbing}
-.blk-hi{outline:1px dashed var(--accent);outline-offset:3px;border-radius:4px}
-.blk-drag{opacity:.35}
-.blk-drop{box-shadow:0 -2px 0 var(--accent)}
-.blk-drop-after{box-shadow:0 2px 0 var(--accent)}
 
 /* ---------- 트리 (재작성) ---------- */
 .tree-idx{flex:0 0 auto;width:16px;font-size:11px;color:var(--text-3);text-align:center}
@@ -298,7 +308,6 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
 <input type="file" id="icoPicker" accept="image/*" hidden>
 <input type="file" id="coverPicker" accept="image/*" hidden>
 <div id="blkTools">
-  <button class="grip" title="드래그해서 옮기기" draggable="true">⠿</button>
   <button data-blk="up" title="위로 (Alt+↑)">↑</button>
   <button data-blk="down" title="아래로 (Alt+↓)">↓</button>
   <button data-blk="dup" title="복제">⧉</button>
@@ -655,7 +664,8 @@ function renderForm(){
       <button class="btn sm accent" data-cmd="image">🖼 이미지</button>
       <button class="btn sm" data-cmd="clear">서식 지우기</button>
     </div>
-    <div class="editor" id="editor" contenteditable="true"></div>
+    <div class="editor-wrap"><div id="blkRail"></div>
+      <div class="editor" id="editor" contenteditable="true"></div></div>
     <div class="hint" style="margin-top:6px;color:var(--text-3);font-size:11px">
       이미지는 붙여넣기(Ctrl+V)·끌어놓기도 됩니다. 넣은 이미지를 <b>클릭</b>하면 크기 조절 도구가 나옵니다.
       작업 내용은 자동 보관되며, 사이트에 반영하려면 <b>Ctrl+S</b>로 저장하세요.
@@ -665,6 +675,7 @@ function renderForm(){
   if (typeof hideBlkTools === "function") hideBlkTools();
   document.getElementById("editor").innerHTML = l.html || "<p></p>";
   bindForm();
+  if (typeof buildRail === "function") buildRail();
 }
 
 function bindForm(){
@@ -693,7 +704,7 @@ function bindForm(){
     }
   });
 
-  ed.oninput = () => { cur.l.html = ed.innerHTML; save(); };
+  ed.oninput = () => { cur.l.html = ed.innerHTML; save(); buildRail(); };
   ed.addEventListener("paste", onPaste);
   ed.addEventListener("drop", onDrop);
   ed.addEventListener("dragover", e => e.preventDefault());
@@ -730,6 +741,7 @@ function insertBlock(ed, html){
     sel2.removeAllRanges(); sel2.addRange(r);
   }
   flush();
+  if (typeof buildRail === "function") buildRail();
 }
 
 function runCmd(cmd, ed){
@@ -1104,134 +1116,165 @@ window.addEventListener("resize", placeTools);
    본문 블록 조작 — 문단·표·박스·이미지를 통째로 옮기고 지운다
    ============================================================ */
 const blkTools = document.getElementById("blkTools");
-const grip = blkTools.querySelector(".grip");
+const railEl = () => document.getElementById("blkRail");
 let curBlk = null, dragBlk = null;
 
+function edEl(){ return document.getElementById("editor"); }
 function topBlock(node, ed){
   while (node && node.parentNode !== ed) node = node.parentNode;
   return (node && node !== ed) ? node : null;
 }
-function showBlkTools(blk){
-  const ed = document.getElementById("editor");
-  if (!blk || !ed || !ed.contains(blk)) return hideBlkTools();
+function saveBlocks(){
+  const ed = edEl(), cur = current();
+  if (ed && cur){ cur.l.html = ed.innerHTML; save(); }
+  buildRail();
+}
+
+/* ---- 왼쪽 손잡이 레일: 블록마다 하나씩 세운다 ---- */
+let railJob = null;
+function buildRail(){
+  cancelAnimationFrame(railJob);
+  railJob = requestAnimationFrame(() => {
+    const ed = edEl(), blkRail = railEl();
+    if (!ed || !blkRail) return;
+    blkRail.innerHTML = "";
+    [...ed.children].forEach((blk, i) => {
+      const g = document.createElement("div");
+      g.className = "g";
+      g.textContent = "⠿";
+      g.draggable = true;
+      g.dataset.i = i;
+      g.title = "드래그해서 옮기기 · 클릭하면 도구";
+      g.style.top = (ed.offsetTop + blk.offsetTop + Math.min(6, blk.offsetHeight / 2 - 12)) + "px";
+      blkRail.appendChild(g);
+    });
+  });
+}
+function blkAt(i){ const ed = edEl(); return ed ? ed.children[+i] : null; }
+
+function highlight(blk){
   if (curBlk && curBlk !== blk) curBlk.classList.remove("blk-hi");
-  curBlk = blk;
-  blk.classList.add("blk-hi");
-  const r = blk.getBoundingClientRect();
-  const w = 120;
-  let left = r.left - w - 8;
-  let top = r.top + 1;
-  if (left < 8){ left = r.left; top = r.top - 30; }
-  blkTools.style.left = Math.max(8, left) + "px";
-  blkTools.style.top = Math.max(8, top) + "px";
+  curBlk = blk || null;
+  if (curBlk) curBlk.classList.add("blk-hi");
+  const rail = railEl();
+  if (rail) [...rail.children].forEach(g =>
+    g.classList.toggle("on", curBlk && blkAt(g.dataset.i) === curBlk));
+}
+function showBlkTools(blk, near){
+  if (!blk) return hideBlkTools();
+  highlight(blk);
+  const r = (near || blk).getBoundingClientRect();
   blkTools.classList.add("show");
+  const w = blkTools.offsetWidth || 104;
+  let left = r.left - w - 6;
+  if (left < 8) left = r.right + 6;
+  blkTools.style.left = Math.max(8, Math.min(left, innerWidth - w - 8)) + "px";
+  blkTools.style.top = Math.max(8, r.top - 1) + "px";
 }
 function hideBlkTools(){
   if (curBlk) curBlk.classList.remove("blk-hi");
   curBlk = null;
   blkTools.classList.remove("show");
-}
-function saveBlocks(){
-  const ed = document.getElementById("editor");
-  const cur = current();
-  if (ed && cur){ cur.l.html = ed.innerHTML; save(); }
+  const rail = railEl();
+  if (rail) [...rail.children].forEach(g => g.classList.remove("on"));
 }
 
-document.addEventListener("mousemove", e => {
-  const ed = document.getElementById("editor");
-  if (!ed || !e.target || !e.target.closest) return;
-  if (e.target.closest("#blkTools")) return;
-  if (!ed.contains(e.target)){
-    const r = ed.getBoundingClientRect();
-    if (e.clientX < r.left - 140 || e.clientX > r.right + 40 ||
-        e.clientY < r.top - 40 || e.clientY > r.bottom + 40) hideBlkTools();
-    return;
-  }
-  const blk = topBlock(e.target, ed);
-  if (blk) showBlkTools(blk);
+/* 손잡이: 올리면 강조, 누르면 도구 */
+document.addEventListener("mouseover", e => {
+  if (!e.target || !e.target.closest) return;
+  const g = e.target.closest("#blkRail .g"); if (!g) return;
+  highlight(blkAt(g.dataset.i));
 });
-
-blkTools.addEventListener("click", e => {
-  const b = e.target.closest("[data-blk]");
-  if (!b || !curBlk) return;
-  const ed = document.getElementById("editor");
-  const act = b.dataset.blk;
-  if (act === "up"){
-    const p = curBlk.previousElementSibling;
-    if (p) { p.before(curBlk); showBlkTools(curBlk); }
-  } else if (act === "down"){
-    const n = curBlk.nextElementSibling;
-    if (n) { n.after(curBlk); showBlkTools(curBlk); }
-  } else if (act === "dup"){
-    const c = curBlk.cloneNode(true);
-    curBlk.after(c); showBlkTools(c);
-    toast("블록을 복제했습니다");
-  } else if (act === "del"){
-    const t = curBlk;
-    hideBlkTools();
-    t.remove();
-    if (!ed.children.length) ed.innerHTML = "<p><br></p>";
-    toast("블록을 지웠습니다");
-  }
-  saveBlocks();
+document.addEventListener("click", e => {
+  if (!e.target || !e.target.closest) return;
+  const g = e.target.closest("#blkRail .g"); if (!g) return;
+  showBlkTools(blkAt(g.dataset.i), g);
 });
 
 /* 드래그로 옮기기 */
-grip.addEventListener("dragstart", e => {
-  if (!curBlk) return e.preventDefault();
-  dragBlk = curBlk;
+document.addEventListener("dragstart", e => {
+  if (!e.target || !e.target.closest) return;
+  const g = e.target.closest("#blkRail .g"); if (!g) return;
+  dragBlk = blkAt(g.dataset.i);
+  if (!dragBlk) return e.preventDefault();
   dragBlk.classList.add("blk-drag");
+  hideBlkTools();
   e.dataTransfer.effectAllowed = "move";
   e.dataTransfer.setData("text/plain", "blk");
 });
-grip.addEventListener("dragend", () => {
+document.addEventListener("dragend", () => {
+  if (!dragBlk) return;
   if (dragBlk) dragBlk.classList.remove("blk-drag");
   document.querySelectorAll(".blk-drop,.blk-drop-after")
     .forEach(x => x.classList.remove("blk-drop","blk-drop-after"));
   dragBlk = null;
+  buildRail();
 });
-document.addEventListener("dragover", e => {
-  const ed = document.getElementById("editor");
-  if (!dragBlk || !ed || !ed.contains(e.target)) return;
+function dropTarget(e){
+  const ed = edEl();
+  if (!ed || !e.target || !e.target.closest) return null;
+  if (!ed.contains(e.target)) return null;
   const blk = topBlock(e.target, ed);
-  if (!blk || blk === dragBlk) return;
+  return (blk && blk !== dragBlk) ? blk : null;
+}
+document.addEventListener("dragover", e => {
+  if (!dragBlk) return;
+  const blk = dropTarget(e); if (!blk) return;
   e.preventDefault();
   document.querySelectorAll(".blk-drop,.blk-drop-after")
     .forEach(x => x.classList.remove("blk-drop","blk-drop-after"));
   const r = blk.getBoundingClientRect();
-  blk.classList.add(e.clientY > r.top + r.height/2 ? "blk-drop-after" : "blk-drop");
+  blk.classList.add(e.clientY > r.top + r.height / 2 ? "blk-drop-after" : "blk-drop");
 });
 document.addEventListener("drop", e => {
-  const ed = document.getElementById("editor");
-  if (!dragBlk || !ed || !ed.contains(e.target)) return;
-  const blk = topBlock(e.target, ed);
-  if (!blk || blk === dragBlk) return;
+  if (!dragBlk) return;
+  const blk = dropTarget(e); if (!blk) return;
   e.preventDefault();
   const r = blk.getBoundingClientRect();
-  (e.clientY > r.top + r.height/2) ? blk.after(dragBlk) : blk.before(dragBlk);
+  (e.clientY > r.top + r.height / 2) ? blk.after(dragBlk) : blk.before(dragBlk);
   blk.classList.remove("blk-drop","blk-drop-after");
   saveBlocks();
   toast("블록을 옮겼습니다");
 });
 
-/* Alt + 방향키로 블록 이동 */
+/* 도구 버튼 */
+blkTools.addEventListener("click", e => {
+  const b = e.target.closest("[data-blk]");
+  if (!b || !curBlk) return;
+  const ed = edEl(), act = b.dataset.blk;
+  if (act === "up"){ const p = curBlk.previousElementSibling; if (p) p.before(curBlk); }
+  else if (act === "down"){ const n = curBlk.nextElementSibling; if (n) n.after(curBlk); }
+  else if (act === "dup"){ const c = curBlk.cloneNode(true); curBlk.after(c); toast("복제했습니다"); }
+  else if (act === "del"){
+    const t = curBlk; hideBlkTools(); t.remove();
+    if (!ed.children.length) ed.innerHTML = "<p><br></p>";
+    toast("블록을 지웠습니다");
+  }
+  saveBlocks();
+  if (curBlk) showBlkTools(curBlk);
+});
+
+/* 본문 클릭 시 도구 닫기 */
+document.addEventListener("click", e => {
+  if (!e.target || !e.target.closest) return;
+  if (e.target.closest("#blkTools") || e.target.closest("#blkRail")) return;
+  if (blkTools.classList.contains("show")) hideBlkTools();
+});
+
+/* Alt + 방향키 */
 document.addEventListener("keydown", e => {
   if (!e.altKey || (e.key !== "ArrowUp" && e.key !== "ArrowDown")) return;
-  const ed = document.getElementById("editor");
-  const sel2 = window.getSelection();
+  const ed = edEl(), sel2 = window.getSelection();
   if (!ed || !sel2.rangeCount || !ed.contains(sel2.anchorNode)) return;
   const blk = topBlock(sel2.anchorNode, ed);
   if (!blk) return;
   e.preventDefault();
   if (e.key === "ArrowUp"){ const p = blk.previousElementSibling; if (p) p.before(blk); }
   else { const n = blk.nextElementSibling; if (n) n.after(blk); }
-  showBlkTools(blk);
   saveBlocks();
 });
 
-document.querySelector(".main").addEventListener("scroll", () => {
-  if (curBlk) showBlkTools(curBlk);
-}, { passive:true });
+addEventListener("resize", buildRail);
 
 /* ============================================================
    프로필 편집
