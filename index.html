@@ -340,7 +340,11 @@ function smartImg(base, cls, alt){
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 const countDocs = () => UNITS.reduce((a,u)=>a+u.mids.reduce((b,m)=>b+m.lessons.length,0),0);
 const projCount = () => { const g = UNITS.find(u=>u.layout==="gallery"); return g?g.mids.length:0; };
-const stripTags = h => (h||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+const stripTags = h => {
+  const t = document.createElement("div");
+  t.innerHTML = h || "";
+  return (t.textContent || "").replace(/\s+/g, " ").trim();
+};
 
 /* ---------------- 사이드바 ---------------- */
 const NAV_ICON = ["◆","◈","▣","✦","✧","❖"];

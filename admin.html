@@ -102,6 +102,35 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text-1);
 .icon-btn:hover{background:var(--bg-3);color:var(--text-1)}
 .icon-btn.del:hover{background:var(--danger);color:#fff}
 
+
+/* ---------- 트리 (재작성) ---------- */
+.tree-idx{flex:0 0 auto;width:16px;font-size:11px;color:var(--text-3);text-align:center}
+.tree-acts{flex:0 0 auto;display:flex;gap:1px;opacity:0;transition:opacity .12s}
+.tree-unit-head:hover .tree-acts,.tree-mid-head:hover .tree-acts,
+.tree-lesson:hover .tree-acts,.tree-lesson.active .tree-acts{opacity:1}
+.tree-layout{display:flex;align-items:center;gap:7px;margin:2px 0 8px 24px;
+  font-size:11px;color:var(--text-3)}
+.tree-layout select{flex:1 1 auto;min-width:0;padding:4px 7px;font-size:11.5px;
+  background:var(--bg-1);border:1px solid var(--border-1);border-radius:6px;color:var(--text-2)}
+.tree-layout select:focus{border-color:var(--accent);outline:none}
+.cover-btn{flex:0 0 auto;width:30px;height:22px;padding:0;overflow:hidden;cursor:pointer;
+  background:var(--bg-1);border:1px dashed var(--border-2);border-radius:5px;
+  color:var(--text-3);font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center}
+.cover-btn:hover{border-color:var(--accent);color:var(--accent)}
+.cover-btn.has{border-style:solid;border-color:var(--accent)}
+.cover-btn img{width:100%;height:100%;object-fit:cover;display:block}
+.tree-lesson{display:flex;align-items:center;gap:6px;width:100%;padding:7px 9px;margin:2px 0;
+  background:var(--bg-1);border:1px solid var(--border-1);border-radius:var(--radius-1);
+  cursor:pointer;color:var(--text-1);font-size:13px;font-family:var(--font);user-select:none}
+.tree-lesson:hover{background:var(--bg-3);border-color:var(--border-2)}
+.tree-lesson.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent-2);font-weight:600}
+.tree-lesson:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.tree-lesson-t{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tree-tag{flex:0 0 auto;font-size:10px;color:var(--text-3);padding:1px 6px;
+  background:var(--bg-3);border-radius:999px}
+.tree-lesson.active .tree-tag{background:transparent;color:var(--accent-2)}
+.tree-add.strong{margin-top:10px;border-color:var(--border-2);color:var(--text-2)}
+
 /* 폼 */
 .field{display:flex;flex-direction:column;gap:var(--space-1);margin-bottom:var(--space-3)}
 .field>label{font-size:12px;color:var(--text-2);font-weight:600}
@@ -378,48 +407,67 @@ function renderSide(){
   if (!data.units.length){
     side.innerHTML = `<div class="note warn" style="margin-bottom:12px">
       <b>불러온 문서가 없습니다.</b><br>
-      위쪽 <b>파일 불러오기</b>로 data.js를 직접 골라 주세요.
+      위쪽 <b>불러오기</b>로 data.js를 직접 골라 주세요.
     </div>
     <button class="tree-add" data-add="unit">+ 빈 단원으로 새로 시작</button>`;
     return;
   }
-  side.innerHTML = data.units.map((u, ui) => `
+  side.innerHTML = data.units.map((u, ui) => {
+    const lay = u.layout || "cards";
+    return `
     <div class="tree-unit">
       <div class="tree-unit-head">
-        <span>${ui + 1}.</span>
-        <input type="text" value="${esc(u.title)}" data-edit="unit" data-ui="${ui}" placeholder="단원 이름">
-        <button class="icon-btn" data-layout="${ui}" title="표시 방식: ${LAYOUT_NAME[u.layout || "cards"]} (눌러서 변경)">${LAYOUT_ICON[u.layout || "cards"]}</button>
-        <button class="icon-btn" data-move="unit" data-ui="${ui}" data-dir="-1" title="위로">▲</button>
-        <button class="icon-btn" data-move="unit" data-ui="${ui}" data-dir="1" title="아래로">▼</button>
-        <button class="icon-btn del" data-del="unit" data-ui="${ui}" title="단원 삭제">✕</button>
+        <span class="tree-idx">${ui + 1}</span>
+        <input type="text" value="${esc(u.title)}" data-edit="unit" data-ui="${ui}" placeholder="섹션 이름">
+        <span class="tree-acts">
+          <button class="icon-btn" data-move="unit" data-ui="${ui}" data-dir="-1" title="위로">▲</button>
+          <button class="icon-btn" data-move="unit" data-ui="${ui}" data-dir="1" title="아래로">▼</button>
+          <button class="icon-btn del" data-del="unit" data-ui="${ui}" title="섹션 삭제">✕</button>
+        </span>
+      </div>
+      <div class="tree-layout">
+        <span>홈 표시</span>
+        <select data-layout="${ui}">
+          ${LAYOUT_ORDER.map(k => `<option value="${k}"${k===lay?" selected":""}>${LAYOUT_NAME[k]}</option>`).join("")}
+        </select>
       </div>
       ${u.mids.map((m, mi) => `
         <div class="tree-mid">
           <div class="tree-mid-head">
+            <button class="cover-btn${m.cover?" has":""}" data-cover="${ui}-${mi}"
+              title="${m.cover ? "썸네일 바꾸기 / 지우기" : "썸네일 넣기"}">${
+              m.cover ? `<img src="${m.cover}" alt="">` : "＋"}</button>
             <input type="text" value="${esc(m.title)}" data-edit="mid" data-ui="${ui}" data-mi="${mi}" placeholder="그룹 이름">
-            <button class="icon-btn" data-cover="${ui}-${mi}" title="${m.cover ? "썸네일 바꾸기" : "썸네일 넣기"}" style="${m.cover ? "color:var(--accent-2)" : ""}">🖼</button>
-            <button class="icon-btn" data-move="mid" data-ui="${ui}" data-mi="${mi}" data-dir="-1">▲</button>
-            <button class="icon-btn" data-move="mid" data-ui="${ui}" data-mi="${mi}" data-dir="1">▼</button>
-            <button class="icon-btn del" data-del="mid" data-ui="${ui}" data-mi="${mi}">✕</button>
+            <span class="tree-acts">
+              <button class="icon-btn" data-move="mid" data-ui="${ui}" data-mi="${mi}" data-dir="-1" title="위로">▲</button>
+              <button class="icon-btn" data-move="mid" data-ui="${ui}" data-mi="${mi}" data-dir="1" title="아래로">▼</button>
+              <button class="icon-btn del" data-del="mid" data-ui="${ui}" data-mi="${mi}" title="그룹 삭제">✕</button>
+            </span>
           </div>
           ${m.lessons.map((l, li) => {
             const key = `${ui}-${mi}-${li}`;
-            return `<button class="tree-lesson${sel === key ? " active" : ""}" data-open="${key}">
-              <span>${esc(l.title) || "(제목 없음)"}</span>
-              <button class="icon-btn" data-move="lesson" data-ui="${ui}" data-mi="${mi}" data-li="${li}" data-dir="-1">▲</button>
-              <button class="icon-btn" data-move="lesson" data-ui="${ui}" data-mi="${mi}" data-li="${li}" data-dir="1">▼</button>
-              <button class="icon-btn del" data-del="lesson" data-ui="${ui}" data-mi="${mi}" data-li="${li}">✕</button>
-            </button>`;
+            return `<div class="tree-lesson${sel === key ? " active" : ""}" data-open="${key}" tabindex="0" role="button">
+              <span class="tree-lesson-t">${esc(l.title) || "(제목 없음)"}</span>
+              ${l.tag ? `<span class="tree-tag">${esc(l.tag)}</span>` : ""}
+              <span class="tree-acts">
+                <button class="icon-btn" data-move="lesson" data-ui="${ui}" data-mi="${mi}" data-li="${li}" data-dir="-1" title="위로">▲</button>
+                <button class="icon-btn" data-move="lesson" data-ui="${ui}" data-mi="${mi}" data-li="${li}" data-dir="1" title="아래로">▼</button>
+                <button class="icon-btn del" data-del="lesson" data-ui="${ui}" data-mi="${mi}" data-li="${li}" title="문서 삭제">✕</button>
+              </span>
+            </div>`;
           }).join("")}
-          <button class="tree-add" data-add="lesson" data-ui="${ui}" data-mi="${mi}">+ 문서 추가</button>
+          <button class="tree-add" data-add="lesson" data-ui="${ui}" data-mi="${mi}">+ 문서</button>
         </div>`).join("")}
-      <button class="tree-add" data-add="mid" data-ui="${ui}">+ 그룹 추가</button>
-    </div>`).join("") + `<button class="tree-add" data-add="unit">+ 단원 추가</button>`;
+      <button class="tree-add" data-add="mid" data-ui="${ui}">+ 그룹</button>
+    </div>`;
+  }).join("") + `<button class="tree-add strong" data-add="unit">+ 섹션 추가</button>`;
 }
 
 document.getElementById("side").addEventListener("click", e => {
   const t = e.target;
   const ui = +t.dataset.ui, mi = +t.dataset.mi, li = +t.dataset.li;
+  // 구조를 바꾸기 전에 편집 중이던 본문을 먼저 반영한다
+  if (t.dataset.add || t.dataset.del || t.dataset.move) flush();
 
   if (t.dataset.add){
     if (t.dataset.add === "unit") data.units.push({ title:"새 단원", mids:[{ title:"새 그룹", lessons:[] }] });
@@ -436,32 +484,60 @@ document.getElementById("side").addEventListener("click", e => {
     if (t.dataset.del === "unit")   data.units.splice(ui, 1);
     if (t.dataset.del === "mid")    data.units[ui].mids.splice(mi, 1);
     if (t.dataset.del === "lesson") data.units[ui].mids[mi].lessons.splice(li, 1);
-    sel = null; save(); renderSide(); renderForm();
+    if (sel && !current()) sel = null;
+    save(); renderSide(); renderForm();
     e.stopPropagation(); return;
   }
   if (t.dataset.move){
     const dir = +t.dataset.dir;
-    const arr = t.dataset.move === "unit" ? data.units
-              : t.dataset.move === "mid"  ? data.units[ui].mids
+    const kind = t.dataset.move;
+    const arr = kind === "unit" ? data.units
+              : kind === "mid"  ? data.units[ui].mids
               : data.units[ui].mids[mi].lessons;
-    const i = t.dataset.move === "unit" ? ui : t.dataset.move === "mid" ? mi : li;
+    const i = kind === "unit" ? ui : kind === "mid" ? mi : li;
     const j = i + dir;
-    if (j < 0 || j >= arr.length) return;
+    if (j < 0 || j >= arr.length){ e.stopPropagation(); return; }
     [arr[i], arr[j]] = [arr[j], arr[i]];
-    sel = null; save(); renderSide(); renderForm();
+
+    // 열려 있던 문서를 계속 따라간다
+    if (sel){
+      const [su, sm, sl] = sel.split("-").map(Number);
+      if (kind === "lesson" && su === ui && sm === mi){
+        if (sl === i) sel = `${ui}-${mi}-${j}`;
+        else if (sl === j) sel = `${ui}-${mi}-${i}`;
+      } else if (kind === "mid" && su === ui){
+        if (sm === i) sel = `${ui}-${j}-${sl}`;
+        else if (sm === j) sel = `${ui}-${i}-${sl}`;
+      } else if (kind === "unit"){
+        if (su === i) sel = `${j}-${sm}-${sl}`;
+        else if (su === j) sel = `${i}-${sm}-${sl}`;
+      }
+    }
+    save(); renderSide(); renderForm();
     e.stopPropagation(); return;
   }
-  if (t.dataset.layout !== undefined){
-    const u2 = data.units[+t.dataset.layout];
-    const cur = LAYOUT_ORDER.indexOf(u2.layout || "cards");
-    u2.layout = LAYOUT_ORDER[(cur + 1) % LAYOUT_ORDER.length];
-    save(); renderSide();
-    toast(`홈에서 ${LAYOUT_NAME[u2.layout]}으로 표시합니다`);
-    e.stopPropagation(); return;
-  }
+
   if (t.dataset.cover !== undefined){ pickCover(t.dataset.cover); e.stopPropagation(); return; }
   const openBtn = t.closest("[data-open]");
   if (openBtn){ flush(); sel = openBtn.dataset.open; renderSide(); renderForm(); }
+});
+
+document.getElementById("side").addEventListener("change", e => {
+  const t = e.target;
+  if (t.dataset.layout !== undefined){
+    const u2 = data.units[+t.dataset.layout];
+    u2.layout = t.value;
+    save();
+    toast(`홈에서 "${LAYOUT_NAME[t.value]}"로 표시합니다`);
+  }
+});
+
+/* 문서 줄은 div이므로 키보드로도 열 수 있게 */
+document.getElementById("side").addEventListener("keydown", e => {
+  const row = e.target.closest("[data-open]");
+  if (row && (e.key === "Enter" || e.key === " ")){
+    e.preventDefault(); flush(); sel = row.dataset.open; renderSide(); renderForm();
+  }
 });
 
 document.getElementById("side").addEventListener("input", e => {
@@ -540,13 +616,14 @@ function renderForm(){
       <button class="btn sm" data-cmd="ul">• 목록</button>
       <span class="sep"></span>
       <button class="btn sm" data-cmd="bold"><b>굵게</b></button>
-      <button class="btn sm" data-cmd="em" style="color:var(--accent-2)">파랑</button>
+      <button class="btn sm" data-cmd="em" style="color:var(--accent-2)">색 강조</button>
       <button class="btn sm" data-cmd="link">🔗 링크</button>
       <span class="sep"></span>
       <button class="btn sm" data-cmd="callout">💬 강조박스</button>
       <button class="btn sm" data-cmd="insight">💡 회고박스</button>
       <button class="btn sm" data-cmd="problem">⚠ 문제박스</button>
       <button class="btn sm" data-cmd="quote">❝ 인용구</button>
+      <button class="btn sm" data-cmd="divider">― 구분선</button>
       <button class="btn sm" data-cmd="table">▦ 표</button>
       <button class="btn sm" data-cmd="cards">▤ 카드</button>
       <span class="sep"></span>
@@ -556,6 +633,7 @@ function renderForm(){
     <div class="editor" id="editor" contenteditable="true"></div>
     <div class="hint" style="margin-top:6px;color:var(--text-3);font-size:11px">
       이미지는 붙여넣기(Ctrl+V)·끌어놓기도 됩니다. 넣은 이미지를 <b>클릭</b>하면 크기 조절 도구가 나옵니다.
+      작업 내용은 자동 보관되며, 사이트에 반영하려면 <b>Ctrl+S</b>로 저장하세요.
     </div>`;
 
   if (typeof deselectImg === "function") deselectImg();
@@ -676,6 +754,9 @@ function runCmd(cmd, ed){
       insertBlock(ed, h);
       return;
     }
+    case "divider":
+      insertBlock(ed, `<hr style="border:none;border-top:1px solid var(--border-1);margin:26px 0"><p data-focus><br></p>`);
+      return;
     case "cards": openCards(ed); return;
     case "image": pickImage(ed); return;
     case "clear": document.execCommand("removeFormat"); break;
@@ -1398,50 +1479,67 @@ async function ghApi(path, opts){
   return res.status === 204 ? null : res.json();
 }
 
-async function saveToGitHub(){
+async function saveToGitHub(silent){
   if (!ghReady()){ openGhSettings(); return false; }
   const branch = gh.branch || "main";
-  const prefix = (gh.path || "").replace(/^\/+|\/+$/g, "");
+  const prefix = (gh.path||"").replace(/^\/+|\/+$/g,"");
   const p = prefix ? prefix + "/" : "";
-  setStatus("GitHub에 올리는 중…", "dirty");
+  const btn = document.getElementById("saveBtn");
+  const label = () => { btn.textContent = "🚀 저장 · 배포"; };
   try {
+    btn.textContent = "올리는 중…";
     const { js, files } = buildSplit();
 
-    // 1) 현재 브랜치 끝점
-    const ref = await ghApi(`/repos/${gh.repo}/git/ref/heads/${branch}`);
-    const headSha = ref.object.sha;
-    const headCommit = await ghApi(`/repos/${gh.repo}/git/commits/${headSha}`);
-
-    // 2) 파일들을 blob으로 올린다
-    const tree = [];
-    const jsBlob = await ghApi(`/repos/${gh.repo}/git/blobs`, {
-      method:"POST", body: JSON.stringify({ content: textToB64(js), encoding:"base64" }) });
-    tree.push({ path: p + "data.js", mode:"100644", type:"blob", sha: jsBlob.sha });
-
+    /* 1) 파일을 blob으로 올린다 — 내용 기반이라 한 번만 올리면 된다 */
+    const blobs = [];
+    const jb = await ghApi(`/repos/${gh.repo}/git/blobs`, { method:"POST",
+      body: JSON.stringify({ content: textToB64(js), encoding:"base64" }) });
+    blobs.push({ path:p+"data.js", mode:"100644", type:"blob", sha: jb.sha });
     for (let i = 0; i < files.length; i++){
-      setStatus(`이미지 올리는 중 ${i + 1}/${files.length}`, "dirty");
-      const b = await ghApi(`/repos/${gh.repo}/git/blobs`, {
-        method:"POST", body: JSON.stringify({ content: bytesToB64(files[i].data), encoding:"base64" }) });
-      tree.push({ path: p + "images/" + files[i].name, mode:"100644", type:"blob", sha: b.sha });
+      btn.textContent = `이미지 ${i+1}/${files.length}`;
+      const b = await ghApi(`/repos/${gh.repo}/git/blobs`, { method:"POST",
+        body: JSON.stringify({ content: bytesToB64(files[i].data), encoding:"base64" }) });
+      blobs.push({ path:p+"images/"+files[i].name, mode:"100644", type:"blob", sha:b.sha });
     }
 
-    // 3) 트리 → 커밋 → 브랜치 이동
-    const newTree = await ghApi(`/repos/${gh.repo}/git/trees`, {
-      method:"POST", body: JSON.stringify({ base_tree: headCommit.tree.sha, tree }) });
-    const msg = `포트폴리오 내용 수정 (${new Date().toLocaleString("ko-KR")})`;
-    const commit = await ghApi(`/repos/${gh.repo}/git/commits`, {
-      method:"POST", body: JSON.stringify({ message: msg, tree: newTree.sha, parents:[headSha] }) });
-    await ghApi(`/repos/${gh.repo}/git/refs/heads/${branch}`, {
-      method:"PATCH", body: JSON.stringify({ sha: commit.sha }) });
-
-    dirty = false;
-    setStatus(`GitHub 반영됨 · ${new Date().toLocaleTimeString("ko-KR")}`, "saved");
-    toast(`커밋 완료 — data.js${files.length ? ` + 이미지 ${files.length}장` : ""}. 1분 내 사이트 반영됩니다.`);
-    return true;
+    /* 2) 커밋을 얹는다. 그 사이 저장소가 앞서 나갔으면 최신 위에 다시 시도 */
+    let lastErr = null;
+    for (let attempt = 1; attempt <= 4; attempt++){
+      try {
+        if (attempt > 1) btn.textContent = `최신 반영 후 재시도 ${attempt-1}`;
+        const ref = await ghApi(`/repos/${gh.repo}/git/ref/heads/${branch}`);
+        const head = ref.object.sha;
+        const hc = await ghApi(`/repos/${gh.repo}/git/commits/${head}`);
+        const nt = await ghApi(`/repos/${gh.repo}/git/trees`, { method:"POST",
+          body: JSON.stringify({ base_tree: hc.tree.sha, tree: blobs }) });
+        const cm = await ghApi(`/repos/${gh.repo}/git/commits`, { method:"POST",
+          body: JSON.stringify({ message:`포트폴리오 내용 수정 (${new Date().toLocaleString("ko-KR")})`,
+                                 tree: nt.sha, parents:[head] }) });
+        await ghApi(`/repos/${gh.repo}/git/refs/heads/${branch}`, { method:"PATCH",
+          body: JSON.stringify({ sha: cm.sha }) });
+        dirty = false;
+        setStatus(`GitHub 반영됨 · ${new Date().toLocaleTimeString("ko-KR")}`, "saved");
+        label();
+        if (!silent) toast("커밋 완료 — 1분 내 사이트에 반영됩니다");
+        return true;
+      } catch(err){
+        lastErr = err;
+        if (!/not a fast forward|422|409/i.test(err.message || "")) throw err;
+        await new Promise(r => setTimeout(r, 700 * attempt));
+      }
+    }
+    throw lastErr;
   } catch(err){
     setStatus("GitHub 저장 실패", "dirty");
-    alert("GitHub 저장에 실패했습니다.\n\n" + err.message +
-      "\n\n· 저장소 이름이 owner/repo 형식인지\n· 브랜치 이름이 맞는지\n· 토큰 권한(Contents: Read and write)이 있는지 확인해 주세요.");
+    label();
+    const race = /not a fast forward/i.test(err.message || "");
+    alert(race
+      ? "GitHub 저장에 실패했습니다.\n\n" + err.message +
+        "\n\n저장소가 편집기보다 앞서 있습니다.\n다른 곳에서 파일을 올렸거나 저장이 겹친 경우입니다.\n\n" +
+        "· 잠시 뒤 저장을 다시 눌러 주세요.\n" +
+        "· 그래도 안 되면 페이지를 새로고침한 뒤 저장하세요."
+      : "GitHub 저장에 실패했습니다.\n\n" + err.message +
+        "\n\n· 저장소가 owner/repo 형식인지\n· 브랜치 이름이 맞는지\n· 토큰에 Contents: Read and write 권한이 있는지 확인하세요.");
     return false;
   }
 }
