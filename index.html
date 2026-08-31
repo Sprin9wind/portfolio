@@ -11,16 +11,16 @@
   --side-w:236px;
   --font:"Pretendard","Noto Sans KR","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;
 }
-:root,[data-theme="dark"]{
-  --bg-0:#0b0a08; --bg-1:#131110; --bg-2:#1c1917; --bg-3:#26221d;
-  --border-1:#2d2823; --border-2:#3f382f;
-  --text-1:#f4efe6; --text-2:#b0a495; --text-3:#82776a;
-  --accent:#e0a92e; --accent-2:#f4c85f; --accent-dim:rgba(224,169,46,.13); --accent-text:#1a1305;
-  --brown:#a9733f; --brown-dim:rgba(169,115,63,.16);
-  --danger:#e0785c; --warn:#e0a92e;
-  --advanced:#c9a227; --advanced-dim:rgba(224,169,46,.13);
-  --practice-dim:rgba(169,115,63,.16);
-  --shadow-1:0 2px 12px rgba(0,0,0,.4); --shadow-2:0 16px 48px rgba(0,0,0,.55);
+  :root,[data-theme="dark"]{
+  --bg-0:#000000; --bg-1:#000000; --bg-2:#0c0c0c; --bg-3:#161616;
+  --border-1:#1f1f1f; --border-2:#2e2e2e;
+  --text-1:#f6f3ee; --text-2:#a5a099; --text-3:#6f6a63;
+  --accent:#f0b429; --accent-2:#ffcf5c; --accent-dim:rgba(240,180,41,.12); --accent-text:#140d00;
+  --brown:#b5793d; --brown-dim:rgba(181,121,61,.15);
+  --danger:#e0785c; --warn:#f0b429;
+  --advanced:#f0b429; --advanced-dim:rgba(240,180,41,.12);
+  --practice-dim:rgba(181,121,61,.15);
+  --shadow-1:0 2px 14px rgba(0,0,0,.7); --shadow-2:0 18px 54px rgba(0,0,0,.85);
 }
 [data-theme="light"]{
   --bg-0:#e9e2d5; --bg-1:#f7f3ec; --bg-2:#fffdf9; --bg-3:#f0ebe1;
@@ -43,11 +43,21 @@ a{color:inherit}
 ::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-#app{height:100%;display:grid;grid-template-columns:var(--side-w) 1fr}
+#app{height:100%;display:grid;grid-template-columns:1fr var(--side-w);transition:grid-template-columns .2s}
+#app.collapsed{grid-template-columns:1fr 0}
+#app.collapsed .side{display:none}
+.main{order:1}
+.side{order:2}
+#sideToggle{position:fixed;top:14px;right:calc(var(--side-w) + 14px);z-index:90;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  background:var(--bg-2);border:1px solid var(--border-1);border-radius:10px;
+  color:var(--text-2);cursor:pointer;font-size:13px;transition:right .2s,color .12s,border-color .12s}
+#sideToggle:hover{color:var(--accent);border-color:var(--accent)}
+#app.collapsed #sideToggle{right:14px}
 
 /* ---------------- 사이드바 ---------------- */
 .side{display:flex;flex-direction:column;gap:var(--s4);padding:26px 18px;
-  background:var(--bg-2);border-right:1px solid var(--border-1);overflow:auto}
+  background:var(--bg-2);border-left:1px solid var(--border-1);overflow:auto}
 .side-top{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px}
 .ava{width:88px;height:88px;border-radius:20px;object-fit:cover;display:block;
   border:2px solid var(--accent);box-shadow:0 0 0 5px var(--accent-dim)}
@@ -78,9 +88,13 @@ a{color:inherit}
 .wrapx{max-width:980px;margin:0 auto;padding:0 var(--s5)}
 
 /* 배너 */
-.banner{max-width:980px;margin:22px auto 0;padding:0 var(--s5)}
-.banner img{width:100%;display:block;border-radius:var(--r3);border:1px solid var(--border-1);
-  box-shadow:var(--shadow-1);object-fit:cover;max-height:210px}
+.banner{position:relative;width:100%;margin:0;padding:0;overflow:hidden;
+  border-bottom:1px solid var(--border-1)}
+.banner img{width:100%;height:clamp(170px,26vh,260px);display:block;object-fit:cover;
+  object-position:center 42%}
+.banner::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.18) 0%,transparent 32%,rgba(0,0,0,.55) 100%)}
+[data-theme="light"] .banner::after{background:linear-gradient(180deg,transparent 60%,rgba(247,243,236,.85) 100%)}
 
 /* 히어로 */
 .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--s6);align-items:center;
@@ -245,6 +259,29 @@ td strong{color:var(--text-1)}
 .timeline .when{font-size:11.5px;color:var(--text-3)}
 .empty-note{padding:var(--s4);border:1px dashed var(--border-1);border-radius:var(--r1);color:var(--text-3)}
 
+
+/* ---------- 블랙 배경 보정 ---------- */
+.hero{padding:40px 0 40px}
+.hero-eyebrow{border:1px solid rgba(240,180,41,.28)}
+.hstat b{color:var(--accent)}
+.bcard{background:var(--bg-2);border-color:var(--border-1)}
+.bcard:hover{box-shadow:0 0 0 1px var(--accent),0 18px 44px rgba(0,0,0,.9)}
+.bcard-cover{background:#0a0a0a}
+.mcard{background:var(--bg-2)}
+.mcard:hover{box-shadow:0 0 0 1px var(--accent)}
+.fchip{background:rgba(12,12,12,.94);backdrop-filter:blur(6px)}
+.ava,.ava-ph{border-radius:18px}
+.shot img,.shot .ph{border-radius:var(--r2)}
+.side{background:#070707}
+.toc{background:rgba(0,0,0,.92);backdrop-filter:blur(8px)}
+.mtop{background:rgba(0,0,0,.92);backdrop-filter:blur(8px)}
+.pj-hero-fade{background:linear-gradient(180deg,transparent 40%,#000)}
+[data-theme="light"] .side{background:var(--bg-2)}
+[data-theme="light"] .toc,[data-theme="light"] .mtop{background:rgba(247,243,236,.92)}
+[data-theme="light"] .pj-hero-fade{background:linear-gradient(180deg,transparent 45%,var(--bg-1))}
+[data-theme="light"] .bcard:hover{box-shadow:var(--shadow-2)}
+[data-theme="light"] .fchip{background:var(--bg-2)}
+
 /* 모바일 */
 .mtop{display:none;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-2);
   border-bottom:1px solid var(--border-1);position:sticky;top:0;z-index:40}
@@ -253,9 +290,12 @@ td strong{color:var(--text-1)}
   color:var(--text-1);padding:6px 12px;font:500 12px var(--font);cursor:pointer}
 @media(max-width:860px){
   #app{grid-template-columns:1fr}
-  .side{position:fixed;inset:0 auto 0 0;width:250px;z-index:80;transform:translateX(-100%);
+  #app,#app.collapsed{grid-template-columns:1fr}
+  #app.collapsed .side{display:flex}
+  .side{position:fixed;inset:0 0 0 auto;width:250px;z-index:80;transform:translateX(100%);
     transition:transform .22s;box-shadow:var(--shadow-2)}
   .side.open{transform:none}
+  #sideToggle{display:none}
   .mtop{display:flex}
   .hero{grid-template-columns:1fr;gap:var(--s5)}
   .shot{max-width:280px;margin:0 auto}
@@ -268,6 +308,7 @@ td strong{color:var(--text-1)}
 <body>
 <div id="app">
   <aside class="side" id="side"></aside>
+  <button id="sideToggle" title="사이드바 접기/펴기">›</button>
   <main class="main" id="main">
     <div class="mtop"><b id="mTitle">포트폴리오</b>
       <button class="burger" id="burger">☰ 메뉴</button></div>
@@ -284,6 +325,22 @@ if (!PROFILE || !UNITS){
   view.innerHTML = '<div class="wrapx" style="padding:40px 24px"><div class="empty-note">data.js를 불러오지 못했습니다. index.html과 같은 폴더에 data.js가 있는지 확인해 주세요.</div></div>';
   throw new Error("data.js missing");
 }
+/* 사진 파일: png → jpg → jpeg → webp 순으로 찾아본다 */
+const IMG_EXT = ["png","jpg","jpeg","webp","PNG","JPG","JPEG"];
+function tryImg(el, base, i){
+  i = i || 0;
+  if (i >= IMG_EXT.length){ el.dataset.failed = "1"; el.dispatchEvent(new CustomEvent("imgfail")); return; }
+  el.onerror = () => tryImg(el, base, i + 1);
+  el.src = base + "." + IMG_EXT[i];
+}
+function smartImg(base, cls, alt){
+  const img = document.createElement("img");
+  if (cls) img.className = cls;
+  img.alt = alt || "";
+  requestAnimationFrame(() => tryImg(img, base));
+  return img;
+}
+
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 const countDocs = () => UNITS.reduce((a,u)=>a+u.mids.reduce((b,m)=>b+m.lessons.length,0),0);
 const projCount = () => { const g = UNITS.find(u=>u.layout==="gallery"); return g?g.mids.length:0; };
@@ -297,8 +354,7 @@ function renderSide(){
   const mail = (PROFILE.cards||[]).map(c=>c.value).join(" ").match(/[\w.+-]+@[\w.-]+\.\w+/);
   s.innerHTML = `
     <div class="side-top">
-      <img class="ava" src="profile.png" alt="${esc(PROFILE.name)}"
-        onerror="this.outerHTML='<div class=&quot;ava-ph&quot;>${esc(initial)}</div>'">
+      <span id="avaSlot"></span>
       <div>
         <div class="side-name">${esc(PROFILE.name)}</div>
         <div class="side-role">${esc(PROFILE.title)}</div>
@@ -315,6 +371,15 @@ function renderSide(){
         <button class="sbtn" id="themeToggle">☀ 밝게</button>
       </div>
     </div>`;
+  const slot = s.querySelector("#avaSlot");
+  const avaImg = smartImg("profile", "ava", PROFILE.name);
+  avaImg.addEventListener("imgfail", () => {
+    const ph = document.createElement("div");
+    ph.className = "ava-ph"; ph.textContent = initial;
+    if (avaImg.parentNode) avaImg.parentNode.replaceChild(ph, avaImg);
+  });
+  slot.replaceWith(avaImg);
+
   s.querySelector("#nav").onclick = e => {
     const b = e.target.closest("button"); if (!b) return;
     closeSide();
@@ -335,6 +400,18 @@ function markNav(i){
     b.classList.toggle("on", b.dataset.sec !== undefined && +b.dataset.sec === i));
 }
 const closeSide = () => document.getElementById("side").classList.remove("open");
+
+/* 사이드바 접기 — 상태를 기억한다 */
+const appEl = document.getElementById("app"), tgl = document.getElementById("sideToggle");
+function setCollapsed(v){
+  appEl.classList.toggle("collapsed", v);
+  tgl.textContent = v ? "‹" : "›";
+  tgl.title = v ? "사이드바 펴기" : "사이드바 접기";
+  try { localStorage.setItem("pf-side", v ? "1" : "0"); } catch(_) {}
+}
+tgl.onclick = () => setCollapsed(!appEl.classList.contains("collapsed"));
+let _c = false; try { _c = localStorage.getItem("pf-side") === "1"; } catch(_) {}
+setCollapsed(_c);
 document.getElementById("burger").onclick = () =>
   document.getElementById("side").classList.toggle("open");
 
@@ -347,7 +424,7 @@ function renderHome(){
     ? chips[i].replace('class="fchip"', `class="fchip ${cls}"`) : "").join("");
 
   const hero = `
-  <div class="banner"><img src="banner.png" alt="" onerror="this.parentNode.remove()"></div>
+  <div class="banner" id="bannerSlot"></div>
   <div class="wrapx"><section class="hero">
     <div>
       <span class="hero-eyebrow">PORTFOLIO ${new Date().getFullYear()}</span>
@@ -364,8 +441,7 @@ function renderHome(){
       </div>
     </div>
     <div class="shot">
-      <img src="profile.png" alt="" onerror="this.outerHTML='<div class=&quot;ph&quot;>프로필 사진을 profile.png 로 넣어 주세요</div>'">
-      ${float}
+      <span id="shotSlot"></span>${float}
     </div>
   </section></div>`;
 
@@ -409,6 +485,25 @@ function renderHome(){
   }).join("");
 
   view.innerHTML = hero + secs + `<div style="height:70px"></div>`;
+
+  const bs = document.getElementById("bannerSlot");
+  if (bs){
+    const bImg = smartImg("banner", "", "");
+    bImg.addEventListener("imgfail", () => { if (bs.parentNode) bs.remove(); });
+    bs.appendChild(bImg);
+  }
+  const ss = document.getElementById("shotSlot");
+  if (ss){
+    const shotImg = smartImg("profile", "", PROFILE.name);
+    shotImg.addEventListener("imgfail", () => {
+      const ph = document.createElement("div");
+      ph.className = "ph";
+      ph.textContent = "프로필 사진을 profile.png 또는 profile.jpg 로 넣어 주세요";
+      if (shotImg.parentNode) shotImg.parentNode.replaceChild(ph, shotImg);
+    });
+    ss.replaceWith(shotImg);
+  }
+
   main.scrollTop = 0;
   markNav(-1);
   watchSections();
