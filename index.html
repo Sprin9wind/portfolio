@@ -111,22 +111,27 @@ a{color:inherit}
   border-radius:var(--r3);border:1px solid var(--border-1);box-shadow:var(--shadow-2)}
 .shot .ph{display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-3);
   background:linear-gradient(150deg,var(--accent-dim),var(--brown-dim));text-align:center;padding:0 18px}
-.fchip{position:absolute;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;
+.hero-info{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 24px}
+.ichip{display:inline-flex;align-items:center;gap:8px;padding:6px 13px 6px 11px;
   background:var(--bg-2);border:1px solid var(--border-1);border-radius:999px;
-  font:600 11.5px var(--font);color:var(--text-1);box-shadow:var(--shadow-1);white-space:nowrap}
-.fchip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}
-.fchip.a{top:-14px;left:-18px}
-.fchip.b{bottom:-14px;right:-18px}
-.fchip.c{display:none}
+  font:500 12.5px var(--font);color:var(--text-1);white-space:nowrap}
+.ichip i{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.05em;
+  color:var(--accent);padding-right:8px;border-right:1px solid var(--border-2)}
 
 /* 섹션 */
-.sec{padding:40px 0}
-.sec + .sec{border-top:1px solid var(--border-1)}
-.sec-head{display:flex;align-items:baseline;gap:11px;margin-bottom:20px}
-.sec-num{font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--accent-2);
-  background:var(--accent-dim);padding:3px 9px;border-radius:999px}
-.sec-title{margin:0;font-size:21px;font-weight:700;letter-spacing:-.02em}
-.sec-line{flex:1 1 auto;height:1px;background:var(--border-1)}
+.sec{position:relative;padding:56px 0}
+.sec + .sec{border-top:1px solid #333}
+.sec::before{content:"";position:absolute;top:-1px;left:0;width:min(180px,32%);height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent)}
+.sec:nth-of-type(even){background:#0b0b0b}
+[data-theme="light"] .sec:nth-of-type(even){background:var(--bg-3)}
+[data-theme="light"] .sec + .sec{border-top:1px solid var(--border-2)}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.sec-num{flex:0 0 auto;font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--accent-text);
+  background:var(--accent);padding:4px 10px;border-radius:7px}
+.sec-title{margin:0;font-size:22px;font-weight:700;letter-spacing:-.02em}
+.sec-line{flex:1 1 auto;height:1px;
+  background:linear-gradient(90deg,var(--border-2),transparent)}
 
 .big-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--s4)}
 .bcard{display:flex;flex-direction:column;padding:0;overflow:hidden;text-align:left;cursor:pointer;
@@ -290,7 +295,7 @@ td strong{color:var(--text-1)}
   .mtop{display:flex}
   .hero{grid-template-columns:1fr;gap:var(--s5)}
   .shot{max-width:280px;margin:0 auto}
-  .fchip.a{top:-12px;left:-6px}.fchip.b{bottom:-12px;right:-6px}
+
   .banner img{max-height:150px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -410,9 +415,7 @@ document.getElementById("burger").onclick = () =>
 function renderHome(){
   document.getElementById("mTitle").textContent = PROFILE.name;
   const chips = (PROFILE.cards||[]).map(c =>
-    `<span class="fchip">${esc(c.label)} · ${stripTags(c.value)}</span>`);
-  const float = ["a","b","c"].map((cls,i) => chips[i]
-    ? chips[i].replace('class="fchip"', `class="fchip ${cls}"`) : "").join("");
+    `<span class="ichip"><i>${esc(c.label)}</i>${stripTags(c.value)}</span>`).join("");
 
   const hero = `
   <div class="wrapx"><section class="hero">
@@ -420,6 +423,7 @@ function renderHome(){
       <span class="hero-eyebrow">PORTFOLIO ${new Date().getFullYear()}</span>
       <h1>${esc(PROFILE.name)}<b>${esc(PROFILE.title)}</b></h1>
       <p class="hero-tag">${esc(PROFILE.tagline)}</p>
+      <div class="hero-info">${chips}</div>
       <div class="hero-cta">
         <button class="cta key" data-sec-go="${UNITS.findIndex(u=>u.layout==="gallery")}">작업물 보기</button>
         <button class="cta" data-sec-go="0">소개 보기</button>
@@ -431,7 +435,7 @@ function renderHome(){
       </div>
     </div>
     <div class="shot">
-      <span id="artSlot"></span>${float}
+      <span id="artSlot"></span>
     </div>
   </section></div>`;
 
