@@ -121,6 +121,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text-1);
 .blk-drag{opacity:.3}
 .blk-drop{box-shadow:0 -2px 0 var(--accent)}
 .blk-drop-after{box-shadow:0 2px 0 var(--accent)}
+.blk-drop-left{box-shadow:-3px 0 0 var(--accent)}
+.blk-drop-right{box-shadow:3px 0 0 var(--accent)}
 #blkTools{position:fixed;z-index:70;display:none;align-items:center;gap:1px;padding:3px;
   background:var(--bg-2);border:1px solid var(--border-2);border-radius:8px;
   box-shadow:var(--shadow-1);white-space:nowrap}
@@ -1300,8 +1302,7 @@ document.addEventListener("dragstart", e => {
 document.addEventListener("dragend", () => {
   if (!dragBlk) return;
   if (dragBlk) dragBlk.classList.remove("blk-drag");
-  document.querySelectorAll(".blk-drop,.blk-drop-after")
-    .forEach(x => x.classList.remove("blk-drop","blk-drop-after"));
+  clearMarks();
   dragBlk = null;
   buildRail();
 });
@@ -1312,12 +1313,28 @@ function dropTarget(e){
   const blk = topBlock(e.target, ed);
   return (blk && blk !== dragBlk) ? blk : null;
 }
+function isImgBlock(el){
+  return el && (el.tagName === "IMG" || el.classList.contains("img-row"));
+}
+/* 이미지 위 가운데 대역에 놓으면 같은 줄로 합친다 */
+function mergeSide(e, blk){
+  if (!isImgBlock(blk) || !isImgBlock(dragBlk)) return null;
+  const r = blk.getBoundingClientRect();
+  const band = r.height * 0.28;
+  if (e.clientY < r.top + band || e.clientY > r.bottom - band) return null;
+  return e.clientX > r.left + r.width / 2 ? "right" : "left";
+}
+function clearMarks(){
+  document.querySelectorAll(".blk-drop,.blk-drop-after,.blk-drop-left,.blk-drop-right")
+    .forEach(x => x.classList.remove("blk-drop","blk-drop-after","blk-drop-left","blk-drop-right"));
+}
 document.addEventListener("dragover", e => {
   if (!dragBlk) return;
   const blk = dropTarget(e); if (!blk) return;
   e.preventDefault();
-  document.querySelectorAll(".blk-drop,.blk-drop-after")
-    .forEach(x => x.classList.remove("blk-drop","blk-drop-after"));
+  clearMarks();
+  const side = mergeSide(e, blk);
+  if (side) return blk.classList.add(side === "right" ? "blk-drop-right" : "blk-drop-left");
   const r = blk.getBoundingClientRect();
   blk.classList.add(e.clientY > r.top + r.height / 2 ? "blk-drop-after" : "blk-drop");
 });
@@ -1325,9 +1342,42 @@ document.addEventListener("drop", e => {
   if (!dragBlk) return;
   const blk = dropTarget(e); if (!blk) return;
   e.preventDefault();
+  const side = mergeSide(e, blk);
+  clearMarks();
+
+  if (side){
+    /* 이미지끼리 합쳐 한 줄로 만든다 */
+    const moving = dragBlk.tagName === "IMG" ? [dragBlk] : [...dragBlk.querySelectorAll("img")];
+    let row;
+    if (blk.classList.contains("img-row")) row = blk;
+    else {
+      row = document.createElement("div");
+      row.className = "img-row";
+      blk.before(row);
+      row.appendChild(blk);
+    }
+    if (row.querySelectorAll("img").length + moving.length > 4){
+      toast("한 줄에는 4장까지입니다", true);
+      dragBlk.classList.remove("blk-drag"); dragBlk = null;
+      return;
+    }
+    const anchor = blk.tagName === "IMG" ? blk : null;
+    moving.forEach(im => {
+      im.style.flex = ""; im.style.width = "";
+      if (side === "right"){ anchor ? anchor.after(im) : row.appendChild(im); }
+      else { anchor ? anchor.before(im) : row.insertBefore(im, row.firstChild); }
+    });
+    if (dragBlk.classList && dragBlk.classList.contains("img-row") && !dragBlk.querySelector("img"))
+      dragBlk.remove();
+    [...row.querySelectorAll("img")].forEach(im => { im.style.flex = ""; im.style.width = ""; });
+    dragBlk = null;
+    saveBlocks();
+    toast(`같은 줄에 합쳤습니다 (${row.querySelectorAll("img").length}장)`);
+    return;
+  }
+
   const r = blk.getBoundingClientRect();
   (e.clientY > r.top + r.height / 2) ? blk.after(dragBlk) : blk.before(dragBlk);
-  blk.classList.remove("blk-drop","blk-drop-after");
   saveBlocks();
   toast("블록을 옮겼습니다");
 });
