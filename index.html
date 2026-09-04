@@ -230,6 +230,9 @@ th{background:var(--bg-2);color:var(--text-2);font-weight:600;font-size:12px;whi
 td{color:var(--text-2)}
 td strong{color:var(--text-1)}
 .doc-img,.lesson-links{max-width:100%}
+.img-row{display:flex;gap:12px;align-items:flex-start;margin:0 0 16px}
+.img-row > img{flex:1 1 0;min-width:0;width:100%;height:auto;margin:0;display:block}
+@media(max-width:640px){.img-row{flex-wrap:wrap}.img-row > img{flex:1 1 46%}}
 .doc-img{height:auto;display:block;border-radius:var(--r1);border:1px solid var(--border-1);margin:0 0 8px}
 .doc-img.center{margin-left:auto;margin-right:auto}
 .lesson-links{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--s4)}

@@ -194,6 +194,10 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
 .editor em{font-style:normal;color:var(--accent-2);font-weight:600}
 .editor img{max-width:100%;border-radius:8px;border:1px solid var(--border-1);display:block;margin:0 0 8px}
 .editor .doc-img.center{margin-left:auto;margin-right:auto}
+.editor .img-row{display:flex;gap:12px;align-items:flex-start;margin:0 0 16px}
+.editor .img-row > img{flex:1 1 0;min-width:0;width:100%;height:auto;margin:0;display:block}
+@media(max-width:640px){.img-row{flex-wrap:wrap}.img-row > img{flex:1 1 46%}}
+.editor .img-row{outline-offset:6px}
 .editor img.img-sel{outline:2px solid var(--accent);outline-offset:2px}
 
 #imgTools{position:fixed;z-index:150;pointer-events:none}
@@ -304,6 +308,8 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
 </div></div>
 <div class="toast-root" id="toastRoot"></div>
 <input type="file" id="imgPicker" accept="image/*" hidden>
+<input type="file" id="rowPicker" accept="image/*" multiple hidden>
+<input type="file" id="rowAddPicker" accept="image/*" multiple hidden>
 <input type="file" id="dataPicker" accept=".js,text/javascript" hidden>
 <input type="file" id="icoPicker" accept="image/*" hidden>
 <input type="file" id="coverPicker" accept="image/*" hidden>
@@ -323,6 +329,8 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
     <button data-align="left" title="왼쪽 정렬">⇤</button>
     <button data-align="center" title="가운데 정렬">↔</button>
     <span class="sep"></span>
+    <button data-rowadd title="이 줄에 이미지 더 넣기">＋</button>
+    <button data-rowout title="줄에서 빼내기">⊟</button>
     <button class="del" data-imgdel title="이미지 삭제">✕</button>
   </div>
   <div class="it-handle" id="itHandle"></div>
@@ -662,6 +670,7 @@ function renderForm(){
       <button class="btn sm" data-cmd="cards">▤ 카드</button>
       <span class="sep"></span>
       <button class="btn sm accent" data-cmd="image">🖼 이미지</button>
+      <button class="btn sm" data-cmd="imgrow">▥ 이미지 줄</button>
       <button class="btn sm" data-cmd="clear">서식 지우기</button>
     </div>
     <div class="editor-wrap"><div id="blkRail"></div>
@@ -795,6 +804,7 @@ function runCmd(cmd, ed){
     case "divider":
       insertBlock(ed, `<hr style="border:none;border-top:1px solid var(--border-1);margin:26px 0"><p data-focus><br></p>`);
       return;
+    case "imgrow": pendingEditor = ed; document.getElementById("rowPicker").click(); return;
     case "cards": openCards(ed); return;
     case "image": pickImage(ed); return;
     case "clear": document.execCommand("removeFormat"); break;
@@ -990,6 +1000,55 @@ function onDrop(e){
   const f = [...(e.dataTransfer.files || [])].find(x => x.type.startsWith("image/"));
   if (f){ e.preventDefault(); addImage(f, e.currentTarget); }
 }
+document.getElementById("rowPicker").onchange = e => {
+  const files = [...e.target.files].filter(f => f.type.startsWith("image/"));
+  e.target.value = "";
+  const ed = pendingEditor || document.getElementById("editor");
+  if (!files.length || !ed) return;
+  if (files.length > 4) return toast("한 줄에는 4장까지 넣을 수 있습니다", true);
+  const over = files.find(f => f.size > 4 * 1024 * 1024);
+  if (over) return toast("4MB를 넘는 이미지가 있습니다", true);
+
+  Promise.all(files.map(f => new Promise(res => {
+    const r = new FileReader();
+    r.onload = () => res({ url: r.result, name: (f.name||"image.png").replace(/[^\w.\-]/g,"_") });
+    r.readAsDataURL(f);
+  }))).then(list => {
+    const imgs = list.map(x =>
+      `<img class="doc-img" src="${x.url}" alt="${esc(x.name)}" data-name="${esc(x.name)}">`).join("");
+    insertBlock(ed,
+      `<div class="img-row">${imgs}</div>
+       <p style="text-align:center;font-size:12px;color:var(--text-3)" data-focus>[이미지 설명]</p>`);
+    toast(`이미지 ${list.length}장을 한 줄에 넣었습니다`);
+  });
+};
+
+let rowTarget = null;
+document.getElementById("rowAddPicker").onchange = e => {
+  const files = [...e.target.files].filter(f => f.type.startsWith("image/"));
+  e.target.value = "";
+  const row = rowTarget; rowTarget = null;
+  if (!files.length || !row) return;
+  if (row.querySelectorAll("img").length + files.length > 4)
+    return toast("한 줄에는 4장까지입니다", true);
+  Promise.all(files.map(f => new Promise(res => {
+    const r = new FileReader();
+    r.onload = () => res({ url: r.result, name: (f.name||"image.png").replace(/[^\w.\-]/g,"_") });
+    r.readAsDataURL(f);
+  }))).then(list => {
+    list.forEach(x => {
+      const im = document.createElement("img");
+      im.className = "doc-img"; im.src = x.url;
+      im.setAttribute("data-name", x.name); im.alt = x.name;
+      row.appendChild(im);
+    });
+    // 균등 폭으로 재정렬
+    [...row.querySelectorAll("img")].forEach(im => { im.style.flex = ""; im.style.width = ""; });
+    flush(); toast(`${list.length}장을 줄에 더했습니다`);
+    if (typeof buildRail === "function") buildRail();
+  });
+};
+
 function addImage(file, ed){
   if (file.size > 4 * 1024 * 1024)
     return toast("이미지가 4MB를 넘습니다. 줄여서 넣어주세요.", true);
@@ -1013,7 +1072,15 @@ const itHandle = document.getElementById("itHandle");
 const itPct = document.getElementById("itPct");
 let selImg = null;
 
+function inRow(img){ return img.parentElement && img.parentElement.classList.contains("img-row"); }
+
 function widthPct(img){
+  if (inRow(img)){
+    const f = img.style.flexBasis || "";
+    if (f.endsWith("%")) return Math.round(parseFloat(f));
+    const row = img.parentElement.clientWidth || 1;
+    return Math.max(1, Math.min(100, Math.round(img.getBoundingClientRect().width / row * 100)));
+  }
   const w = img.style.width;
   if (w && w.endsWith("%")) return Math.round(parseFloat(w));
   const parent = img.parentElement;
@@ -1022,6 +1089,15 @@ function widthPct(img){
 }
 function setWidth(img, pct){
   pct = Math.max(10, Math.min(100, Math.round(pct)));
+  if (inRow(img)){
+    img.style.flex = `0 0 ${pct}%`;
+    img.style.width = "auto";
+    img.style.height = "auto";
+    itPct.textContent = pct + "%";
+    placeTools(); markPresets(pct); flush();
+    return;
+  }
+  img.style.flex = "";
   img.style.width = pct + "%";
   img.style.height = "auto";
   if (!img.classList.contains("doc-img")) img.classList.add("doc-img");
@@ -1082,8 +1158,27 @@ itBar.addEventListener("click", e => {
     if (!selImg.classList.contains("doc-img")) selImg.classList.add("doc-img");
     markPresets(widthPct(selImg)); flush();
   }
+  if (b.hasAttribute("data-rowadd")){
+    rowTarget = selImg.parentElement;
+    document.getElementById("rowAddPicker").click();
+    return;
+  }
+  if (b.hasAttribute("data-rowout")){
+    const row = selImg.parentElement;
+    if (!row || !row.classList.contains("img-row")) return toast("줄 안의 이미지가 아닙니다", true);
+    selImg.style.flex = ""; selImg.style.width = "100%";
+    row.after(selImg);
+    if (!row.querySelector("img")) row.remove();
+    flush(); placeTools(); toast("줄에서 빼냈습니다");
+    if (typeof buildRail === "function") buildRail();
+    return;
+  }
   if (b.hasAttribute("data-imgdel")){
-    const t = selImg; deselectImg(); t.remove(); flush(); toast("이미지를 지웠습니다");
+    const t = selImg, row = t.parentElement;
+    deselectImg(); t.remove();
+    if (row && row.classList.contains("img-row") && !row.querySelector("img")) row.remove();
+    flush(); toast("이미지를 지웠습니다");
+    if (typeof buildRail === "function") buildRail();
   }
 });
 /* 핸들 드래그 */
