@@ -158,7 +158,7 @@ img{max-width:100%}
   border-bottom:1px solid var(--line-soft);margin-bottom:var(--s6)}
 /* 위아래만 지정한다. padding 축약형을 쓰면 .wrapx의 좌우 여백이 지워진다 */
 .band-in{padding-block:var(--s6)}
-.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--s4)}
 .fig b{display:block;font-size:clamp(30px,4.6vw,46px);font-weight:900;color:var(--accent);
   letter-spacing:-.04em;line-height:1.05;font-variant-numeric:tabular-nums}
 .fig span{display:block;margin-top:4px;font-size:13px;color:var(--ink-2);font-weight:600}
@@ -172,10 +172,7 @@ a.chip:hover{border-color:var(--accent)}
 a.chip:active{transform:translateY(1px)}
 .chip i{font-style:normal;font-size:11px;font-weight:800;color:var(--accent);
   letter-spacing:.02em;padding-right:9px;border-right:1px solid var(--line)}
-@media(max-width:640px){
-  .figs{grid-template-columns:1fr 1fr}
-  .fig:last-child{grid-column:1/-1}
-}
+/* 칸 수는 auto-fit이 알아서 접는다. 개수가 2개일 수도 있으므로 따로 고정하지 않는다 */
 
 /* ---------- 그룹 전환 (하위 탭) ---------- */
 .subtabs{display:flex;gap:var(--s2);overflow-x:auto;scrollbar-width:none;
@@ -358,9 +355,19 @@ function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;",
 /* 미리보기 텍스트는 DOM으로 파싱해야 엔티티가 풀린다. 정규식으로 태그만 지우면 &amp;가 노출됨 */
 function textOf(h){ const t=document.createElement("div"); t.innerHTML=h||""; return (t.textContent||"").replace(/\s+/g," ").trim(); }
 
-const docCount  = () => UNITS.reduce((a,u)=>a+u.mids.reduce((b,m)=>b+m.lessons.length,0),0);
-const galleryIx = UNITS.findIndex(u=>u.layout==="gallery");
-const projCount = () => galleryIx<0 ? 0 : UNITS[galleryIx].mids.length;
+const docCount = () => UNITS.reduce((a,u)=>a+u.mids.reduce((b,m)=>b+m.lessons.length,0),0);
+
+/* 프로젝트 섹션 찾기.
+   layout:"gallery"가 있으면 그걸 쓰고, 값이 없는 예전 데이터에서는
+   소개(0번)를 뺀 나머지 중 그룹이 가장 많은 섹션을 프로젝트로 본다 */
+const projIx = (() => {
+  const g = UNITS.findIndex(u => u.layout === "gallery");
+  if (g >= 0) return g;
+  let best = -1, most = 1;
+  UNITS.forEach((u,i) => { if (i > 0 && u.mids.length >= most){ most = u.mids.length; best = i; } });
+  return best;
+})();
+const projCount = () => projIx < 0 ? 0 : UNITS[projIx].mids.length;
 
 /* 프로필 카드에서 메일 주소를 찾아낸다 (값에 HTML이 섞여 있어도 동작) */
 function findMail(){
@@ -406,8 +413,12 @@ document.getElementById("tabs").onclick = e => {
 /* ---------- 히어로 + 지표 밴드 (About 탭) ---------- */
 function heroHTML(){
   const mailBtn = MAIL ? `<a class="btn key" href="mailto:${esc(MAIL)}">메일 보내기</a>` : "";
-  const projBtn = galleryIx >= 0
-    ? `<button class="btn" type="button" data-u="${galleryIx}">프로젝트 보기</button>` : "";
+  const projBtn = projIx >= 0
+    ? `<button class="btn" type="button" data-u="${projIx}">${esc(UNITS[projIx].title)} 보기</button>` : "";
+  /* 값이 0인 지표는 아예 내보내지 않는다. 빈 칸이나 큰 "0"이 남지 않도록 */
+  const figs = [[projCount(),"진행한 프로젝트"],[docCount(),"작성한 문서"],[UNITS.length,"포트폴리오 섹션"]]
+    .filter(f => f[0] > 0)
+    .map(f => `<div class="fig"><b>${f[0]}</b><span>${f[1]}</span></div>`).join("");
   return `<div class="wrapx"><section class="hero">
     <div>
       <h1>${esc(PROFILE.name)}</h1>
@@ -418,11 +429,7 @@ function heroHTML(){
     <div class="hero-art"><span id="heroBanner"></span><span id="heroAvatar"></span></div>
   </section></div>
   <section class="band"><div class="wrapx band-in">
-    <div class="figs">
-      <div class="fig"><b>${projCount()}</b><span>진행한 프로젝트</span></div>
-      <div class="fig"><b>${docCount()}</b><span>작성한 문서</span></div>
-      <div class="fig"><b>${UNITS.length}</b><span>포트폴리오 섹션</span></div>
-    </div>
+    <div class="figs">${figs}</div>
     <div class="chips">${(PROFILE.cards||[]).map(c=>{
       const txt = textOf(c.value);
       const isMail = MAIL && txt.indexOf(MAIL) >= 0;
