@@ -425,6 +425,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
       <button class="btn ghost" id="loadBtn">불러오기</button>
       <button class="btn ghost" id="profileBtn">프로필</button>
       <button class="btn ghost" id="previewBtn">미리보기</button>
+      <button class="btn ghost" id="helpBtn" title="사용법 (F1)">? 도움말</button>
       <button class="btn ghost" id="themeBtn">☾ 어둡게</button>
       <button class="btn primary" id="saveBtn" title="Ctrl+S">💾 저장</button>
     </div>
@@ -1084,6 +1085,9 @@ function renderForm(){
 
     <div class="section-title">본문</div>
     <div class="toolbar">
+      <button class="btn sm" data-hist="undo" title="되돌리기 (Ctrl+Z)">↶</button>
+      <button class="btn sm" data-hist="redo" title="다시 실행 (Ctrl+Y)">↷</button>
+      <span class="sep"></span>
       <button class="btn sm" data-cmd="h2">큰 제목</button>
       <button class="btn sm" data-cmd="h3">소제목</button>
       <button class="btn sm" data-cmd="p">본문</button>
@@ -1110,12 +1114,10 @@ function renderForm(){
     <div class="editor-wrap"><div id="blkRail"></div>
       <div class="editor" id="editor" contenteditable="true"></div></div>
     <div class="hint" style="margin-top:8px;color:var(--text-3);font-size:11.5px;line-height:1.9">
-      위 편집 칸은 <b>실제 사이트와 같은 모양</b>으로 보입니다. 보이는 그대로 저장됩니다.<br>
-      <b>/</b> 를 누르면 블록 목록이 열립니다. <b># </b><b>## </b><b>- </b><b>1. </b><b>&gt; </b> 로 시작해도 같은 블록이 만들어집니다.<br>
-      이미지는 <b>Ctrl+V</b>로 붙여넣거나 끌어다 놓으면 됩니다. 여러 장을 한 번에 붙여넣으면 <b>한 줄에 나란히</b> 들어갑니다.<br>
-      이미지를 <b>클릭</b>하면 크기·정렬 도구가, <b>끌어서 다른 이미지의 왼쪽·오른쪽에 놓으면</b> 그 줄에 나란히 배치됩니다.
-      고른 이미지는 <b>Ctrl+C</b>로 복사해 <b>Ctrl+V</b>로 그 줄에 이어 붙일 수 있습니다.<br>
-      단축키 — <b>Ctrl+S</b> 저장 · <b>Ctrl+D</b> 블록 복제 · <b>Alt+↑↓</b> 블록 이동 · <b>Alt+←→</b> 줄 안 이미지 이동
+      위 편집 칸은 <b>실제 사이트와 같은 모양</b>으로 보이고, 보이는 그대로 저장됩니다.
+      <b>/</b> 를 치면 블록 목록, 글자를 고르면 서식 도구, 이미지를 누르면 크기 도구가 뜹니다.
+      <b>Ctrl+Z / Ctrl+Y</b> 로 되돌리고 다시 실행합니다.
+      자세한 사용법은 위쪽 <b>? 도움말</b>(F1)에 있습니다.
     </div>`;
 
   if (typeof deselectImg === "function") deselectImg();
@@ -1126,6 +1128,7 @@ function renderForm(){
   try { document.execCommand("defaultParagraphSeparator", false, "p"); } catch(_) {}
   document.getElementById("editor").innerHTML = l.html || "<p></p>";
   bindForm();
+  histInit(sel);
   if (typeof buildRail === "function") buildRail();
 }
 
@@ -1155,10 +1158,18 @@ function bindForm(){
     }
   });
 
-  ed.oninput = () => {
+  ed.oninput = e => {
     cur.l.html = edHtml(ed); save(); buildRail(); markEmpty();
+    /* 글자를 치고 지우는 건 "type" 으로 묶고, 그 밖(붙여넣기·서식)은 한 단계씩 남긴다 */
+    const typing = /^(insert(Text|CompositionText)|delete(Content|Word|SoftLine|HardLine)(Backward|Forward)?)$/
+      .test((e && e.inputType) || "");
+    histRecord(typing ? "type" : "op");
     if (slashCtx()) slashOpen(); else slashClose();
   };
+  document.querySelectorAll("[data-hist]").forEach(b => {
+    b.onmousedown = ev => ev.preventDefault();
+    b.onclick = () => b.dataset.hist === "undo" ? undo() : redo();
+  });
   ed.addEventListener("paste", onPaste);
   ed.addEventListener("drop", onDrop);
   ed.addEventListener("dragover", e => e.preventDefault());
@@ -1171,7 +1182,8 @@ function bindForm(){
   ed.addEventListener("blur", () => setTimeout(slashClose, 120));
   markEmpty();
 
-  document.querySelectorAll("[data-cmd]").forEach(b => {
+  /* 위쪽 도구막대만. #selBar 의 버튼은 자기 리스너가 따로 있어서 여기까지 묶으면 두 번 실행된다 */
+  document.querySelectorAll(".toolbar [data-cmd]").forEach(b => {
     b.onmousedown = e => e.preventDefault();  // 선택 영역 유지
     b.onclick = () => applyBlockCmd(b.dataset.cmd, ed);
   });
@@ -1193,6 +1205,7 @@ function flush(){
   const ed = document.getElementById("editor");
   const cur = current();
   if (ed && cur){ cur.l.html = edHtml(ed); save(); }
+  if (typeof histRecord === "function") histRecord("op");
 }
 
 /* ============================================================
@@ -1743,11 +1756,11 @@ function placeTools(){
   if (r.bottom < vr.top || r.top > vr.bottom){ tools.hidden = true; return; }
   tools.hidden = false;
   const bw = itBar.offsetWidth, bh = itBar.offsetHeight;
-  /* 막대는 이미지 안쪽 왼쪽 위에 얹는다. 이미지가 낮으면 위로 뺀다.
+  /* 막대는 이미지 안쪽 가운데 위에 얹는다. 이미지가 낮으면 위로 뺀다.
      이미지 위쪽이 화면 밖으로 밀리면 보이는 영역 맨 위에 붙어 따라온다 */
   let top  = r.height >= bh + 28 ? r.top + 8 : r.top - bh - 6;
   top  = Math.max(vr.top + 4, Math.min(top, Math.min(r.bottom - bh - 4, innerHeight - bh - 8)));
-  let left = r.left + 8;
+  let left = r.left + r.width / 2 - bw / 2;
   left = Math.max(8, Math.min(left, innerWidth - bw - 8));
   itBar.style.left = left + "px";
   itBar.style.top  = top + "px";
@@ -1863,6 +1876,7 @@ function topBlock(node, ed){
 function saveBlocks(){
   const ed = edEl(), cur = current();
   if (ed && cur){ cur.l.html = edHtml(ed); save(); }
+  histRecord("op");
   buildRail();
 }
 
@@ -2213,25 +2227,35 @@ document.addEventListener("mousedown", e => {
   if (ed && e.target && ed.contains(e.target)) clearBlkSel();
 });
 
-/* 레일 빈 곳을 끌어 범위 고르기 */
+/* 빈 곳을 끌어 범위 고르기 — 레일, 편집 칸 좌우의 어두운 여백, 본문 아래 빈 곳 어디서든 시작된다.
+   글자·입력칸·버튼·도구막대 위에서는 시작하지 않는다(거기서는 각자의 동작이 있다) */
 const band = document.createElement("div");
 band.id = "blkBand"; band.hidden = true;
+function bandStartOK(e){
+  const rail = railEl(), t = e.target;
+  if (!rail || !t || !t.closest || e.button !== 0) return false;
+  if (t === rail) return true;
+  if (t.closest("#editor,.toolbar,.field,.linkrow,button,input,select,textarea,a,label," +
+                "#blkTools,#imgTools,#selBar,#tblTools,#slashMenu,#overlay,.side,.topbar,.note")) return false;
+  return !!t.closest(".main");
+}
 document.addEventListener("mousedown", e => {
+  if (!bandStartOK(e)) return;
   const rail = railEl();
-  if (!rail || e.target !== rail) return;      /* 손잡이가 아니라 빈 곳일 때만 */
   const ed = edEl(); if (!ed) return;
   e.preventDefault();
   clearBlkSel(); hideBlkTools(); deselectImg();
   const wrap = rail.parentElement;
   const wr = wrap.getBoundingClientRect();
-  const y0 = e.clientY;
+  const x0 = e.clientX, y0 = e.clientY;
   wrap.appendChild(band);
   band.hidden = false;
-  band.style.left = "0"; band.style.width = "100%";
   const move = ev => {
     const top = Math.min(y0, ev.clientY) - wr.top;
     band.style.top = top + "px";
     band.style.height = Math.abs(ev.clientY - y0) + "px";
+    band.style.left = (Math.min(x0, ev.clientX) - wr.left) + "px";
+    band.style.width = Math.max(2, Math.abs(ev.clientX - x0)) + "px";
     const lo = Math.min(y0, ev.clientY), hi = Math.max(y0, ev.clientY);
     setBlkSel([...ed.children].filter(b => {
       const r = b.getBoundingClientRect();
@@ -2579,6 +2603,117 @@ function markEmpty(){
   if (b && b.tagName === "P" && !b.textContent.trim() && !b.querySelector("img"))
     b.classList.add("is-empty");
 }
+
+/* ============================================================
+   되돌리기 / 다시 실행 (Ctrl+Z · Ctrl+Y)
+   브라우저의 undo 는 execCommand 로 바꾼 것만 기억한다. 블록 삭제·이동·표 편집·이미지 배치처럼
+   DOM 을 직접 고친 작업은 남지 않으므로, 편집 칸 전체를 스냅샷으로 남겨 우리가 직접 되돌린다.
+   연속 타이핑은 1초 안이면 한 단계로 묶는다. 문서를 바꾸면 그 문서의 이력으로 넘어간다.
+   ============================================================ */
+const HIST_MAX = 200;
+const hist = { key:null, past:[], future:[], present:null, lastKind:null, lastAt:0 };
+
+/* 선택 영역을 편집 칸 기준 경로로 적어 둔다. innerHTML 을 갈아 끼운 뒤 같은 자리를 찾기 위해서다 */
+function caretPath(ed){
+  const s = window.getSelection();
+  if (!s || !s.rangeCount || !ed.contains(s.anchorNode)) return null;
+  const rg = s.getRangeAt(0);
+  const path = (node, off) => {
+    const p = [];
+    let n = node;
+    while (n && n !== ed){ p.unshift([...n.parentNode.childNodes].indexOf(n)); n = n.parentNode; }
+    return n ? { p, off } : null;
+  };
+  return { a: path(rg.startContainer, rg.startOffset), b: path(rg.endContainer, rg.endOffset) };
+}
+function restoreCaret(ed, c){
+  if (!c || !c.a) return;
+  const find = q => { let n = ed; for (const i of q.p){ n = n.childNodes[i]; if (!n) return null; } return n; };
+  const cap = (n, off) => Math.min(off, n.nodeType === 3 ? n.length : n.childNodes.length);
+  const a = find(c.a), b = c.b ? find(c.b) : null;
+  if (!a) return;
+  try {
+    const rg = document.createRange();
+    rg.setStart(a, cap(a, c.a.off));
+    if (b) rg.setEnd(b, cap(b, c.b.off)); else rg.collapse(true);
+    const s = window.getSelection();
+    s.removeAllRanges(); s.addRange(rg);
+  } catch(_){}
+}
+function histSnap(ed){ return { html: edHtml(ed), caret: caretPath(ed) }; }
+/* 문서를 열 때 부른다. 같은 문서면(링크 칸을 고쳐 폼만 다시 그린 경우) 이력을 잇는다 */
+function histInit(key){
+  const ed = edEl(); if (!ed) return;
+  if (hist.key === key && hist.present){ histRecord("op"); return; }
+  hist.key = key; hist.past = []; hist.future = []; hist.lastKind = null;
+  hist.present = histSnap(ed);
+  updateUndoBtns();
+}
+/* kind: "type" 은 연속 타이핑을 한 단계로 묶는다, 그 밖은 "op" */
+function histRecord(kind){
+  const ed = edEl(); if (!ed) return;
+  if (!hist.present){ hist.present = histSnap(ed); return updateUndoBtns(); }
+  const html = edHtml(ed);
+  if (html === hist.present.html) return;
+  const now = Date.now();
+  const merge = kind === "type" && hist.lastKind === "type" && now - hist.lastAt < 1000;
+  if (!merge){
+    hist.past.push(hist.present);
+    if (hist.past.length > HIST_MAX) hist.past.shift();
+  }
+  hist.present = { html, caret: caretPath(ed) };
+  hist.future = [];
+  hist.lastKind = kind; hist.lastAt = now;
+  updateUndoBtns();
+}
+function histApply(state){
+  const ed = edEl(); if (!ed || !state) return;
+  deselectImg(); hideBlkTools(); clearBlkSel(); slashClose();
+  ed.innerHTML = state.html;
+  const cur = current();
+  if (cur){ cur.l.html = state.html; save(); }
+  buildRail();
+  ed.focus();
+  restoreCaret(ed, state.caret);
+  markEmpty();
+}
+function undo(){
+  histRecord("op");                       /* 아직 안 적힌 변화가 있으면 먼저 적는다 */
+  if (!hist.past.length) return toast("되돌릴 것이 없습니다", true);
+  hist.future.push(hist.present);
+  hist.present = hist.past.pop();
+  hist.lastKind = null;
+  histApply(hist.present);
+  updateUndoBtns();
+}
+function redo(){
+  if (!hist.future.length) return toast("다시 실행할 것이 없습니다", true);
+  hist.past.push(hist.present);
+  hist.present = hist.future.pop();
+  hist.lastKind = null;
+  histApply(hist.present);
+  updateUndoBtns();
+}
+function updateUndoBtns(){
+  document.querySelectorAll("[data-hist]").forEach(b => {
+    b.disabled = b.dataset.hist === "undo" ? !hist.past.length : !hist.future.length;
+  });
+}
+/* 편집 칸 안이든, 블록 도구를 누른 뒤 포커스가 빠져 있든 Ctrl+Z 는 편집기 이력을 되돌린다.
+   글 입력칸(제목·태그·링크)과 모달 안에서는 브라우저에 맡긴다 */
+document.addEventListener("keydown", e => {
+  if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k !== "z" && k !== "y") return;
+  const ed = edEl(), t = e.target;
+  if (!ed) return;
+  if (t && t.closest && t.closest("input,textarea,select")) return;
+  if (t && t !== ed && t.isContentEditable && !ed.contains(t)) return;
+  const ov = document.getElementById("overlay");
+  if (ov && !ov.hidden) return;
+  e.preventDefault();
+  if (k === "y" || e.shiftKey) redo(); else undo();
+});
 
 /* ---- 글자 크기 ----
    선택한 글자를 <span style="font-size:Npx"> 로 감싼다. execCommand("fontSize")가 남기는
@@ -3308,6 +3443,64 @@ function updateFolderBadge(){
     if (h){ dirHandle = h; updateFolderBadge(); }
   } catch(_) {}
 })();
+
+/* ============================================================
+   도움말 — 처음 쓰는 사람이 여기만 보고도 편집할 수 있게
+   ============================================================ */
+const HELP_HTML = `
+<style>
+  .help h4{margin:14px 0 6px;font-size:13px;color:var(--accent)}
+  .help h4:first-child{margin-top:0}
+  .help table{width:100%;border-collapse:collapse;font-size:12.5px}
+  .help td{padding:5px 8px;border-bottom:1px solid var(--border-1);vertical-align:top;color:var(--text-2)}
+  .help td:first-child{width:38%;color:var(--text-1);white-space:nowrap}
+  .help kbd{display:inline-block;padding:1px 6px;border:1px solid var(--border-2);border-radius:4px;
+    background:var(--bg-1);font-family:var(--font);font-size:11.5px;color:var(--text-1)}
+</style>
+<div class="help">
+<h4>기본 흐름</h4>
+<table>
+<tr><td>문서 고르기</td><td>왼쪽 목록에서 문서를 누릅니다. 검색창에 제목을 치면 걸러집니다.</td></tr>
+<tr><td>본문 쓰기</td><td>편집 칸은 실제 사이트와 같은 모양입니다. 쓰는 대로 자동 보관되고, <kbd>Ctrl+S</kbd> 로 파일·GitHub 에 저장합니다.</td></tr>
+<tr><td>블록 넣기</td><td><kbd>/</kbd> 를 치면 블록 목록이 열립니다. 줄 맨 앞에서 <kbd># </kbd> <kbd>## </kbd> <kbd>- </kbd> <kbd>1. </kbd> <kbd>&gt; </kbd> <kbd>---</kbd> 를 쳐도 됩니다.</td></tr>
+<tr><td>되돌리기</td><td><kbd>Ctrl+Z</kbd> 되돌리기 · <kbd>Ctrl+Y</kbd> 또는 <kbd>Ctrl+Shift+Z</kbd> 다시 실행. 블록 삭제·이동·표 편집·이미지 배치도 전부 되돌아갑니다.</td></tr>
+</table>
+<h4>글자 서식 (글자를 고르면 위에 도구가 뜹니다)</h4>
+<table>
+<tr><td><kbd>Ctrl+B</kbd> · <kbd>Ctrl+E</kbd> · <kbd>Ctrl+K</kbd></td><td>굵게 · 형광펜 · 링크</td></tr>
+<tr><td><kbd>A−</kbd> <kbd>A+</kbd> · 크기 칸 · <kbd>기본</kbd></td><td>글자 크기(px). 칸에 숫자를 치고 Enter, 또는 목록에서 고릅니다. <kbd>Ctrl+Shift+.</kbd> / <kbd>Ctrl+Shift+,</kbd> 로도 됩니다.</td></tr>
+</table>
+<h4>블록 다루기 (왼쪽 손잡이 <b>⠿</b>)</h4>
+<table>
+<tr><td>손잡이 클릭</td><td>블록 도구 — 위/아래 이동, 종류 바꾸기, 복제, 삭제</td></tr>
+<tr><td>손잡이 드래그</td><td>블록을 다른 자리로 옮깁니다. 고른 블록이 여럿이면 함께 움직입니다.</td></tr>
+<tr><td>여러 블록 고르기</td><td>편집 칸 바깥의 빈 곳(어두운 여백)이나 손잡이 옆 빈 곳을 <b>끌어서</b> 범위로 고릅니다. 글자를 두 블록 이상에 걸쳐 끌어도 되고, 손잡이를 <kbd>Shift</kbd>+클릭해 넓힐 수도 있습니다.</td></tr>
+<tr><td><kbd>Alt+↑</kbd> <kbd>Alt+↓</kbd> · <kbd>Ctrl+D</kbd> · <kbd>Delete</kbd> · <kbd>Esc</kbd></td><td>고른 블록 이동 · 복제 · 삭제 · 선택 해제</td></tr>
+<tr><td>표</td><td>셀 안에 커서를 두면 표 위에 행·열 추가/삭제, 제목 행 토글 도구가 뜹니다.</td></tr>
+</table>
+<h4>이미지</h4>
+<table>
+<tr><td>넣기</td><td>도구막대 <b>이미지</b> 버튼, <kbd>Ctrl+V</kbd>, 또는 파일을 끌어다 놓기. 여러 장을 한 번에 넣으면 한 줄에 나란히(최대 4장) 들어갑니다.</td></tr>
+<tr><td>클릭</td><td>이미지 위에 크기(25·50·75·100%)·정렬·줄 안 이동·복사·삭제 도구가 뜹니다. 오른쪽 아래 손잡이를 끌거나 <kbd>Ctrl+휠</kbd> 로도 크기가 바뀝니다.</td></tr>
+<tr><td>나란히 놓기</td><td>이미지(또는 손잡이)를 끌어 다른 이미지의 <b>왼쪽·오른쪽 1/3</b> 에 놓으면 같은 줄이 됩니다. 가운데에 놓으면 위/아래로 옮겨집니다.</td></tr>
+<tr><td>줄에서 빼기</td><td>이미지 도구의 <b>⊟</b>, 또는 이미지가 아닌 곳으로 끌어다 놓기</td></tr>
+<tr><td><kbd>Alt+←</kbd> <kbd>Alt+→</kbd> · <kbd>Ctrl+C</kbd> / <kbd>Ctrl+X</kbd></td><td>줄 안에서 좌우 이동 · 고른 이미지 복사/잘라내기(편집기 안에서만)</td></tr>
+</table>
+<h4>그 밖에</h4>
+<table>
+<tr><td><kbd>Ctrl+\\</kbd></td><td>왼쪽 목록 접기/펼치기. 경계선을 끌면 폭이 바뀝니다.</td></tr>
+<tr><td>목록에서 드래그</td><td>문서는 다른 그룹으로, 그룹은 다른 섹션으로 옮길 수 있습니다. 문서 줄에서 <kbd>Alt+↑↓</kbd> 도 됩니다.</td></tr>
+<tr><td>미리보기 · 버전</td><td>위쪽 <b>미리보기</b> 로 사이트 모양을 확인하고, <b>버전</b> 에서 예전 저장본으로 돌아갈 수 있습니다.</td></tr>
+</table>
+</div>`;
+function openHelp(){
+  openModal("사용법", HELP_HTML, [{ cls:"btn primary", label:"닫기",
+    fn: () => { document.getElementById("overlay").hidden = true; } }]);
+}
+document.getElementById("helpBtn").onclick = openHelp;
+document.addEventListener("keydown", e => {
+  if (e.key === "F1"){ e.preventDefault(); openHelp(); }
+});
 
 /* Ctrl+S */
 document.addEventListener("keydown", e => {
