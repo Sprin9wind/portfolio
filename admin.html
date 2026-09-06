@@ -71,7 +71,7 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text-1);
 .wrap{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:300px 1fr}
 .side{border-right:1px solid var(--border-1);background:var(--bg-2);overflow:auto;padding:var(--space-3)}
 .main{overflow:auto;padding:var(--space-5) var(--space-5) 80px}
-.main-inner{max-width:820px;margin:0 auto}
+.main-inner{max-width:820px;margin:0 auto;--doc-w:680px}
 @media(max-width:900px){
   .wrap{grid-template-columns:1fr;grid-template-rows:auto 1fr}
   .side{border-right:none;border-bottom:1px solid var(--border-1);max-height:38vh}
@@ -105,9 +105,9 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text-1);
 
 
 /* ---------- 본문 블록 조작 ---------- */
-.editor-wrap{position:relative;margin-left:34px}
-#blkRail{position:absolute;left:-34px;top:0;width:30px;height:100%;pointer-events:none}
-#blkRail .g{position:absolute;left:0;width:26px;height:24px;display:flex;align-items:center;
+.editor-wrap{position:relative;margin-left:58px}
+#blkRail{position:absolute;left:-58px;top:0;width:54px;height:100%;pointer-events:none}
+#blkRail .g{position:absolute;left:28px;width:24px;height:24px;display:flex;align-items:center;
   justify-content:center;border-radius:6px;color:var(--text-3);font-size:13px;line-height:1;
   cursor:grab;pointer-events:auto;user-select:none;opacity:.35;
   transition:opacity .12s,background .12s,color .12s}
@@ -115,6 +115,8 @@ body{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text-1);
 #blkRail .g:hover{opacity:1;background:var(--bg-3);color:var(--accent)}
 #blkRail .g:active{cursor:grabbing}
 #blkRail .g.on{opacity:1;background:var(--accent-dim);color:var(--accent)}
+#blkRail .g.plus{left:2px;cursor:pointer;font-size:15px}
+#blkRail .g.plus:hover{background:var(--accent-dim);color:var(--accent)}
 .editor:hover > *{outline:1px dashed rgba(255,255,255,.07);outline-offset:5px;border-radius:3px}
 [data-theme="light"] .editor:hover > *{outline-color:rgba(0,0,0,.08)}
 .editor > .blk-hi{outline:1px dashed var(--accent)!important;outline-offset:5px}
@@ -181,26 +183,72 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
 .toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:8px;background:var(--bg-2);
   border:1px solid var(--border-1);border-bottom:none;border-radius:var(--radius-1) var(--radius-1) 0 0}
 .toolbar .sep{width:1px;background:var(--border-1);margin:2px 4px}
-.editor{min-height:340px;max-height:none;padding:var(--space-4) var(--space-5);
-  background:var(--bg-1);border:1px solid var(--border-1);
+/* ---------- 편집 지면 ----------
+   index.html의 디자인 토큰과 .doc 타이포를 그대로 옮겨 왔다.
+   "편집 화면 = 결과 화면"이 되도록 두 파일의 값을 항상 같이 고칠 것. */
+.toolbar{max-width:var(--doc-w);margin-left:58px}
+.editor{
+  --s1:4px; --s2:8px; --s3:12px; --s4:18px; --s5:28px; --s6:44px; --s7:72px;
+  --r-card:14px; --r-big:20px; --r-pill:999px;
+  --bg:#fffaea; --band:#f6eed4; --card:#ffffff;
+  --ink:#2e2c2b; --ink-2:#5f5b56; --ink-3:#6f6a62;
+  --line:rgba(46,44,43,.16); --line-soft:rgba(46,44,43,.09);
+  --accent:#d22e2e; --accent-deep:#a92020; --accent-soft:rgba(210,46,46,.15);
+  --honey:#c98a2e; --honey-soft:rgba(201,138,46,.14);
+  --shadow:0 1px 2px rgba(46,44,43,.05),0 10px 30px rgba(46,44,43,.07);
+  min-height:420px;max-height:none;max-width:var(--doc-w);
+  padding:var(--s5) var(--s5) var(--s6);
+  background:var(--bg);color:var(--ink);
+  font-family:"Pretendard Variable","Pretendard","Apple SD Gothic Neo","Noto Sans KR","Segoe UI",system-ui,sans-serif;
+  font-size:16px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+  border:1px solid var(--border-1);
   border-radius:0 0 var(--radius-1) var(--radius-1);outline:none;overflow:auto}
-.editor:focus{border-color:var(--accent)}
-.editor h2{font-size:19px;font-weight:700;margin:var(--space-5) 0 var(--space-3);
-  padding-bottom:6px;border-bottom:1px solid var(--border-1)}
-.editor h2:first-child{margin-top:0}
-.editor h3{font-size:15px;font-weight:700;margin:var(--space-4) 0 var(--space-2);color:var(--accent-2)}
-.editor p{margin:0 0 var(--space-3)}
-.editor ul{margin:0 0 var(--space-4);padding-left:20px}
-.editor li{margin-bottom:6px;color:var(--text-2)}
-.editor strong{color:var(--text-1);font-weight:600}
-.editor em{font-style:normal;color:var(--accent-2);font-weight:600}
-.editor img{max-width:100%;border-radius:8px;border:1px solid var(--border-1);display:block;margin:0 0 8px}
+[data-theme="dark"] .editor{
+  --bg:#17110f; --band:#1f1815; --card:#241c19;
+  --ink:#f4ece0; --ink-2:#b5aca1; --ink-3:#948b80;
+  --line:rgba(244,236,224,.17); --line-soft:rgba(244,236,224,.1);
+  --accent:#f2554d; --accent-deep:#ff736b; --accent-soft:rgba(242,85,77,.2);
+  --honey:#e0a951; --honey-soft:rgba(224,169,81,.16);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.45)}
+.editor:focus{border-color:var(--border-2)}
+.editor > *:first-child{margin-top:0}
+.editor h2{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:var(--s6) 0 var(--s3);
+  padding-bottom:9px;border-bottom:1px solid var(--line)}
+.editor h3{font-size:16.5px;font-weight:800;margin:var(--s5) 0 var(--s2);color:var(--accent)}
+.editor p{margin:0 0 var(--s3)}
+.editor ul,.editor ol{margin:0 0 var(--s4);padding-left:22px}
+.editor li{margin-bottom:7px;color:var(--ink-2)}
+.editor li::marker{color:var(--ink-3)}
+.editor strong{color:var(--ink);font-weight:700}
+.editor em{font-style:normal;color:var(--accent);font-weight:700}
+.editor a{color:var(--accent);text-decoration-color:var(--accent-soft);text-underline-offset:3px}
+.editor .mark{color:var(--accent);padding:0 .08em;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+  background:linear-gradient(to top,transparent 0,transparent .05em,
+    var(--accent-soft) .05em,var(--accent-soft) .34em,transparent .34em)}
+.editor hr{border:none;border-top:1px solid var(--line);margin:var(--s5) 0}
+.editor .timeline{margin:0 0 var(--s4);padding:0;list-style:none}
+.editor .timeline li{position:relative;padding:0 0 var(--s5) 22px;border-left:1px solid var(--line);
+  color:var(--ink-2);margin-bottom:0}
+.editor .timeline li:last-child{padding-bottom:0}
+.editor .timeline li::before{content:"";position:absolute;left:-5px;top:9px;width:9px;height:9px;
+  border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.editor .timeline b{display:block;color:var(--ink);font-size:15.5px;font-weight:700;margin-bottom:2px}
+.editor .timeline .when{font-size:12.5px;color:var(--ink-3);font-weight:600}
+.editor img{max-width:100%;height:auto;display:block;border-radius:var(--r-card);
+  border:1px solid var(--line-soft);box-shadow:var(--shadow);margin:0 0 var(--s3)}
 .editor .doc-img.center{margin-left:auto;margin-right:auto}
-.editor .img-row{display:flex;gap:12px;align-items:flex-start;margin:0 0 16px}
+.editor .img-row{display:flex;gap:14px;align-items:flex-start;margin:0 0 var(--s4);outline-offset:6px}
 .editor .img-row > img{flex:1 1 0;min-width:0;width:100%;height:auto;margin:0;display:block}
-@media(max-width:640px){.img-row{flex-wrap:wrap}.img-row > img{flex:1 1 46%}}
-.editor .img-row{outline-offset:6px}
+@media(max-width:640px){.editor .img-row{flex-wrap:wrap}.editor .img-row > img{flex:1 1 46%}}
 .editor img.img-sel{outline:2px solid var(--accent);outline-offset:2px}
+/* 이미지를 끌어 옮기는 중 — 놓을 자리를 이미지 옆면에 표시한다 */
+.editor img.img-drag{opacity:.35}
+.editor img.img-drop-left{box-shadow:-4px 0 0 var(--accent)}
+.editor img.img-drop-right{box-shadow:4px 0 0 var(--accent)}
+/* 빈 문단에 '/' 안내를 띄운다 (저장 전에 is-empty 클래스는 벗겨낸다) */
+.editor > p.is-empty::before{content:"'/' 를 누르면 블록을 넣을 수 있습니다";
+  color:var(--ink-3);opacity:.65;pointer-events:none}
 
 #imgTools{position:fixed;z-index:150;pointer-events:none}
 #imgTools[hidden]{display:none}
@@ -216,38 +264,63 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
 #imgTools .it-bar .pct{font-size:11px;color:var(--text-3);padding:0 4px;min-width:34px;text-align:right}
 #imgTools .it-handle{position:absolute;width:14px;height:14px;background:var(--accent);
   border:2px solid var(--bg-1);border-radius:3px;cursor:nwse-resize;pointer-events:auto}
-.editor table{width:100%;border-collapse:collapse;margin:0 0 var(--space-4);font-size:13px}
-.editor th,.editor td{border:1px solid var(--border-1);padding:8px 12px;text-align:left;vertical-align:top}
-.editor th{background:var(--bg-2);color:var(--text-2);font-weight:600;font-size:12px}
-.editor td{color:var(--text-2)}
-.editor .skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
-  gap:var(--space-2);margin:0 0 var(--space-4)}
-.editor .skill{display:flex;flex-direction:column;align-items:flex-start;gap:9px;
-  padding:14px 16px;background:var(--bg-2);border:1px solid var(--border-1);
-  border-radius:var(--radius-2);transition:border-color .12s,background .12s}
-.editor .skill:hover{border-color:var(--border-2);background:var(--bg-3)}
+.editor table{width:100%;border-collapse:collapse;margin:0 0 var(--s4);font-size:14.5px;
+  border:1px solid var(--line-soft);border-radius:var(--r-card);overflow:hidden}
+.editor th,.editor td{padding:10px 14px;text-align:left;vertical-align:top;
+  border-bottom:1px solid var(--line-soft)}
+.editor th{background:var(--band);color:var(--ink-2);font-weight:700;font-size:13px;white-space:nowrap}
+.editor td{color:var(--ink-2)}
+.editor tr:last-child th,.editor tr:last-child td{border-bottom:0}
+.editor .skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:var(--s3);margin:0 0 var(--s4)}
+.editor .skill{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:16px 18px;
+  background:var(--card);border:1px solid var(--line-soft);border-radius:var(--r-card);
+  box-shadow:var(--shadow)}
 .editor .skill-head{display:flex;align-items:center;gap:9px;min-width:0;width:100%}
 .editor .skill-ico{flex:0 0 auto;width:22px;height:22px;object-fit:contain;display:block;
-  border:none;border-radius:4px;margin:0;padding:0;background:none}
+  border:0;border-radius:5px;margin:0;padding:0;background:none;box-shadow:none}
 .editor .skill-ico-emoji{flex:0 0 auto;font-size:19px;line-height:1}
-.editor .skill-name{flex:1 1 auto;min-width:0;font-weight:600;font-size:15px;color:var(--text-1);
+.editor .skill-name{flex:1 1 auto;min-width:0;font-weight:700;font-size:15px;color:var(--ink);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.editor .skill-level{font-size:11px;padding:3px 9px;border-radius:12px;
-  background:var(--accent-dim);color:var(--accent-2);white-space:nowrap}
-.editor .skill-level.l2{background:var(--advanced-dim);color:var(--advanced)}
-.editor .skill-level.l1{background:var(--practice-dim);color:var(--warn)}
-.callout{display:flex;gap:12px;padding:14px 16px;background:var(--bg-2);
-  border:1px solid var(--border-1);border-left:3px solid var(--accent);
-  border-radius:var(--radius-1);margin:0 0 var(--space-4)}
-.callout.insight{border-left-color:var(--advanced);background:var(--advanced-dim)}
-.callout.problem{border-left-color:var(--warn);background:var(--practice-dim)}
-.callout-ico{flex:0 0 auto;font-size:15px}
-.callout-body{flex:1 1 auto;min-width:0}
-.callout-body p:last-child{margin-bottom:0}
-.quote{margin:0 0 var(--space-4);padding:var(--space-4) var(--space-5);background:var(--bg-2);
-  border:1px solid var(--border-1);border-radius:var(--radius-2);
-  font-size:16px;font-weight:600;line-height:1.6;text-align:center}
-.quote span{display:block;margin-top:6px;font-size:13px;font-weight:400;color:var(--text-3)}
+.editor .skill-level{font-size:11.5px;font-weight:700;padding:3px 11px;border-radius:var(--r-pill);
+  background:var(--accent-soft);color:var(--accent-deep);white-space:nowrap}
+.editor .skill-level.l2,.editor .skill-level.l1{background:var(--honey-soft);color:var(--honey)}
+.editor .callout{display:flex;gap:13px;padding:16px 18px;background:var(--card);
+  border:1px solid var(--line-soft);border-left:4px solid var(--accent);
+  border-radius:var(--r-card);margin:0 0 var(--s4)}
+.editor .callout.insight{border-left-color:var(--accent);background:var(--accent-soft)}
+.editor .callout.problem{border-left-color:var(--honey);background:var(--honey-soft)}
+.editor .callout-ico{flex:0 0 auto;font-size:16px;line-height:1.6}
+.editor .callout-body{flex:1 1 auto;min-width:0}
+.editor .callout-body p:last-child{margin-bottom:0}
+.editor .quote{margin:0 0 var(--s4);padding:var(--s5) var(--s6);background:var(--band);
+  border:1px solid var(--line-soft);border-radius:var(--r-big);
+  font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.5;text-align:center}
+.editor .quote span{display:block;margin-top:9px;font-size:13.5px;font-weight:600;color:var(--ink-2);
+  letter-spacing:0}
+
+/* ---------- 노션식 보조 UI: 슬래시 메뉴 · 선택 툴바 ---------- */
+#slashMenu{position:fixed;z-index:200;width:270px;max-height:300px;overflow:auto;padding:5px;
+  background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--radius-1);
+  box-shadow:var(--shadow-2)}
+#slashMenu[hidden]{display:none}
+#slashMenu .sm-empty{padding:10px 12px;color:var(--text-3);font-size:12px}
+#slashMenu .sm-i{display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:7px;
+  cursor:pointer;color:var(--text-2)}
+#slashMenu .sm-i .k{flex:0 0 26px;height:26px;display:flex;align-items:center;justify-content:center;
+  border-radius:6px;background:var(--bg-3);color:var(--text-2);font-size:13px}
+#slashMenu .sm-i .n{font-size:13px;color:var(--text-1);font-weight:600}
+#slashMenu .sm-i .d{font-size:11px;color:var(--text-3)}
+#slashMenu .sm-i.on{background:var(--accent-dim)}
+#slashMenu .sm-i.on .n{color:var(--accent)}
+#selBar{position:fixed;z-index:200;display:flex;align-items:center;gap:1px;padding:3px;
+  background:var(--bg-2);border:1px solid var(--border-2);border-radius:8px;
+  box-shadow:var(--shadow-1);white-space:nowrap}
+#selBar[hidden]{display:none}
+#selBar button{background:transparent;border:none;color:var(--text-2);cursor:pointer;
+  font-family:var(--font);font-size:12px;padding:4px 8px;border-radius:5px;line-height:1.4}
+#selBar button:hover{background:var(--bg-3);color:var(--text-1)}
+#selBar .sep{width:1px;height:14px;background:var(--border-1);margin:0 2px}
 
 /* 링크 목록 */
 .linkrow{display:flex;gap:var(--space-2);margin-bottom:var(--space-2)}
@@ -321,6 +394,19 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
   <button data-blk="dup" title="복제">⧉</button>
   <button class="del" data-blk="del" title="삭제">✕</button>
 </div>
+<div id="slashMenu" hidden></div>
+<div id="selBar" hidden>
+  <button data-cmd="bold" title="굵게 (Ctrl+B)"><b>굵게</b></button>
+  <button data-cmd="mark" title="형광펜 (Ctrl+E)">🖍 형광</button>
+  <button data-cmd="em" title="색 강조">색 강조</button>
+  <button data-cmd="link" title="링크 (Ctrl+K)">🔗 링크</button>
+  <span class="sep"></span>
+  <button data-cmd="h2">큰 제목</button>
+  <button data-cmd="h3">소제목</button>
+  <button data-cmd="p">본문</button>
+  <span class="sep"></span>
+  <button data-cmd="clear">서식 지우기</button>
+</div>
 <div id="imgTools" hidden>
   <div class="it-bar">
     <span class="pct" id="itPct">100%</span>
@@ -331,8 +417,12 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
     <button data-align="left" title="왼쪽 정렬">⇤</button>
     <button data-align="center" title="가운데 정렬">↔</button>
     <span class="sep"></span>
+    <button data-mv="-1" title="줄에서 왼쪽으로 (Alt+←)">◀</button>
+    <button data-mv="1" title="줄에서 오른쪽으로 (Alt+→)">▶</button>
+    <span class="sep"></span>
     <button data-rowadd title="이 줄에 이미지 더 넣기">＋</button>
     <button data-rowout title="줄에서 빼내기">⊟</button>
+    <button data-imgcopy title="복사 (Ctrl+C)">⧉</button>
     <button class="del" data-imgdel title="이미지 삭제">✕</button>
   </div>
   <div class="it-handle" id="itHandle"></div>
@@ -658,8 +748,10 @@ function renderForm(){
       <button class="btn sm" data-cmd="h3">소제목</button>
       <button class="btn sm" data-cmd="p">본문</button>
       <button class="btn sm" data-cmd="ul">• 목록</button>
+      <button class="btn sm" data-cmd="ol">1. 번호</button>
       <span class="sep"></span>
       <button class="btn sm" data-cmd="bold"><b>굵게</b></button>
+      <button class="btn sm" data-cmd="mark">🖍 형광</button>
       <button class="btn sm" data-cmd="em" style="color:var(--accent-2)">색 강조</button>
       <button class="btn sm" data-cmd="link">🔗 링크</button>
       <span class="sep"></span>
@@ -677,13 +769,21 @@ function renderForm(){
     </div>
     <div class="editor-wrap"><div id="blkRail"></div>
       <div class="editor" id="editor" contenteditable="true"></div></div>
-    <div class="hint" style="margin-top:6px;color:var(--text-3);font-size:11px">
-      이미지는 붙여넣기(Ctrl+V)·끌어놓기도 됩니다. 넣은 이미지를 <b>클릭</b>하면 크기 조절 도구가 나옵니다.
-      작업 내용은 자동 보관되며, 사이트에 반영하려면 <b>Ctrl+S</b>로 저장하세요.
+    <div class="hint" style="margin-top:8px;color:var(--text-3);font-size:11.5px;line-height:1.9">
+      위 편집 칸은 <b>실제 사이트와 같은 모양</b>으로 보입니다. 보이는 그대로 저장됩니다.<br>
+      <b>/</b> 를 누르면 블록 목록이 열립니다. <b># </b><b>## </b><b>- </b><b>1. </b><b>&gt; </b> 로 시작해도 같은 블록이 만들어집니다.<br>
+      이미지는 <b>Ctrl+V</b>로 붙여넣거나 끌어다 놓으면 됩니다. 여러 장을 한 번에 붙여넣으면 <b>한 줄에 나란히</b> 들어갑니다.<br>
+      이미지를 <b>클릭</b>하면 크기·정렬 도구가, <b>끌어서 다른 이미지의 왼쪽·오른쪽에 놓으면</b> 그 줄에 나란히 배치됩니다.
+      고른 이미지는 <b>Ctrl+C</b>로 복사해 <b>Ctrl+V</b>로 그 줄에 이어 붙일 수 있습니다.<br>
+      단축키 — <b>Ctrl+S</b> 저장 · <b>Ctrl+D</b> 블록 복제 · <b>Alt+↑↓</b> 블록 이동 · <b>Alt+←→</b> 줄 안 이미지 이동
     </div>`;
 
   if (typeof deselectImg === "function") deselectImg();
   if (typeof hideBlkTools === "function") hideBlkTools();
+  if (typeof slashClose === "function") slashClose();
+  if (selBar) selBar.hidden = true;
+  /* 엔터로 <div>가 아니라 <p>가 만들어지게 한다. 사이트 CSS는 p 기준으로 여백을 준다 */
+  try { document.execCommand("defaultParagraphSeparator", false, "p"); } catch(_) {}
   document.getElementById("editor").innerHTML = l.html || "<p></p>";
   bindForm();
   if (typeof buildRail === "function") buildRail();
@@ -715,21 +815,44 @@ function bindForm(){
     }
   });
 
-  ed.oninput = () => { cur.l.html = ed.innerHTML; save(); buildRail(); };
+  ed.oninput = () => {
+    cur.l.html = edHtml(ed); save(); buildRail(); markEmpty();
+    if (slashCtx()) slashOpen(); else slashClose();
+  };
   ed.addEventListener("paste", onPaste);
   ed.addEventListener("drop", onDrop);
   ed.addEventListener("dragover", e => e.preventDefault());
+  ed.addEventListener("keydown", onEditorKey);
+  ed.addEventListener("focus", () => {
+    /* 포커스가 없으면 이 설정이 먹지 않는다. 없으면 엔터마다 <div>가 생겨
+       사이트의 p 기준 여백이 안 먹는다 */
+    try { document.execCommand("defaultParagraphSeparator", false, "p"); } catch(_) {}
+  });
+  ed.addEventListener("blur", () => setTimeout(slashClose, 120));
+  markEmpty();
 
   document.querySelectorAll("[data-cmd]").forEach(b => {
     b.onmousedown = e => e.preventDefault();  // 선택 영역 유지
-    b.onclick = () => runCmd(b.dataset.cmd, ed);
+    b.onclick = () => applyBlockCmd(b.dataset.cmd, ed);
   });
+}
+
+/* 편집 중에만 붙는 표시용 클래스 — data.js에 새어 나가지 않도록 저장 직전에 벗긴다 */
+const TEMP_CLASS = ["img-sel","img-drag","img-drop-left","img-drop-right","blk-hi","blk-drag",
+                    "blk-drop","blk-drop-after","blk-drop-left","blk-drop-right","is-empty"];
+function edHtml(ed){
+  const c = ed.cloneNode(true);
+  c.querySelectorAll("." + TEMP_CLASS.join(",.")).forEach(el => {
+    TEMP_CLASS.forEach(k => el.classList.remove(k));
+  });
+  c.querySelectorAll('[class=""]').forEach(el => el.removeAttribute("class"));
+  return c.innerHTML;
 }
 
 function flush(){
   const ed = document.getElementById("editor");
   const cur = current();
-  if (ed && cur){ cur.l.html = ed.innerHTML; save(); }
+  if (ed && cur){ cur.l.html = edHtml(ed); save(); }
 }
 
 /* ============================================================
@@ -740,15 +863,22 @@ function insertBlock(ed, html){
   const sel2 = window.getSelection();
   const frag = document.createRange().createContextualFragment(html);
   const first = frag.firstElementChild;
+  let host = null;
   if (sel2.rangeCount && ed.contains(sel2.anchorNode)){
     let node = sel2.anchorNode;
     while (node && node.parentNode !== ed) node = node.parentNode;
+    host = node;
     if (node) node.after(frag); else ed.appendChild(frag);
   } else ed.appendChild(frag);
+  /* 빈 문단에서 넣었다면 그 문단은 없앤다 — 노션처럼 빈 줄이 남지 않게 */
+  if (host && host.tagName === "P" && !host.textContent.trim() && !host.querySelector("img"))
+    host.remove();
   if (first){
     const r = document.createRange();
     const target = first.querySelector("[data-focus]") || first;
-    r.selectNodeContents(target); r.collapse(false);
+    /* 안내 문구가 들어 있으면 통째로 골라 둔다 — 노션처럼 바로 쳐서 덮어쓸 수 있게 */
+    r.selectNodeContents(target);
+    if (!target.textContent.trim()) r.collapse(false);
     sel2.removeAllRanges(); sel2.addRange(r);
   }
   flush();
@@ -762,7 +892,14 @@ function runCmd(cmd, ed){
     case "h3": document.execCommand("formatBlock", false, "h3"); break;
     case "p":  document.execCommand("formatBlock", false, "p");  break;
     case "ul": document.execCommand("insertUnorderedList"); break;
+    case "ol": document.execCommand("insertOrderedList"); break;
     case "bold": document.execCommand("bold"); break;
+    case "mark": {
+      const s = window.getSelection().toString();
+      if (!s) return toast("강조할 글자를 먼저 선택하세요", true);
+      document.execCommand("insertHTML", false, `<span class="mark">${esc(s)}</span>`);
+      break;
+    }
     case "em": {
       const s = window.getSelection().toString();
       if (!s) return toast("강조할 글자를 먼저 선택하세요", true);
@@ -993,36 +1130,162 @@ document.getElementById("imgPicker").onchange = e => {
   if (f && pendingEditor) addImage(f, pendingEditor);
   e.target.value = "";
 };
+const MAX_ROW = 4;          /* 한 줄에 나란히 놓을 수 있는 최대 장수 */
+const MAX_BYTES = 4 * 1024 * 1024;
+let imgClip = [];           /* 편집기 안에서 Ctrl+C로 복사해 둔 이미지 */
+
+function readFiles(files){
+  return Promise.all([...files].map(f => new Promise(res => {
+    const r = new FileReader();
+    r.onload  = () => res({ url:r.result, name:(f.name || "image.png").replace(/[^\w.\-]/g, "_") });
+    r.onerror = () => res(null);
+    r.readAsDataURL(f);
+  }))).then(l => l.filter(Boolean));
+}
+function tooBig(files){
+  const over = [...files].find(f => f.size > MAX_BYTES);
+  if (over) toast(`4MB를 넘는 이미지가 있습니다 — ${over.name || ""}`, true);
+  return !!over;
+}
+function imgHtml(x){
+  return `<img class="doc-img" src="${x.url}" alt="${esc(x.name)}" data-name="${esc(x.name)}">`;
+}
+const CAPTION = `<p style="text-align:center;font-size:12px;color:var(--ink-3)" data-focus>[이미지 설명]</p>`;
+
+/* 한 장이면 단독 블록, 여러 장이면 한 줄(img-row)로 넣는다 */
+function placeImages(list, ed){
+  if (!list || !list.length || !ed) return;
+  if (list.length > MAX_ROW){
+    toast(`한 줄에는 ${MAX_ROW}장까지입니다. 앞의 ${MAX_ROW}장만 넣습니다`, true);
+    list = list.slice(0, MAX_ROW);
+  }
+  if (list.length === 1){
+    const x = list[0];
+    insertBlock(ed,
+      `<img class="doc-img" src="${x.url}" alt="${esc(x.name)}" data-name="${esc(x.name)}" style="width:100%">
+       ${CAPTION}`);
+    return toast("이미지를 넣었습니다");
+  }
+  insertBlock(ed, `<div class="img-row">${list.map(imgHtml).join("")}</div>${CAPTION}`);
+  toast(`이미지 ${list.length}장을 한 줄에 넣었습니다`);
+}
+
+/* 이미 있는 줄 뒤에 이어 붙인다 */
+function appendToRow(row, list){
+  const room = MAX_ROW - row.querySelectorAll("img").length;
+  if (room <= 0) return toast(`한 줄에는 ${MAX_ROW}장까지입니다`, true);
+  if (list.length > room){
+    toast(`자리가 ${room}장 남아 그만큼만 넣었습니다`, true);
+    list = list.slice(0, room);
+  }
+  list.forEach(x => {
+    const im = document.createElement("img");
+    im.className = "doc-img"; im.src = x.url;
+    im.setAttribute("data-name", x.name); im.alt = x.name;
+    row.appendChild(im);
+  });
+  evenRow(row);
+  flush(); buildRail();
+  toast(`${list.length}장을 줄에 더했습니다`);
+}
+function evenRow(row){
+  [...row.querySelectorAll("img")].forEach(im => {
+    im.style.flex = ""; im.style.width = ""; im.style.height = "";
+  });
+}
+
+/* 붙여넣기·끌어놓기 공통 진입점.
+   이미지를 골라 둔 상태라면 그 이미지 옆에 나란히 붙인다 — 별도 버튼 없이 병렬 배치가 되게. */
+function dropImages(list, ed){
+  if (!list || !list.length || !ed) return;
+  if (selImg && ed.contains(selImg)){
+    if (inRow(selImg)) return appendToRow(selImg.parentElement, list);
+    const row = document.createElement("div");
+    row.className = "img-row";
+    selImg.before(row); row.appendChild(selImg);
+    selImg.style.width = ""; selImg.style.flex = "";
+    return appendToRow(row, list);
+  }
+  placeImages(list, ed);
+}
+
+/* 다른 곳에서 복사해 온 서식은 벗겨서 넣는다 — 남의 색·글꼴이 섞이면 사이트 디자인이 깨진다 */
+const PASTE_TAGS = {P:1,BR:1,STRONG:1,B:1,EM:1,I:1,U:1,UL:1,OL:1,LI:1,H2:1,H3:1,A:1,
+                    TABLE:1,THEAD:1,TBODY:1,TR:1,TH:1,TD:1,IMG:1,HR:1,SPAN:1,DIV:1};
+const PASTE_CLASS = /^(doc-img|img-row|callout|callout-ico|callout-body|insight|problem|quote|mark|center|skill|skill-grid|skill-head|skill-ico|skill-ico-emoji|skill-name|skill-level|l1|l2|timeline|when)$/;
+function cleanPaste(html){
+  const box = document.createElement("div");
+  box.innerHTML = html;
+  box.querySelectorAll("script,style,meta,link,noscript,iframe,object").forEach(n => n.remove());
+  /* 웹에서 복사한 이미지는 주소가 곧 만료된다(노션 서명 URL). 파일로 붙여넣게 유도한다 */
+  let dropped = 0;
+  box.querySelectorAll("img").forEach(im => {
+    if (!/^data:/i.test(im.getAttribute("src") || "")){ im.remove(); dropped++; }
+  });
+  [...box.querySelectorAll("*")].forEach(el => {
+    const tag = el.tagName;
+    if (tag === "H1" || tag === "H4" || tag === "H5" || tag === "H6" || tag === "BLOCKQUOTE"){
+      const rep = document.createElement(tag === "H1" ? "h2" : tag === "BLOCKQUOTE" ? "p" : "h3");
+      rep.innerHTML = el.innerHTML;
+      el.replaceWith(rep);
+      return;
+    }
+    if (!PASTE_TAGS[tag]) return el.replaceWith(...el.childNodes);
+    const keep = (el.getAttribute("class") || "").split(/\s+/).filter(c => PASTE_CLASS.test(c));
+    /* 남의 사이트에서 온 껍데기 DIV/SPAN은 벗겨 낸다. 그대로 두면 블록 하나에 문서 전체가 들어간다 */
+    if ((tag === "DIV" || tag === "SPAN") && !keep.length) return el.replaceWith(...el.childNodes);
+    [...el.attributes].forEach(a => {
+      const n = a.name.toLowerCase();
+      if (n === "href" || n === "src" || n === "alt" || n === "data-name") return;
+      el.removeAttribute(a.name);
+    });
+    if (keep.length) el.setAttribute("class", keep.join(" "));
+  });
+  if (dropped) toast(`웹에서 복사한 이미지 ${dropped}장은 주소가 곧 만료돼 빼놨습니다. 이미지 파일로 붙여넣어 주세요`, true);
+  return box.innerHTML;
+}
+
 function onPaste(e){
-  const items = [...(e.clipboardData.items || [])];
-  const img = items.find(i => i.type.startsWith("image/"));
-  if (img){ e.preventDefault(); addImage(img.getAsFile(), e.currentTarget); }
+  const ed = e.currentTarget;
+  const dt = e.clipboardData;
+  if (!dt) return;
+  const files = [...(dt.items || [])]
+    .filter(i => i.kind === "file" && i.type.startsWith("image/"))
+    .map(i => i.getAsFile()).filter(Boolean);
+  if (files.length){
+    e.preventDefault();
+    if (tooBig(files)) return;
+    readFiles(files).then(l => dropImages(l, ed));
+    return;
+  }
+  const text = (dt.getData("text/plain") || "").trim();
+  if (!text && imgClip.length){          /* 편집기 안에서 복사해 둔 이미지 */
+    e.preventDefault();
+    return dropImages(imgClip.slice(), ed);
+  }
+  const html = dt.getData("text/html");
+  if (html){
+    e.preventDefault();
+    document.execCommand("insertHTML", false, cleanPaste(html));
+    flush(); buildRail(); markEmpty();
+  }
 }
+
 function onDrop(e){
-  const f = [...(e.dataTransfer.files || [])].find(x => x.type.startsWith("image/"));
-  if (f){ e.preventDefault(); addImage(f, e.currentTarget); }
+  const ed = e.currentTarget;
+  const files = [...(e.dataTransfer.files || [])].filter(x => x.type.startsWith("image/"));
+  if (!files.length) return;
+  e.preventDefault();
+  if (tooBig(files)) return;
+  readFiles(files).then(l => dropImages(l, ed));
 }
+
 document.getElementById("rowPicker").onchange = e => {
   const files = [...e.target.files].filter(f => f.type.startsWith("image/"));
   e.target.value = "";
   const ed = pendingEditor || document.getElementById("editor");
-  if (!files.length || !ed) return;
-  if (files.length > 4) return toast("한 줄에는 4장까지 넣을 수 있습니다", true);
-  const over = files.find(f => f.size > 4 * 1024 * 1024);
-  if (over) return toast("4MB를 넘는 이미지가 있습니다", true);
-
-  Promise.all(files.map(f => new Promise(res => {
-    const r = new FileReader();
-    r.onload = () => res({ url: r.result, name: (f.name||"image.png").replace(/[^\w.\-]/g,"_") });
-    r.readAsDataURL(f);
-  }))).then(list => {
-    const imgs = list.map(x =>
-      `<img class="doc-img" src="${x.url}" alt="${esc(x.name)}" data-name="${esc(x.name)}">`).join("");
-    insertBlock(ed,
-      `<div class="img-row">${imgs}</div>
-       <p style="text-align:center;font-size:12px;color:var(--text-3)" data-focus>[이미지 설명]</p>`);
-    toast(`이미지 ${list.length}장을 한 줄에 넣었습니다`);
-  });
+  if (!files.length || !ed || tooBig(files)) return;
+  readFiles(files).then(l => placeImages(l, ed));
 };
 
 let rowTarget = null;
@@ -1030,40 +1293,40 @@ document.getElementById("rowAddPicker").onchange = e => {
   const files = [...e.target.files].filter(f => f.type.startsWith("image/"));
   e.target.value = "";
   const row = rowTarget; rowTarget = null;
-  if (!files.length || !row) return;
-  if (row.querySelectorAll("img").length + files.length > 4)
-    return toast("한 줄에는 4장까지입니다", true);
-  Promise.all(files.map(f => new Promise(res => {
-    const r = new FileReader();
-    r.onload = () => res({ url: r.result, name: (f.name||"image.png").replace(/[^\w.\-]/g,"_") });
-    r.readAsDataURL(f);
-  }))).then(list => {
-    list.forEach(x => {
-      const im = document.createElement("img");
-      im.className = "doc-img"; im.src = x.url;
-      im.setAttribute("data-name", x.name); im.alt = x.name;
-      row.appendChild(im);
-    });
-    // 균등 폭으로 재정렬
-    [...row.querySelectorAll("img")].forEach(im => { im.style.flex = ""; im.style.width = ""; });
-    flush(); toast(`${list.length}장을 줄에 더했습니다`);
-    if (typeof buildRail === "function") buildRail();
-  });
+  if (!files.length || !row || tooBig(files)) return;
+  readFiles(files).then(l => appendToRow(row, l));
 };
 
 function addImage(file, ed){
-  if (file.size > 4 * 1024 * 1024)
-    return toast("이미지가 4MB를 넘습니다. 줄여서 넣어주세요.", true);
-  const r = new FileReader();
-  r.onload = () => {
-    const name = (file.name || "image.png").replace(/[^\w.\-]/g, "_");
-    insertBlock(ed,
-      `<img class="doc-img" src="${r.result}" alt="${esc(name)}" data-name="${esc(name)}" style="width:100%">
-       <p style="text-align:center;font-size:12px;color:var(--text-3)" data-focus>[이미지 설명]</p>`);
-    toast("이미지를 넣었습니다");
-  };
-  r.readAsDataURL(file);
+  if (tooBig([file])) return;
+  readFiles([file]).then(l => dropImages(l, ed));
 }
+
+/* 고른 이미지를 Ctrl+C / Ctrl+X 로 다루게 한다 */
+function clipTarget(){
+  if (!selImg) return null;
+  const s = window.getSelection();
+  if (s && !s.isCollapsed && String(s).trim()) return null;   /* 글자 선택이 우선 */
+  return { url: selImg.src, name: selImg.getAttribute("data-name") || "image.png" };
+}
+document.addEventListener("copy", e => {
+  const t = clipTarget(); if (!t) return;
+  imgClip = [t];
+  try { e.clipboardData.setData("text/plain", ""); } catch(_){}
+  e.preventDefault();
+  toast("이미지를 복사했습니다 · 붙여넣을 이미지를 고르고 Ctrl+V");
+});
+document.addEventListener("cut", e => {
+  const t = clipTarget(); if (!t) return;
+  imgClip = [t];
+  try { e.clipboardData.setData("text/plain", ""); } catch(_){}
+  e.preventDefault();
+  const im = selImg, row = im.parentElement;
+  deselectImg(); im.remove();
+  if (row && row.classList && row.classList.contains("img-row") && !row.querySelector("img")) row.remove();
+  flush(); buildRail();
+  toast("이미지를 잘라냈습니다 · Ctrl+V로 옮겨 붙이세요");
+});
 
 /* ============================================================
    이미지 크기 조절 — 클릭 → 핸들 드래그 / 배율 버튼 / Ctrl+휠
@@ -1074,7 +1337,17 @@ const itHandle = document.getElementById("itHandle");
 const itPct = document.getElementById("itPct");
 let selImg = null;
 
-function inRow(img){ return img.parentElement && img.parentElement.classList.contains("img-row"); }
+function inRow(img){ return !!(img && img.parentElement && img.parentElement.classList
+                                    && img.parentElement.classList.contains("img-row")); }
+
+/* 같은 줄 안에서 좌우로 자리를 바꾼다 */
+function moveImgInRow(img, dir){
+  if (!inRow(img)) return toast("줄 안의 이미지가 아닙니다", true);
+  const sib = dir < 0 ? img.previousElementSibling : img.nextElementSibling;
+  if (!sib) return toast(dir < 0 ? "이미 맨 왼쪽입니다" : "이미 맨 오른쪽입니다", true);
+  dir < 0 ? sib.before(img) : sib.after(img);
+  flush(); placeTools(); buildRail();
+}
 
 function widthPct(img){
   if (inRow(img)){
@@ -1160,8 +1433,21 @@ itBar.addEventListener("click", e => {
     if (!selImg.classList.contains("doc-img")) selImg.classList.add("doc-img");
     markPresets(widthPct(selImg)); flush();
   }
+  if (b.dataset.mv) return moveImgInRow(selImg, +b.dataset.mv);
+  if (b.hasAttribute("data-imgcopy")){
+    imgClip = [{ url: selImg.src, name: selImg.getAttribute("data-name") || "image.png" }];
+    return toast("복사했습니다 · 붙여넣을 이미지를 고르고 Ctrl+V");
+  }
   if (b.hasAttribute("data-rowadd")){
-    rowTarget = selImg.parentElement;
+    rowTarget = inRow(selImg) ? selImg.parentElement : null;
+    if (!rowTarget){
+      /* 단독 이미지라면 그 자리에 줄을 만들어 준다 */
+      const row = document.createElement("div");
+      row.className = "img-row";
+      selImg.before(row); row.appendChild(selImg);
+      selImg.style.width = ""; selImg.style.flex = "";
+      rowTarget = row;
+    }
     document.getElementById("rowAddPicker").click();
     return;
   }
@@ -1214,7 +1500,7 @@ window.addEventListener("resize", placeTools);
    ============================================================ */
 const blkTools = document.getElementById("blkTools");
 const railEl = () => document.getElementById("blkRail");
-let curBlk = null, dragBlk = null;
+let curBlk = null, dragBlk = null, dragImg = null;
 
 function edEl(){ return document.getElementById("editor"); }
 function topBlock(node, ed){
@@ -1223,7 +1509,7 @@ function topBlock(node, ed){
 }
 function saveBlocks(){
   const ed = edEl(), cur = current();
-  if (ed && cur){ cur.l.html = ed.innerHTML; save(); }
+  if (ed && cur){ cur.l.html = edHtml(ed); save(); }
   buildRail();
 }
 
@@ -1236,13 +1522,21 @@ function buildRail(){
     if (!ed || !blkRail) return;
     blkRail.innerHTML = "";
     [...ed.children].forEach((blk, i) => {
+      const top = (ed.offsetTop + blk.offsetTop + Math.min(6, blk.offsetHeight / 2 - 12)) + "px";
+      const plus = document.createElement("div");
+      plus.className = "g plus";
+      plus.textContent = "＋";
+      plus.dataset.i = i;
+      plus.title = "아래에 블록 추가";
+      plus.style.top = top;
+      blkRail.appendChild(plus);
       const g = document.createElement("div");
       g.className = "g";
       g.textContent = "⠿";
       g.draggable = true;
       g.dataset.i = i;
       g.title = "드래그해서 옮기기 · 클릭하면 도구";
-      g.style.top = (ed.offsetTop + blk.offsetTop + Math.min(6, blk.offsetHeight / 2 - 12)) + "px";
+      g.style.top = top;
       blkRail.appendChild(g);
     });
   });
@@ -1285,8 +1579,24 @@ document.addEventListener("mouseover", e => {
 document.addEventListener("click", e => {
   if (!e.target || !e.target.closest) return;
   const g = e.target.closest("#blkRail .g"); if (!g) return;
+  if (g.classList.contains("plus")) return addBlockAfter(blkAt(g.dataset.i));
   showBlkTools(blkAt(g.dataset.i), g);
 });
+
+/* ＋ 를 누르면 빈 문단을 만들고 곧바로 블록 목록을 띄운다 */
+function addBlockAfter(blk){
+  const ed = edEl(); if (!ed) return;
+  const p = document.createElement("p");
+  p.innerHTML = "<br>";
+  blk ? blk.after(p) : ed.appendChild(p);
+  const rg = document.createRange();
+  rg.selectNodeContents(p); rg.collapse(true);
+  const s = window.getSelection(); s.removeAllRanges(); s.addRange(rg);
+  ed.focus();
+  saveBlocks();
+  document.execCommand("insertText", false, "/");
+  slashOpen();
+}
 
 /* 드래그로 옮기기 */
 document.addEventListener("dragstart", e => {
@@ -1299,13 +1609,55 @@ document.addEventListener("dragstart", e => {
   e.dataTransfer.effectAllowed = "move";
   e.dataTransfer.setData("text/plain", "blk");
 });
+/* 이미지 자체를 끌어서 옮긴다 — 손잡이를 잡지 않아도 병렬 배치·순서 변경이 되게 */
+document.addEventListener("dragstart", e => {
+  const ed = edEl(); if (!ed || !e.target || !e.target.closest) return;
+  const im = e.target.closest("img");
+  if (!im || !ed.contains(im) || im.classList.contains("skill-ico")) return;
+  dragImg = im;
+  im.classList.add("img-drag");
+  hideBlkTools(); deselectImg(); slashClose();
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", "img");
+});
+
 document.addEventListener("dragend", () => {
-  if (!dragBlk) return;
+  if (dragImg){ dragImg.classList.remove("img-drag"); dragImg = null; }
   if (dragBlk) dragBlk.classList.remove("blk-drag");
   clearMarks();
   dragBlk = null;
   buildRail();
 });
+
+/* 끌고 있는 이미지를 놓을 대상 이미지와 좌·우 어느 쪽인지 */
+function imgDropTarget(e){
+  const ed = edEl();
+  if (!dragImg || !ed || !e.target || !e.target.closest) return null;
+  const im = e.target.closest("img");
+  if (!im || im === dragImg || !ed.contains(im) || im.classList.contains("skill-ico")) return null;
+  const r = im.getBoundingClientRect();
+  return { img: im, side: e.clientX > r.left + r.width / 2 ? "right" : "left" };
+}
+
+/* 대상 이미지의 옆자리로 옮긴다. 대상이 단독 이미지면 그 자리에 줄을 만든다 */
+function moveImageNextTo(src, target, side){
+  const srcRow = inRow(src) ? src.parentElement : null;
+  let row = inRow(target) ? target.parentElement : null;
+  if (!row){
+    row = document.createElement("div");
+    row.className = "img-row";
+    target.before(row); row.appendChild(target);
+    target.style.width = ""; target.style.flex = "";
+  }
+  if (row !== srcRow && row.querySelectorAll("img").length >= MAX_ROW){
+    toast(`한 줄에는 ${MAX_ROW}장까지입니다`, true);
+    return false;
+  }
+  side === "right" ? target.after(src) : target.before(src);
+  if (srcRow && srcRow !== row && !srcRow.querySelector("img")) srcRow.remove();
+  evenRow(row);
+  return true;
+}
 function dropTarget(e){
   const ed = edEl();
   if (!ed || !e.target || !e.target.closest) return null;
@@ -1325,10 +1677,24 @@ function mergeSide(e, blk){
   return e.clientX > r.left + r.width / 2 ? "right" : "left";
 }
 function clearMarks(){
-  document.querySelectorAll(".blk-drop,.blk-drop-after,.blk-drop-left,.blk-drop-right")
-    .forEach(x => x.classList.remove("blk-drop","blk-drop-after","blk-drop-left","blk-drop-right"));
+  document.querySelectorAll(".blk-drop,.blk-drop-after,.blk-drop-left,.blk-drop-right,.img-drop-left,.img-drop-right")
+    .forEach(x => x.classList.remove("blk-drop","blk-drop-after","blk-drop-left","blk-drop-right",
+                                     "img-drop-left","img-drop-right"));
 }
 document.addEventListener("dragover", e => {
+  if (dragImg){
+    const ed = edEl();
+    if (!ed || !ed.contains(e.target)) return;
+    e.preventDefault();
+    clearMarks();
+    const t = imgDropTarget(e);
+    if (t) return t.img.classList.add(t.side === "right" ? "img-drop-right" : "img-drop-left");
+    const b = topBlock(e.target, ed);
+    if (!b || b === dragImg) return;
+    const br = b.getBoundingClientRect();
+    b.classList.add(e.clientY > br.top + br.height / 2 ? "blk-drop-after" : "blk-drop");
+    return;
+  }
   if (!dragBlk) return;
   const blk = dropTarget(e); if (!blk) return;
   e.preventDefault();
@@ -1339,6 +1705,35 @@ document.addEventListener("dragover", e => {
   blk.classList.add(e.clientY > r.top + r.height / 2 ? "blk-drop-after" : "blk-drop");
 });
 document.addEventListener("drop", e => {
+  if (dragImg){
+    const ed = edEl();
+    if (!ed || !ed.contains(e.target)) return;
+    e.preventDefault();          /* 브라우저 기본 이동을 막고 우리가 옮긴다 */
+    clearMarks();
+    const im = dragImg;
+    const t = imgDropTarget(e);
+    let moved = false;
+    if (t){
+      moved = moveImageNextTo(im, t.img, t.side);
+      if (moved) toast(`같은 줄에 나란히 놓았습니다 (${t.img.parentElement.querySelectorAll("img").length}장)`);
+    } else {
+      const b = topBlock(e.target, ed);
+      if (b && b !== im){
+        const srcRow = inRow(im) ? im.parentElement : null;
+        const br = b.getBoundingClientRect();
+        (e.clientY > br.top + br.height / 2) ? b.after(im) : b.before(im);
+        im.style.flex = ""; im.style.width = "100%";
+        if (srcRow && !srcRow.querySelector("img")) srcRow.remove();
+        else if (srcRow) evenRow(srcRow);
+        moved = true;
+        toast("이미지를 옮겼습니다");
+      }
+    }
+    im.classList.remove("img-drag");
+    dragImg = null;
+    if (moved) saveBlocks(); else buildRail();
+    return;
+  }
   if (!dragBlk) return;
   const blk = dropTarget(e); if (!blk) return;
   e.preventDefault();
@@ -1369,7 +1764,7 @@ document.addEventListener("drop", e => {
     });
     if (dragBlk.classList && dragBlk.classList.contains("img-row") && !dragBlk.querySelector("img"))
       dragBlk.remove();
-    [...row.querySelectorAll("img")].forEach(im => { im.style.flex = ""; im.style.width = ""; });
+    evenRow(row);
     dragBlk = null;
     saveBlocks();
     toast(`같은 줄에 합쳤습니다 (${row.querySelectorAll("img").length}장)`);
@@ -1420,6 +1815,310 @@ document.addEventListener("keydown", e => {
 });
 
 addEventListener("resize", buildRail);
+
+/* ============================================================
+   노션식 편집 보조 — 슬래시 메뉴 · 선택 툴바 · 마크다운 단축 입력
+   ============================================================ */
+const slashMenu = document.getElementById("slashMenu");
+const selBar    = document.getElementById("selBar");
+
+const SLASH_ITEMS = [
+  { cmd:"h2",      key:"H2", name:"큰 제목",    desc:"섹션을 나눈다",       kw:"h2 큰제목 heading title" },
+  { cmd:"h3",      key:"H3", name:"소제목",      desc:"큰 제목 아래 단계",   kw:"h3 소제목 subtitle" },
+  { cmd:"p",       key:"¶",  name:"본문",        desc:"보통 문단",           kw:"p 본문 문단 text" },
+  { cmd:"ul",      key:"•",  name:"글머리 목록", desc:"점으로 나열",         kw:"ul list 목록 불릿 bullet" },
+  { cmd:"ol",      key:"1.", name:"번호 목록",   desc:"순서대로 나열",       kw:"ol number 번호 순서" },
+  { cmd:"image",   key:"🖼", name:"이미지",      desc:"한 장 넣기",          kw:"image img 사진 그림 이미지" },
+  { cmd:"imgrow",  key:"▥",  name:"이미지 줄",   desc:"여러 장을 한 줄에",   kw:"imgrow 나란히 병렬 여러장 gallery" },
+  { cmd:"table",   key:"▦",  name:"표",          desc:"행과 열",             kw:"table 표 그리드 grid" },
+  { cmd:"cards",   key:"▤",  name:"카드 묶음",   desc:"툴·역량 격자",        kw:"cards 카드 skill 격자" },
+  { cmd:"callout", key:"💬", name:"강조 박스",   desc:"눈에 띄게",           kw:"callout 강조 박스 note" },
+  { cmd:"insight", key:"💡", name:"회고 박스",   desc:"배운 점·인사이트",    kw:"insight 회고 인사이트 배움" },
+  { cmd:"problem", key:"⚠",  name:"문제 박스",   desc:"이슈·리스크",         kw:"problem 문제 이슈 경고" },
+  { cmd:"quote",   key:"❝",  name:"인용구",      desc:"핵심 문장",           kw:"quote 인용 문장" },
+  { cmd:"divider", key:"―",  name:"구분선",      desc:"내용을 끊는다",       kw:"divider hr 구분선 선" }
+];
+let slashCache = null, slashIdx = 0;
+
+/* 커서 앞이 "/검색어" 꼴이면 그 위치를 돌려준다 */
+function slashCtx(){
+  const ed = edEl(); if (!ed) return null;
+  const s = window.getSelection();
+  if (!s || !s.rangeCount || !s.isCollapsed) return null;
+  const node = s.anchorNode;
+  if (!node || node.nodeType !== 3 || !ed.contains(node)) return null;
+  const before = node.textContent.slice(0, s.anchorOffset);
+  const m = before.match(/(?:^|\s)\/([^\s/]{0,24})$/);
+  if (!m) return null;
+  return { node, from: s.anchorOffset - m[1].length - 1, to: s.anchorOffset, q: m[1] };
+}
+function slashHits(q){
+  const k = (q || "").trim().toLowerCase();
+  if (!k) return SLASH_ITEMS;
+  return SLASH_ITEMS.filter(it => (it.name + " " + it.kw).toLowerCase().indexOf(k) >= 0);
+}
+function caretRect(){
+  const ed = edEl();
+  const s = window.getSelection();
+  if (!s || !s.rangeCount) return null;
+  const rg = s.getRangeAt(0);
+  const r = rg.getBoundingClientRect();
+  if (r && (r.width || r.height || r.top)) return r;
+  const blk = ed ? topBlock(rg.startContainer, ed) : null;
+  return blk ? blk.getBoundingClientRect() : null;
+}
+function placeNear(el, r, gap){
+  if (!r) return;
+  const w = el.offsetWidth, h = el.offsetHeight;
+  let top = r.bottom + gap;
+  if (top + h > innerHeight - 8) top = Math.max(8, r.top - h - gap);
+  el.style.left = Math.max(8, Math.min(r.left, innerWidth - w - 8)) + "px";
+  el.style.top  = top + "px";
+}
+function slashOpen(){
+  const ctx = slashCtx();
+  if (!ctx) return slashClose();
+  slashCache = ctx;
+  const hits = slashHits(ctx.q);
+  if (!hits.length){
+    slashMenu.innerHTML = `<div class="sm-empty">"${esc(ctx.q)}" 에 맞는 블록이 없습니다</div>`;
+  } else {
+    if (slashIdx >= hits.length) slashIdx = 0;
+    slashMenu.innerHTML = hits.map((it, i) =>
+      `<div class="sm-i${i === slashIdx ? " on" : ""}" data-cmd="${it.cmd}">` +
+      `<span class="k">${it.key}</span>` +
+      `<span><span class="n">${it.name}</span><br><span class="d">${it.desc}</span></span></div>`).join("");
+  }
+  slashMenu.hidden = false;
+  placeNear(slashMenu, caretRect(), 6);
+}
+function slashClose(){
+  if (slashMenu) slashMenu.hidden = true;
+  slashCache = null; slashIdx = 0;
+}
+/* 커서가 놓인 블록에 명령을 적용한다.
+   execCommand("formatBlock")은 빈 문단에서 캐럿을 엉뚱한 블록으로 날려 버리는 일이 잦아서
+   제목·본문 전환만은 DOM을 직접 바꾼다. (증상: 친 글자가 앞 블록 안으로 들어감) */
+const PLAIN_BLOCK = { h2:"h2", h3:"h3", p:"p" };
+const LIST_BLOCK  = { ul:"ul", ol:"ol" };
+function applyBlockCmd(cmd, ed){
+  const s = window.getSelection();
+  const blk = (s && s.rangeCount && ed.contains(s.anchorNode)) ? topBlock(s.anchorNode, ed) : null;
+  /* DIV는 브라우저가 엔터로 만들어 놓은 문단이다. class가 붙은 DIV(강조박스·이미지줄)는 건드리지 않는다.
+     여러 블록을 걸쳐 고른 상태라면 execCommand가 더 잘 처리하므로 그쪽에 맡긴다 */
+  const swappable = !!blk && s.isCollapsed &&
+    (/^(P|H2|H3|H4)$/.test(blk.tagName) || (blk.tagName === "DIV" && !blk.getAttribute("class")));
+
+  if (swappable && PLAIN_BLOCK[cmd])
+    return swapBlock(blk, document.createElement(PLAIN_BLOCK[cmd]), ed, null);
+  if (swappable && LIST_BLOCK[cmd]){
+    const list = document.createElement(LIST_BLOCK[cmd]);
+    const li = document.createElement("li");
+    list.appendChild(li);
+    return swapBlock(blk, list, ed, li);
+  }
+  runCmd(cmd, ed);
+}
+
+/* 블록을 통째로 갈아 끼우고 캐럿을 새 블록 안에 다시 놓는다.
+   execCommand("formatBlock" / "insertUnorderedList")는 빈 문단에서 캐럿을 앞 블록으로 흘려보낸다.
+   실제로 "## 제목 → 엔터 → - " 를 치면 목록이 앞의 제목을 통째로 삼켰다. 그래서 직접 바꾼다. */
+function swapBlock(blk, el, ed, inner){
+  const box = inner || el;
+  while (blk.firstChild) box.appendChild(blk.firstChild);
+  const empty = !box.textContent.trim() && !box.querySelector("br,img");
+  if (empty) box.appendChild(document.createElement("br"));
+  blk.replaceWith(el);
+  const rg = document.createRange();
+  if (empty){ rg.setStart(box, 0); rg.setEnd(box, 0); }
+  else { rg.selectNodeContents(box); rg.collapse(false); }
+  const s = window.getSelection();
+  s.removeAllRanges(); s.addRange(rg);
+  ed.focus();
+  tidyBlocks(ed, el);
+  saveBlocks();
+}
+
+/* 블록을 갈아 끼울 때 브라우저가 남기는 빈 문단(<p></p>, br조차 없는 것)을 치운다.
+   사용자가 일부러 만든 빈 줄에는 <br>이 들어 있으므로 지워지지 않는다 */
+function tidyBlocks(ed, keep){
+  [...ed.children].forEach(b => {
+    if (b === keep) return;
+    if (b.tagName === "P" && !b.textContent && !b.querySelector("br,img")) b.remove();
+  });
+  if (!ed.children.length) ed.innerHTML = "<p><br></p>";
+}
+
+function slashApply(cmd){
+  const ed = edEl();
+  const ctx = slashCtx() || slashCache;
+  slashClose();
+  if (!ed || !ctx) return;
+  try {
+    const rg = document.createRange();
+    const len = ctx.node.textContent.length;
+    rg.setStart(ctx.node, Math.min(ctx.from, len));
+    rg.setEnd(ctx.node, Math.min(ctx.to, len));
+    rg.deleteContents();
+    rg.collapse(true);
+    const s = window.getSelection();
+    s.removeAllRanges(); s.addRange(rg);
+  } catch(_) {}
+  ed.focus();
+  applyBlockCmd(cmd, ed);
+  markEmpty();
+}
+if (slashMenu){
+  slashMenu.addEventListener("mousedown", e => e.preventDefault());
+  slashMenu.addEventListener("click", e => {
+    const it = e.target.closest(".sm-i");
+    if (it) slashApply(it.dataset.cmd);
+  });
+}
+
+/* 빈 문단에 "/" 안내를 띄운다 */
+function markEmpty(){
+  const ed = edEl(); if (!ed) return;
+  [...ed.children].forEach(b => {
+    b.classList.remove("is-empty");
+    if (b.getAttribute("class") === "") b.removeAttribute("class");
+  });
+  const s = window.getSelection();
+  if (!s || !s.rangeCount || !ed.contains(s.anchorNode)) return;
+  const b = topBlock(s.anchorNode, ed);
+  if (b && b.tagName === "P" && !b.textContent.trim() && !b.querySelector("img"))
+    b.classList.add("is-empty");
+}
+
+/* 글자를 선택하면 그 위에 서식 도구를 띄운다 */
+function updateSelBar(){
+  const ed = edEl();
+  if (!selBar) return;
+  const s = window.getSelection();
+  if (!ed || !s || !s.rangeCount || s.isCollapsed || !String(s).trim() ||
+      !ed.contains(s.anchorNode) || !ed.contains(s.focusNode)){
+    selBar.hidden = true; return;
+  }
+  selBar.hidden = false;
+  const r = s.getRangeAt(0).getBoundingClientRect();
+  const w = selBar.offsetWidth, h = selBar.offsetHeight;
+  selBar.style.left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, innerWidth - w - 8)) + "px";
+  selBar.style.top  = Math.max(8, r.top - h - 8) + "px";
+}
+if (selBar){
+  selBar.addEventListener("mousedown", e => e.preventDefault());   /* 선택 영역 유지 */
+  selBar.addEventListener("click", e => {
+    const b = e.target.closest("[data-cmd]");
+    const ed = edEl();
+    if (!b || !ed) return;
+    applyBlockCmd(b.dataset.cmd, ed);
+    setTimeout(updateSelBar, 0);
+  });
+}
+document.addEventListener("selectionchange", () => { updateSelBar(); markEmpty(); });
+document.querySelector(".main").addEventListener("scroll", () => {
+  if (!slashMenu.hidden) slashClose();
+  updateSelBar();
+});
+
+/* 줄 맨 앞에서 쓰는 마크다운식 단축 입력 */
+const MD_SPACE = { "#":"h2", "##":"h3", "###":"h3", "-":"ul", "*":"ul", "+":"ul",
+                   "1.":"ol", ">":"callout", "\"":"quote" };
+
+function onEditorKey(e){
+  const ed = edEl(); if (!ed) return;
+
+  /* --- 슬래시 메뉴가 열려 있을 때 --- */
+  if (slashMenu && !slashMenu.hidden){
+    const items = [...slashMenu.querySelectorAll(".sm-i")];
+    if (e.key === "Escape"){ e.preventDefault(); return slashClose(); }
+    if (items.length && (e.key === "ArrowDown" || e.key === "ArrowUp")){
+      e.preventDefault();
+      slashIdx = (slashIdx + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length;
+      items.forEach((el, i) => el.classList.toggle("on", i === slashIdx));
+      items[slashIdx].scrollIntoView({ block:"nearest" });
+      return;
+    }
+    if (items.length && (e.key === "Enter" || e.key === "Tab")){
+      e.preventDefault();
+      return slashApply(items[slashIdx].dataset.cmd);
+    }
+  }
+
+  /* --- 단축키 --- */
+  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey){
+    const k = e.key.toLowerCase();
+    if (k === "k"){ e.preventDefault(); return runCmd("link", ed); }
+    if (k === "e"){ e.preventDefault(); return runCmd("mark", ed); }
+    if (k === "d"){
+      e.preventDefault();
+      const s = window.getSelection();
+      if (!s.rangeCount) return;
+      const blk = topBlock(s.anchorNode, ed);
+      if (!blk) return;
+      blk.after(blk.cloneNode(true));
+      saveBlocks();
+      return toast("블록을 복제했습니다");
+    }
+  }
+
+  /* --- 스페이스로 블록 바꾸기 (# / - / 1. / > …) --- */
+  if (e.key === " " && !e.ctrlKey && !e.metaKey && !e.altKey){
+    const s = window.getSelection();
+    if (!s.rangeCount || !s.isCollapsed) return;
+    const node = s.anchorNode;
+    if (!node || node.nodeType !== 3 || node.previousSibling) return;
+    const blk = topBlock(node, ed);
+    if (!blk || node.parentNode !== blk) return;
+    if (blk.tagName === "UL" || blk.tagName === "OL" || blk.tagName === "TABLE") return;
+    const cmd = MD_SPACE[node.textContent.slice(0, s.anchorOffset)];
+    if (!cmd) return;
+    e.preventDefault();
+    const rest = node.textContent.slice(s.anchorOffset);
+    const rg = document.createRange();
+    if (rest){
+      node.textContent = rest;
+      rg.setStart(node, 0);
+    } else {
+      blk.innerHTML = "<br>";
+      rg.setStart(blk, 0);
+    }
+    rg.collapse(true);
+    s.removeAllRanges(); s.addRange(rg);
+    applyBlockCmd(cmd, ed);
+    return markEmpty();
+  }
+
+  /* --- --- 를 치고 엔터 = 구분선 --- */
+  if (e.key === "Enter" && !e.shiftKey){
+    const s = window.getSelection();
+    if (!s.rangeCount || !s.isCollapsed) return;
+    const blk = topBlock(s.anchorNode, ed);
+    if (blk && /^(---|___|\*\*\*)$/.test(blk.textContent.trim())){
+      e.preventDefault();
+      blk.textContent = "";
+      const rg = document.createRange();
+      rg.selectNodeContents(blk); rg.collapse(true);
+      s.removeAllRanges(); s.addRange(rg);
+      applyBlockCmd("divider", ed);
+      return markEmpty();
+    }
+  }
+}
+
+/* 고른 이미지를 Alt+←→ 로 줄 안에서 옮긴다 */
+document.addEventListener("keydown", e => {
+  if (!e.altKey || (e.key !== "ArrowLeft" && e.key !== "ArrowRight")) return;
+  if (!selImg) return;
+  e.preventDefault();
+  moveImgInRow(selImg, e.key === "ArrowLeft" ? -1 : 1);
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if (slashMenu && !slashMenu.hidden) return slashClose();
+  if (selImg) deselectImg();
+});
+
 
 /* ============================================================
    프로필 편집
