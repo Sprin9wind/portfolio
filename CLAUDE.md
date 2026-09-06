@@ -18,13 +18,24 @@
 portfolio/
 ├── index.html    보기 전용 사이트. HTML+CSS+JS 전부 인라인. 외부 의존성 0
 ├── admin.html    편집기. 마찬가지로 단일 파일. 내용 편집 → GitHub 커밋까지 담당
-├── data.js       내용 데이터. admin.html이 자동 생성한다
-├── banner.png    상단 배너 일러스트
-└── profile.png   프로필 사진 (사용자가 추가 예정, 없어도 동작함)
+├── data.js       내용 데이터. 노션 원문을 옮긴 것. admin.html이 다시 내보내기도 한다
+├── banner.png    상단 배너 일러스트 (노션 페이지 커버와 같은 그림)
+├── profile.jpg   프로필 사진 (노션 원본)
+├── images/       본문 이미지. 프로젝트별 접두어 — alien-* 외노자 · shrine-* 극락가신당 ·
+│                 catcher-* 포수 시뮬레이터 · frontier-* 메이플 프론티어 · union-* · guild-* · 02~07 툴 로고
+└── HISTORY.md    작업 이력. 새 작업을 마치면 여기에 한 줄 보탠다
 ```
 
 `index.html`과 `admin.html`은 `data.js`를 `<script src="data.js">`로 읽는다.
-`images/` 폴더는 편집기가 이미지를 분리 저장할 때 자동 생성된다.
+
+### 내용의 원본은 노션이다
+
+`data.js`의 문장은 노션 「2026 메커톤 Portfolio」
+(`https://app.notion.com/p/2026-Portfolio-0009d4ab6bba82c5b160816e3f7c494a`) 원문을 **한 글자도 고치지 않고** 옮긴 것이다.
+구조만 사이트 블록(h2·ul·callout·img-row·table)으로 바꿨다. 노션의 색 글자는 `<em>`, 배경색 글자는 `<span class="mark">`.
+노션에만 있는 것 — 프로토타입 mp4 2개, 분석서 PDF·xlsx 첨부 — 는 API로 받을 수 없어 노션 원문 링크(`note()`)로 안내한다.
+다시 만들 일이 있으면 스크립트를 새로 쓰기보다 `data.js`를 직접 고치는 편이 빠르다.
+이미지는 폭 2000px 이상이면 2000px으로 줄여 넣었다(문서 스크린샷이라 그 이상은 의미가 없다).
 
 ## 데이터 스키마
 
@@ -91,11 +102,28 @@ window.PORTFOLIO_UNITS = [
 - 좌측 트리: 섹션/그룹/문서. 문서 줄은 **`div[role=button]`** 이다.
   중첩 `<button>`은 브라우저가 DOM을 재구성해 클릭이 깨지므로 **절대 쓰지 말 것.**
 - 우측: 제목·태그·링크 폼 + contenteditable 본문 편집기.
-- 이미지를 클릭하면 `#imgTools` 의 도구막대가 **이미지 안쪽 왼쪽 위**에 얹힌다(낮은 이미지면 위로).
+- 이미지를 클릭하면 `#imgTools` 의 도구막대가 **이미지 안쪽 가운데 위**에 얹힌다(낮은 이미지면 위로).
   `#imgTools` 는 `position:fixed; inset:0` 이어야 한다 — 안의 막대·핸들이 `absolute` 라 컨테이너가 뷰포트를 덮어야 한다.
 - 본문 왼쪽 `#blkRail`에 블록마다 손잡이 두 개를 절대배치한다 — `＋`(아래에 블록 추가)와
   `⠿`(드래그 이동 / 클릭하면 도구). 블록 = `#editor`의 직계 자식.
 - 작업 내용은 `localStorage["portfolio-draft-v1"]`에 자동 보관된다.
+- 위쪽 `? 도움말`(F1)이 사용법 전체다(`HELP_HTML`). 기능을 더하면 여기도 같이 고친다.
+
+### 되돌리기 / 다시 실행
+
+브라우저의 undo 는 `execCommand` 로 바꾼 것만 기억한다. 블록 삭제·이동·표 편집·이미지 배치처럼
+DOM 을 직접 고친 작업은 남지 않으므로, 편집 칸 전체를 스냅샷(`hist.past / present / future`)으로 남겨 우리가 되돌린다.
+
+- `histRecord(kind)` 를 **모든 변경 경로**가 부른다 — `flush()`, `saveBlocks()`, `ed.oninput`. 새 조작을 만들면 이 셋 중 하나를 거치게 할 것.
+- 연속 타이핑(`inputType` 이 insertText/deleteContent…)은 1초 안이면 한 단계로 묶인다. 그 밖은 한 단계씩.
+- 선택 영역은 `caretPath()` 로 편집 칸 기준 경로를 적어 두고 `restoreCaret()` 으로 되찾는다. `innerHTML` 을 갈아 끼우면 노드 참조가 전부 죽기 때문.
+- 문서를 바꾸면 `histInit(sel)` 이 이력을 새로 시작한다. 같은 문서를 다시 그린 경우(링크 칸 수정)는 잇는다.
+- Ctrl+Z/Y 는 `document` 에서 받는다 — 블록 도구를 누른 뒤 포커스가 빠져 있어도 되돌아가야 하므로. 글 입력칸과 모달 안은 브라우저에 맡긴다.
+- 브라우저 undo 와 섞이면 두 번 되돌아가므로 편집기 안에서는 항상 `preventDefault`.
+
+### 여러 블록 범위 선택의 시작 지점
+
+`bandStartOK(e)` — 레일, 편집 칸 좌우의 어두운 여백, 본문 아래 빈 곳(`.main` 안이되 `#editor`·입력칸·버튼·도구막대 밖)이면 어디서든 끌어서 고를 수 있다.
 
 ### 왼쪽 트리
 
@@ -223,6 +251,8 @@ window.PORTFOLIO_UNITS = [
 | 트리에서 순서를 바꾸면 접혀 있던 항목이 엉뚱하게 바뀜 | 접힘을 인덱스로 기억해서. → `WeakSet`에 객체로 물릴 것 |
 | 트리 제목 칸에서 글자를 끌어 고를 수 없음 | 부모에 `draggable="true"`가 걸려 있어서. 입력칸을 누르는 동안 꺼 둘 것 |
 | 손잡이를 누르는 순간 블록 선택이 풀림 | `selectionchange`가 뒤늦게 와서 지운다. → `blkManual` 플래그로 보호 |
+| 블록 삭제·표 편집이 Ctrl+Z 로 안 돌아옴 | 브라우저 undo 는 execCommand 만 기억한다. → 스냅샷 이력(`hist`)으로 직접 되돌림 |
+| 서식 툴바 버튼이 두 번 실행돼 굵게가 도로 풀림 | `bindForm` 이 `[data-cmd]` 전체에 onclick 을 걸어 `#selBar` 버튼까지 묶였음. → `.toolbar [data-cmd]` 로 한정 |
 | 이미지 도구막대가 이미지와 상관없는 곳에 뜸 | `#imgTools{position:fixed}` 에 `inset` 이 없어 정적 위치(문서 맨 아래)에 놓였고, 안의 `absolute` 막대가 거기를 기준으로 잡힘. → `inset:0` |
 
 ## 디자인 토큰
@@ -249,7 +279,9 @@ CSS 변수는 `:root`에 정의. 다크가 기본이다.
 
 ## 남은 작업
 
-- [ ] `profile.png` 추가 (About Me 사진). 없으면 이니셜 아바타로 대체됨
-- [ ] 프로젝트 3개의 `cover` 썸네일 등록 — 편집기 트리의 `🖼` 버튼
-- [ ] Notion 원본에 있는 기획안 스크린샷들을 각 문서에 삽입
+- [x] 프로필 사진 — 노션 원본을 `profile.jpg` 로
+- [x] 프로젝트·문서 `cover` 썸네일 — 각 노션 페이지의 첫 이미지
+- [x] 노션 원본의 기획안 스크린샷 전부 삽입 (52장)
+- [ ] 노션 첨부 파일(PDF·xlsx·mp4)을 저장소에 직접 넣기 — 지금은 노션 링크로 안내
 - [ ] 업로드된 `2026_메커톤_포트포리오_게임기획_이정훈.pdf`와 내용 대조 (미확인)
+- [ ] 브라우저에서 편집기 실제 클릭 테스트 (이 환경에서는 자동화가 막혀 코드 검토만 했음)
