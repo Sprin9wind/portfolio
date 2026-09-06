@@ -246,7 +246,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
   --bg:#fffaea; --band:#f6eed4; --card:#ffffff;
   --ink:#2e2c2b; --ink-2:#5f5b56; --ink-3:#6f6a62;
   --line:rgba(46,44,43,.16); --line-soft:rgba(46,44,43,.09);
-  --accent:#d22e2e; --accent-deep:#a92020; --accent-soft:rgba(210,46,46,.15);
+  --accent:#d22e2e; --accent-deep:#a92020; --accent-soft:rgba(210,46,46,.15); --accent-ink:#fffaea;
   --honey:#c98a2e; --honey-soft:rgba(201,138,46,.14);
   --shadow:0 1px 2px rgba(46,44,43,.05),0 10px 30px rgba(46,44,43,.07);
   min-height:420px;max-height:none;max-width:var(--doc-w);
@@ -291,6 +291,32 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
 .editor img{max-width:100%;height:auto;display:block;border-radius:var(--r-card);
   border:1px solid var(--line-soft);box-shadow:var(--shadow);margin:0 0 var(--s3)}
 .editor .doc-img.center{margin-left:auto;margin-right:auto}
+/* ---------- 영상 카드 (index.html 과 같은 값) ----------
+   유튜브 링크는 버튼 대신 썸네일 + 재생 아이콘으로. 누르면 새 창에서 영상이 열린다 */
+.editor .vid{position:relative;display:block;width:100%;max-width:520px;aspect-ratio:16/9;
+  border-radius:var(--r-card);overflow:hidden;border:1px solid var(--line-soft);
+  box-shadow:var(--shadow);background:#141210;text-decoration:none;color:#fff;
+  margin:0 0 var(--s4);cursor:pointer}
+.editor .vid img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;
+  display:block;margin:0;border:0;border-radius:0;box-shadow:none;transition:transform .5s ease}
+.editor .vid::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0) 50%)}
+.editor .vid:hover img{transform:scale(1.04)}
+.editor .vid-play{position:absolute;left:50%;top:50%;width:66px;height:66px;margin:-33px 0 0 -33px;
+  border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 6px 24px rgba(0,0,0,.35);
+  z-index:2;transition:transform .2s ease,background .2s ease}
+.editor .vid-play::before{content:"";position:absolute;left:27px;top:20px;border-style:solid;
+  border-width:13px 0 13px 22px;border-color:transparent transparent transparent var(--accent)}
+.editor .vid:hover .vid-play{transform:scale(1.08);background:#fff}
+.editor .vid-cap{position:absolute;left:14px;bottom:12px;z-index:2;font-size:12.5px;font-weight:800;
+  color:var(--accent-ink);background:var(--accent);padding:5px 10px;border-radius:6px;
+  letter-spacing:-.01em}
+.editor .vid,.editor .vid:hover{text-decoration:none}
+.editor .vid-row{display:flex;flex-wrap:wrap;gap:var(--s3);margin-top:var(--s4)}
+.editor .vid-row .vid{flex:1 1 320px;margin:0}
+@media(max-width:640px){.editor .vid{max-width:none}}
+.editor .vid.blk-sel{outline:3px solid var(--accent)}
+
 .editor .img-row{display:flex;gap:14px;align-items:flex-start;margin:0 0 var(--s4);outline-offset:6px}
 .editor .img-row > img{flex:1 1 0;min-width:0;width:100%;height:auto;margin:0;display:block}
 @media(max-width:640px){.editor .img-row{flex-wrap:wrap}.editor .img-row > img{flex:1 1 46%}}
@@ -1079,7 +1105,7 @@ function renderForm(){
         <input type="text" id="fTag" value="${esc(l.tag)}" placeholder="예: 기획 / 회고 / 개요"></div>
     </div>
     <div class="field">
-      <label>버튼 링크 <span class="hint">(영상·PDF 등, 문서 상단에 파란 버튼으로 표시)</span></label>
+      <label>버튼 링크 <span class="hint">(문서 상단에 표시 — 유튜브 주소는 썸네일 카드, PDF 등은 버튼)</span></label>
       <div id="linkList">${links}</div>
       <button class="btn sm" id="linkAdd" style="align-self:flex-start">+ 링크 추가</button>
     </div>
@@ -1110,6 +1136,7 @@ function renderForm(){
       <span class="sep"></span>
       <button class="btn sm accent" data-cmd="image">🖼 이미지</button>
       <button class="btn sm" data-cmd="imgrow">▥ 이미지 줄</button>
+      <button class="btn sm" data-cmd="video">▶ 영상</button>
       <button class="btn sm" data-cmd="clear">서식 지우기</button>
     </div>
     <div class="editor-wrap"><div id="blkRail"></div>
@@ -1128,6 +1155,7 @@ function renderForm(){
   /* 엔터로 <div>가 아니라 <p>가 만들어지게 한다. 사이트 CSS는 p 기준으로 여백을 준다 */
   try { document.execCommand("defaultParagraphSeparator", false, "p"); } catch(_) {}
   document.getElementById("editor").innerHTML = l.html || "<p></p>";
+  armVids(document.getElementById("editor"));
   bindForm();
   histInit(sel);
   if (typeof buildRail === "function") buildRail();
@@ -1199,6 +1227,7 @@ function edHtml(ed){
     TEMP_CLASS.forEach(k => el.classList.remove(k));
   });
   c.querySelectorAll('[class=""]').forEach(el => el.removeAttribute("class"));
+  c.querySelectorAll(".vid[contenteditable]").forEach(el => el.removeAttribute("contenteditable"));
   return c.innerHTML;
 }
 
@@ -1216,7 +1245,7 @@ function insertBlock(ed, html){
   ed.focus();
   const sel2 = window.getSelection();
   const frag = document.createRange().createContextualFragment(html);
-  const first = frag.firstElementChild;
+  const first = frag.firstElementChild, focusEl = frag.querySelector("[data-focus]");
   let host = null;
   if (sel2.rangeCount && ed.contains(sel2.anchorNode)){
     let node = sel2.anchorNode;
@@ -1229,7 +1258,7 @@ function insertBlock(ed, html){
     host.remove();
   if (first){
     const r = document.createRange();
-    const target = first.querySelector("[data-focus]") || first;
+    const target = focusEl || first;
     /* 안내 문구가 들어 있으면 통째로 골라 둔다 — 노션처럼 바로 쳐서 덮어쓸 수 있게 */
     r.selectNodeContents(target);
     if (!target.textContent.trim()) r.collapse(false);
@@ -1300,6 +1329,7 @@ function runCmd(cmd, ed){
     case "imgrow": pendingEditor = ed; document.getElementById("rowPicker").click(); return;
     case "cards": openCards(ed); return;
     case "image": pickImage(ed); return;
+    case "video": insertVideo(ed); return;
     case "clear": document.execCommand("removeFormat"); break;
   }
   flush();
@@ -1479,6 +1509,59 @@ function applyCards(ed){
    ============================================================ */
 let pendingEditor = null;
 function pickImage(ed){ pendingEditor = ed; document.getElementById("imgPicker").click(); }
+
+/* ============================================================
+   영상 카드 — 유튜브 썸네일 + 재생 아이콘. 사이트에서 누르면 새 창으로 영상이 열린다.
+   편집기 안에서는 한 덩어리(contenteditable=false)로 다룬다: 클릭 = 블록 선택, 더블클릭 = 주소·이름 바꾸기
+   ============================================================ */
+function ytId(url){
+  const m = String(url||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/))([\w-]{11})/);
+  return m ? m[1] : null;
+}
+function vidHtml(id, cap){
+  return `<a class="vid" href="https://youtu.be/${id}" target="_blank" rel="noopener" contenteditable="false">` +
+    `<img src="https://img.youtube.com/vi/${id}/maxresdefault.jpg" alt="${esc(cap)} 썸네일">` +
+    `<span class="vid-play"></span><span class="vid-cap">${esc(cap)}</span></a>`;
+}
+function insertVideo(ed, cur){
+  const url = prompt("유튜브 영상 주소", cur ? cur.getAttribute("href") : "https://youtu.be/");
+  if (url == null) return;
+  const id = ytId(url);
+  if (!id) return toast("유튜브 주소가 아닙니다 (youtu.be/… 또는 youtube.com/watch?v=…)", true);
+  const capEl = cur && cur.querySelector(".vid-cap");
+  const cap = prompt("카드에 보일 이름", capEl ? capEl.textContent : "플레이 영상");
+  if (cap == null) return;
+  const html = vidHtml(id, cap.trim() || "플레이 영상");
+  if (cur){
+    const frag = document.createRange().createContextualFragment(html);
+    cur.replaceWith(frag);
+    clearBlkSel(); hideBlkTools(); flush(); buildRail();
+    return toast("영상 카드를 바꿨습니다");
+  }
+  insertBlock(ed, html + `<p data-focus><br></p>`);
+  toast("영상 카드를 넣었습니다 — 더블클릭하면 주소·이름을 바꿉니다");
+}
+/* 편집기에 올라온 카드는 통째로 잡히게, 저장할 때는 그 표시를 뗀다 */
+function armVids(ed){
+  if (ed) ed.querySelectorAll(".vid").forEach(v => v.setAttribute("contenteditable", "false"));
+}
+/* 이미지 도구·끌기 대상이 되는 img — 영상 카드 안의 썸네일은 제외 */
+function imgAt(t){
+  const im = t && t.closest ? t.closest("img") : null;
+  return (im && !im.closest(".vid")) ? im : null;
+}
+document.addEventListener("click", e => {
+  const ed = edEl(); if (!ed) return;
+  const v = e.target.closest && e.target.closest(".vid");
+  if (!v || !ed.contains(v)) return;
+  e.preventDefault();
+  setBlkSel([v], true); showBlkTools(v);
+}, true);
+document.addEventListener("dblclick", e => {
+  const ed = edEl(); if (!ed) return;
+  const v = e.target.closest && e.target.closest(".vid");
+  if (v && ed.contains(v)){ e.preventDefault(); insertVideo(ed, v); }
+});
 document.getElementById("imgPicker").onchange = e => {
   const f = e.target.files[0];
   if (f && pendingEditor) addImage(f, pendingEditor);
@@ -1566,7 +1649,7 @@ function dropImages(list, ed){
 /* 다른 곳에서 복사해 온 서식은 벗겨서 넣는다 — 남의 색·글꼴이 섞이면 사이트 디자인이 깨진다 */
 const PASTE_TAGS = {P:1,BR:1,STRONG:1,B:1,EM:1,I:1,U:1,UL:1,OL:1,LI:1,H2:1,H3:1,A:1,
                     TABLE:1,THEAD:1,TBODY:1,TR:1,TH:1,TD:1,IMG:1,HR:1,SPAN:1,DIV:1};
-const PASTE_CLASS = /^(doc-img|img-row|callout|callout-ico|callout-body|insight|problem|quote|mark|center|skill|skill-grid|skill-head|skill-ico|skill-ico-emoji|skill-name|skill-level|l1|l2|timeline|when)$/;
+const PASTE_CLASS = /^(doc-img|img-row|callout|callout-ico|callout-body|insight|problem|quote|mark|center|skill|skill-grid|skill-head|skill-ico|skill-ico-emoji|skill-name|skill-level|l1|l2|timeline|when|vid|vid-play|vid-cap)$/;
 function cleanPaste(html){
   const box = document.createElement("div");
   box.innerHTML = html;
@@ -1574,7 +1657,7 @@ function cleanPaste(html){
   /* 웹에서 복사한 이미지는 주소가 곧 만료된다(노션 서명 URL). 파일로 붙여넣게 유도한다 */
   let dropped = 0;
   box.querySelectorAll("img").forEach(im => {
-    if (!/^data:/i.test(im.getAttribute("src") || "")){ im.remove(); dropped++; }
+    if (!/^(data:|https:\/\/img\.youtube\.com\/)/i.test(im.getAttribute("src") || "")){ im.remove(); dropped++; }
   });
   [...box.querySelectorAll("*")].forEach(el => {
     const tag = el.tagName;
@@ -1786,7 +1869,7 @@ function deselectImg(){
 document.addEventListener("click", e => {
   const ed = document.getElementById("editor");
   if (!ed) return deselectImg();
-  const img = e.target.closest("img");
+  const img = imgAt(e.target);
   if (img && ed.contains(img) && !img.classList.contains("skill-ico")) return selectImg(img);
   if (!e.target.closest("#imgTools")) deselectImg();
 });
@@ -1851,7 +1934,7 @@ itHandle.addEventListener("mousedown", e => {
 /* Ctrl(⌘)+휠 */
 document.addEventListener("wheel", e => {
   if (!selImg || !(e.ctrlKey || e.metaKey)) return;
-  const img = e.target.closest("img");
+  const img = imgAt(e.target);
   if (img !== selImg && !e.target.closest("#imgTools")) return;
   e.preventDefault();
   setWidth(selImg, widthPct(selImg) + (e.deltaY < 0 ? 5 : -5));
@@ -1996,7 +2079,7 @@ document.addEventListener("dragstart", e => {
 /* 이미지 자체를 끌어서 옮긴다 — 손잡이를 잡지 않아도 병렬 배치·순서 변경이 되게 */
 document.addEventListener("dragstart", e => {
   const ed = edEl(); if (!ed || !e.target || !e.target.closest) return;
-  const im = e.target.closest("img");
+  const im = imgAt(e.target);
   if (!im || !ed.contains(im) || im.classList.contains("skill-ico")) return;
   dragImg = im;
   im.classList.add("img-drag");
@@ -2059,7 +2142,7 @@ const MERGE_ZONE = 1 / 3;
 function mergeSide(e, blk){
   const pack = dragPack.length ? dragPack : [dragBlk];
   if (!isImgBlock(blk) || !pack.every(isImgBlock)) return null;
-  const hov = e.target && e.target.closest ? e.target.closest("img") : null;
+  const hov = imgAt(e.target);
   const anchor = blk.tagName === "IMG" ? blk : (hov && blk.contains(hov) ? hov : null);
   const r = (anchor || blk).getBoundingClientRect();
   if (!r.width) return null;
@@ -2439,6 +2522,7 @@ const SLASH_ITEMS = [
   { cmd:"ol",      key:"1.", name:"번호 목록",   desc:"순서대로 나열",       kw:"ol number 번호 순서" },
   { cmd:"image",   key:"🖼", name:"이미지",      desc:"한 장 넣기",          kw:"image img 사진 그림 이미지" },
   { cmd:"imgrow",  key:"▥",  name:"이미지 줄",   desc:"여러 장을 한 줄에",   kw:"imgrow 나란히 병렬 여러장 gallery" },
+  { cmd:"video",   key:"▶",  name:"영상 카드",   desc:"유튜브 썸네일 + 재생",  kw:"video youtube 영상 유튜브 동영상 movie" },
   { cmd:"table",   key:"▦",  name:"표",          desc:"행과 열",             kw:"table 표 그리드 grid" },
   { cmd:"cards",   key:"▤",  name:"카드 묶음",   desc:"툴·역량 격자",        kw:"cards 카드 skill 격자" },
   { cmd:"callout", key:"💬", name:"강조 박스",   desc:"눈에 띄게",           kw:"callout 강조 박스 note" },
@@ -2671,6 +2755,7 @@ function histApply(state){
   const ed = edEl(); if (!ed || !state) return;
   deselectImg(); hideBlkTools(); clearBlkSel(); slashClose();
   ed.innerHTML = state.html;
+  armVids(ed);
   const cur = current();
   if (cur){ cur.l.html = state.html; save(); }
   buildRail();
@@ -2953,7 +3038,8 @@ function onEditorKey(e){
 
 /* 여러 블록을 고른 상태의 키보드 조작 */
 document.addEventListener("keydown", e => {
-  if (blkSel.length < 2) return;
+  const oneVid = blkSel.length === 1 && blkSel[0].classList && blkSel[0].classList.contains("vid");
+  if (blkSel.length < 2 && !oneVid) return;
   const ed = edEl(); if (!ed) return;
   if (e.key === "Delete" || e.key === "Backspace"){
     e.preventDefault();
@@ -3485,6 +3571,7 @@ const HELP_HTML = `
 <tr><td>클릭</td><td>이미지 위에 크기(25·50·75·100%)·정렬·줄 안 이동·복사·삭제 도구가 뜹니다. 오른쪽 아래 손잡이를 끌거나 <kbd>Ctrl+휠</kbd> 로도 크기가 바뀝니다.</td></tr>
 <tr><td>나란히 놓기</td><td>이미지(또는 손잡이)를 끌어 다른 이미지의 <b>왼쪽·오른쪽 1/3</b> 에 놓으면 같은 줄이 됩니다. 가운데에 놓으면 위/아래로 옮겨집니다.</td></tr>
 <tr><td>줄에서 빼기</td><td>이미지 도구의 <b>⊟</b>, 또는 이미지가 아닌 곳으로 끌어다 놓기</td></tr>
+<tr><td>영상 카드</td><td>도구막대 <b>▶ 영상</b> 또는 <kbd>/영상</kbd> → 유튜브 주소와 이름을 넣으면 썸네일 + 재생 아이콘 카드가 들어갑니다. 사이트에서 누르면 새 창으로 영상이 열립니다. 카드를 클릭하면 블록으로 선택(<kbd>Delete</kbd> 로 삭제), 더블클릭하면 주소·이름을 바꿉니다. 문서 설정의 「버튼 링크」에 유튜브 주소를 넣어도 문서 상단에 같은 카드가 뜹니다.</td></tr>
 <tr><td><kbd>Alt+←</kbd> <kbd>Alt+→</kbd> · <kbd>Ctrl+C</kbd> / <kbd>Ctrl+X</kbd></td><td>줄 안에서 좌우 이동 · 고른 이미지 복사/잘라내기(편집기 안에서만)</td></tr>
 </table>
 <h4>그 밖에</h4>

@@ -213,6 +213,7 @@ img{max-width:100%}
 .doc-tag{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:6px;
   background:var(--accent-soft);color:var(--accent-deep)}
 .doc-links{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s5)}
+.doc-head + .vid-row{margin:0 0 var(--s5)}
 
 /* 본문은 틀(--wrap) 전체 폭을 쓴다. 70ch 로 제한하면 오른쪽이 비어 좁아 보인다 */
 .doc{max-width:none}
@@ -257,6 +258,31 @@ tr:last-child th,tr:last-child td{border-bottom:0}
 .doc-img{max-width:100%;height:auto;display:block;border-radius:var(--r-card);
   border:1px solid var(--line-soft);box-shadow:var(--shadow);margin:0 0 var(--s3)}
 .doc-img.center{margin-left:auto;margin-right:auto}
+
+/* ---------- 영상 카드 ----------
+   유튜브 링크는 버튼 대신 썸네일 + 재생 아이콘으로. 누르면 새 창에서 영상이 열린다 */
+.vid{position:relative;display:block;width:100%;max-width:520px;aspect-ratio:16/9;
+  border-radius:var(--r-card);overflow:hidden;border:1px solid var(--line-soft);
+  box-shadow:var(--shadow);background:#141210;text-decoration:none;color:#fff;
+  margin:0 0 var(--s4);cursor:pointer}
+.vid img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;
+  display:block;margin:0;border:0;border-radius:0;box-shadow:none;transition:transform .5s ease}
+.vid::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0) 50%)}
+.vid:hover img{transform:scale(1.04)}
+.vid-play{position:absolute;left:50%;top:50%;width:66px;height:66px;margin:-33px 0 0 -33px;
+  border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 6px 24px rgba(0,0,0,.35);
+  z-index:2;transition:transform .2s ease,background .2s ease}
+.vid-play::before{content:"";position:absolute;left:27px;top:20px;border-style:solid;
+  border-width:13px 0 13px 22px;border-color:transparent transparent transparent var(--accent)}
+.vid:hover .vid-play{transform:scale(1.08);background:#fff}
+.vid-cap{position:absolute;left:14px;bottom:12px;z-index:2;font-size:12.5px;font-weight:800;
+  color:var(--accent-ink);background:var(--accent);padding:5px 10px;border-radius:6px;
+  letter-spacing:-.01em}
+.doc .vid,.doc .vid:hover{text-decoration:none}
+.vid-row{display:flex;flex-wrap:wrap;gap:var(--s3);margin-top:var(--s4)}
+.vid-row .vid{flex:1 1 320px;margin:0}
+@media(max-width:640px){.vid{max-width:none}}
 
 .skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
   gap:var(--s3);margin:0 0 var(--s4)}
@@ -437,16 +463,44 @@ function mountHeroArt(){
   }
 }
 
+/* ---------- 링크 ----------
+   유튜브 주소는 버튼이 아니라 썸네일 카드(재생 아이콘)로 보여준다 — 영상임이 한눈에 보이게.
+   그 밖의 링크(PDF·노션 등)는 그대로 버튼. */
+function ytId(url){
+  const m = String(url||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/))([\w-]{11})/);
+  return m ? m[1] : null;
+}
+function vidCard(url, label){
+  const id = ytId(url), cap = String(label||"").replace(/^[▶►▷]\s*/, "") || "영상 보기";
+  return `<a class="vid" href="${esc(url)}" target="_blank" rel="noopener" title="${esc(cap)} — 새 창에서 열림">` +
+    `<img src="https://img.youtube.com/vi/${id}/maxresdefault.jpg" alt="${esc(cap)} 썸네일" loading="lazy">` +
+    `<span class="vid-play" aria-hidden="true"></span><span class="vid-cap">${esc(cap)}</span></a>`;
+}
+function linkRow(list, cls, btnCls){
+  const btns = list.filter(l => !ytId(l.url)), vids = list.filter(l => ytId(l.url));
+  return (btns.length ? `<div class="${cls}">${btns.map(l =>
+      `<a class="${btnCls}" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div>` : "")
+    + (vids.length ? `<div class="vid-row">${vids.map(l => vidCard(l.url, l.label)).join("")}</div>` : "");
+}
+/* 고화질 썸네일(maxresdefault)이 없는 영상은 유튜브가 404 나 아주 작은 회색 그림을 준다 → 기본 썸네일로 바꾼다 */
+function fixVidThumbs(root){
+  root.querySelectorAll(".vid img").forEach(im => {
+    const fb = () => { if (/maxresdefault/.test(im.src)) im.src = im.src.replace("maxresdefault", "hqdefault"); };
+    im.addEventListener("error", fb);
+    im.addEventListener("load", () => { if (im.naturalWidth && im.naturalWidth < 200) fb(); });
+    if (im.complete && im.naturalWidth && im.naturalWidth < 200) fb();
+  });
+}
+
 /* ---------- 문서 ---------- */
 /* 그룹 머리말에 이미 뜬 링크는 문서에서 다시 보여주지 않는다 (같은 버튼 두 번 노출 방지) */
 let shownLinks = new Set();
 function docSection(l, li){
-  const links = (l.links||[]).filter(x => !shownLinks.has(x.url)).map(x =>
-    `<a class="btn key sm" href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join("");
+  const links = linkRow((l.links||[]).filter(x => !shownLinks.has(x.url)), "doc-links", "btn key sm");
   return `<section class="doc-sec rv" id="d${li}">
     <div class="doc-head"><h2 class="doc-title">${esc(l.title)}</h2>${
       l.tag ? `<span class="doc-tag">${esc(l.tag)}</span>` : ""}</div>
-    ${links ? `<div class="doc-links">${links}</div>` : ""}
+    ${links}
     <div class="doc">${l.html||""}</div>
   </section>`;
 }
@@ -468,8 +522,7 @@ function renderPane(){
   const head = isAbout ? "" : `<header class="phead rv">
       <h1>${esc(m.title)}</h1>
       ${m.meta ? `<p class="meta">${esc(m.meta)}</p>` : ""}
-      ${links.length ? `<div class="links">${links.map(l =>
-        `<a class="btn key" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div>` : ""}
+      ${linkRow(links, "links", "btn key")}
       ${m.cover ? `<img class="cover" src="${esc(m.cover)}" alt="${esc(m.title)} 대표 이미지" loading="lazy">` : ""}
     </header>`;
 
@@ -483,11 +536,12 @@ function renderPane(){
 
   if (isAbout) mountHeroArt();
   view.querySelectorAll(".doc img").forEach(img => {
-    if (!img.classList.contains("skill-ico")){
+    if (!img.classList.contains("skill-ico") && !img.closest(".vid")){
       img.classList.add("doc-img");
       img.loading = "lazy";
     }
   });
+  fixVidThumbs(view);
   bindJump();
   bindReveal();
   try { window.scrollTo(0, 0); } catch(_) {}

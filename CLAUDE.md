@@ -67,7 +67,7 @@ window.PORTFOLIO_UNITS = [
           {
             title: "프로젝트 소개",
             tag: "개요",                            // 선택
-            links: [ { label: "▶ 플레이 영상", url: "https://..." } ],  // 선택
+            links: [ { label: "▶ 플레이 영상", url: "https://..." } ],  // 선택. 유튜브 주소면 버튼 대신 썸네일 카드로 뜬다
             html: "<p>본문 HTML</p>"
           }
         ]
@@ -198,6 +198,16 @@ DOM 을 직접 고친 작업은 남지 않으므로, 편집 칸 전체를 스냅
 
 셀 안에 커서가 들어가면 `#tblTools`가 표 위에 뜬다 — 행 위/아래 추가·삭제, 열 좌/우 추가·삭제,
 첫 줄을 제목 행(`th`)으로 토글. 표를 다시 만들 필요가 없다.
+
+### 영상 카드 (`.vid`)
+
+- 유튜브는 iframe 으로 심지 않는다. `<a class="vid" href="https://youtu.be/ID"><img src="https://img.youtube.com/vi/ID/maxresdefault.jpg"><span class="vid-play"></span><span class="vid-cap">이름</span></a>` —
+  썸네일 + 재생 아이콘 카드, 누르면 새 창에서 영상. (레퍼런스로 받은 사이트의 방식. 버튼 → 외부 링크보다 영상임이 바로 보인다)
+- `index.html` 의 `linkRow()` — 문서/그룹의 `links` 중 유튜브 주소(`ytId()`)는 같은 카드로, 나머지는 버튼으로 그린다.
+  `fixVidThumbs()` — `maxresdefault` 가 없는 영상(404 또는 120px 회색 그림)은 `hqdefault` 로 바꾼다.
+- 편집기: 도구막대 `▶ 영상` / `/영상` → `insertVideo()`. 카드는 `contenteditable="false"` 한 덩어리(`armVids()` 가 붙이고 `edHtml()` 이 뗀다).
+  클릭 = 블록 선택(Delete 로 삭제), 더블클릭 = 주소·이름 바꾸기. 이미지 도구·끌기는 `imgAt()` 로 카드 안 썸네일을 제외한다.
+- CSS 는 두 파일에 같은 값으로 있다(`.vid` ↔ `.editor .vid`). 고칠 때 같이 고칠 것.
 
 ### 이미지 병렬 배치
 
