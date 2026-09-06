@@ -352,6 +352,7 @@ tr:last-child th,tr:last-child td{border-bottom:0}
 <footer class="foot" id="foot"></footer>
 
 <script src="data.js"></script>
+<script src="vn.js" defer></script>
 <script>
 const PROFILE = window.PORTFOLIO_PROFILE;
 const UNITS   = window.PORTFOLIO_UNITS;
@@ -423,7 +424,8 @@ document.getElementById("tabs").onclick = e => {
 
 /* ---------- 히어로 + 지표 밴드 (About 탭) ---------- */
 function heroHTML(){
-  const mailBtn = MAIL ? `<a class="btn key" href="mailto:${esc(MAIL)}">메일 보내기</a>` : "";
+  /* 「메일 보내기」 대신 모의면접(비주얼 노벨, vn.js) — 연락처는 About Me 본문과 푸터에 있다 */
+  const vnBtn = window.PORTFOLIO_INTERVIEW ? `<button class="btn key" type="button" data-vn>🎙 모의면접</button>` : "";
   const projBtn = projIx >= 0
     ? `<button class="btn" type="button" data-u="${projIx}">${esc(UNITS[projIx].title)} 보기</button>` : "";
   return `<div class="wrapx"><section class="hero">
@@ -431,7 +433,7 @@ function heroHTML(){
       <h1>${esc(PROFILE.name)}</h1>
       <p class="hero-role"><span class="mark">${esc(PROFILE.title)}</span></p>
       <p class="hero-sub">${esc(PROFILE.tagline)}</p>
-      <div class="hero-cta">${mailBtn}${projBtn}</div>
+      <div class="hero-cta">${vnBtn}${projBtn}</div>
     </div>
     <div class="hero-art"><span id="heroBanner"></span><span id="heroAvatar"></span></div>
   </section></div>`;
@@ -615,11 +617,16 @@ function go(u, m){
   const h = `${u}-${m||0}`;
   if (location.hash.slice(1) === h) route(); else location.hash = h;
 }
+/* 해시는 "섹션-그룹" 또는 "섹션-그룹-문서". 세 번째 값이 있으면 그 문서로 스크롤한다 (모의면접의 「관련 문서 보기」) */
 function route(){
   const p = location.hash.slice(1).split("-");
   curU = Math.max(0, Math.min(UNITS.length - 1, +p[0] || 0));
   curM = Math.max(0, +p[1] || 0);
   renderTabs(); renderPane();
+  if (p.length > 2 && p[2] !== ""){
+    const el = document.getElementById("d" + (+p[2] || 0));
+    if (el) requestAnimationFrame(() => el.scrollIntoView({ block: "start" }));
+  }
 }
 addEventListener("hashchange", route);
 

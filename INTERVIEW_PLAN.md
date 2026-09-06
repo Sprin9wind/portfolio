@@ -36,6 +36,7 @@ window.PORTFOLIO_INTERVIEW = {
 ### 사이트 — `index.html`
 - 히어로: `heroHTML()` 의 `mailBtn` → `<button class="btn key" id="vnOpen">🎙 모의면접</button>`.
 - 해시를 `u-m-d` 까지 받아 문서로 스크롤 (`route()`).
+- 엔진은 `vn.js` 한 파일(스타일·DOM을 스스로 만든다). index.html 은 `<script src="vn.js" defer>` 와 `data-vn` 버튼만.
 - `#vn` 오버레이(fixed, z 100): 상단바(제목 · 관심도 게이지 · 진행 n/N · ✕) / 왼쪽 캐릭터(`banner.png`, 말할 때 밝아짐) / 오른쪽 대화상자(이름표 + 타자 효과 본문) / 선택지 목록.
 - 상태: 타이틀 → 주제 선택 → 질문 선택 → 면접관 질문 말풍선 → 내 답변(문단마다 클릭) → 꼬리질문·관련 문서·다른 질문 선택지 → … → 「면접 마무리」 → 엔딩(등급·요약·포트폴리오 보기·다시).
 - 조작: 클릭/Space/Enter 진행, 숫자키 선택, Esc 닫기. 진행 상황은 localStorage(`pf-vn`)에 저장해 「이어하기」.
@@ -61,7 +62,7 @@ window.PORTFOLIO_INTERVIEW = {
 |---|---|---|---|
 | 0 | 계획 문서(이 파일) · 메모리 | ✅ 완료 | |
 | 1 | 내용 초안 — `PORTFOLIO_INTERVIEW` 를 `data.js` 에 추가 (스크래치 `build_interview.py`) | ✅ 완료 | 7주제 · 60문항(주제 목록 32 + 꼬리 28), 점수 합 345 |
-| 2 | `index.html` — 히어로 버튼 교체 + 오버레이 VN 엔진 + 문서 해시(u-m-d) | ⬜ | |
+| 2 | `index.html` — 히어로 버튼 교체 + 오버레이 VN 엔진 + 문서 해시(u-m-d) | ✅ 완료 | 엔진은 별도 파일 `vn.js`(스타일·DOM 자체 생성). 헤드리스 캡처로 타이틀·주제·질문·답변·엔딩·모바일 확인 |
 | 3 | `admin.html` — 시트 편집기 + 저장/불러오기 통합 + 도움말 | ⬜ | |
 | 4 | 문서(CLAUDE.md · HISTORY.md) · 헤드리스 캡처 검증 · 커밋 · 푸시 | ⬜ | |
 | 5 | (후속) 사용자 검토 후 문구 손질, 로그 창·자동 진행 같은 편의 기능 | ⬜ | 사용자와 논의 |
