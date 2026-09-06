@@ -145,7 +145,7 @@ DOM 을 직접 고친 작업은 남지 않으므로, 편집 칸 전체를 스냅
 ### 편집 지면은 index.html과 같은 모양이어야 한다
 
 `.editor`에 index.html의 `:root` 토큰(`--bg` `--ink` `--accent` `--s1~--s7` …)과 `.doc` 타이포를
-그대로 옮겨 두었다. 편집 칸 폭은 `--doc-w`(680px ≒ 사이트의 `70ch` + 여백)이고,
+그대로 옮겨 두었다. 편집 칸 폭은 `--doc-w`(1080px = 사이트의 `--wrap`. 본문 `.doc`에는 따로 폭 제한이 없다)이고,
 `[data-theme="dark"] .editor`가 사이트의 다크 값을 받는다.
 
 > **index.html의 색·간격·타이포를 고치면 admin.html의 `.editor` 블록도 같이 고칠 것.**

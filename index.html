@@ -214,7 +214,8 @@ img{max-width:100%}
   background:var(--accent-soft);color:var(--accent-deep)}
 .doc-links{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s5)}
 
-.doc{max-width:70ch}
+/* 본문은 틀(--wrap) 전체 폭을 쓴다. 70ch 로 제한하면 오른쪽이 비어 좁아 보인다 */
+.doc{max-width:none}
 .doc > *:first-child{margin-top:0}
 .doc h2{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:var(--s6) 0 var(--s3);
   padding-bottom:9px;border-bottom:1px solid var(--line)}
