@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATB Battle Simulator — SOS 전투 밸런스 시뮬레이터 (이정훈)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<style>
+:root {
+  --color-background-primary:#ffffff;--color-background-secondary:#f5f5f5;
+  --color-background-tertiary:#ebebeb;--color-background-info:#e6f1fb;
+  --color-background-danger:#fcebeb;--color-background-success:#eaf3de;
+  --color-background-warning:#faeeda;--color-text-primary:#1a1a1a;
+  --color-text-secondary:#5f5e5a;--color-text-tertiary:#888780;
+  --color-text-info:#185fa5;--color-text-danger:#a32d2d;
+  --color-text-success:#3b6d11;--color-text-warning:#854f0b;
+  --color-border-tertiary:rgba(0,0,0,0.15);--color-border-secondary:rgba(0,0,0,0.3);
+  --color-border-primary:rgba(0,0,0,0.4);--color-border-info:#185fa5;
+  --color-border-danger:#a32d2d;--color-border-success:#3b6d11;
+  --color-border-warning:#854f0b;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --border-radius-md:8px;--border-radius-lg:12px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --color-background-primary:#1a1a2e;--color-background-secondary:#16213e;
+    --color-background-tertiary:#0f3460;--color-background-info:#0c447c;
+    --color-background-danger:#791f1f;--color-background-success:#27500a;
+    --color-background-warning:#633806;--color-text-primary:#ffffff;
+    --color-text-secondary:#b4b2a9;--color-text-tertiary:#888780;
+    --color-text-info:#85b7eb;--color-text-danger:#f09595;
+    --color-text-success:#97c459;--color-text-warning:#ef9f27;
+    --color-border-tertiary:rgba(255,255,255,0.15);
+    --color-border-secondary:rgba(255,255,255,0.3);
+    --color-border-primary:rgba(255,255,255,0.4);
+    --color-border-info:#85b7eb;--color-border-danger:#f09595;
+    --color-border-success:#97c459;--color-border-warning:#ef9f27;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary);padding:16px;font-size:13px}
+.sim{max-width:960px;margin:0 auto}
+.panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;margin-bottom:8px}
+.panel-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.04em;margin-bottom:10px;text-transform:uppercase}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.inp-group{display:flex;flex-direction:column;gap:3px}
+.inp-group label{font-size:10px;color:var(--color-text-tertiary)}
+.inp-group input,.inp-group select{padding:5px 8px;font-size:12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary);width:100%}
+.inp-group input:focus,.inp-group select:focus{outline:none;border-color:var(--color-border-primary)}
+.bar-wrap{position:relative;height:8px;background:var(--color-border-tertiary);border-radius:4px;overflow:hidden;margin:3px 0}
+.bar-fill{position:absolute;left:0;top:0;height:100%;border-radius:4px;transition:width .15s linear}
+.bar-hp{background:var(--color-text-success)}.bar-hp-e{background:var(--color-text-danger)}
+.bar-atb{background:var(--color-text-info)}.bar-atb-e{background:#9B59B6}
+.bar-life{background:#C49665}
+.combatant{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px}
+.combatant-name{font-size:12px;font-weight:500;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.sl{font-size:11px;color:var(--color-text-tertiary)}.sv{font-size:12px;font-weight:500}
+.stat-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.slot{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:6px 4px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;transition:all .15s}
+.slot-n{font-size:9px;color:var(--color-text-tertiary);margin-bottom:2px}
+.slot-icon{font-size:18px;margin-bottom:2px}.slot-label{font-size:11px;font-weight:500}
+.slot.empty{background:var(--color-background-secondary);color:var(--color-text-tertiary)}
+.slot.queued{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
+.slot.active{background:#2a1a00;border-color:#C49665;color:#F3C695;border-width:1px}
+.act-btn{padding:9px 4px;border-radius:var(--border-radius-md);border:0.5px solid;font-size:12px;font-weight:500;cursor:pointer;background:var(--color-background-primary);transition:all .12s;display:flex;flex-direction:column;align-items:center;gap:2px;width:100%}
+.act-btn:hover{opacity:.8}.act-btn:active{transform:scale(.96)}
+.act-btn i{font-size:16px}
+.btn-a1{border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.btn-a2{border-color:var(--color-border-info);color:var(--color-text-info)}
+.btn-a3{border-color:var(--color-border-success);color:var(--color-text-success)}
+.btn-def{border-color:#C49665;color:#C49665}
+.btn-evd{border-color:var(--color-border-warning);color:var(--color-text-warning)}
+.btn-weak{border-color:#9B59B6;color:#9B59B6}
+.btn-heal{border-color:var(--color-border-success);color:var(--color-text-success)}
+.ctrl-btn{padding:9px;border-radius:var(--border-radius-md);border:0.5px solid;font-size:12px;font-weight:500;cursor:pointer;background:var(--color-background-primary);transition:all .12s;display:flex;align-items:center;justify-content:center;gap:5px;width:100%}
+.ctrl-btn:active{transform:scale(.97)}
+.btn-start{border-color:var(--color-border-success);color:var(--color-text-success)}
+.btn-stop{border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.btn-reset{border-color:#C49665;color:#C49665}
+.hist-row{display:flex;gap:3px}
+.hc{flex:1;height:30px;border:0.5px solid var(--color-border-tertiary);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;background:var(--color-background-secondary);color:var(--color-text-tertiary);transition:all .15s}
+.hc.a1{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.hc.a2{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
+.hc.a3{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
+.hc.combo{background:#2a1a00;border-color:#C49665;color:#F3C695;border-width:1px}
+.combo-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:20px;margin-top:5px;background:var(--color-background-secondary);color:var(--color-text-tertiary)}
+.combo-badge.hit{background:#2a1a00;color:#F3C695}
+.log-wrap{max-height:150px;overflow-y:auto;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.log-row{display:grid;grid-template-columns:28px 52px 72px 44px 1fr;gap:4px;padding:4px 8px;border-bottom:0.5px solid var(--color-border-tertiary);font-size:11px;align-items:center}
+.log-row:last-child{border-bottom:none}
+.log-sys{background:var(--color-background-info)}.log-enemy{background:var(--color-background-danger)}
+.log-combo{background:#2a1a00;color:#F3C695}.log-weak{background:var(--color-background-warning)}
+.res-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px;text-align:center}
+.res-label{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.res-val{font-size:17px;font-weight:500}
+.upload-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:12px;cursor:pointer;transition:all .12s}
+.upload-btn:hover{background:var(--color-background-tertiary)}
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:500}
+.badge-info{background:var(--color-background-info);color:var(--color-text-info)}
+.badge-warn{background:var(--color-background-warning);color:var(--color-text-warning)}
+.badge-success{background:var(--color-background-success);color:var(--color-text-success)}
+.badge-purple{background:#2d1b4e;color:#9B59B6}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:8px 0}
+.recipe-hint{font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-tertiary);margin-top:6px;min-height:22px}
+select{padding:6px 8px;font-size:12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary)}
+</style>
+</head>
+<body>
+<div class="sim">
+
+<div class="panel" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:10px 14px">
+  <div style="display:flex;align-items:center;gap:8px">
+    <i class="ti ti-sword" style="font-size:20px;color:#C49665"></i>
+    <span style="font-size:15px;font-weight:500">ATB Battle Simulator</span>
+    <span class="badge badge-info" id="sim-status">대기</span>
+  </div>
+  <label class="upload-btn">
+    <i class="ti ti-upload" style="font-size:14px"></i>
+    <span id="upload-label">MonsterTB.xlsx 업로드</span>
+    <input type="file" accept=".xlsx" id="xlsx-input" style="display:none">
+  </label>
+</div>
+
+<div class="grid2" style="margin-bottom:8px">
+  <div class="panel" style="margin-bottom:0">
+    <div class="panel-title">플레이어 스탯</div>
+    <div class="grid3" style="margin-bottom:8px">
+      <div class="inp-group"><label>레벨</label><input type="number" id="p-lv" value="10" min="1" max="50"></div>
+      <div class="inp-group"><label>HP</label><input type="number" id="p-hp" value="190"></div>
+      <div class="inp-group"><label>수명</label><input type="number" id="p-life" value="500"></div>
+      <div class="inp-group"><label>ATK</label><input type="number" id="p-atk" value="28"></div>
+      <div class="inp-group"><label>DEF</label><input type="number" id="p-def" value="14"></div>
+      <div class="inp-group"><label>ATBSpeed</label><input type="number" id="p-spd" value="0" min="0" max="500"></div>
+    </div>
+  </div>
+  <div class="panel" style="margin-bottom:0">
+    <div class="panel-title">공식 변수 <span style="color:var(--color-text-tertiary);font-weight:400">(FORMULA_CONFIG)</span></div>
+    <div class="grid3">
+      <div class="inp-group"><label>BASE_ATB(초)</label><input type="number" id="cfg-base-atb" value="10" step="0.1"></div>
+      <div class="inp-group"><label>LIFE_DECAY</label><input type="number" id="cfg-life-decay" value="1" step="0.1"></div>
+      <div class="inp-group"><label>LV_SCALE</label><input type="number" id="cfg-lv-scale" value="0.1" step="0.01"></div>
+      <div class="inp-group"><label>WEAK_BONUS</label><input type="number" id="cfg-weak" value="1.1" step="0.1"></div>
+      <div class="inp-group"><label>COMBO_MULT</label><input type="number" id="cfg-combo" value="5.0" step="0.1"></div>
+      <div class="inp-group"><label>DEF_MULT</label><input type="number" id="cfg-def-mult" value="2.0" step="0.1"></div>
+      <div class="inp-group"><label>EVADE_RATE</label><input type="number" id="cfg-evade" value="0.5" step="0.05" min="0" max="1"></div>
+      <div class="inp-group"><label>WEAK_COST(수명)</label><input type="number" id="cfg-weak-cost" value="10"></div>
+      <div class="inp-group"><label>HEAL_COST(수명)</label><input type="number" id="cfg-heal-cost" value="10"></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">몬스터 선택</div>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
+    <select id="mon-select" style="flex:1"><option value="">-- xlsx 업로드 후 선택 --</option></select>
+    <div class="inp-group" style="flex-direction:row;align-items:center;gap:5px">
+      <label style="white-space:nowrap;font-size:10px;color:var(--color-text-tertiary)">인스턴스 레벨</label>
+      <input type="number" id="mon-lv" value="10" min="1" max="45" style="width:52px;padding:5px 8px;font-size:12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary)">
+    </div>
+    <div class="inp-group" style="flex-direction:row;align-items:center;gap:5px">
+      <label style="font-size:10px;color:var(--color-text-tertiary)">커맨드</label>
+      <select id="recipe-no" style="width:52px;padding:5px;font-size:12px"><option>1</option><option>2</option><option>3</option></select>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="combatant">
+      <div class="combatant-name">
+        <span>몬스터 정보</span>
+        <span class="badge badge-warn" id="m-grade-badge">—</span>
+      </div>
+      <div class="stat-row"><span class="sl">실제 HP</span><span class="sv" id="m-hp">—</span></div>
+      <div class="stat-row"><span class="sl">실제 ATK</span><span class="sv" id="m-atk">—</span></div>
+      <div class="stat-row"><span class="sl">실제 DEF</span><span class="sv" id="m-def">—</span></div>
+      <div class="stat-row"><span class="sl">실제 수명</span><span class="sv" id="m-life">—</span></div>
+      <div class="stat-row"><span class="sl">ATB 충전(초)</span><span class="sv" id="m-atb">—</span></div>
+    </div>
+    <div class="combatant">
+      <div class="combatant-name">약점 / 패턴</div>
+      <div class="stat-row"><span class="sl">Recipe 1</span><span class="sv" style="color:#C49665" id="m-r1">—</span></div>
+      <div class="stat-row"><span class="sl">Recipe 2</span><span class="sv" style="color:#C49665" id="m-r2">—</span></div>
+      <div class="stat-row"><span class="sl">Recipe 3</span><span class="sv" style="color:#C49665" id="m-r3">—</span></div>
+      <div class="stat-row"><span class="sl">선택 커맨드</span><span class="sv" style="color:#F3C695;font-size:15px" id="m-recipe">—</span></div>
+      <div class="stat-row"><span class="sl">패턴</span><span class="sv" style="font-size:11px" id="m-patterns">—</span></div>
+      <div class="recipe-hint" id="recipe-hint">약점 파악 버튼으로 힌트를 얻으세요</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">전투 상태</div>
+  <div class="grid2">
+    <div class="combatant">
+      <div class="combatant-name">
+        <span><i class="ti ti-user" style="font-size:14px;margin-right:4px"></i>플레이어</span>
+        <span style="font-size:12px;font-weight:500;color:var(--color-text-success)" id="d-php">— / —</span>
+      </div>
+      <div class="bar-wrap"><div class="bar-fill bar-hp" id="bar-php" style="width:100%"></div></div>
+      <div class="stat-row" style="margin-top:6px"><span class="sl">ATB</span><span style="font-size:11px;color:var(--color-text-info)" id="d-patb">0%</span></div>
+      <div class="bar-wrap"><div class="bar-fill bar-atb" id="bar-patb" style="width:0%"></div></div>
+      <div class="stat-row" style="margin-top:6px"><span class="sl">수명</span><span style="font-size:12px;font-weight:500;color:#C49665" id="d-plife">—</span></div>
+      <div class="bar-wrap"><div class="bar-fill bar-life" id="bar-plife" style="width:100%"></div></div>
+    </div>
+    <div class="combatant">
+      <div class="combatant-name">
+        <span><i class="ti ti-ghost-2" style="font-size:14px;margin-right:4px"></i><span id="d-monname">몬스터</span></span>
+        <span style="font-size:12px;font-weight:500;color:var(--color-text-danger)" id="d-mhp">— / —</span>
+      </div>
+      <div class="bar-wrap"><div class="bar-fill bar-hp-e" id="bar-mhp" style="width:100%"></div></div>
+      <div class="stat-row" style="margin-top:6px"><span class="sl">ATB</span><span style="font-size:11px;color:#9B59B6" id="d-matb">0%</span></div>
+      <div class="bar-wrap"><div class="bar-fill bar-atb-e" id="bar-matb" style="width:0%"></div></div>
+      <div class="stat-row" style="margin-top:6px"><span class="sl">수명</span><span style="font-size:12px;font-weight:500;color:#C49665" id="d-mlife">—</span></div>
+      <div class="bar-wrap"><div class="bar-fill bar-life" id="bar-mlife" style="width:100%"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">행동 슬롯 <span style="color:var(--color-text-tertiary);font-weight:400;font-size:10px">게이지 만참 → 황금색 활성화 → 행동 선택 시 발동</span></div>
+  <div class="grid4" id="slots">
+    <div class="slot empty"><div class="slot-n">1</div><div class="slot-icon"><i class="ti ti-minus"></i></div><div class="slot-label">비어있음</div></div>
+    <div class="slot empty"><div class="slot-n">2</div><div class="slot-icon"><i class="ti ti-minus"></i></div><div class="slot-label">비어있음</div></div>
+    <div class="slot empty"><div class="slot-n">3</div><div class="slot-icon"><i class="ti ti-minus"></i></div><div class="slot-label">비어있음</div></div>
+    <div class="slot empty"><div class="slot-n">4</div><div class="slot-icon"><i class="ti ti-minus"></i></div><div class="slot-label">비어있음</div></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">전투 제어</div>
+  <div class="grid3" style="margin-bottom:8px">
+    <button class="ctrl-btn btn-start" onclick="startBattle()"><i class="ti ti-player-play"></i> 전투 시작</button>
+    <button class="ctrl-btn btn-stop" onclick="stopBattle()"><i class="ti ti-player-pause"></i> 전투 중지</button>
+    <button class="ctrl-btn btn-reset" onclick="resetBattle()"><i class="ti ti-refresh"></i> 초기화</button>
+  </div>
+  <div class="divider"></div>
+  <div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:6px">기본 행동</div>
+  <div class="grid5" style="margin-bottom:8px">
+    <button class="act-btn btn-a1" onclick="assignSlot(1)"><i class="ti ti-sword"></i><span>공격 1</span></button>
+    <button class="act-btn btn-a2" onclick="assignSlot(2)"><i class="ti ti-bolt"></i><span>공격 2</span></button>
+    <button class="act-btn btn-a3" onclick="assignSlot(3)"><i class="ti ti-flame"></i><span>공격 3</span></button>
+    <button class="act-btn btn-def" onclick="assignSlot(4)"><i class="ti ti-shield"></i><span>방어</span></button>
+    <button class="act-btn btn-evd" onclick="assignSlot(5)"><i class="ti ti-run"></i><span>회피</span></button>
+  </div>
+  <div class="divider"></div>
+  <div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:6px">긴급 행동 <span style="color:var(--color-text-tertiary)">(수명 소모 / 전투 시작 후 활성화)</span></div>
+  <div class="grid2">
+    <button class="act-btn btn-weak" onclick="useWeakDetect()" style="flex-direction:row;gap:6px;padding:9px 12px">
+      <i class="ti ti-eye"></i>
+      <div style="text-align:left">
+        <div style="font-size:12px;font-weight:500">약점 파악</div>
+        <div style="font-size:10px;color:var(--color-text-tertiary)">수명 -10 / 최대 2회</div>
+      </div>
+      <span class="badge badge-purple" id="weak-use-count">0/2</span>
+    </button>
+    <button class="act-btn btn-heal" onclick="useHeal()" style="flex-direction:row;gap:6px;padding:9px 12px">
+      <i class="ti ti-heart"></i>
+      <div style="text-align:left">
+        <div style="font-size:12px;font-weight:500">체력 회복</div>
+        <div style="font-size:10px;color:var(--color-text-tertiary)">수명 -10 / HP 10% 회복</div>
+      </div>
+    </button>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">행동 로그 <span style="color:var(--color-text-tertiary);font-weight:400">공격만 기록 / 최대 13개</span></div>
+  <div class="hist-row" id="hist-row">
+    <div class="hc">·</div><div class="hc">·</div><div class="hc">·</div><div class="hc">·</div>
+    <div class="hc">·</div><div class="hc">·</div><div class="hc">·</div><div class="hc">·</div>
+    <div class="hc">·</div><div class="hc">·</div><div class="hc">·</div><div class="hc">·</div>
+    <div class="hc">·</div>
+  </div>
+  <div class="combo-badge" id="combo-status"><i class="ti ti-search" style="font-size:12px"></i> COMBO 탐색 중...</div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">배틀 로그</div>
+  <div class="log-wrap" id="battle-log"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">전투 결과</div>
+  <div class="grid5">
+    <div class="res-card"><div class="res-label">전투 시간</div><div class="res-val" id="r-time" style="color:var(--color-text-primary)">—</div></div>
+    <div class="res-card"><div class="res-label">플레이어 수명 소모</div><div class="res-val" id="r-ploss" style="color:var(--color-text-danger)">—</div></div>
+    <div class="res-card"><div class="res-label">몬스터 수명 소모</div><div class="res-val" id="r-mloss" style="color:var(--color-text-secondary)">—</div></div>
+    <div class="res-card"><div class="res-label">획득 수명</div><div class="res-val" id="r-gain" style="color:var(--color-text-success)">—</div></div>
+    <div class="res-card"><div class="res-label">수명 손익</div><div class="res-val" id="r-net">—</div></div>
+  </div>
+</div>
+
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let monsterDB=[];
+let g={running:false,tick:null,pHP:0,pHPmax:0,pLife:0,pLifeMax:0,pATB:0,mHP:0,mHPmax:0,mLife:0,mLifeMax:0,mATB:0,slots:[0,0,0,0],activeQ:[],hist:new Array(13).fill(0),histLen:0,defReady:false,evdReady:false,turnCount:0,battleTime:0,monData:null,weakUseCount:0};
+function cfg(id){return parseFloat($(id).value)||0;}
+function cfgI(id){return parseInt($(id).value)||0;}
+$('xlsx-input').addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      loadWorkbook(XLSX.read(ev.target.result,{type:'binary'}), file.name);
+    }catch(err){alert('파싱 오류: '+err);}
+  };
+  reader.readAsBinaryString(file);
+});
+/* 워크북 → 몬스터 목록. 업로드와 자동 로드가 같이 쓴다 */
+function loadWorkbook(wb, fname){
+      const ws=wb.Sheets['MonsterTB'];
+      if(!ws){alert('MonsterTB 시트를 찾을 수 없습니다.');return;}
+      const rows=XLSX.utils.sheet_to_json(ws,{header:1});
+      monsterDB=[];
+      for(let i=3;i<rows.length;i++){const r=rows[i];if(!r[1])continue;monsterDB.push({id:r[0],name:r[1],level:r[2],grade:r[3],sin:r[4],hp:r[5],atk:r[6],def:r[7],lifetime:r[8],atbSpeed:r[9]||0,recipe1:r[10],recipe2:r[11],recipe3:r[12],p1name:r[13],p1eff:r[14],p2name:r[16],p2eff:r[17],p3name:r[19],p3eff:r[20]});}
+      const sel=$('mon-select');sel.innerHTML='<option value="">-- 몬스터 선택 --</option>';
+      monsterDB.forEach((m,i)=>{sel.innerHTML+=`<option value="${i}">[${m.grade}] ${m.name}</option>`;});
+      $('upload-label').textContent=`${fname} (${monsterDB.length}마리)`;
+      addLog('SYS','로드','—','—',`${monsterDB.length}마리 로드 완료`,'sys');
+}
+/* 같은 폴더의 MonsterTB_1.2.xlsx 를 자동으로 읽는다 (http 로 열었을 때).
+   file:// 로 열면 브라우저가 fetch 를 막으므로 위쪽 업로드 버튼을 쓴다 */
+(function(){
+  if(location.protocol==='file:')return;
+  fetch('MonsterTB_1.2.xlsx').then(r=>r.ok?r.arrayBuffer():Promise.reject(r.status))
+    .then(buf=>{loadWorkbook(XLSX.read(buf,{type:'array'}),'MonsterTB_1.2.xlsx');if($('mon-select').options.length>1){$('mon-select').selectedIndex=1;updateMonsterInfo();}})
+    .catch(()=>{});
+})();
+$('mon-select').addEventListener('change',updateMonsterInfo);
+$('mon-lv').addEventListener('change',updateMonsterInfo);
+$('recipe-no').addEventListener('change',updateMonsterInfo);
+function getMonData(){const idx=parseInt($('mon-select').value);return isNaN(idx)?null:monsterDB[idx]||null;}
+function getActualStat(base,lv){return Math.floor(base*(1+(lv-1)*cfg('cfg-lv-scale')));}
+function updateMonsterInfo(){
+  const m=getMonData();if(!m)return;
+  const lv=parseInt($('mon-lv').value)||1;
+  const aHP=getActualStat(m.hp,lv),aATK=getActualStat(m.atk,lv),aDEF=getActualStat(m.def,lv),aLife=getActualStat(m.lifetime,lv);
+  const atbTime=(cfg('cfg-base-atb')*100/(100+(m.atbSpeed||0)/5)).toFixed(2);
+  const rNo=parseInt($('recipe-no').value);
+  const recipe=rNo===1?m.recipe1:rNo===2?m.recipe2:m.recipe3;
+  const gBadge=$('m-grade-badge');
+  gBadge.textContent=m.grade||'—';
+  gBadge.className='badge '+(m.grade==='Boss'?'badge-info':m.grade==='Elite'?'badge-warn':'badge-success');
+  $('m-hp').textContent=aHP;$('m-atk').textContent=aATK;$('m-def').textContent=aDEF;$('m-life').textContent=aLife;$('m-atb').textContent=atbTime+'초';
+  $('m-r1').textContent=m.recipe1||'—';$('m-r2').textContent=m.recipe2||'—';$('m-r3').textContent=m.recipe3||'—';
+  $('m-recipe').textContent=recipe||'—';$('m-patterns').textContent=[m.p1eff,m.p2eff,m.p3eff].filter(Boolean).join(' / ');
+  $('d-monname').textContent=m.name;
+  $('recipe-hint').textContent='약점 파악 버튼으로 힌트를 얻으세요';
+  $('recipe-hint').style.background='var(--color-background-secondary)';$('recipe-hint').style.color='var(--color-text-tertiary)';
+}
+function calcDmg(atk,def){return Math.max(1,Math.floor(atk*100/(100+def)));}
+function initBattle(){
+  const m=getMonData();if(!m){alert('몬스터를 선택하세요.');return false;}
+  const lv=parseInt($('mon-lv').value)||1;
+  g.pHPmax=cfgI('p-hp');g.pHP=g.pHPmax;g.pLifeMax=cfgI('p-life');g.pLife=g.pLifeMax;g.pATB=0;
+  g.mHPmax=getActualStat(m.hp,lv);g.mHP=g.mHPmax;g.mLifeMax=getActualStat(m.lifetime,lv);g.mLife=g.mLifeMax;g.mATB=0;
+  g.slots=[0,0,0,0];g.activeQ=[];g.hist=new Array(13).fill(0);g.histLen=0;
+  g.defReady=false;g.evdReady=false;g.turnCount=0;g.battleTime=0;g.weakUseCount=0;
+  g.monData={atk:getActualStat(m.atk,lv),def:getActualStat(m.def,lv),atbSpeed:m.atbSpeed||0,p1eff:m.p1eff,p1name:m.p1name,p2eff:m.p2eff,p2name:m.p2name,p3eff:m.p3eff,p3name:m.p3name};
+  $('weak-use-count').textContent='0/2';
+  $('recipe-hint').textContent='약점 파악 버튼으로 힌트를 얻으세요';
+  $('recipe-hint').style.background='var(--color-background-secondary)';$('recipe-hint').style.color='var(--color-text-tertiary)';
+  renderSlots();renderHistory();updateUI();return true;
+}
+function startBattle(){if(g.running)return;if(!initBattle())return;g.running=true;$('sim-status').textContent='전투 중';$('sim-status').className='badge badge-warn';addLog('SYS','전투 시작','—','—','▶ BATTLE START','sys');g.tick=setInterval(onTick,200);}
+function stopBattle(){g.running=false;if(g.tick)clearInterval(g.tick);$('sim-status').textContent='중지';$('sim-status').className='badge badge-info';addLog('SYS','전투 중지','—','—','■ STOPPED','sys');}
+function resetBattle(){stopBattle();if(!initBattle())return;clearLog();resetResultUI();$('sim-status').textContent='대기';$('sim-status').className='badge badge-info';addLog('SYS','초기화','—','—','↺ RESET','sys');}
+const TICK=0.2;
+function onTick(){
+  if(!g.running)return;
+  g.battleTime+=TICK;
+  const baseATB=cfg('cfg-base-atb'),lifeDecay=cfg('cfg-life-decay'),pSpd=cfgI('p-spd');
+  const pATBTime=baseATB*100/(100+pSpd/5);
+  g.pATB+=(TICK/pATBTime)*100;g.pLife-=TICK*lifeDecay;
+  while(g.pATB>=100){g.pATB-=100;activateNextSlot();}
+  const mATBTime=baseATB*100/(100+g.monData.atbSpeed/5);
+  g.mATB+=(TICK/mATBTime)*100;g.mLife-=TICK*lifeDecay;
+  while(g.mATB>=100){g.mATB-=100;fireEnemyAction();if(!g.running)return;}
+  if(g.pLife<=0){g.pLife=0;g.running=false;clearInterval(g.tick);$('sim-status').textContent='런 종료';$('sim-status').className='badge badge-info';addLog('SYS','수명 소진','—','—','RUN OVER','sys');showResult();updateUI();return;}
+  updateUI();
+}
+function activateNextSlot(){for(let i=0;i<4;i++){if(!g.activeQ.includes(i)){g.activeQ.push(i);if(g.slots[i]!==0){const act=g.slots[i];shiftSlots();firePlayerAction(act);}renderSlots();return;}}}
+function shiftSlots(){g.slots=[g.slots[1],g.slots[2],g.slots[3],0];g.activeQ=g.activeQ.map(x=>x-1).filter(x=>x>=0);}
+function assignSlot(actionType){
+  if(!g.running){addLog('SYS','오류','—','—','전투 시작 후 사용 가능','sys');return;}
+  if(g.activeQ.length>0){const idx=g.activeQ[0];g.slots[idx]=actionType;shiftSlots();firePlayerAction(actionType);return;}
+  for(let i=0;i<4;i++){if(g.slots[i]===0){g.slots[i]=actionType;renderSlots();return;}}
+  addLog('SYS','슬롯 만참','—','—','슬롯이 가득 찼습니다','sys');
+}
+function useWeakDetect(){
+  if(!g.running){addLog('SYS','오류','—','—','전투 시작 후 사용 가능','sys');return;}
+  if(g.weakUseCount>=2){addLog('SYS','약점 파악','—','—','이미 2회 사용했습니다','sys');return;}
+  const cost=cfg('cfg-weak-cost');g.pLife-=cost;g.weakUseCount++;
+  $('weak-use-count').textContent=g.weakUseCount+'/2';
+  const m=getMonData();if(!m)return;
+  const rNo=parseInt($('recipe-no').value);
+  const recipe=String(rNo===1?m.recipe1:rNo===2?m.recipe2:m.recipe3||'');
+  const hint=$('recipe-hint');
+  if(g.weakUseCount===1){hint.textContent=`커맨드 길이: ${recipe.length}자리`;hint.style.background='var(--color-background-warning)';hint.style.color='var(--color-text-warning)';addLog('SYS','약점 파악 1회','—','—',`커맨드 ${recipe.length}자리 / 수명 -${cost}`,'weak');}
+  else{const firstDigit=recipe[0];const label=firstDigit==='1'?'공격1':firstDigit==='2'?'공격2':'공격3';hint.textContent=`첫 번째 커맨드: ${label}`;hint.style.background='#2a1a00';hint.style.color='#F3C695';addLog('SYS','약점 파악 2회','—','—',`첫 번째: ${label} / 수명 -${cost}`,'combo');}
+  updateUI();
+}
+function useHeal(){
+  if(!g.running){addLog('SYS','오류','—','—','전투 시작 후 사용 가능','sys');return;}
+  const cost=cfg('cfg-heal-cost');const healAmt=Math.floor(g.pHPmax*0.1);
+  g.pLife-=cost;g.pHP=Math.min(g.pHPmax,g.pHP+healAmt);
+  addLog('SYS','체력 회복','—','+'+healAmt,`HP +${healAmt} / 수명 -${cost}`,'sys');updateUI();
+}
+const actionLabels=['','공격1','공격2','공격3','방어','회피'];
+const slotIcons=['','ti-sword','ti-bolt','ti-flame','ti-shield','ti-run'];
+function firePlayerAction(actionType){
+  g.turnCount++;const pATK=cfgI('p-atk'),mDEF=g.monData.def;
+  if(actionType>=1&&actionType<=3){
+    pushHistory(actionType);const base=calcDmg(pATK,mDEF);const isWeak=isWeakAction(actionType),isCombo=checkCombo();let dmg,eff,cls='';
+    if(isCombo){dmg=Math.floor(base*cfg('cfg-combo'));eff=`★ COMBO x${cfg('cfg-combo').toFixed(1)}`;cls='combo';}
+    else if(isWeak){dmg=Math.floor(base*cfg('cfg-weak'));eff=`▲ 약점 x${cfg('cfg-weak').toFixed(1)}`;cls='weak';}
+    else{dmg=base;eff='일반 공격';}
+    g.mHP=Math.max(0,g.mHP-dmg);addLog(g.turnCount,'플레이어',actionLabels[actionType],dmg,eff,cls);renderHistory();
+    if(g.mHP<=0){g.running=false;clearInterval(g.tick);$('sim-status').textContent='승리';$('sim-status').className='badge badge-success';addLog('SYS','전투 종료','—','—','VICTORY!','sys');showResult();updateUI();return;}
+  }else if(actionType===4){g.defReady=true;addLog(g.turnCount,'플레이어','방어 준비','—','DEF READY','');}
+  else if(actionType===5){g.evdReady=true;addLog(g.turnCount,'플레이어','회피 준비','—','EVD READY','');}
+  renderSlots();updateUI();
+}
+function fireEnemyAction(){
+  g.turnCount++;const patNo=Math.floor(Math.random()*3)+1;
+  const effKey=['','p1eff','p2eff','p3eff'][patNo],nameKey=['','p1name','p2name','p3name'][patNo];
+  const patEff=g.monData[effKey]||'NormalAtk',patName=g.monData[nameKey]||'공격';
+  const mATK=g.monData.atk,pDEF=cfgI('p-def');let dmg=0,eff='';
+  if(patEff==='PowerAtk'){dmg=Math.floor(calcDmg(mATK,pDEF)*1.3);eff='강타(방어무시)';g.defReady=false;}
+  else if(patEff==='Absorb'){dmg=Math.floor(calcDmg(mATK,pDEF)*1.15);const h=Math.floor(dmg*0.3);g.mHP=Math.min(g.mHPmax,g.mHP+h);eff=`흡수(+${h}HP)`;}
+  else{dmg=Math.floor(calcDmg(mATK,pDEF)*(patEff==='NormalAtk'?1:0.8));eff=patEff==='NormalAtk'?'기본공격':patEff+'(상태이상)';}
+  if(g.evdReady){if(Math.random()<cfg('cfg-evade')){addLog(g.turnCount,'적',patName,0,'EVADED!','');g.evdReady=false;return;}else{eff+=' [회피실패]';g.evdReady=false;}}
+  if(g.defReady&&patEff!=='PowerAtk'){dmg=Math.max(1,Math.floor(mATK*100/(100+pDEF*cfg('cfg-def-mult'))));eff=`방어[${eff}]`;g.defReady=false;}
+  g.pHP=Math.max(0,g.pHP-dmg);addLog(g.turnCount,'적',patName,dmg,eff,'enemy');
+  if(g.pHP<=0){g.running=false;clearInterval(g.tick);$('sim-status').textContent='패배';$('sim-status').className='badge badge-info';addLog('SYS','HP소진','—','—','KO → 마을귀환','sys');showResult();updateUI();return;}
+  updateUI();
+}
+function isWeakAction(t){const rNo=parseInt($('recipe-no').value),m=getMonData();if(!m)return false;const r=String(rNo===1?m.recipe1:rNo===2?m.recipe2:m.recipe3||'');return r.includes(String(t));}
+function checkCombo(){const rNo=parseInt($('recipe-no').value),m=getMonData();if(!m)return false;const recipe=String(rNo===1?m.recipe1:rNo===2?m.recipe2:m.recipe3||'');if(!recipe||recipe==='-')return false;let ri=0;for(let i=0;i<g.histLen;i++){if(String(g.hist[i])===recipe[ri]){ri++;if(ri>=recipe.length)return true;}}return false;}
+function pushHistory(t){if(g.histLen<13){g.hist[g.histLen++]=t;}else{g.hist=[...g.hist.slice(1),t];}}
+function updateUI(){
+  $('d-php').textContent=`${g.pHP} / ${g.pHPmax}`;$('d-mhp').textContent=`${g.mHP} / ${g.mHPmax}`;
+  $('d-patb').textContent=Math.round(g.pATB)+'%';$('d-matb').textContent=Math.round(g.mATB)+'%';
+  $('d-plife').textContent=g.pLife.toFixed(1);$('d-mlife').textContent=g.mLife.toFixed(1);
+  $('bar-php').style.width=Math.max(0,g.pHP/g.pHPmax*100).toFixed(1)+'%';
+  $('bar-mhp').style.width=Math.max(0,g.mHP/g.mHPmax*100).toFixed(1)+'%';
+  $('bar-patb').style.width=Math.min(100,Math.max(0,g.pATB)).toFixed(1)+'%';
+  $('bar-matb').style.width=Math.min(100,Math.max(0,g.mATB)).toFixed(1)+'%';
+  $('bar-plife').style.width=Math.max(0,g.pLife/g.pLifeMax*100).toFixed(1)+'%';
+  $('bar-mlife').style.width=Math.max(0,g.mLife/g.mLifeMax*100).toFixed(1)+'%';
+}
+function renderSlots(){
+  const cells=$('slots').children;
+  for(let i=0;i<4;i++){
+    const c=cells[i],isActive=g.activeQ.includes(i),t=g.slots[i];
+    c.className='slot '+(isActive?'active':t?'queued':'empty');
+    c.children[1].innerHTML=t?`<i class="ti ${slotIcons[t]}"></i>`:'<i class="ti ti-minus"></i>';
+    c.children[2].textContent=t?actionLabels[t]:'비어있음';
+  }
+}
+function renderHistory(){
+  const cells=$('hist-row').children,isCombo=checkCombo();
+  const clsMap={1:'a1',2:'a2',3:'a3'};
+  for(let i=0;i<13;i++){const c=cells[i];if(i<g.histLen){const t=g.hist[i];c.textContent=t===1?'A':t===2?'B':'C';c.className='hc '+(isCombo?'combo':(clsMap[t]||''));}else{c.textContent='·';c.className='hc';}}
+  const cs=$('combo-status');
+  if(isCombo){cs.innerHTML='<i class="ti ti-star" style="font-size:12px"></i> COMBO! 약점 커맨드 일치';cs.className='combo-badge hit';}
+  else{cs.innerHTML=`<i class="ti ti-search" style="font-size:12px"></i> COMBO 탐색 중... (${g.histLen}/13)`;cs.className='combo-badge';}
+}
+function addLog(turn,actor,action,dmg,eff,cls){
+  const log=$('battle-log');const div=document.createElement('div');
+  div.className='log-row'+(cls?' log-'+cls:'');
+  div.innerHTML=`<span style="color:var(--color-text-tertiary)">${turn}</span><span>${actor}</span><span>${action}</span><span style="font-weight:500">${dmg}</span><span style="color:var(--color-text-secondary)">${eff}</span>`;
+  log.appendChild(div);log.scrollTop=log.scrollHeight;
+}
+function clearLog(){$('battle-log').innerHTML='';}
+function showResult(){
+  const gained=Math.max(0,g.mLife),plrLost=g.pLifeMax-g.pLife,monLost=g.mLifeMax-g.mLife,net=gained-plrLost;
+  $('r-time').textContent=g.battleTime.toFixed(1)+'s';$('r-ploss').textContent=plrLost.toFixed(1);$('r-mloss').textContent=monLost.toFixed(1);$('r-gain').textContent=gained.toFixed(1);$('r-net').textContent=net.toFixed(1);
+  $('r-net').style.color=net>=0?'var(--color-text-success)':'var(--color-text-danger)';
+}
+function resetResultUI(){
+  ['r-time','r-ploss','r-mloss','r-gain','r-net'].forEach(id=>{$(id).textContent='—';});$('r-net').style.color='var(--color-text-primary)';
+  const hcells=$('hist-row').children;for(let i=0;i<13;i++){hcells[i].textContent='·';hcells[i].className='hc';}
+  $('combo-status').innerHTML='<i class="ti ti-search" style="font-size:12px"></i> COMBO 탐색 중...';$('combo-status').className='combo-badge';
+}
+</script>
+</body>
+</html>

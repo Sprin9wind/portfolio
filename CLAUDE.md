@@ -23,8 +23,12 @@ portfolio/
 ├── profile.jpg   프로필 사진 (노션 원본)
 ├── images/       본문 이미지. 프로젝트별 접두어 — alien-* 외노자 · shrine-* 극락가신당 ·
 │                 catcher-* 포수 시뮬레이터 · frontier-* 메이플 프론티어 · union-* · guild-* · 02~07 툴 로고
+├── sim/          ATB 전투 밸런스 시뮬레이터(HTML) + MonsterTB_1.2.xlsx. 본문에 iframe 으로 임베드된다
 └── HISTORY.md    작업 이력. 새 작업을 마치면 여기에 한 줄 보탠다
 ```
+
+`images/glitch-*.jpg` 는 Figma 「The Glitch」 빌드 캡처, `images/sos-*.jpg` 는 SOS 팀 기획서의 UI·몬스터 아트(팀원 제작, 본문에 출처 표기).
+시뮬레이터는 http 로 열면 같은 폴더의 `MonsterTB_1.2.xlsx` 를 자동으로 읽고, `file://` 에서는 업로드 버튼을 쓴다.
 
 `index.html`과 `admin.html`은 `data.js`를 `<script src="data.js">`로 읽는다.
 
@@ -84,8 +88,9 @@ window.PORTFOLIO_UNITS = [
 | `list` | 간단한 목록 |
 | `inline` | About Me처럼 내용을 그대로 펼침 |
 
-현재 배정: `0 About Me = inline`, `1 개발 프로젝트 = gallery`,
-`2 메이플스토리 기획 문서 = cards`, `3 대외 활동 = list`.
+현재 배정: `0 About Me = inline`, `1 개발 프로젝트 = gallery`, `2 기획 프로젝트 = gallery`,
+`3 메이플스토리 기획 문서 = cards`, `4 대외 활동 = list`.
+`projIx` 는 첫 번째 gallery 섹션(개발 프로젝트)을 가리킨다.
 
 ## index.html 구조
 
