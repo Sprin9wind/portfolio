@@ -451,6 +451,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
       <button class="btn ghost" id="versionBtn">🕘 버전</button>
       <button class="btn ghost" id="loadBtn">불러오기</button>
       <button class="btn ghost" id="profileBtn">프로필</button>
+      <button class="btn ghost" id="interviewBtn" title="모의면접 질문·답변 시트">🎙 모의면접</button>
       <button class="btn ghost" id="previewBtn">미리보기</button>
       <button class="btn ghost" id="helpBtn" title="사용법 (F1)">? 도움말</button>
       <button class="btn ghost" id="themeBtn">☾ 어둡게</button>
@@ -569,7 +570,8 @@ function countLessons(units){
 function loadData(){
   hasBase = !!(window.PORTFOLIO_PROFILE && window.PORTFOLIO_UNITS);
   const base = hasBase
-    ? { profile: deepCopy(window.PORTFOLIO_PROFILE), units: deepCopy(window.PORTFOLIO_UNITS) }
+    ? { profile: deepCopy(window.PORTFOLIO_PROFILE), units: deepCopy(window.PORTFOLIO_UNITS),
+        interview: window.PORTFOLIO_INTERVIEW ? deepCopy(window.PORTFOLIO_INTERVIEW) : null }
     : null;
 
   let draft = null;
@@ -583,6 +585,8 @@ function loadData(){
 
   if (draft && draft.units){
     data = draft;
+    /* 모의면접 데이터가 없는 예전 작업본이면 원본의 것을 붙인다 */
+    if (!data.interview && base && base.interview) data.interview = base.interview;
     setStatus(`작업본 · 문서 ${countLessons(data.units)}개`, "saved");
   } else if (base){
     data = base;
@@ -608,7 +612,8 @@ document.getElementById("dataPicker").onchange = e => {
       if (!box.PORTFOLIO_UNITS) throw new Error("PORTFOLIO_UNITS 없음");
       const n = countLessons(box.PORTFOLIO_UNITS);
       if (!confirm(`문서 ${n}개를 찾았습니다.\n지금 편집 중인 내용을 이걸로 바꿀까요?`)) return;
-      data = { profile: box.PORTFOLIO_PROFILE || data.profile, units: box.PORTFOLIO_UNITS };
+      data = { profile: box.PORTFOLIO_PROFILE || data.profile, units: box.PORTFOLIO_UNITS,
+               interview: box.PORTFOLIO_INTERVIEW || data.interview || null };
       hasBase = true; sel = null;
       save(); renderSide(); renderForm();
       toast(`문서 ${n}개를 불러왔습니다`);
@@ -3199,7 +3204,7 @@ function val(id){ return document.getElementById(id).value; }
 /* ============================================================
    내보내기
    ============================================================ */
-function buildDataJs(units, profile){
+function buildDataJs(units, profile, interview){
   return `/* ============================================================
    포트폴리오 내용 데이터
    admin.html(편집기)에서 자동 생성됨 — ${new Date().toLocaleString("ko-KR")}
@@ -3207,7 +3212,12 @@ function buildDataJs(units, profile){
 window.PORTFOLIO_PROFILE = ${JSON.stringify(profile, null, 2)};
 
 window.PORTFOLIO_UNITS = ${JSON.stringify(units, null, 2)};
-`;
+` + (interview ? `
+/* ============================================================
+   모의면접 (비주얼 노벨) 데이터 — 편집기의 「모의면접」 시트에서 고칠 수 있다
+   ============================================================ */
+window.PORTFOLIO_INTERVIEW = ${JSON.stringify(interview, null, 2)};
+` : "");
 }
 function download(name, text, type){
   const blob = new Blob([text], { type: type || "text/javascript;charset=utf-8" });
@@ -3256,7 +3266,7 @@ document.getElementById("saveBtn").onclick = async () => {
     [
       { label:"닫기", cls:"btn", fn: closeModal },
       { label:"data.js만 받기", cls:"btn", fn: () => {
-          const { js } = { js: buildDataJs(data.units, data.profile) };
+          const { js } = { js: buildDataJs(data.units, data.profile, data.interview) };
           download("data.js", js); closeModal(); toast("data.js를 내려받았습니다");
       }},
       { label:"ZIP으로 받기", cls:"btn", fn: exportZip },
@@ -3363,7 +3373,7 @@ function buildSplit(){
     }
     m.lessons.forEach(l => { l.html = walk(l.html || ""); });
   }));
-  return { js: buildDataJs(units, data.profile), files };
+  return { js: buildDataJs(units, data.profile, data.interview), files };
 }
 
 function exportZip(){
@@ -3579,6 +3589,14 @@ const HELP_HTML = `
 <tr><td><kbd>Ctrl+\\</kbd></td><td>왼쪽 목록 접기/펼치기. 경계선을 끌면 폭이 바뀝니다.</td></tr>
 <tr><td>목록에서 드래그</td><td>문서는 다른 그룹으로, 그룹은 다른 섹션으로 옮길 수 있습니다. 문서 줄에서 <kbd>Alt+↑↓</kbd> 도 됩니다.</td></tr>
 <tr><td>미리보기 · 버전</td><td>위쪽 <b>미리보기</b> 로 사이트 모양을 확인하고, <b>버전</b> 에서 예전 저장본으로 돌아갈 수 있습니다.</td></tr>
+</table>
+<h4>🎙 모의면접 (사이트 첫 화면의 버튼)</h4>
+<table>
+<tr><td>무엇인가</td><td>보는 사람이 면접관이 되어 선택지로 질문하고, 내가 답하는 비주얼 노벨입니다. 질문할수록 관심도가 오르고 마무리 때 등급이 나옵니다.</td></tr>
+<tr><td>고치기</td><td>위쪽 <b>🎙 모의면접</b> → <b>질문 시트</b>. 한 행이 질문 하나. 답변은 빈 줄로 문단을 나누면 화면에서 문단마다 넘어갑니다. 꼬리질문에는 다른 행의 ID를 쉼표로, 꼬리전용은 주제 목록에 안 보이고 꼬리로만 나오는 질문입니다.</td></tr>
+<tr><td>주제 · 인사</td><td><b>주제</b> 탭에서 첫 화면의 주제(아이콘·이름·설명)를, <b>인사 · 마무리</b> 탭에서 시작 인사와 관심도 구간별 결과 문구를 고칩니다.</td></tr>
+<tr><td>엑셀로 편집</td><td><b>TSV 복사</b> → 엑셀에 붙여 넣어 고친 뒤 → 다시 복사해 <b>TSV 붙여넣기</b>. 같은 ID는 덮어쓰고 새 ID는 추가됩니다. 답변 문단은 <b> ¶ </b> 로 구분합니다.</td></tr>
+<tr><td>확인 · 저장</td><td><b>▶ 미리보기</b> 로 그 자리에서 면접을 열어 봅니다. 고친 내용은 작업본에 바로 저장되고, 사이트에 올리려면 여느 때처럼 <b>💾 저장</b>.</td></tr>
 </table>
 </div>`;
 function openHelp(){
@@ -3820,6 +3838,7 @@ async function openVersions(){
       if (!confirm(`"${v.label}" 시점으로 되돌릴까요?\n지금 상태는 "되돌리기 직전"으로 자동 기록됩니다.`)) return;
       await snapshot("되돌리기 직전");
       data = deepCopy(v.payload); sel = null;
+      if (!data.interview && window.PORTFOLIO_INTERVIEW) data.interview = deepCopy(window.PORTFOLIO_INTERVIEW);  /* 모의면접이 없던 옛 버전 */
       save(); renderSide(); renderForm(); closeModal();
       toast("되돌렸습니다");
     }
@@ -3890,5 +3909,7 @@ updateFolderBadge();
 /* 편집을 시작하고 30분마다 자동으로 버전 한 칸 남긴다 */
 setInterval(() => { if (dirty) snapshot("자동 기록").catch(() => {}); }, 30 * 60 * 1000);
 </script>
+<script src="vn.js"></script>
+<script src="admin-vn.js"></script>
 </body>
 </html>

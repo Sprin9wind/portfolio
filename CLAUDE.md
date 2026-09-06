@@ -24,6 +24,9 @@ portfolio/
 ├── images/       본문 이미지. 프로젝트별 접두어 — alien-* 외노자 · shrine-* 극락가신당 ·
 │                 catcher-* 포수 시뮬레이터 · frontier-* 메이플 프론티어 · union-* · guild-* · 02~07 툴 로고
 ├── sim/          ATB 전투 밸런스 시뮬레이터(HTML) + MonsterTB_1.2.xlsx. 본문에 iframe 으로 임베드된다
+├── vn.js         모의면접 비주얼 노벨 오버레이 (사이트·편집기 미리보기 공용). 스타일·DOM 을 스스로 만든다
+├── admin-vn.js   편집기의 「모의면접」 시트 (질문 표 · 주제 · 인사/마무리 · TSV 왕복 · 미리보기)
+├── INTERVIEW_PLAN.md  모의면접 작업의 계획·체크리스트 (이어서 할 때 먼저 읽는다)
 └── HISTORY.md    작업 이력. 새 작업을 마치면 여기에 한 줄 보탠다
 ```
 
@@ -198,6 +201,17 @@ DOM 을 직접 고친 작업은 남지 않으므로, 편집 칸 전체를 스냅
 
 셀 안에 커서가 들어가면 `#tblTools`가 표 위에 뜬다 — 행 위/아래 추가·삭제, 열 좌/우 추가·삭제,
 첫 줄을 제목 행(`th`)으로 토글. 표를 다시 만들 필요가 없다.
+
+### 모의면접 (비주얼 노벨)
+
+- 데이터는 `data.js` 의 `window.PORTFOLIO_INTERVIEW` — `{ me, interviewer, intro[], endings[], topics[], questions[] }`.
+  질문: `{ id, topic, q, a[문단], follow[id], sub, link:"섹션-그룹-문서", pts }`. 구조 설명은 `INTERVIEW_PLAN.md`.
+- 사이트: 히어로의 `data-vn` 버튼 → `vn.js` 가 `PortfolioVN.open()`. 열 때마다 `bind()` 로 데이터를 다시 읽는다(편집기 미리보기용).
+  관심도는 0~100 으로 잘리고, 물어본 질문·관심도는 localStorage `pf-vn` 에 남아 「이어하기」가 뜬다.
+  해시는 `섹션-그룹-문서` 까지 받아 `route()` 가 문서로 스크롤한다(「관련 문서 보기」).
+- 편집기: `admin-vn.js` 가 `data.interview` 를 시트로 고치고 `save()` 로 작업본에 넣는다. `buildDataJs(units, profile, interview)` 가 함께 내보내고,
+  `loadData()`·불러오기·버전 복원은 interview 가 없으면 `window.PORTFOLIO_INTERVIEW` 를 붙인다. TSV 열 순서는 `TSV_HEAD`, 문단 구분은 ` ¶ `.
+- 회사에 따라 달라지는 질문(지원동기 등)은 넣지 않는다 — 공통 질문만. 원 자료는 사용자의 `면예질.pdf`.
 
 ### 영상 카드 (`.vid`)
 

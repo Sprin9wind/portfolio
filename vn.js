@@ -10,17 +10,24 @@
    ============================================================ */
 (function(){
 "use strict";
-const D = window.PORTFOLIO_INTERVIEW;
-if (!D || !Array.isArray(D.questions) || !D.questions.length) return;
-
 const LS = "pf-vn";
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c =>
   ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
-const QS = D.questions, TOPICS = D.topics || [];
-const byId = Object.fromEntries(QS.map(q => [q.id, q]));
-const me = (D.me && D.me.name) || "나", IV = D.interviewer || "면접관";
-const ART = (D.me && D.me.art) || "banner.png";
 const TYPE_MS = 16;            /* 글자 하나 찍는 간격 */
+
+/* 데이터는 열 때마다 다시 읽는다 — 편집기(admin.html)가 작업본을 넣고 미리보기를 열 수 있게 */
+let D, QS, TOPICS, byId, me, IV, ART, mainQs;
+function bind(){
+  D = window.PORTFOLIO_INTERVIEW;
+  if (!D || !Array.isArray(D.questions)) return false;
+  QS = D.questions; TOPICS = D.topics || [];
+  byId = Object.fromEntries(QS.map(q => [q.id, q]));
+  me = (D.me && D.me.name) || "나"; IV = D.interviewer || "면접관";
+  ART = (D.me && D.me.art) || "banner.png";
+  mainQs = QS.filter(q => !q.sub);
+  return true;
+}
+if (!bind()) return;
 
 /* ---------- 상태 ---------- */
 let st = { asked: [], gauge: 0, topic: null, started: false };
@@ -28,7 +35,6 @@ function load(){ try { const r = localStorage.getItem(LS); if (r) st = Object.as
 function persist(){ try { localStorage.setItem(LS, JSON.stringify(st)); } catch(_) {} }
 function reset(){ st = { asked: [], gauge: 0, topic: null, started: false }; persist(); }
 const asked = id => st.asked.includes(id);
-const mainQs = QS.filter(q => !q.sub);
 
 /* ---------- 스타일 ---------- */
 const CSS = `
@@ -139,14 +145,14 @@ root.setAttribute("role", "dialog"); root.setAttribute("aria-label", "모의면�
 root.innerHTML = `
   <div class="vn-bg"></div>
   <div class="vn-top">
-    <div class="vn-title">🎙 모의면접<small>${esc(me)}에게 무엇이든 물어보세요</small></div>
+    <div class="vn-title">🎙 모의면접<small class="vn-sub"></small></div>
     <div class="vn-gauge" title="면접관 관심도 — 질문할수록 오릅니다"><span class="vn-glabel">관심도</span>
       <div class="vn-gbar"><i></i></div><b class="vn-gnum">0</b></div>
-    <div class="vn-prog">질문 <b>0</b>/${QS.length}</div>
+    <div class="vn-prog">질문 <b>0</b>/<span class="vn-total"></span></div>
     <button class="vn-x" type="button" aria-label="닫기 (Esc)">✕</button>
   </div>
   <div class="vn-stage">
-    <div class="vn-char"><img src="${esc(ART)}" alt="${esc(me)}"><span class="vn-tag">${esc(me)}</span></div>
+    <div class="vn-char"><img src="" alt=""><span class="vn-tag"></span></div>
     <div class="vn-choices" role="menu"></div>
     <div class="vn-box"><div class="vn-name"></div><div class="vn-text"></div><div class="vn-next">▼ 클릭 · Space</div></div>
     <div class="vn-hint">클릭 / Space / Enter 진행 · 숫자키로 선택 · Esc 닫기</div>
@@ -336,14 +342,21 @@ function ending(){
 }
 function goDoc(link){
   close();
-  if (location.hash.slice(1) === link){ if (typeof route === "function") route(); }
-  else location.hash = link;
+  if (typeof route !== "function"){ window.open("index.html#" + link, "_blank"); return; }  /* 편집기 미리보기에서 */
+  if (location.hash.slice(1) === link) route(); else location.hash = link;
 }
 
 /* ---------- 열기 / 닫기 / 입력 ---------- */
 let prevFocus = null, prevOverflow = "";
 function open(){
-  load(); paintGauge();
+  if (!bind()) return;
+  $(".vn-sub").textContent = `${me}에게 무엇이든 물어보세요`;
+  $(".vn-total").textContent = QS.length;
+  const im = $(".vn-char img"); im.src = ART; im.alt = me; $(".vn-tag").textContent = me;
+  load();
+  /* 물어본 목록에 지금 데이터에 없는 id 가 있으면(편집기에서 지운 질문) 걷어낸다 */
+  st.asked = st.asked.filter(id => byId[id]);
+  paintGauge();
   prevFocus = document.activeElement; prevOverflow = document.body.style.overflow;
   document.body.style.overflow = "hidden";
   root.hidden = false;
