@@ -302,7 +302,8 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
 .editor > p.is-empty::before{content:"'/' 를 누르면 블록을 넣을 수 있습니다";
   color:var(--ink-3);opacity:.65;pointer-events:none}
 
-#imgTools{position:fixed;z-index:150;pointer-events:none}
+/* inset:0 이 없으면 fixed 요소가 정적 위치(문서 맨 아래)에 놓여 안의 absolute 막대가 엉뚱한 곳에 뜬다 */
+#imgTools{position:fixed;inset:0;z-index:150;pointer-events:none}
 #imgTools[hidden]{display:none}
 #imgTools .it-bar{position:absolute;display:flex;align-items:center;gap:3px;padding:4px;
   background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--radius-1);
@@ -373,6 +374,11 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
   font-family:var(--font);font-size:12px;padding:4px 8px;border-radius:5px;line-height:1.4}
 #selBar button:hover{background:var(--bg-3);color:var(--text-1)}
 #selBar .sep{width:1px;height:14px;background:var(--border-1);margin:0 2px}
+#selBar input{width:52px;padding:3px 4px;border:1px solid var(--border-1);border-radius:5px;
+  background:var(--bg-1);color:var(--text-1);font-family:var(--font);font-size:12px;text-align:center;
+  outline:none;-moz-appearance:textfield}
+#selBar input::-webkit-outer-spin-button,#selBar input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#selBar input:focus{border-color:var(--accent)}
 
 /* 링크 목록 */
 .linkrow{display:flex;gap:var(--space-2);margin-bottom:var(--space-2)}
@@ -475,6 +481,17 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
   <button data-cmd="mark" title="형광펜 (Ctrl+E)">🖍 형광</button>
   <button data-cmd="em" title="색 강조">색 강조</button>
   <button data-cmd="link" title="링크 (Ctrl+K)">🔗 링크</button>
+  <span class="sep"></span>
+  <button data-size="-1" title="글자 작게 (Ctrl+Shift+,)">A−</button>
+  <input id="selSize" type="number" list="selSizeList" min="8" max="96" step="1"
+         title="글자 크기(px) · 숫자를 치고 Enter, 또는 목록에서 고르기">
+  <datalist id="selSizeList">
+    <option value="11"><option value="12"><option value="13"><option value="14"><option value="15">
+    <option value="16"><option value="18"><option value="20"><option value="22"><option value="24">
+    <option value="28"><option value="32"><option value="36"><option value="40"><option value="48">
+  </datalist>
+  <button data-size="1" title="글자 크게 (Ctrl+Shift+.)">A+</button>
+  <button data-sizereset title="글자 크기 원래대로">기본</button>
   <span class="sep"></span>
   <button data-cmd="h2">큰 제목</button>
   <button data-cmd="h3">소제목</button>
@@ -1555,14 +1572,18 @@ function cleanPaste(html){
     }
     if (!PASTE_TAGS[tag]) return el.replaceWith(...el.childNodes);
     const keep = (el.getAttribute("class") || "").split(/\s+/).filter(c => PASTE_CLASS.test(c));
+    /* 글자 크기(px)만은 살린다 — 편집기 안에서 복사한 글이 크기를 잃지 않게 */
+    const fs = tag === "SPAN"
+      ? ((el.getAttribute("style") || "").match(/font-size:\s*(\d{1,2})px/) || [])[1] : null;
     /* 남의 사이트에서 온 껍데기 DIV/SPAN은 벗겨 낸다. 그대로 두면 블록 하나에 문서 전체가 들어간다 */
-    if ((tag === "DIV" || tag === "SPAN") && !keep.length) return el.replaceWith(...el.childNodes);
+    if ((tag === "DIV" || tag === "SPAN") && !keep.length && !fs) return el.replaceWith(...el.childNodes);
     [...el.attributes].forEach(a => {
       const n = a.name.toLowerCase();
       if (n === "href" || n === "src" || n === "alt" || n === "data-name") return;
       el.removeAttribute(a.name);
     });
     if (keep.length) el.setAttribute("class", keep.join(" "));
+    if (fs) el.style.fontSize = fs + "px";
   });
   if (dropped) toast(`웹에서 복사한 이미지 ${dropped}장은 주소가 곧 만료돼 빼놨습니다. 이미지 파일로 붙여넣어 주세요`, true);
   return box.innerHTML;
@@ -1716,12 +1737,20 @@ function placeTools(){
   const ed = document.getElementById("editor");
   if (!ed || !ed.contains(selImg)) return deselectImg();
   const r = selImg.getBoundingClientRect();
-  const edr = ed.getBoundingClientRect();
-  // 편집 영역 밖으로 스크롤되면 숨김
-  if (r.bottom < edr.top || r.top > edr.bottom){ tools.hidden = true; return; }
+  const main = document.querySelector(".main");
+  const vr = main ? main.getBoundingClientRect() : { top:0, bottom:innerHeight };
+  /* 화면 밖으로 스크롤되면 숨긴다 */
+  if (r.bottom < vr.top || r.top > vr.bottom){ tools.hidden = true; return; }
   tools.hidden = false;
-  itBar.style.left = r.left + "px";
-  itBar.style.top  = Math.max(edr.top - 34, r.top - 38) + "px";
+  const bw = itBar.offsetWidth, bh = itBar.offsetHeight;
+  /* 막대는 이미지 안쪽 왼쪽 위에 얹는다. 이미지가 낮으면 위로 뺀다.
+     이미지 위쪽이 화면 밖으로 밀리면 보이는 영역 맨 위에 붙어 따라온다 */
+  let top  = r.height >= bh + 28 ? r.top + 8 : r.top - bh - 6;
+  top  = Math.max(vr.top + 4, Math.min(top, Math.min(r.bottom - bh - 4, innerHeight - bh - 8)));
+  let left = r.left + 8;
+  left = Math.max(8, Math.min(left, innerWidth - bw - 8));
+  itBar.style.left = left + "px";
+  itBar.style.top  = top + "px";
   itHandle.style.left = (r.right - 7) + "px";
   itHandle.style.top  = (r.bottom - 7) + "px";
 }
@@ -1814,7 +1843,8 @@ document.addEventListener("wheel", e => {
   setWidth(selImg, widthPct(selImg) + (e.deltaY < 0 ? 5 : -5));
 }, { passive:false });
 
-document.querySelector(".main").addEventListener("scroll", placeTools);
+/* .main 뿐 아니라 .editor(overflow:auto) 안쪽 스크롤도 잡아야 해서 캡처 단계에서 듣는다 */
+document.addEventListener("scroll", placeTools, true);
 window.addEventListener("resize", placeTools);
 
 
@@ -2008,13 +2038,23 @@ function dropTarget(e){
 function isImgBlock(el){
   return el && (el.tagName === "IMG" || el.classList.contains("img-row"));
 }
-/* 이미지 위 가운데 대역에 놓으면 같은 줄로 합친다 */
+/* 이미지 블록을 끌어 다른 이미지 위에 올렸을 때 — 좌·우 바깥 1/3 이면 그 옆에 나란히 놓는다.
+   가운데 1/3 은 위/아래로 옮기는 자리다. 대상이 이미지 줄이면 포인터 아래 이미지가 기준(anchor)이 된다 */
+const MERGE_ZONE = 1 / 3;
 function mergeSide(e, blk){
-  if (!isImgBlock(blk) || !isImgBlock(dragBlk)) return null;
-  const r = blk.getBoundingClientRect();
-  const band = r.height * 0.28;
-  if (e.clientY < r.top + band || e.clientY > r.bottom - band) return null;
-  return e.clientX > r.left + r.width / 2 ? "right" : "left";
+  const pack = dragPack.length ? dragPack : [dragBlk];
+  if (!isImgBlock(blk) || !pack.every(isImgBlock)) return null;
+  const hov = e.target && e.target.closest ? e.target.closest("img") : null;
+  const anchor = blk.tagName === "IMG" ? blk : (hov && blk.contains(hov) ? hov : null);
+  const r = (anchor || blk).getBoundingClientRect();
+  if (!r.width) return null;
+  const x = (e.clientX - r.left) / r.width;
+  if (x > MERGE_ZONE && x < 1 - MERGE_ZONE) return null;
+  return { side: x >= 1 - MERGE_ZONE ? "right" : "left", anchor };
+}
+function markMerge(m, blk){
+  if (m.anchor) m.anchor.classList.add(m.side === "right" ? "img-drop-right" : "img-drop-left");
+  else blk.classList.add(m.side === "right" ? "blk-drop-right" : "blk-drop-left");
 }
 function clearMarks(){
   document.querySelectorAll(".blk-drop,.blk-drop-after,.blk-drop-left,.blk-drop-right,.img-drop-left,.img-drop-right")
@@ -2039,8 +2079,8 @@ document.addEventListener("dragover", e => {
   const blk = dropTarget(e); if (!blk) return;
   e.preventDefault();
   clearMarks();
-  const side = mergeSide(e, blk);
-  if (side) return blk.classList.add(side === "right" ? "blk-drop-right" : "blk-drop-left");
+  const m = mergeSide(e, blk);
+  if (m) return markMerge(m, blk);
   const r = blk.getBoundingClientRect();
   blk.classList.add(e.clientY > r.top + r.height / 2 ? "blk-drop-after" : "blk-drop");
 });
@@ -2077,35 +2117,33 @@ document.addEventListener("drop", e => {
   if (!dragBlk) return;
   const blk = dropTarget(e); if (!blk) return;
   e.preventDefault();
-  const side = mergeSide(e, blk);
+  const m = mergeSide(e, blk);
   clearMarks();
 
-  if (side){
-    /* 이미지끼리 합쳐 한 줄로 만든다 */
-    const moving = dragBlk.tagName === "IMG" ? [dragBlk] : [...dragBlk.querySelectorAll("img")];
-    let row;
-    if (blk.classList.contains("img-row")) row = blk;
-    else {
+  if (m){
+    /* 이미지끼리 합쳐 한 줄로 만든다. 여러 개를 골라 끌었으면 전부 들어간다 */
+    const pack = dragPack.length ? dragPack : [dragBlk];
+    const moving = [];
+    pack.forEach(b => b.tagName === "IMG" ? moving.push(b) : moving.push(...b.querySelectorAll("img")));
+    let row = blk.classList.contains("img-row") ? blk : null;
+    if (!row){
       row = document.createElement("div");
       row.className = "img-row";
       blk.before(row);
       row.appendChild(blk);
     }
-    if (row.querySelectorAll("img").length + moving.length > 4){
-      toast("한 줄에는 4장까지입니다", true);
-      dragBlk.classList.remove("blk-drag"); dragBlk = null;
-      return;
+    if (row.querySelectorAll("img").length + moving.length > MAX_ROW){
+      toast(`한 줄에는 ${MAX_ROW}장까지입니다`, true);
+      return;                       /* dragend 가 표시 클래스를 정리한다 */
     }
-    const anchor = blk.tagName === "IMG" ? blk : null;
-    moving.forEach(im => {
-      im.style.flex = ""; im.style.width = "";
-      if (side === "right"){ anchor ? anchor.after(im) : row.appendChild(im); }
-      else { anchor ? anchor.before(im) : row.insertBefore(im, row.firstChild); }
-    });
-    if (dragBlk.classList && dragBlk.classList.contains("img-row") && !dragBlk.querySelector("img"))
-      dragBlk.remove();
+    moving.forEach(im => { im.style.flex = ""; im.style.width = ""; im.style.height = ""; });
+    const anchor = m.anchor || (blk.tagName === "IMG" ? blk : null);
+    if (anchor) m.side === "right" ? anchor.after(...moving) : anchor.before(...moving);
+    else        m.side === "right" ? row.append(...moving)   : row.prepend(...moving);
+    /* 비어 버린 원래 줄은 치운다 */
+    pack.forEach(b => { if (b.classList && b.classList.contains("img-row") && !b.querySelector("img")) b.remove(); });
     evenRow(row);
-    dragBlk = null;
+    dragBlk = null; dragPack = [];
     saveBlocks();
     toast(`같은 줄에 합쳤습니다 (${row.querySelectorAll("img").length}장)`);
     return;
@@ -2542,10 +2580,106 @@ function markEmpty(){
     b.classList.add("is-empty");
 }
 
+/* ---- 글자 크기 ----
+   선택한 글자를 <span style="font-size:Npx"> 로 감싼다. execCommand("fontSize")가 남기는
+   <font size="7"> 을 span 으로 바꾸는 방식이라 굵게·링크 같은 안쪽 서식이 그대로 살아남는다 */
+const SIZE_STEPS = [10,11,12,13,14,15,16,17,18,20,22,24,28,32,36,40,48,56,64];
+const selSize = document.getElementById("selSize");
+let sizeRange = null;      /* 크기 입력칸으로 포커스가 옮겨 가는 동안 지켜 둘 편집기 선택 영역 */
+
+function selFontSize(){
+  const s = window.getSelection();
+  if (!s || !s.rangeCount) return 16;
+  let n = s.anchorNode;
+  if (n && n.nodeType === 3) n = n.parentNode;
+  return n ? Math.round(parseFloat(getComputedStyle(n).fontSize)) || 16 : 16;
+}
+function restoreSizeRange(){
+  const ed = edEl();
+  if (!sizeRange || !ed) return false;
+  ed.focus();
+  const s = window.getSelection();
+  s.removeAllRanges(); s.addRange(sizeRange);
+  return true;
+}
+function applyFontSize(px, ed){
+  const s = window.getSelection();
+  if (!s || !s.rangeCount || s.isCollapsed) return toast("크기를 바꿀 글자를 먼저 선택하세요", true);
+  if (px != null) px = Math.max(8, Math.min(96, Math.round(px)));
+  ed.focus();
+  document.execCommand("styleWithCSS", false, false);
+  document.execCommand("fontSize", false, "7");
+  const made = [];
+  ed.querySelectorAll('font[size="7"],span[style*="xx-large"]').forEach(f => {
+    const sp = document.createElement("span");
+    sp.innerHTML = f.innerHTML;
+    /* 안쪽에 남아 있던 크기 지정은 새 값에 덮이므로 벗겨 낸다 */
+    sp.querySelectorAll("span[style*='font-size']").forEach(x => {
+      x.style.fontSize = "";
+      if (!x.getAttribute("style") && !x.getAttribute("class")) x.replaceWith(...x.childNodes);
+    });
+    if (px != null){
+      sp.style.fontSize = px + "px";
+      f.replaceWith(sp); made.push(sp);
+      /* 부모가 크기만 가진 span 이고 알맹이가 이 span 뿐이면 부모의 크기는 의미가 없다 */
+      const par = sp.parentElement;
+      if (par && par.tagName === "SPAN" && par.childNodes.length === 1 && par.style.fontSize){
+        par.style.fontSize = "";
+        if (!par.getAttribute("style") && !par.getAttribute("class")) par.replaceWith(sp);
+      }
+    } else {
+      const kids = [...sp.childNodes];
+      f.replaceWith(...kids); made.push(...kids);
+      /* 원래대로 — 바깥 span 의 크기도 걷어 낸다 */
+      let par = kids[0] && kids[0].parentElement;
+      while (par && par !== ed && par.tagName === "SPAN" && par.style.fontSize){
+        par.style.fontSize = "";
+        const next = par.parentElement;
+        if (!par.getAttribute("style") && !par.getAttribute("class")) par.replaceWith(...par.childNodes);
+        par = next;
+      }
+    }
+  });
+  if (made.length){
+    const rg = document.createRange();
+    rg.setStartBefore(made[0]); rg.setEndAfter(made[made.length - 1]);
+    s.removeAllRanges(); s.addRange(rg);
+  }
+  flush();
+  setTimeout(updateSelBar, 0);
+}
+function stepFontSize(dir, ed){
+  const cur = selFontSize();
+  let next;
+  if (dir > 0) next = SIZE_STEPS.find(v => v > cur) || cur + 4;
+  else { const under = SIZE_STEPS.filter(v => v < cur); next = under.length ? under[under.length - 1] : Math.max(8, cur - 1); }
+  applyFontSize(next, ed);
+}
+if (selSize){
+  selSize.addEventListener("keydown", e => {
+    if (e.key === "Enter"){
+      e.preventDefault();
+      const v = +selSize.value;
+      if (restoreSizeRange() && v) applyFontSize(v, edEl());
+    } else if (e.key === "Escape"){
+      e.preventDefault(); restoreSizeRange();
+    }
+    e.stopPropagation();
+  });
+  /* 목록(datalist)에서 골랐을 때는 inputType 이 없다. 타이핑 중에는 Enter 를 기다린다 */
+  selSize.addEventListener("input", e => {
+    if (e.inputType) return;
+    const v = +selSize.value;
+    if (restoreSizeRange() && v) applyFontSize(v, edEl());
+  });
+}
+
 /* 글자를 선택하면 그 위에 서식 도구를 띄운다 */
 function updateSelBar(){
   const ed = edEl();
   if (!selBar) return;
+  /* 크기 입력칸에 커서가 있는 동안은 편집기 선택이 사라져 보여도 툴바를 그대로 둔다 */
+  if (selSize && document.activeElement === selSize) return;
   const s = window.getSelection();
   /* 블록 단위로 넘어갔으면 블록 도구가 맡는다. 툴바 두 개가 겹치면 읽을 수가 없다 */
   if (blkSel.length > 1){ selBar.hidden = true; return; }
@@ -2554,17 +2688,26 @@ function updateSelBar(){
     selBar.hidden = true; return;
   }
   selBar.hidden = false;
+  if (selSize) selSize.value = selFontSize();
   const r = s.getRangeAt(0).getBoundingClientRect();
   const w = selBar.offsetWidth, h = selBar.offsetHeight;
   selBar.style.left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, innerWidth - w - 8)) + "px";
   selBar.style.top  = Math.max(8, r.top - h - 8) + "px";
 }
 if (selBar){
-  selBar.addEventListener("mousedown", e => e.preventDefault());   /* 선택 영역 유지 */
+  selBar.addEventListener("mousedown", e => {
+    /* 선택 영역을 지킨다. 입력칸은 포커스를 받아야 하므로 대신 선택 영역을 복사해 둔다 */
+    const s = window.getSelection();
+    if (s && s.rangeCount) sizeRange = s.getRangeAt(0).cloneRange();
+    if (!e.target.closest("input")) e.preventDefault();
+  });
   selBar.addEventListener("click", e => {
+    const ed = edEl(); if (!ed) return;
+    const sz = e.target.closest("[data-size]");
+    if (sz){ stepFontSize(+sz.dataset.size, ed); return; }
+    if (e.target.closest("[data-sizereset]")){ applyFontSize(null, ed); return; }
     const b = e.target.closest("[data-cmd]");
-    const ed = edEl();
-    if (!b || !ed) return;
+    if (!b) return;
     applyBlockCmd(b.dataset.cmd, ed);
     setTimeout(updateSelBar, 0);
   });
@@ -2607,6 +2750,11 @@ function onEditorKey(e){
   }
 
   /* --- 단축키 --- */
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && !e.altKey &&
+      (e.code === "Period" || e.code === "Comma")){
+    e.preventDefault();
+    return stepFontSize(e.code === "Period" ? 1 : -1, ed);
+  }
   if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey){
     const k = e.key.toLowerCase();
     if (k === "k"){ e.preventDefault(); return runCmd("link", ed); }
