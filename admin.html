@@ -609,6 +609,7 @@ function countLessons(units){
 
 /* data.js 원본의 서명 — 작업본이 어느 원본에서 갈라졌는지 기억해, 원본이 밖에서 바뀌면 알아챈다 */
 function sig(o){ const s = JSON.stringify(o); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0; return h.toString(36) + s.length; }
+function payloadSig(o){ return sig({ profile: o.profile, units: o.units, interview: o.interview || null }); }
 function loadData(){
   hasBase = !!(window.PORTFOLIO_PROFILE && window.PORTFOLIO_UNITS);
   const base = hasBase
@@ -625,10 +626,12 @@ function loadData(){
     draft = null;
   }
 
-  const baseSig = base ? sig(base) : "";
-  /* 방금 내보낸(저장한) 작업본이면 원본이 곧 그 내용이니 조용히 원본으로. 그 밖에 원본이 밖에서 바뀌었으면 묻는다 */
+  const baseSig = base ? payloadSig(base) : "";
+  /* 원본이 우리가 내보낸 바로 그 내용이면 작업본은 필요 없다.
+     GitHub 커밋 직후에는 사이트 반영에 시간이 걸려 원본이 아직 옛것일 수 있으므로, 그때는 작업본을 그대로 지킨다. */
   if (draft && draft.units && base){
-    if (draft.exported) draft = null;
+    if (draft.exportedSig && draft.exportedSig === baseSig) draft = null;
+    else if (draft.exportedSig) { /* 아직 반영 전 — 조용히 작업본 유지 */ }
     else if (draft.baseSig !== baseSig){
       if (confirm("data.js 원본이 편집기의 작업본과 다릅니다 (편집기 밖에서 바뀌었습니다).\n\n" +
                   "[확인] 원본으로 새로 시작 — 지금 작업본은 「버전」에 남겨 둡니다\n[취소] 작업본을 그대로 씁니다")){
@@ -680,7 +683,7 @@ document.getElementById("dataPicker").onchange = e => {
 };
 
 function save(){
-  dirty = true; data.exported = false;
+  dirty = true; data.exportedSig = "";
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(data));
     setStatus("자동 저장됨", "saved");
@@ -3289,8 +3292,11 @@ window.PORTFOLIO_UNITS = ${JSON.stringify(units, null, 2)};
 window.PORTFOLIO_INTERVIEW = ${JSON.stringify(interview, null, 2)};
 ` : "");
 }
-/* 내보낸 직후에는 작업본 = 원본. 다음에 열 때 원본을 그대로 쓰게 표시한다 (save() 가 다시 지운다) */
-function markExported(){ data.exported = true; try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch(_) {} }
+/* 방금 내보낸 내용의 서명을 남긴다. 다음에 열 때 원본이 이 서명과 같으면 작업본을 버린다 (save() 가 다시 지운다) */
+function markExported(units){
+  data.exportedSig = payloadSig({ profile: data.profile, units: units || data.units, interview: data.interview });
+  try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch(_) {}
+}
 function download(name, text, type){
   const blob = new Blob([text], { type: type || "text/javascript;charset=utf-8" });
   const a = document.createElement("a");
@@ -3338,8 +3344,8 @@ document.getElementById("saveBtn").onclick = async () => {
     [
       { label:"닫기", cls:"btn", fn: closeModal },
       { label:"data.js만 받기", cls:"btn", fn: () => {
-          const { js } = { js: buildDataJs(data.units, data.profile, data.interview) };
-          download("data.js", js); markExported(); closeModal(); toast("data.js를 내려받았습니다");
+          const { js, units } = buildSplit();
+          download("data.js", js); markExported(units); closeModal(); toast("data.js를 내려받았습니다");
       }},
       { label:"ZIP으로 받기", cls:"btn", fn: exportZip },
       { label:"🚀 GitHub에 바로 저장", cls:"btn primary", fn: () => { closeModal(); openGhSettings(); } },
@@ -3445,7 +3451,7 @@ function buildSplit(){
     }
     m.lessons.forEach(l => { l.html = walk(l.html || ""); });
   }));
-  return { js: buildDataJs(units, data.profile, data.interview), files };
+  return { js: buildDataJs(units, data.profile, data.interview), files, units };
 }
 
 function exportZip(){
@@ -3577,7 +3583,7 @@ async function saveToFolder(silent){
   if (!dirHandle && !(await connectFolder())) return false;
   if (!(await ensurePerm())){ toast("폴더 쓰기 권한이 필요합니다", true); return false; }
   try {
-    const { js, files } = buildSplit();
+    const { js, files, units } = buildSplit();
     const fh = await dirHandle.getFileHandle("data.js", { create:true });
     const w = await fh.createWritable(); await w.write(js); await w.close();
     if (files.length){
@@ -3587,7 +3593,7 @@ async function saveToFolder(silent){
         const ww = await h.createWritable(); await ww.write(f.data); await ww.close();
       }
     }
-    dirty = false; markExported();
+    dirty = false; markExported(units);
     setStatus(`저장됨 · ${new Date().toLocaleTimeString("ko-KR")}`, "saved");
     if (!silent) toast(`저장 완료 — data.js${files.length ? ` + 이미지 ${files.length}장` : ""}`);
     return true;
@@ -3598,9 +3604,13 @@ async function saveToFolder(silent){
 }
 function updateFolderBadge(){
   const b = document.getElementById("saveBtn");
+  const st = document.getElementById("status");
+  /* GitHub 로 저장할 때는 상태 글씨가 설정 문이다 — 토큰이 만료되면 여기서 새 토큰을 넣는다 */
+  st.style.cursor = ghReady() ? "pointer" : "";
+  st.onclick = ghReady() ? openGhSettings : null;
   if (ghReady()){
     b.textContent = "🚀 저장 · 배포";
-    b.title = `${gh.repo} 에 커밋 (Ctrl+S)`;
+    b.title = `${gh.repo} 에 커밋 (Ctrl+S) — 상태 글씨를 누르면 GitHub 연결 설정`;
   } else {
     b.textContent = dirHandle ? "💾 저장" : "💾 저장";
     b.title = dirHandle ? `${dirHandle.name} 폴더에 저장 (Ctrl+S)` : "저장 방법을 고릅니다 (Ctrl+S)";
@@ -3697,6 +3707,22 @@ let gh = null;
 try { gh = JSON.parse(localStorage.getItem(GH_KEY) || "null"); } catch(_) {}
 
 function ghReady(){ return !!(gh && gh.repo && gh.token); }
+let ghLastError = "";
+/* GitHub 응답을 사람 말로 — 대부분 토큰 만료 아니면 권한 문제다 */
+function ghWhy(msg){
+  msg = String(msg || "");
+  if (/401|Bad credentials/i.test(msg))
+    return "토큰이 만료됐거나 잘못됐습니다.\nGitHub → Settings → Developer settings → Personal access tokens →\nFine-grained tokens 에서 토큰을 새로 만들어 아래 설정에 붙여 넣으세요.";
+  if (/403/.test(msg))
+    return "토큰에 이 저장소를 고칠 권한이 없습니다.\n토큰의 Repository access 에 이 저장소가 들어 있고,\nPermissions → Contents 가 Read and write 인지 확인하세요.";
+  if (/404/.test(msg))
+    return "저장소나 브랜치를 찾지 못했습니다.\n· 저장소가 owner/repo 형식인지 (예: Sprin9wind/portfolio)\n· 브랜치 이름이 맞는지 (보통 main)\n· 토큰의 Repository access 에 이 저장소가 들어 있는지 확인하세요.";
+  if (/not a fast forward|409|422/i.test(msg))
+    return "저장소가 편집기보다 앞서 있습니다. 다른 곳에서 파일을 올렸거나 저장이 겹친 경우입니다.\n잠시 뒤 다시 저장하고, 그래도 안 되면 새로고침한 뒤 저장하세요.";
+  if (/Failed to fetch|NetworkError|network/i.test(msg))
+    return "GitHub 에 연결하지 못했습니다. 인터넷 연결, 방화벽, 광고 차단 확장 프로그램을 확인하세요.";
+  return "· 저장소가 owner/repo 형식인지\n· 브랜치 이름이 맞는지\n· 토큰에 Contents: Read and write 권한이 있는지 확인하세요.";
+}
 function bytesToB64(bytes){
   let bin = "";
   const CH = 0x8000;
@@ -3733,7 +3759,7 @@ async function saveToGitHub(silent){
   const label = () => { btn.textContent = "🚀 저장 · 배포"; };
   try {
     btn.textContent = "올리는 중…";
-    const { js, files } = buildSplit();
+    const { js, files, units } = buildSplit();
 
     /* 1) 파일을 blob으로 올린다 — 내용 기반이라 한 번만 올리면 된다 */
     const blobs = [];
@@ -3762,7 +3788,7 @@ async function saveToGitHub(silent){
                                  tree: nt.sha, parents:[head] }) });
         await ghApi(`/repos/${gh.repo}/git/refs/heads/${branch}`, { method:"PATCH",
           body: JSON.stringify({ sha: cm.sha }) });
-        dirty = false; markExported();
+        dirty = false; markExported(units);
         setStatus(`GitHub 반영됨 · ${new Date().toLocaleTimeString("ko-KR")}`, "saved");
         label();
         if (!silent) toast("커밋 완료 — 1분 내 사이트에 반영됩니다");
@@ -3775,16 +3801,14 @@ async function saveToGitHub(silent){
     }
     throw lastErr;
   } catch(err){
+    ghLastError = (err && err.message) || String(err);
+    console.error("GitHub 저장 실패:", err);
     setStatus("GitHub 저장 실패", "dirty");
+    document.getElementById("status").title = ghLastError;
     label();
-    const race = /not a fast forward/i.test(err.message || "");
-    alert(race
-      ? "GitHub 저장에 실패했습니다.\n\n" + err.message +
-        "\n\n저장소가 편집기보다 앞서 있습니다.\n다른 곳에서 파일을 올렸거나 저장이 겹친 경우입니다.\n\n" +
-        "· 잠시 뒤 저장을 다시 눌러 주세요.\n" +
-        "· 그래도 안 되면 페이지를 새로고침한 뒤 저장하세요."
-      : "GitHub 저장에 실패했습니다.\n\n" + err.message +
-        "\n\n· 저장소가 owner/repo 형식인지\n· 브랜치 이름이 맞는지\n· 토큰에 Contents: Read and write 권한이 있는지 확인하세요.");
+    const race = /not a fast forward/i.test(ghLastError);
+    alert("GitHub 저장에 실패했습니다.\n\n" + ghLastError + "\n\n" + ghWhy(ghLastError));
+    if (!race) openGhSettings();   /* 바로 「연결 확인」을 눌러 볼 수 있게 */
     return false;
   }
 }
@@ -3792,6 +3816,7 @@ async function saveToGitHub(silent){
 function openGhSettings(){
   const g = gh || { repo:"", branch:"main", path:"", token:"" };
   openModal("GitHub 연결 설정", `
+    ${ghLastError ? `<div class="note warn"><b>마지막 저장 오류</b><br>${esc(ghLastError)}<br><br>${esc(ghWhy(ghLastError)).replace(/\n/g, "<br>")}</div>` : ""}
     <div class="note">
       한 번만 설정하면 <b>저장 버튼이 곧 배포</b>가 됩니다.
       편집 → 저장 → 1분 뒤 사이트 반영. 파일을 옮길 일이 없습니다.
@@ -3821,7 +3846,7 @@ function openGhSettings(){
         try {
           const r = await ghApi(`/repos/${t.repo}/git/ref/heads/${t.branch}`);
           alert(`연결 성공\n\n${t.repo} · ${t.branch}\n최신 커밋 ${r.object.sha.slice(0,7)}`);
-        } catch(err){ gh = keep; alert("연결 실패\n\n" + err.message); }
+        } catch(err){ gh = keep; alert("연결 실패\n\n" + err.message + "\n\n" + ghWhy(err.message)); }
      }},
      { label:"저장", cls:"btn primary", fn: () => {
         gh = { repo: val("ghRepo").trim(), branch: val("ghBranch").trim() || "main",
