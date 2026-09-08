@@ -109,7 +109,9 @@ window.PORTFOLIO_UNITS = [
 
 - 좌측 트리: 섹션/그룹/문서. 문서 줄은 **`div[role=button]`** 이다.
   중첩 `<button>`은 브라우저가 DOM을 재구성해 클릭이 깨지므로 **절대 쓰지 말 것.**
-- 우측: 제목·태그·링크 폼 + contenteditable 본문 편집기.
+- 우측: 그룹 머리말 미리보기(`groupHead()` — 사이트 `.phead` 와 같은 모양, 기간 줄만 편집, 문서 바로가기로 이동) → 문서 제목·태그(사이트 `.doc-head` 모양) · 접이식 링크 → 툴바 · contenteditable 본문 편집기.
+  편집 지면 토큰(`--bg` `--ink` …)은 `.main-inner` 에 걸려 머리말과 편집 칸이 같은 색을 쓴다.
+- 작업본은 원본 서명 `baseSig` 를 갖는다. `loadData()` 는 원본(`data.js`)이 밖에서 바뀌면 원본으로 새로 시작할지 묻고, 내보낸 직후(`exported`)는 조용히 원본을 쓴다.
 - 이미지를 클릭하면 `#imgTools` 의 도구막대가 **이미지 안쪽 가운데 위**에 얹힌다(낮은 이미지면 위로).
   `#imgTools` 는 `position:fixed; inset:0` 이어야 한다 — 안의 막대·핸들이 `absolute` 라 컨테이너가 뷰포트를 덮어야 한다.
 - 본문 왼쪽 `#blkRail`에 블록마다 손잡이 두 개를 절대배치한다 — `＋`(아래에 블록 추가)와
