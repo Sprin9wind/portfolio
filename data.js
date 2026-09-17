@@ -35,7 +35,7 @@ window.PORTFOLIO_UNITS = [
           {
             title: "About Me",
             tag: "소개",
-            html: `<div class="callout insight"><div class="callout-ico">💡</div><div class="callout-body"><p><strong>창의적인 아이디어를 게임 디자인으로 풀어내는 기획자, 이정훈입니다.</strong><br>게임은 단순한 재미를 넘어 유저에게 새로운 경험과 의미를 전달하는 매체라고 믿습니다.</p></div></div><h2>이렇게 일합니다</h2><ul><li><strong>아이디어를 실제 기획과 구현으로 잇습니다</strong> — 다양한 경험을 바탕으로 기존의 틀에 얽매이지 않고 새로운 아이디어를 발굴하고, 이를 기획 문서와 실제 구현으로 발전시켜 왔습니다.</li><li><strong>핵심 재미를 지키면서 확장합니다</strong> — 게임이 가진 핵심적인 재미와 가치를 유지하면서도 유저에게 새로운 경험을 제공하는 방향을 고민합니다.</li><li><strong>직군에 맞게 전달합니다</strong> — 아트·프로그래밍 등 각 직군이 필요로 하는 정보를 선별해 문서화합니다. 협업 비용을 줄이는 것이 기획자의 역할이라고 생각합니다.</li><li><strong>계속 배우고 성장합니다</strong> — 새로운 도전을 두려워하지 않고, 프로젝트마다 부족했던 점을 기록하며 다음 프로젝트에 반영합니다.</li></ul><h2>핵심 역량</h2><table><tr><th>역량</th><th>내용</th><th>근거 프로젝트</th></tr><tr><td>시스템 기획</td><td>스킬·스테이터스·대화 시스템의 구조와 데이터 테이블 설계</td><td>외(계인)노(동)자 · 극락가신당</td></tr><tr><td>콘텐츠 · 레벨 기획</td><td>미니게임 플레이 루프, 스테이지 배치, 몬스터·맵·기믹 설계</td><td>외(계인)노(동)자 · 극락가신당</td></tr><tr><td>밸런스 · 데이터 분석</td><td>플레이테스트 데이터 수집, 스코어 편차 분석, 난이도 곡선·재화 조정</td><td>외(계인)노(동)자</td></tr><tr><td>프로젝트 매니징</td><td>팀장으로 주간 회의·일정·역할 조율, GitHub–Discord 협업 환경 구축</td><td>극락가신당</td></tr><tr><td>프로토타이핑</td><td>Python · MediaPipe · OpenCV(KNN) 제스처 인식, UDP → Unity 연동</td><td>모션인식 포수 시뮬레이터</td></tr><tr><td>시스템 분석 · 제안</td><td>라이브 게임 시스템 분석서, 개편안, 아이디어 제안서 작성</td><td>메이플스토리 기획 문서</td></tr></table><h2>연락처</h2><table><tr><th>지역</th><td>Seoul, South Korea</td></tr><tr><th>전화</th><td>010-4199-5723</td></tr><tr><th>이메일</th><td><a href="mailto:harry5493@gmail.com">harry5493@gmail.com</a></td></tr></table>`
+            html: `<div class="callout insight"><div class="callout-ico">💡</div><div class="callout-body"><p><strong>창의적인 아이디어를 게임 디자인으로 풀어내는 기획자, 이정훈입니다.</strong><br>게임은 단순한 재미를 넘어 유저에게 새로운 경험과 의미를 전달하는 매체라고 믿습니다.</p></div></div><h2>이렇게 일합니다</h2><ul><li><strong>아이디어를 실제 기획과 구현으로 잇습니다</strong> — 다양한 경험을 바탕으로 기존의 틀에 얽매이지 않고 새로운 아이디어를 발굴하고, 이를 기획 문서와 실제 구현으로 발전시켜 왔습니다.</li><li><strong>핵심 재미를 지키면서 확장합니다</strong> — 게임이 가진 핵심적인 재미와 가치를 유지하면서도 유저에게 새로운 경험을 제공하는 방향을 고민합니다.</li><li><strong>직군에 맞게 전달합니다</strong> — 아트·프로그래밍 등 각 직군이 필요로 하는 정보를 선별해 문서화합니다. 협업 비용을 줄이는 것이 기획자의 역할이라고 생각합니다.</li><li><strong>계속 배우고 성장합니다</strong> — 새로운 도전을 두려워하지 않고, 프로젝트마다 부족했던 점을 기록하며 다음 프로젝트에 반영합니다.</li></ul><h2>핵심 역량</h2><table><tr><th>역량</th><th>내용</th><th>근거 프로젝트</th></tr><tr><td>시스템 기획</td><td>스킬·스테이터스·대화 시스템의 구조와 데이터 테이블 설계</td><td>외(계인)노(동)자 · 극락가신당</td></tr><tr><td>콘텐츠 · 레벨 기획</td><td>미니게임 플레이 루프, 스테이지 배치, 몬스터·맵·기믹 설계</td><td>외(계인)노(동)자 · 극락가신당</td></tr><tr><td>밸런스 · 데이터 분석</td><td>플레이테스트 데이터 수집, 스코어 편차 분석, 난이도 곡선·재화 조정</td><td>외(계인)노(동)자</td></tr><tr><td>프로젝트 매니징</td><td>팀장으로 주간 회의·일정·역할 조율, GitHub–Discord 협업 환경 구축</td><td>극락가신당</td></tr><tr><td>프로토타이핑</td><td>Python · MediaPipe · OpenCV(KNN) 제스처 인식, UDP → Unity 연동</td><td>모션인식 포수 시뮬레이터</td></tr><tr><td>시스템 분석 · 제안</td><td>라이브 게임 시스템 분석서, 개편안, 아이디어 제안서 작성</td><td>메이플스토리 유니온 분석 · 길드 개편안</td></tr></table><h2>연락처</h2><table><tr><th>지역</th><td>Seoul, South Korea</td></tr><tr><th>전화</th><td>010-4199-5723</td></tr><tr><th>이메일</th><td><a href="mailto:harry5493@gmail.com">harry5493@gmail.com</a></td></tr></table>`
           },
           {
             title: "교육 · 자격증",
@@ -254,71 +254,17 @@ window.PORTFOLIO_UNITS = [
     ]
   },
   {
-    title: "메이플스토리 기획 문서",
-    layout: "cards",
-    mids: [
-      {
-        title: "메이플 프론티어 — 아이디어 제안서",
-        meta: "메커톤 아이디어 제안서 · 2D 횡스크롤 탐험 디펜스",
-        cover: "images/frontier-01.png",
-        lessons: [
-          {
-            title: "1. 게임 개요",
-            tag: "제안서",
-            html: `<img src="images/frontier-01.png" alt=""><img src="images/frontier-02.png" alt=""><p><strong>메이플 프론티어</strong>는 메이플스토리 세계관을 배경으로, 탐험을 통해 몬스터를 수집하고 유닛으로 활용해 거점을 방어하는 <strong>2D 횡스크롤 탐험 디펜스 게임</strong>입니다. 헤네시스를 시작으로 챕터마다 새로운 지역이 열리고, 탐험 페이즈에서 사냥한 몬스터는 도감에 등록되어 전투에서 유닛으로 활용됩니다.</p><table><tr><th>장르</th><td>2D 횡스크롤 탐험 디펜스</td></tr><tr><th>플랫폼</th><td>메이플스토리 월드</td></tr><tr><th>배경</th><td>빅토리아 아일랜드 — 헤네시스를 시작으로 챕터별 새로운 지역 개방</td></tr><tr><th>핵심 키워드</th><td>탐험 · 수집 · 전투 · 성장</td></tr><tr><th>플레이타임</th><td>챕터당 1시간 ~ 1시간 30분</td></tr></table>`
-          },
-          {
-            title: "2. 핵심 재미 요소",
-            tag: "제안서",
-            html: `<div class="quote">탐험 → 수집 → 전투 → 성장<span>끊기지 않고 순환하는 루프가 메이플 프론티어의 핵심 재미입니다.</span></div><ul><li><strong>선택이 전략이 된다</strong> — 탐험에서 어떤 몬스터를 얼마나 수집했느냐가 전투 전략을 결정하고, 전투 결과가 다시 성장과 새 지역 해금으로 이어져 더 넓은 탐험의 이유가 됩니다. 어떤 몬스터를 사냥하고, 어떤 장비와 시설을 만들고, 언제 전투에 돌입할지 모든 선택이 결과에 영향을 미칩니다.</li><li><strong>메이플 IP의 색다른 확장</strong> — 항상 적으로만 마주쳤던 몬스터가 유저와 한 편이 되어 싸우고, 사냥을 거듭할수록 유닛의 전력도 강해집니다.</li></ul>`
-          },
-          {
-            title: "3. 게임 시퀀스",
-            tag: "제안서",
-            html: `<img src="images/frontier-03.png" alt=""><p style="text-align:center;font-size:12px;color:var(--ink-3)">전체 게임 시퀀스</p><h2>3.1 탐험 페이즈</h2><ul><li>기존 메이플스토리와 같은 방식으로 횡스크롤 맵을 자유롭게 이동하며 몬스터 사냥, 채집, 채광으로 재화를 획득합니다.</li><li>사냥한 몬스터는 도감에 등록되며, 같은 몬스터를 많이 사냥할수록 유닛 이해도가 올라 능력치가 강화됩니다. 획득한 재화로 장비를 강화하거나 방어시설을 건설해 전투를 준비합니다.</li><li>탐험 시간은 최대 1시간이며, 준비가 끝나면 유저 선택으로 즉시 전투에 돌입할 수 있습니다.</li></ul><img src="images/frontier-04.png" alt=""><div class="img-row"><img src="images/frontier-05.png" alt=""><img src="images/frontier-06.png" alt=""></div><h2>3.2 전투 페이즈</h2><ul><li>거점으로 몰려드는 웨이브를 <strong>플레이어 직접 전투 + 몬스터 유닛 소환</strong>의 이중 구조로 방어합니다. 유닛은 전투 중 적을 처치해 얻는 재화를 소모해 하단 슬롯에서 소환하며, 공격 방식·스테이터스·이동 속도가 유닛마다 다릅니다.</li><li>일정 시간 웨이브를 막아내면 스테이지 클리어. 플레이어 사망 또는 거점 체력 0이면 경험치·재화 손실 페널티와 함께 탐험 페이즈로 복귀해 재정비 후 재도전합니다.</li></ul><img src="images/frontier-07.png" alt=""><h2>3.3 챕터 종료</h2><ul><li>챕터 내 전투 스테이지를 모두 클리어하면 챕터가 끝나고, 다음 챕터에서 새로운 맵·몬스터·상위 장비·방어시설이 해금됩니다. 챕터 1은 헤네시스, 이후 챕터는 빅토리아 아일랜드의 새 지역으로 확장됩니다.</li></ul>`
-          },
-          {
-            title: "4. 개발 전략",
-            tag: "제안서",
-            html: `<ul><li><strong>개발 방식</strong> — 제한된 제작 기간 안에 완성도를 확보하기 위해 탐험 페이즈와 전투 페이즈를 분리해 병렬 개발합니다. 두 파트를 독립적으로 구현한 뒤 통합해 효율을 높입니다.</li><li><strong>리소스 활용</strong> — 캐릭터·몬스터 스프라이트, 전투 이펙트 등 애니메이션이 필요한 요소는 MSW의 기존 리소스를 최대한 활용하고, 아트팀은 UI·배경·일러스트 제작에 집중합니다.</li><li><strong>콘텐츠 확장</strong> — 출품 목표는 3챕터 내외의 완성본이며, 이후 챕터를 확장해 콘텐츠 볼륨을 지속적으로 키웁니다.</li></ul>`
-          }
-        ]
-      },
-      {
-        title: "유니온 시스템 분석",
-        meta: "메이플스토리 시스템 분석서",
-        cover: "images/union-01.png",
-        lessons: [
-          {
-            title: "유니온 시스템 분석",
-            tag: "시스템 분석",
-            links: [{"label": "📎 분석서 PDF · 엑셀 (Notion)", "url": "https://app.notion.com/p/35d9d4ab6bba80108f11d5aee3df3032"}],
-            html: `<p>메이플스토리의 핵심 계정 성장 시스템인 <strong>유니온</strong>을 분석한 문서입니다. 상세 UI와 테이블을 재구성하고, 적용 구조와 기획 의도를 분석했습니다.</p><img src="images/union-01.png" alt=""><p style="text-align:center;font-size:12px;color:var(--ink-3)">분석서 일부</p><h2>산출물</h2><ul><li>메이플스토리_유니온시스템_분석서 (이정훈).pdf — 시스템 분석서</li><li>공격대_효과_테이블 (이정훈).xlsx — 분석서에 포함된 테이블의 원본 엑셀</li></ul><div class="callout"><div class="callout-ico">📎</div><div class="callout-body"><p>첨부 파일(PDF·xlsx)은 <a href="https://app.notion.com/p/35d9d4ab6bba80108f11d5aee3df3032" target="_blank" rel="noopener">노션 원문에서 보기 ↗</a></p></div></div>`
-          }
-        ]
-      },
-      {
-        title: "길드 콘텐츠 · 길드 스킬 개선",
-        meta: "메이플스토리 시스템 개편안",
-        cover: "images/guild-01.png",
-        lessons: [
-          {
-            title: "길드 콘텐츠 및 길드 스킬 시스템 개선",
-            tag: "개선안",
-            links: [{"label": "📎 개편서 PDF (Notion)", "url": "https://app.notion.com/p/35d9d4ab6bba800680a2e2973814ffd8"}],
-            html: `<p>메이플스토리의 길드 콘텐츠와 길드 스킬 시스템을 분석하고, 구조적 문제점을 개선하기 위한 구체적인 개편안을 제시한 문서입니다.</p><table><tr><th>문제점</th><th>개선 방향</th></tr><tr><td>주간 반복 구조로 인한 콘텐츠 피로도</td><td>시즌 단위 초기화로 전환</td></tr><tr><td>길드 랭킹 의존적인 보상 체계 → 길드 선택의 강제성</td><td>개인 보상 구조 강화</td></tr><tr><td>길드 성장 동기 부족</td><td>주간 보스 미션 도입</td></tr></table><p>개선안을 통해 유저가 보다 유연하고 공정한 방식으로 보상을 획득하고, 길드 단위 협력과 커뮤니티 가치를 한층 강화할 수 있도록 했습니다.</p><img src="images/guild-01.png" alt=""><p style="text-align:center;font-size:12px;color:var(--ink-3)">개편서 일부</p><h2>산출물</h2><ul><li>메이플스토리_길드콘텐츠및_길드스킬_시스템개편서 (이정훈).pdf — 전문</li></ul><div class="callout"><div class="callout-ico">📎</div><div class="callout-body"><p>첨부 파일(PDF)은 <a href="https://app.notion.com/p/35d9d4ab6bba800680a2e2973814ffd8" target="_blank" rel="noopener">노션 원문에서 보기 ↗</a></p></div></div>`
-          }
-        ]
-      }
-    ]
-  },
-  {
     title: "대외 활동",
     layout: "list",
     mids: [
       {
         title: "동아리 · 캠프",
         lessons: [
+          {
+            title: "메커톤",
+            tag: "기획자 · 시스템 기획",
+            html: `<table><tr><th>역할</th><td>기획자 — 시스템 기획</td></tr><tr><th>소속</th><td>메커톤 · 팀 쌀쌀원정대</td></tr><tr><th>기간</th><td>2026.06</td></tr></table><ul><li>반사벽으로 투사체 경로를 설계하는 <strong>로그라이트 타워 디펜스</strong>를 제작해 글로벌 개발 콘테스트에 출시했습니다.</li><li>설치물(터렛 8종 · 반사벽 18종)과 업그레이드 · 몬스터 시스템을 기획하고, 상점 2단계 추첨과 리롤 비용 구조, 터렛 데미지 계산식을 설계했습니다.</li><li>인게임 HUD UI와 설치물 배치 · 이동 · 판매 플로우까지 기획서 7종으로 정리해 팀에 공유했습니다.</li></ul>`
+          },
           {
             title: "외(계인)노(동)자",
             tag: "시스템 & 콘텐츠 기획",
@@ -467,7 +413,7 @@ window.PORTFOLIO_INTERVIEW = {
         "i03"
       ],
       "sub": false,
-      "link": "4-0-3",
+      "link": "3-0-4",
       "pts": 5
     },
     {
@@ -485,7 +431,7 @@ window.PORTFOLIO_INTERVIEW = {
         "i04"
       ],
       "sub": false,
-      "link": "4-0-1",
+      "link": "3-0-2",
       "pts": 5
     },
     {
@@ -735,7 +681,7 @@ window.PORTFOLIO_INTERVIEW = {
         "s02"
       ],
       "sub": false,
-      "link": "4-0-3",
+      "link": "3-0-4",
       "pts": 5
     },
     {
@@ -1148,7 +1094,7 @@ window.PORTFOLIO_INTERVIEW = {
         "d06"
       ],
       "sub": false,
-      "link": "3-1-0",
+      "link": null,
       "pts": 5
     },
     {
@@ -1161,7 +1107,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "3-1-0",
+      "link": null,
       "pts": 7
     },
     {
@@ -1177,7 +1123,7 @@ window.PORTFOLIO_INTERVIEW = {
         "d05"
       ],
       "sub": true,
-      "link": "3-1-0",
+      "link": null,
       "pts": 7
     },
     {
@@ -1190,7 +1136,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "3-1-0",
+      "link": null,
       "pts": 7
     },
     {
@@ -1204,7 +1150,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "3-1-0",
+      "link": null,
       "pts": 7
     },
     {
@@ -1218,7 +1164,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "3-1-0",
+      "link": null,
       "pts": 7
     },
     {
@@ -1236,7 +1182,7 @@ window.PORTFOLIO_INTERVIEW = {
         "d10"
       ],
       "sub": false,
-      "link": "3-2-0",
+      "link": null,
       "pts": 5
     },
     {
@@ -1249,7 +1195,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "3-2-0",
+      "link": null,
       "pts": 7
     },
     {
@@ -1263,7 +1209,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "3-2-0",
+      "link": null,
       "pts": 7
     },
     {
@@ -1277,7 +1223,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "3-2-0",
+      "link": null,
       "pts": 7
     },
     {
@@ -1291,7 +1237,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": false,
-      "link": "3-0-0",
+      "link": null,
       "pts": 5
     },
     {
