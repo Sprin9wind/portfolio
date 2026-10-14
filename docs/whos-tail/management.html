@@ -1,0 +1,102 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>management — Who’s Tail</title><style>
+@font-face{font-family:PortfolioPretendard;src:url('../../fonts/Pretendard-Regular.woff2') format('woff2');font-weight:400;font-display:block}
+@font-face{font-family:PortfolioPretendard;src:url('../../fonts/Pretendard-Bold.woff2') format('woff2');font-weight:700;font-display:block}
+@font-face{font-family:PortfolioNanumNeo;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2') format('woff2');font-weight:800;font-display:block}
+*{box-sizing:border-box}body{margin:0;background:#e9e9e9;color:#252525;font-family:PortfolioPretendard,Pretendard,sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.65}
+.sheet{width:1000px;min-height:1414px;background:#fff;padding:48px 54px;margin:24px auto}
+h1,h2,h3,h4,h5,h6{font-family:PortfolioNanumNeo,'NanumSquareNeo',sans-serif;font-weight:800;color:#202020}
+h1{font-size:25px;line-height:1.45;margin:0 0 24px;padding:7px 12px;background:#d9d9d9}
+h2{font-size:20px;line-height:1.45;margin:25px 0 12px;padding:0}
+h3{font-size:18px;line-height:1.5;margin:22px 0 10px;border-bottom:1px solid #d5d5d5;padding-bottom:7px}
+p,li{font-size:16px;margin:9px 0}ul,ol{padding-left:23px}
+blockquote{background:#f5f5f5;border:1px solid #c7c7c7;margin:14px 0;padding:13px 18px}blockquote p{font-size:16px;margin:6px 0}
+img{display:block;max-width:100%;width:100%;max-height:430px;object-fit:contain;margin:20px auto}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:15px;line-height:1.6}th,td{border:1px solid #aaa;padding:9px 11px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}td:first-child{width:23%}em{font-size:13px;color:#626262;font-style:normal}strong{color:inherit}
+a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px solid #bbb;padding-top:12px;margin-top:24px;font-size:12px;color:#666}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}.comparison figure{margin:0}.comparison img{margin:0}.comparison figcaption{font-size:13px;color:#626262;margin-top:6px}
+@media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:23px}h2{font-size:20px}p,li{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+@media print{body{background:#fff}.sheet{margin:0;break-after:page}}
+</style><body><article class="sheet"><h1>5.1 제작, 검증, 인계 기준</h1>
+<h2>● 작업 단위</h2>
+<p>기획 조건과 완료 기준을 먼저 정한 뒤, 구현, 검증, 통합의 담당 범위를 구분한다.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>필요한 입력</th>
+<th>산출물, 확인 사항</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기획</td>
+<td>목적, 적용 대상, 플레이 규칙</td>
+<td>요구사항과 제외 범위</td>
+</tr>
+<tr>
+<td>구현 요청</td>
+<td>담당 파일, 원본, 레퍼런스, 고정 조건</td>
+<td>후보 또는 구현 결과</td>
+</tr>
+<tr>
+<td>검토</td>
+<td>동일 조건의 비교 자료</td>
+<td>채택안, 수정할 부위, 재작업 사유</td>
+</tr>
+<tr>
+<td>통합</td>
+<td>확정된 결과와 적용 방법</td>
+<td>연결 상태, 참조 관계 확인</td>
+</tr>
+<tr>
+<td>검증</td>
+<td>재현 조건과 예상 동작</td>
+<td>실행 결과, 실패 항목, 미확인 항목</td>
+</tr>
+<tr>
+<td>인계</td>
+<td>적용 파일과 검증 기록</td>
+<td>다음 담당자가 수행할 작업</td>
+</tr>
+</tbody>
+</table>
+<h2>● 협업 규칙</h2>
+<ul>
+<li>에이전트별 수정 파일을 나누고 공통 파일의 통합 담당을 지정.</li>
+<li>Unity 씬을 동시에 수정하지 않도록 에디터 쓰기 담당을 일원화.</li>
+<li>원본 에셋과 작업본을 분리하고, 채택한 버전을 명시.</li>
+<li>검사 통과와 실제 플레이 확인을 구분하여 기록.</li>
+</ul>
+<h2>● 인계 문서의 필수 항목</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>적용 대상</td>
+<td>캐릭터, 꼬리, 전화부스 등 연결할 오브젝트</td>
+</tr>
+<tr>
+<td>연결 조건</td>
+<td>필요한 컴포넌트, 참조 대상, 호출 시점</td>
+</tr>
+<tr>
+<td>재현 방법</td>
+<td>대결 진입, 문 개폐, 리스폰 등 확인 절차</td>
+</tr>
+<tr>
+<td>검증 결과</td>
+<td>실제 실행한 검사와 확인한 동작</td>
+</tr>
+<tr>
+<td>남은 작업</td>
+<td>배포 빌드, 다중 접속 등 별도로 확인할 항목</td>
+</tr>
+</tbody>
+</table>
+<h2>● 완료 판정</h2>
+<p>파일 전달만으로 완료 처리하지 않는다. 적용 방법과 검증 기록을 함께 남기고, 미확인 항목은 다음 작업으로 넘긴다.</p></article></body></html>

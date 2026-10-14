@@ -1,0 +1,21 @@
+Pretendard Regular / Bold
+Copyright (c) 2021, Kil Hyung-jin and credited upstream authors.
+Unmodified WOFF2 files from the author's Pretendard 1.3.9 distribution.
+Source: https://github.com/orioncactus/pretendard
+Full license: Pretendard-LICENSE.txt in this folder.
+
+NanumSquareNeo Bold
+Copyright NAVER Corporation. Designed with Sandoll.
+Unmodified NanumSquareNeoTTF-cBd.woff2 from NaverNanumSquareNeo.zip.
+Source and license notice: https://campaign.naver.com/nanumsquare_neo/
+NAVER distributes this font for personal and commercial use. The font is not sold separately.
+The original font's embedded copyright and license metadata are preserved.
+
+NanumSquareNeo ExtraBold
+Copyright NAVER Corporation. Designed with Sandoll.
+WOFF2 container converted with fontTools from the locally installed
+NanumSquareNeo-dEb.ttf (PostScript name: NanumSquareNeoTTF-dEb, weight: 800).
+Original local source: Windows per-user Fonts directory.
+Glyph outlines and embedded font metadata were not edited.
+Publisher and license notice: https://campaign.naver.com/nanumsquare_neo/
+NAVER distributes this font for personal and commercial use. The font is not sold separately.

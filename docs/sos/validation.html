@@ -1,0 +1,161 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOS 수치 검증 계획</title><style>
+@font-face{font-family:PlanBody;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400}
+@font-face{font-family:PlanBody;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
+@font-face{font-family:PlanTitle;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
+*{box-sizing:border-box}body{margin:0;background:#e8e8e8;color:#252525;font:17px/1.65 PlanBody,sans-serif;word-break:keep-all;overflow-wrap:break-word}
+.sheet{width:1000px;min-height:1414px;margin:24px auto;padding:40px 54px;background:white}
+h1,h2,h3,h4,h5,h6{font-family:PlanTitle,sans-serif;font-weight:800;line-height:1.45}h1{background:#d9d9d9;font-size:26px;margin:0 0 24px;padding:9px 12px}h2{font-size:21px;margin:20px 0 11px}h3{font-size:18px}
+p{margin:12px 0}ul,ol{padding-left:25px;margin:12px 0}li{margin:7px 0}img{display:block;width:100%;max-height:430px;object-fit:contain;margin:20px auto}
+table{border-collapse:collapse;width:100%;font-size:15.5px;line-height:1.65;margin:16px 0}th,td{border:1px solid #aaa;padding:10px 12px;text-align:left;vertical-align:top}th{background:#dedede}td:first-child{width:23%}
+@media(max-width:999px){.sheet{width:100%;padding:25px 20px;min-height:0;margin:0}table{font-size:14px}th,td{padding:8px}h1{font-size:23px}}
+@media print{body{background:white}.sheet{margin:0;break-after:page}}
+</style></head><body><article class="sheet"><h1>3.1 수치 검증 계획</h1>
+<h2>확인할 설계 가설</h2>
+<p><strong>약점을 빠르게 알아내 처치한 전투가, 무작위 공격을 반복한 전투보다 수명 손익이 좋아야 한다.</strong></p>
+<table>
+<thead>
+<tr>
+<th>통제할 조건</th>
+<th>비교할 조건</th>
+<th>기록할 결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>같은 몬스터와 개체 레벨</td>
+<td>커맨드 미공략 / 공략</td>
+<td>전투 시간, 플레이어 수명 소모, 흡수량</td>
+</tr>
+<tr>
+<td>같은 공격력과 방어력</td>
+<td>ATBSpeed 변경</td>
+<td>충전 시간, 행동 횟수, 수명 손익</td>
+</tr>
+<tr>
+<td>같은 커맨드와 적 스탯</td>
+<td>약점 파악 미사용 / 사용</td>
+<td>힌트 비용, 처치 시간 단축분</td>
+</tr>
+<tr>
+<td>같은 등급과 레벨</td>
+<td>상태이상 유무</td>
+<td>행동 지연, 피해 누적, 최종 손익</td>
+</tr>
+</tbody>
+</table>
+<p>수명 손익 = 흡수한 수명 − 플레이어의 시간 소모 − 긴급 행동 비용. 비교 시 같은 단위를 사용한다. 등급별 합격 수치와 반복 횟수는 아직 정하지 않았으며, 실측 결과를 확보한 뒤 기준표에 반영한다.</p>
+<h2>비교를 시작하기 전</h2>
+<ul>
+<li>현재 시뮬레이터에서는 상태이상 효과를 비교할 수 없다. 지속 턴, 갱신, 중첩 규칙을 구현한 뒤 비교한다.</li>
+<li>커맨드 성공 이력이 남아 있으면 이후 공격에도 ×5가 적용된다. 반복 보상의 허용 범위를 정하고 판정을 반영한 뒤 공략 유무를 비교한다.</li>
+<li>수명 단위, LIFE_DECAY, 긴급 행동 비용을 하나의 기준표로 통일한다.</li>
+<li>적의 공격 패턴은 무작위로 실행된다. 반복 횟수를 정하고 패턴 선택 이력을 함께 기록한다.</li>
+</ul>
+<h2>측정 기록</h2>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>남길 값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>입력 조건</td>
+<td>몬스터 ID, 개체 레벨, 플레이어 스탯, 커맨드 번호, 공식 변수</td>
+</tr>
+<tr>
+<td>진행 기록</td>
+<td>예약과 실행 행동, 적 패턴, 커맨드 성공 시점, 긴급 행동 사용</td>
+</tr>
+<tr>
+<td>종료 결과</td>
+<td>전투 시간, 승패, 양측 수명 소모, 흡수량, 수명 손익</td>
+</tr>
+<tr>
+<td>조정 기록</td>
+<td>변경한 값, 변경 이유, 재비교할 조건</td>
+</tr>
+</tbody>
+</table></article><article class="sheet"><h1>3.2 구현 차이와 수치 기준</h1>
+<h2>기획과 현재 시뮬레이터</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>기획 기준</th>
+<th>현재 시뮬레이터</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>약점 파악 2회</td>
+<td>첫 슬롯 자동 예약</td>
+<td>현재는 첫 공격 표시만 수행</td>
+</tr>
+<tr>
+<td>커맨드 전환</td>
+<td>Elite 2개, Boss 3개 순차</td>
+<td>현재는 선택한 커맨드 번호로 고정</td>
+</tr>
+<tr>
+<td>성공 로그</td>
+<td>성공 시 ×5, 이력 재사용 범위 결정 필요</td>
+<td>성공 이력이 남아 있는 동안 이후 공격에도 ×5 적용</td>
+</tr>
+<tr>
+<td>행동 예약 변경</td>
+<td>실행 전 예약 변경 가능</td>
+<td>빈 슬롯 채우기만 가능, 변경 미구현</td>
+</tr>
+<tr>
+<td>긴급 행동 시점</td>
+<td>양측 1회 행동 이후</td>
+<td>시작 직후부터 사용 가능, 시점 제한 미구현</td>
+</tr>
+<tr>
+<td>긴급 행동 종류</td>
+<td>약점 파악, 즉시 방어, 회복, 후퇴</td>
+<td>약점 파악과 회복만 구현</td>
+</tr>
+<tr>
+<td>약점 파악 비용</td>
+<td>사용 횟수별 수명 비용 증가</td>
+<td>회당 WEAK_COST 고정, 기본값 10</td>
+</tr>
+<tr>
+<td>상태이상</td>
+<td>지속 턴, 갱신, 중첩 규칙</td>
+<td>미구현, 해당 패턴은 피해 배율과 이름만 표시</td>
+</tr>
+</tbody>
+</table>
+<h2>수치 기준 정리</h2>
+<p>팀원이 작성한 수명 기준 문서와 회의록, 전투 시스템 기획서 사이의 차이를 정리한다.</p>
+<table>
+<thead>
+<tr>
+<th>불일치</th>
+<th>정리할 기준</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>전투 소모가 문서별 1초당 1일 / 10일</td>
+<td>LIFE_DECAY 기준 하나로 통일</td>
+</tr>
+<tr>
+<td>약점 파악 비용 −8일 / −10 LF</td>
+<td>비용 단위와 사용 횟수별 증가 규칙 확정</td>
+</tr>
+<tr>
+<td>후퇴 비용 0일 / −20일</td>
+<td>후퇴 시 손실과 패배 처리를 함께 확정</td>
+</tr>
+<tr>
+<td>붉은 처형인 1065일, 엘리트 기준 상한 1000일</td>
+<td>개별 예외인지 테이블 수정 대상인지 결정</td>
+</tr>
+</tbody>
+</table>
+<p>우선 수명 소모와 비용 기준을 통일한 뒤 동일 조건 비교를 진행한다. 측정값과 변경 이유를 함께 기록하고, 채택한 값을 기획서와 테이블에 반영한다.</p></article></body></html>

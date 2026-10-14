@@ -1,0 +1,156 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Glitch 제작 구조와 빌드 기획 정리본</title><style>
+@font-face{font-family:PlanBody;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400}
+@font-face{font-family:PlanBody;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
+@font-face{font-family:PlanTitle;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
+*{box-sizing:border-box}body{margin:0;background:#e8e8e8;color:#252525;font:17px/1.65 PlanBody,sans-serif;word-break:keep-all;overflow-wrap:break-word}
+.sheet{width:1000px;min-height:1414px;margin:24px auto;padding:40px 54px;background:white}
+h1,h2,h3,h4,h5,h6{font-family:PlanTitle,sans-serif;font-weight:800;line-height:1.45}h1{background:#d9d9d9;font-size:26px;margin:0 0 24px;padding:9px 12px}h2{font-size:21px;margin:20px 0 11px}h3{font-size:18px}
+p{margin:12px 0}ul,ol{padding-left:25px;margin:12px 0}li{margin:7px 0}img{display:block;width:100%;max-height:430px;object-fit:contain;margin:20px auto}
+table{border-collapse:collapse;width:100%;font-size:15.5px;line-height:1.65;margin:16px 0}th,td{border:1px solid #aaa;padding:10px 12px;text-align:left;vertical-align:top}th{background:#dedede}td:first-child{width:23%}
+@media(max-width:999px){.sheet{width:100%;padding:25px 20px;min-height:0;margin:0}table{font-size:14px}th,td{padding:8px}h1{font-size:23px}}
+@media print{body{background:white}.sheet{margin:0;break-after:page}}
+</style></head><body><article class="sheet"><h1>2.1 제작 구조와 공통 화면</h1>
+<h2>제작 조건</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>기준</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>제작 인원과 기간</td>
+<td>기획자 5인, 2026.04.20~04.24 제작, 04.25 제출</td>
+</tr>
+<tr>
+<td>구현 환경</td>
+<td>Figma 프로토타입, PC 화면, 마우스 조작</td>
+</tr>
+<tr>
+<td>화면 규격</td>
+<td>1920 × 1080</td>
+</tr>
+<tr>
+<td>제작 범위</td>
+<td>방 5개, 엔딩 3종</td>
+</tr>
+<tr>
+<td>담당 범위</td>
+<td>개발 및 빌드, 프롤로그와 에필로그, 2번째 방, 연출과 플러그인 적용</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="공통 화면부터 통합 빌드까지의 제작 구조" src="../../images/glitch-specs/build-flow.svg" /></p>
+<h2>공통 조작</h2>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>입력</th>
+<th>화면 반응</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대사창과 이름표</td>
+<td>화면 클릭</td>
+<td>다음 대사 또는 장면으로 진행</td>
+</tr>
+<tr>
+<td>선택지</td>
+<td>해당 선택지 클릭</td>
+<td>선택 결과에 해당하는 프레임으로 이동</td>
+</tr>
+<tr>
+<td>조사 오브젝트</td>
+<td>클릭 영역 선택</td>
+<td>설명, 규칙 문서 또는 힌트 카드 표시</td>
+</tr>
+<tr>
+<td>입력 장치</td>
+<td>버튼 또는 키패드 선택</td>
+<td>연결된 입력 상태와 결과 화면 표시</td>
+</tr>
+</tbody>
+</table>
+<h2>분업 원칙</h2>
+<ul>
+<li>각 담당자가 방 하나의 기획과 구현을 함께 맡는다.</li>
+<li>공통 UI와 프로토타입 연결 방식을 먼저 공유한다.</li>
+<li>방별 진입 화면과 종료 화면을 지정한 뒤 전체 흐름에 연결한다.</li>
+<li>방마다 다른 테마를 허용하고, 공통 UI와 조작 방식은 같은 틀을 사용한다.</li>
+</ul></article><article class="sheet"><h1>2.2 제작 범위 조정과 빌드 연결</h1>
+<h2>변경 결정</h2>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>팀 결정</th>
+<th>유지할 경험</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>팀원 6인에서 5인으로 변경</td>
+<td>방 6개에서 5개로 조정</td>
+<td>1인 1방 분업 구조</td>
+</tr>
+<tr>
+<td>도입부 역할 정리</td>
+<td>방 1을 스토리와 조작 학습 중심으로 구성</td>
+<td>규칙을 익힌 뒤 방 2의 선택에 진입</td>
+</tr>
+<tr>
+<td>시나리오 작성 지연</td>
+<td>완성된 맵에 맞춰 대사와 지문 작성</td>
+<td>제작된 공간을 활용한 플레이 흐름</td>
+</tr>
+<tr>
+<td>마감 일정 부족</td>
+<td>작업 일지 기준 엔딩 4종에서 3종으로 축소</td>
+<td>앞선 선택에 따라 달라지는 결말</td>
+</tr>
+<tr>
+<td>사운드 연출 제약</td>
+<td>효과음 유지, BGM 별도 재생</td>
+<td>장면 연결을 우선해 플레이 가능한 빌드 확보</td>
+</tr>
+</tbody>
+</table>
+<h2>통합 순서</h2>
+<ol>
+<li>공통 UI와 화면 전환 방식을 적용한다.</li>
+<li>방 2~5의 진입과 종료를 연결한다.</li>
+<li>프롤로그를 연결하고 조작 설명과 세계관 규칙을 전달한다.</li>
+<li>선택 결과에 맞춰 엔딩 3종을 연결한다.</li>
+<li>PC 화면을 기준으로 전체 경로와 연출을 점검한다.</li>
+</ol>
+<h2>다음 제작에서 적용할 기준</h2>
+<table>
+<thead>
+<tr>
+<th>문제</th>
+<th>보완 기준</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>방마다 분위기와 완성도 차이</td>
+<td>제작 전 대사 톤, 힌트 강도, 화면 전환 기준 공유</td>
+</tr>
+<tr>
+<td>다른 방의 진행 상황 파악 지연</td>
+<td>담당자, 작업 상태, 검토 요청을 같은 목록에서 관리</td>
+</tr>
+<tr>
+<td>사운드와 분기 제약을 제작 중 확인</td>
+<td>착수 전에 핵심 기능을 작은 프로토타입으로 확인</td>
+</tr>
+<tr>
+<td>수정 요청 전달이 분산됨</td>
+<td>프레임 코멘트와 담당자 지정으로 변경 이력 유지</td>
+</tr>
+</tbody>
+</table>
+<p>다음 제작에서는 공통 화면과 핵심 기능을 먼저 확인한 뒤 방별 병렬 제작에 들어간다.</p></article></body></html>

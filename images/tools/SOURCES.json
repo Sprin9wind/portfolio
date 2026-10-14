@@ -1,0 +1,31 @@
+[
+  {
+    "name": "blender",
+    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/icons/blender.svg",
+    "license": "CC0-1.0, Simple Icons; brand marks remain their owners’ trademarks.",
+    "treatment": "Original path preserved, brand color assigned.",
+    "brand_source": "https://www.blender.org/about/logo",
+    "upstream_metadata": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/data/simple-icons.json",
+    "upstream_hex": "E87D0D",
+    "brand_guidelines": "https://www.blender.org/about/logo"
+  },
+  {
+    "name": "claude",
+    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/icons/claude.svg",
+    "license": "CC0-1.0, Simple Icons; brand marks remain their owners’ trademarks.",
+    "treatment": "Original path preserved, brand color assigned.",
+    "brand_source": "https://claude.ai",
+    "upstream_metadata": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/data/simple-icons.json",
+    "upstream_hex": "D97757"
+  },
+  {
+    "name": "openai",
+    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/icons/openai.svg",
+    "license": "CC0-1.0, Simple Icons; brand marks remain their owners’ trademarks.",
+    "treatment": "Original path preserved, brand color assigned.",
+    "brand_source": "https://openai.com/brand",
+    "upstream_metadata": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/data/simple-icons.json",
+    "upstream_hex": "412991",
+    "brand_guidelines": "https://openai.com/brand"
+  }
+]

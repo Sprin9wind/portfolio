@@ -1,0 +1,6 @@
+# Local previews, source extracts, temporary checks, and agent review scratch files
+.work/
+__pycache__/
+.venv/
+.DS_Store
+Thumbs.db

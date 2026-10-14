@@ -1,0 +1,201 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOS 전투 시스템 기획 정리본</title><style>
+@font-face{font-family:PlanBody;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400}
+@font-face{font-family:PlanBody;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
+@font-face{font-family:PlanTitle;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
+*{box-sizing:border-box}body{margin:0;background:#e8e8e8;color:#252525;font:17px/1.65 PlanBody,sans-serif;word-break:keep-all;overflow-wrap:break-word}
+.sheet{width:1000px;min-height:1414px;margin:24px auto;padding:40px 54px;background:white}
+h1,h2,h3,h4,h5,h6{font-family:PlanTitle,sans-serif;font-weight:800;line-height:1.45}h1{background:#d9d9d9;font-size:26px;margin:0 0 24px;padding:9px 12px}h2{font-size:21px;margin:20px 0 11px}h3{font-size:18px}
+p{margin:12px 0}ul,ol{padding-left:25px;margin:12px 0}li{margin:7px 0}img{display:block;width:100%;max-height:430px;object-fit:contain;margin:20px auto}
+table{border-collapse:collapse;width:100%;font-size:15.5px;line-height:1.65;margin:16px 0}th,td{border:1px solid #aaa;padding:10px 12px;text-align:left;vertical-align:top}th{background:#dedede}td:first-child{width:23%}
+@media(max-width:999px){.sheet{width:100%;padding:25px 20px;min-height:0;margin:0}table{font-size:14px}th,td{padding:8px}h1{font-size:23px}}
+@media print{body{background:white}.sheet{margin:0;break-after:page}}
+</style></head><body><article class="sheet"><h1>1.1 전투 흐름과 정보 배치</h1>
+<h2>전투 목표</h2>
+<p>적을 빠르게 처치해 남아 있는 수명을 흡수한다. 플레이어는 공격 순서를 추리하는 동안에도 수명을 소모하므로, 충분히 관찰할지 비용을 내고 힌트를 받을지 판단해야 한다.</p>
+<p><img alt="SOS 전투 화면 기능 배치" src="../../images/sos-specs/battle-layout.svg" /></p>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>기능</th>
+<th>표시와 입력 규칙</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①, ②</td>
+<td>전투 상태</td>
+<td>HP와 수명을 구분하고, 양측의 행동 게이지를 표시한다.</td>
+</tr>
+<tr>
+<td>③</td>
+<td>행동 로그</td>
+<td>공격 행동만 최대 13칸에 기록한다. 오래된 기록부터 밀어낸다.</td>
+</tr>
+<tr>
+<td>④</td>
+<td>행동 예약</td>
+<td>4개 슬롯에 행동을 예약한다. 실행 전에는 변경할 수 있다.</td>
+</tr>
+<tr>
+<td>⑤</td>
+<td>기본 행동</td>
+<td>공격 1, 2, 3, 방어, 회피를 제공한다.</td>
+</tr>
+<tr>
+<td>⑥</td>
+<td>긴급 행동</td>
+<td>소모 수명을 표시한다. 비용을 지불하고 게이지와 무관하게 실행한다.</td>
+</tr>
+</tbody>
+</table>
+<h2>진행 규칙</h2>
+<ul>
+<li>탐험 중 적이 있는 타일에 1칸 이내로 인접하면 전투에 진입한다.</li>
+<li>양측 ATB 게이지가 자동으로 충전되며, 충전 중 수명이 감소한다.</li>
+<li>게이지가 100%가 되면 예약 행동을 실행한다. 행동은 한쪽이 끝난 뒤 다음 행동을 처리한다.</li>
+<li>플레이어와 적이 한 번씩 행동한 뒤 긴급 행동을 사용할 수 있다.</li>
+<li>적 HP가 0이 되면 남은 수명을 흡수한다. 플레이어의 수명이 0이 되면 런이 종료된다.</li>
+<li>플레이어 HP가 0이 되면 전투에서 패배한다. 패배 시 손실 규칙은 미확정이다.</li>
+</ul></article><article class="sheet"><h1>1.2 ATB와 피해 공식</h1>
+<p><img alt="전투 사이클과 수명 소모 관계" src="../../images/sos-specs/battle-cycle.svg" /></p>
+<h2>속도와 비용</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>계산식</th>
+<th>설계 의도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>충전 시간 T</td>
+<td>1000 ÷ (100 + ATBSpeed ÷ 5)</td>
+<td>속도가 높을수록 대기와 수명 소모 감소</td>
+</tr>
+<tr>
+<td>충전 중 수명 소모</td>
+<td>T × LIFE_DECAY</td>
+<td>시간 비용을 독립 변수로 조정</td>
+</tr>
+<tr>
+<td>기본 피해 B</td>
+<td>max(1, floor(공격력 × 100 ÷ (100 + DEF)))</td>
+<td>방어력에 따른 경감, 피해 0 방지</td>
+</tr>
+<tr>
+<td>약점 후보 공격</td>
+<td>floor(B × 1.1)</td>
+<td>정답을 직접 공개하지 않는 소폭 보상</td>
+</tr>
+<tr>
+<td>커맨드 성공 공격</td>
+<td>floor(B × 5)</td>
+<td>공격 순서를 알아낸 보상, ×1.1과 중첩하지 않음</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>ATBSpeed</th>
+<th>충전 시간</th>
+<th>1회 충전의 수명 소모, LIFE_DECAY = 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>10.00초</td>
+<td>10.00</td>
+</tr>
+<tr>
+<td>100</td>
+<td>8.33초</td>
+<td>8.33</td>
+</tr>
+<tr>
+<td>300</td>
+<td>6.25초</td>
+<td>6.25</td>
+</tr>
+<tr>
+<td>500</td>
+<td>5.00초</td>
+<td>5.00</td>
+</tr>
+</tbody>
+</table>
+<p>표의 소수는 계산 예시이며 UI의 정수 표시 규칙과 구분한다. ATBSpeed 500에서 충전 시간은 5초다.</p>
+<h2>방어와 회피</h2>
+<ul>
+<li>방어 시 피해 계산에 사용하는 DEF를 2배로 적용한다.</li>
+<li>회피 확률은 50%를 기준으로 둔다.</li>
+<li>PowerAtk는 방어 행동의 효과를 무시한다.</li>
+<li>같은 방어 또는 회피 행동은 중복 예약하지 않는다. 적 공격 1회에 먼저 사용한 방어 행동을 처리한다.</li>
+</ul>
+<p>공격 1, 2, 3의 기본 피해는 동일하게 둔다. 높은 기본 피해의 버튼만 반복하는 대신, 공격 종류와 순서에 집중하도록 한다.</p></article><article class="sheet"><h1>1.3 약점 커맨드와 추리 피드백</h1>
+<h2>커맨드 구성</h2>
+<ul>
+<li>공격 1, 2, 3을 중복 허용해 2~4자리로 조합한다.</li>
+<li>조합 수는 3² + 3³ + 3⁴ = 117개다. 몬스터별 커맨드는 기획자가 지정한다.</li>
+<li>공격이 커맨드에 포함되면 후보 피드백, 순서 조건까지 만족하면 성공 피드백을 표시한다.</li>
+<li>방어, 회피, 긴급 행동은 공격 로그에 넣지 않는다.</li>
+</ul>
+<p><img alt="부분 수열에 따른 약점 커맨드 판정 예시" src="../../images/sos-specs/command-rule.svg" /></p>
+<h2>피드백 구분</h2>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>피해 처리</th>
+<th>시각 정보</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>일반 공격</td>
+<td>기본 피해</td>
+<td>노란색 숫자, #FFD900</td>
+</tr>
+<tr>
+<td>약점 후보</td>
+<td>기본 피해 × 1.1</td>
+<td>붉은 계열 숫자, #FF6161</td>
+</tr>
+<tr>
+<td>커맨드 성공</td>
+<td>기본 피해 × 5</td>
+<td>빨간색 #FF0000, 글자 크기 65, 성공 로그 강조</td>
+</tr>
+</tbody>
+</table>
+<h2>긴급 행동, 약점 파악</h2>
+<table>
+<thead>
+<tr>
+<th>사용 단계</th>
+<th>기획 규칙</th>
+<th>의도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1회</td>
+<td>커맨드 길이 공개</td>
+<td>탐색 범위를 줄인다.</td>
+</tr>
+<tr>
+<td>2회</td>
+<td>첫 슬롯에 정답 공격 자동 예약</td>
+<td>전체 정답 대신 다음 행동의 실마리를 준다.</td>
+</tr>
+<tr>
+<td>비용</td>
+<td>수명 소모, 비용 변수로 관리</td>
+<td>추리에 쓸 시간과 힌트 비용을 비교한다.</td>
+</tr>
+</tbody>
+</table>
+<p>현재 시뮬레이터의 2회 보상은 첫 공격 표시까지다. 성공 이력이 남아 있는 동안 이후 공격에도 ×5가 반복 적용된다. 등급별 커맨드 전환과 상태이상은 미구현이다. 반복 보상의 허용 범위를 먼저 정한 뒤 판정 로직에 반영한다.</p></article></body></html>

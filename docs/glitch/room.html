@@ -1,0 +1,152 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Glitch 책임의 방 기획 정리본</title><style>
+@font-face{font-family:PlanBody;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400}
+@font-face{font-family:PlanBody;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
+@font-face{font-family:PlanTitle;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
+*{box-sizing:border-box}body{margin:0;background:#e8e8e8;color:#252525;font:17px/1.65 PlanBody,sans-serif;word-break:keep-all;overflow-wrap:break-word}
+.sheet{width:1000px;min-height:1414px;margin:24px auto;padding:40px 54px;background:white}
+h1,h2,h3,h4,h5,h6{font-family:PlanTitle,sans-serif;font-weight:800;line-height:1.45}h1{background:#d9d9d9;font-size:26px;margin:0 0 24px;padding:9px 12px}h2{font-size:21px;margin:20px 0 11px}h3{font-size:18px}
+p{margin:12px 0}ul,ol{padding-left:25px;margin:12px 0}li{margin:7px 0}img{display:block;width:100%;max-height:430px;object-fit:contain;margin:20px auto}
+table{border-collapse:collapse;width:100%;font-size:15.5px;line-height:1.65;margin:16px 0}th,td{border:1px solid #aaa;padding:10px 12px;text-align:left;vertical-align:top}th{background:#dedede}td:first-child{width:23%}
+@media(max-width:999px){.sheet{width:100%;padding:25px 20px;min-height:0;margin:0}table{font-size:14px}th,td{padding:8px}h1{font-size:23px}}
+@media print{body{background:white}.sheet{margin:0;break-after:page}}
+</style></head><body><article class="sheet"><h1>1.1 책임의 방, 선택 규칙</h1>
+<h2>기획 의도</h2>
+<ul>
+<li>성공 가능성이 높은 선택과 타인에게 피해를 주지 않는 선택을 충돌시킨다.</li>
+<li>버튼을 누르기 전에 성공 조건과 실패의 대가를 모두 전달한다.</li>
+<li>선택 직후 돌이 떨어지는 결과를 보여 주어, 규칙이 실제로 적용되는 공간임을 체감하게 한다.</li>
+</ul>
+<p><img alt="책임의 방 상호작용 배치도" src="../../images/glitch-specs/room-layout.svg" /></p>
+<h2>선택지 구성</h2>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>오른쪽 버튼</th>
+<th>왼쪽 버튼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>초기 열쇠 구성</td>
+<td>3개 중 2개</td>
+<td>3개 중 1개</td>
+</tr>
+<tr>
+<td>실패 시 피해 대상</td>
+<td>오른쪽 사람</td>
+<td>선택한 본인</td>
+</tr>
+<tr>
+<td>플레이어가 비교할 정보</td>
+<td>높은 성공 가능성, 타인의 피해</td>
+<td>낮은 성공 가능성, 자신의 피해</td>
+</tr>
+</tbody>
+</table>
+<h2>규칙 전달 순서</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>화면과 대사</th>
+<th>전달할 정보</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>탐색</td>
+<td>돌, 버튼, 벽의 규칙 문서 확인</td>
+<td>상호작용 대상과 위험 요소</td>
+</tr>
+<tr>
+<td>해석</td>
+<td>세 인물이 문서를 읽고 대화</td>
+<td>열쇠 구성, 실패 시 피해 대상</td>
+</tr>
+<tr>
+<td>선행 선택</td>
+<td>김민주가 오른쪽 버튼 선택</td>
+<td>확률을 우선하는 인물의 판단</td>
+</tr>
+<tr>
+<td>선행 결과</td>
+<td>돌 낙하, 성공과 실패에 따른 대화</td>
+<td>규칙이 실제로 적용됨을 확인</td>
+</tr>
+<tr>
+<td>플레이어 선택</td>
+<td>오른쪽과 왼쪽 중 선택</td>
+<td>책임을 감수할 대상 결정</td>
+</tr>
+<tr>
+<td>결과</td>
+<td>낙하 연출, 반응 대사, 문 개방</td>
+<td>선택의 결과와 다음 방 진입</td>
+</tr>
+</tbody>
+</table>
+<p>후속 확률은 남은 선택지에 따라 달라질 수 있으므로 초기 구성과 구분해 표시한다.</p></article><article class="sheet"><h1>1.2 책임의 방, 상태 전달과 결과 연출</h1>
+<h2>장면 연결</h2>
+<p><img alt="책임의 방 결과와 엔딩 연결" src="../../images/glitch-specs/branch-flow.svg" /></p>
+<table>
+<thead>
+<tr>
+<th>전달 정보</th>
+<th>후속 장면의 처리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>김민주의 피해 여부</td>
+<td>5번째 방과 엔딩으로 상태를 전달한다.</td>
+</tr>
+<tr>
+<td>김이한 GOOD / BAD</td>
+<td>피해 경로에서 엔딩 B와 C를 구분한다.</td>
+</tr>
+<tr>
+<td>선택 직후의 결과</td>
+<td>낙하 연출과 인물 반응을 먼저 보여 준 뒤 대화를 진행한다.</td>
+</tr>
+</tbody>
+</table>
+<h2>Figma 연결 방식</h2>
+<ul>
+<li>변수 대신 상태별 후속 장면을 따로 만들어 연결한다.</li>
+<li>같은 배경이라도 대사와 인물 상태가 다르면 별도의 프레임을 사용한다.</li>
+<li>분기 후 공통 장면에 합류할 때에는 이후에 필요한 상태가 누락되지 않도록 연결을 유지한다.</li>
+<li>방 2의 선택 결과, 방 5의 인물 반응, 엔딩 도착 지점을 하나의 경로로 점검한다.</li>
+</ul>
+<h2>연결 검토 기준</h2>
+<table>
+<thead>
+<tr>
+<th>확인할 상황</th>
+<th>기대 동작</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>피해 없음 경로 진입</td>
+<td>후속 대사와 엔딩 A가 2번째 방 결과와 일치한다.</td>
+</tr>
+<tr>
+<td>피해 경로, 김이한 GOOD</td>
+<td>엔딩 B에 도착한다.</td>
+</tr>
+<tr>
+<td>피해 경로, 김이한 BAD</td>
+<td>엔딩 C에 도착한다.</td>
+</tr>
+<tr>
+<td>빠른 연속 클릭</td>
+<td>결과 장면을 건너뛰거나 다른 분기로 이동하지 않는다.</td>
+</tr>
+<tr>
+<td>규칙 문서 닫기</td>
+<td>탐색 중이던 방 화면으로 돌아간다.</td>
+</tr>
+</tbody>
+</table>
+<p>위 항목은 검토 기준이다. 실제 빌드는 씬 전환에 지연이 있어 연속 클릭을 피하도록 안내했다.</p></article></body></html>

@@ -1,0 +1,11 @@
+# Motion sketch asset
+
+Generated using the built-in image_gen tool, 2026-10-14.
+Style reference: user-provided hand-drawn round-headed action figures.
+Motion reference: Who’s Tail production planning sheet (requirements only).
+Purpose: explanatory planning sketch, separate from actual Blender or Unity results.
+Korean headings and captions are typeset separately in motion-plan.svg.
+
+## Final prompt
+
+Create one wide horizontal game-planning sketch illustration, three equally spaced poses left to right, on a pure white background. Reference image 1 is ONLY the drawing style reference: loose human hand-drawn black pen strokes, simple round heads, small tapered outlined torsos, thin arms and legs, subtle overlapping lines and perspective; approachable rough storyboard doodles. Reference image 2 is ONLY the motion requirements/context, NOT its rendered character appearance or typography. Replace the polished gray 3D characters with simple human-shaped planning mannequins in the reference sketch style. LEFT: one character running toward the right in a three-quarter side view, torso leaning forward, forward knee raised, rear heel folded up, arms counter-swinging. CENTER: one character airborne in a jump, slightly three-quarter view, both feet clearly off the ground, one arm extended behind to steady the body, lightly bent knees. RIGHT: one character doing a downward grab with its RIGHT arm toward a small loose tail-shaped cloth target at waist/thigh height, viewed from the right side so the right arm is visible. Show a faint ghost outline of the right hand above and one clear curved arrow from high to low ending at the target; character's left arm stays close to torso. Use slight perspective in heads and torsos so it feels spatial, without detailed rendering. Heads are blank except a tiny orientation nose or centerline. Clean readable silhouettes with plenty of whitespace, consistent same character size across all three, no panels or borders, no lettering, no captions, no numbers, no logos. Keep drawing candid and simple like a planner sketching actions on paper, not polished clipart, not shaded 3D clay, not cute costumed character art. Landscape ratio approximately 3:1.

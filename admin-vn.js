@@ -99,9 +99,9 @@ function build(){
       <div class="iv-tabs">
         <button type="button" data-tab="sheet">질문 시트</button>
         <button type="button" data-tab="topics">주제</button>
-        <button type="button" data-tab="texts">인사 · 마무리</button>
+        <button type="button" data-tab="texts">인사, 마무리</button>
       </div>
-      <input type="text" class="iv-search" id="ivSearch" placeholder="질문·답변 검색">
+      <input type="text" class="iv-search" id="ivSearch" placeholder="질문, 답변 검색">
       <span class="iv-sp"></span>
       <button class="btn sm" id="ivAdd">+ 질문</button>
       <button class="btn sm" id="ivCopy" title="엑셀에 붙여 넣을 수 있는 탭 구분 텍스트">TSV 복사</button>
@@ -144,13 +144,13 @@ function renderSheet(body){
     <p class="iv-note">한 행이 질문 하나입니다. <b>답변</b>은 빈 줄로 문단을 나누면 면접 화면에서 문단마다 한 번씩 넘어갑니다.
       <b>꼬리질문</b>에는 다른 질문의 ID를 쉼표로 적습니다(그 답변이 끝난 뒤 선택지로 나옴). <b>꼬리전용</b>에 체크하면 주제 목록에는 안 보이고 꼬리질문으로만 나옵니다.
       <b>점수</b>는 물었을 때 오르는 관심도입니다. 고치면 바로 작업본에 저장됩니다 — 사이트에 올리려면 위쪽 <b>💾 저장</b>.
-      <span class="iv-badge">${d.questions.length}문항 · 주제 목록 ${d.questions.filter(q => !q.sub).length} · 꼬리 ${d.questions.filter(q => q.sub).length}</span></p>
+      <span class="iv-badge">${d.questions.length}문항, 주제 목록 ${d.questions.filter(q => !q.sub).length}, 꼬리 ${d.questions.filter(q => q.sub).length}</span></p>
     <table class="iv"><thead><tr>
       <th>#</th><th>ID</th><th style="width:130px">주제</th><th style="width:22%">질문</th><th>답변 (빈 줄 = 문단)</th>
       <th style="width:120px">꼬리질문 ID</th><th style="width:170px">관련 문서</th><th>점수</th><th>꼬리전용</th><th></th>
     </tr></thead><tbody>${rows.map(({ q, i }) => {
       const miss = (q.follow || []).filter(f => !ids.has(f));
-      const fl = (q.follow || []).map(f => ids.has(f) ? esc((d.questions.find(x => x.id === f) || {}).q || "").slice(0, 28) : `<span class="miss">${esc(f)}?</span>`).join(" · ");
+      const fl = (q.follow || []).map(f => ids.has(f) ? esc((d.questions.find(x => x.id === f) || {}).q || "").slice(0, 28) : `<span class="miss">${esc(f)}?</span>`).join(", ");
       return `<tr data-i="${i}"${miss.length ? ' class="bad"' : ""}>
         <td class="iv-idx">${i + 1}</td>
         <td><input type="text" data-k="id" value="${esc(q.id)}" style="width:60px"></td>
@@ -240,7 +240,7 @@ function renderTopics(body){
   };
 }
 
-/* ---------- 인사 · 마무리 ---------- */
+/* ---------- 인사, 마무리 ---------- */
 function renderTexts(body){
   const d = iv();
   body.innerHTML = `
@@ -294,7 +294,7 @@ function toTSV(){
 }
 function copyTSV(){
   const t = toTSV();
-  const done = () => toast("TSV를 복사했습니다 — 엑셀·시트에 붙여 넣으세요");
+  const done = () => toast("TSV를 복사했습니다 — 엑셀, 시트에 붙여 넣으세요");
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, () => fallback());
   else fallback();
   function fallback(){
@@ -304,14 +304,14 @@ function copyTSV(){
   }
 }
 function pasteTSV(){
-  openModal("TSV 붙여넣기", `<p class="iv-note">엑셀·시트에서 표를 복사해 붙여 넣으세요. 첫 줄이 열 이름(id, topic, sub, pts, question, answer, follow, link)이면 그 순서를 따르고,
+  openModal("TSV 붙여넣기", `<p class="iv-note">엑셀, 시트에서 표를 복사해 붙여 넣으세요. 첫 줄이 열 이름(id, topic, sub, pts, question, answer, follow, link)이면 그 순서를 따르고,
     없으면 이 순서로 봅니다. 답변의 문단은 <b> ¶ </b> 로 나눕니다.<br>같은 id 는 덮어쓰고, 새 id 는 추가합니다. 표에 없는 질문은 그대로 둡니다.</p>
     <textarea class="iv-tsv" id="ivTsvIn" placeholder="id\ttopic\tsub\tpts\tquestion\tanswer\tfollow\tlink"></textarea>`,
     [{ cls:"btn", label:"취소", fn:closeModal }, { cls:"btn primary", label:"적용", fn:() => {
       const txt = document.getElementById("ivTsvIn").value; const r = fromTSV(txt);
       if (!r) return toast("읽을 수 있는 행이 없습니다", true);
       closeModal(); changed(); render();
-      toast(`갱신 ${r.upd}개 · 추가 ${r.add}개${r.bad ? ` · 건너뜀 ${r.bad}개` : ""}`);
+      toast(`갱신 ${r.upd}개, 추가 ${r.add}개${r.bad ? `, 건너뜀 ${r.bad}개` : ""}`);
     }}]);
   setTimeout(() => { const ta = document.getElementById("ivTsvIn"); if (ta) ta.focus(); }, 50);
 }
@@ -350,7 +350,7 @@ function preview(){
 document.addEventListener("keydown", e => {
   if (!panel || panel.hidden || e.key !== "Escape") return;
   const modal = document.getElementById("overlay"), vn = document.getElementById("vn");
-  if ((modal && !modal.hidden) || (vn && !vn.hidden)) return;   /* 모달·미리보기가 먼저 닫힌다 */
+  if ((modal && !modal.hidden) || (vn && !vn.hidden)) return;   /* 모달, 미리보기가 먼저 닫힌다 */
   close();
 });
 window.InterviewEditor = { open, close };

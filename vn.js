@@ -1,12 +1,12 @@
 /* ============================================================
    모의면접 — 비주얼 노벨 오버레이
    index.html 위에 전체 화면으로 뜬다. 내용은 data.js 의 window.PORTFOLIO_INTERVIEW
-   (편집기의 「모의면접」 시트에서 고친다). 이 파일은 표현·진행만 담당한다.
+   (편집기의 「모의면접」 시트에서 고친다). 이 파일은 표현, 진행만 담당한다.
 
    흐름: 타이틀 → 내 인사(intro) → 주제 선택 → 질문 선택 → 면접관 질문 → 내 답변(문단마다 클릭)
-         → 꼬리질문 · 관련 문서 · 다른 질문 → … → 면접 마무리 → 엔딩(관심도 등급)
+         → 꼬리질문, 관련 문서, 다른 질문 → … → 면접 마무리 → 엔딩(관심도 등급)
    조작: 클릭 / Space / Enter = 진행, 숫자키 = 선택지, Esc = 닫기
-   저장: localStorage "pf-vn" 에 물어본 질문·관심도를 남겨 「이어하기」
+   저장: localStorage "pf-vn" 에 물어본 질문, 관심도를 남겨 「이어하기」
    ============================================================ */
 (function(){
 "use strict";
@@ -43,7 +43,7 @@ const CSS = `
 #vn[hidden]{display:none}
 #vn *{box-sizing:border-box}
 #vn .vn-bg{position:absolute;inset:0;
-  background:radial-gradient(1200px 700px at 20% 110%,rgba(210,46,46,.22),transparent 60%),
+  background:radial-gradient(1200px 700px at 20% 110%,rgba(49,95,128,.22),transparent 60%),
              radial-gradient(900px 600px at 90% -10%,rgba(201,138,46,.18),transparent 60%),
              linear-gradient(180deg,#1b1815,#141210 60%,#0f0d0b)}
 #vn .vn-bg::after{content:"";position:absolute;inset:0;opacity:.35;
@@ -57,7 +57,7 @@ const CSS = `
 #vn .vn-gauge{display:flex;align-items:center;gap:10px;margin-left:auto;font-size:12.5px;font-weight:700;color:#b5aca1}
 #vn .vn-gbar{width:160px;height:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}
 #vn .vn-gbar i{display:block;height:100%;width:0;border-radius:999px;
-  background:linear-gradient(90deg,#f2554d,#ffb347);transition:width .6s cubic-bezier(.16,1,.3,1)}
+  background:linear-gradient(90deg,#9cc5de,#ffb347);transition:width .6s cubic-bezier(.16,1,.3,1)}
 #vn .vn-gnum{color:#fff;min-width:28px;text-align:right}
 #vn .vn-gnum.up{animation:vnPop .6s}
 @keyframes vnPop{0%{transform:scale(1)}30%{transform:scale(1.35);color:#ffb347}100%{transform:scale(1)}}
@@ -73,7 +73,7 @@ const CSS = `
 #vn .vn-char img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;
   border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 60px rgba(0,0,0,.5)}
 #vn .vn-char .vn-tag{position:absolute;left:14px;top:-14px;padding:5px 12px;border-radius:8px;
-  background:#d22e2e;color:#fffaea;font-weight:800;font-size:12.5px;letter-spacing:-.01em;
+  background:#315f80;color:#fffaea;font-weight:800;font-size:12.5px;letter-spacing:-.01em;
   box-shadow:0 6px 18px rgba(0,0,0,.4)}
 #vn .vn-choices{position:absolute;right:4%;top:22px;bottom:236px;width:min(54%,620px);overflow:auto;
   display:flex;flex-direction:column;justify-content:flex-start;justify-content:safe center;gap:8px;padding:6px 4px;scrollbar-width:thin}
@@ -86,7 +86,7 @@ const CSS = `
 #vn .vn-c:nth-child(4){animation-delay:.12s}#vn .vn-c:nth-child(5){animation-delay:.16s}
 #vn .vn-c:nth-child(6){animation-delay:.2s}#vn .vn-c:nth-child(n+7){animation-delay:.24s}
 @keyframes vnIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
-#vn .vn-c:hover,#vn .vn-c:focus-visible{background:rgba(242,85,77,.18);border-color:#f2554d;transform:translateX(-3px);outline:none}
+#vn .vn-c:hover,#vn .vn-c:focus-visible{background:rgba(156,197,222,.18);border-color:#9cc5de;transform:translateX(-3px);outline:none}
 #vn .vn-c .k{flex:0 0 26px;height:26px;border-radius:7px;background:rgba(255,255,255,.1);
   display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#b5aca1}
 #vn .vn-c .ic{flex:0 0 auto;font-size:18px}
@@ -97,7 +97,7 @@ const CSS = `
 #vn .vn-c.done:hover{opacity:.85}
 #vn .vn-c.sub{border-style:dashed}
 #vn .vn-c.link{border-color:rgba(201,138,46,.6);background:rgba(201,138,46,.12)}
-#vn .vn-c.key{background:#d22e2e;border-color:#d22e2e;color:#fffaea}
+#vn .vn-c.key{background:#315f80;border-color:#315f80;color:#fffaea}
 #vn .vn-c.key .k{background:rgba(0,0,0,.2);color:#fffaea}
 #vn .vn-c.ghost{background:transparent;border-color:rgba(255,255,255,.1);color:#b5aca1}
 #vn .vn-box{position:absolute;left:4%;right:4%;bottom:26px;min-height:190px;padding:26px 30px 32px;
@@ -105,7 +105,7 @@ const CSS = `
   box-shadow:0 30px 80px rgba(0,0,0,.55);cursor:pointer;animation:vnBox .4s both}
 @keyframes vnBox{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 #vn .vn-box.iv{background:rgba(46,44,43,.96);color:#f4ece0}
-#vn .vn-name{position:absolute;left:22px;top:-15px;padding:6px 14px;border-radius:9px;background:#d22e2e;color:#fffaea;
+#vn .vn-name{position:absolute;left:22px;top:-15px;padding:6px 14px;border-radius:9px;background:#315f80;color:#fffaea;
   font-weight:900;font-size:13px;letter-spacing:-.01em;box-shadow:0 8px 20px rgba(0,0,0,.3)}
 #vn .vn-box.iv .vn-name{background:#c98a2e;color:#1a0d0c}
 #vn .vn-box.sys .vn-name{background:#5f5b56;color:#fffaea}
@@ -119,11 +119,11 @@ const CSS = `
 #vn .vn-next[hidden]{display:none}
 @keyframes vnBob{50%{transform:translateY(3px)}}
 #vn .vn-grade{display:inline-flex;align-items:center;gap:10px;margin:0 0 10px;padding:6px 14px;border-radius:10px;
-  background:rgba(210,46,46,.12);color:#a92020;font-weight:900;font-size:14px}
+  background:rgba(49,95,128,.12);color:#244b68;font-weight:900;font-size:14px}
 #vn .vn-grade b{font-size:24px;line-height:1}
 #vn .vn-info{flex:0 0 auto;padding:16px 18px;border-radius:12px;background:rgba(255,250,234,.07);border:1px solid rgba(255,255,255,.14);
   color:#f4ece0;font-size:13.5px;line-height:1.6;animation:vnIn .35s both}
-#vn .vn-info .vn-grade{background:rgba(242,85,77,.22);color:#ffb3a7}
+#vn .vn-info .vn-grade{background:rgba(156,197,222,.22);color:#c0deef}
 #vn .vn-hint{position:absolute;left:4%;bottom:6px;font-size:11.5px;color:#6f6a62}
 @media(max-width:760px){
   #vn .vn-top{padding:0 12px;gap:10px}
@@ -154,8 +154,8 @@ root.innerHTML = `
   <div class="vn-stage">
     <div class="vn-char"><img src="" alt=""><span class="vn-tag"></span></div>
     <div class="vn-choices" role="menu"></div>
-    <div class="vn-box"><div class="vn-name"></div><div class="vn-text"></div><div class="vn-next">▼ 클릭 · Space</div></div>
-    <div class="vn-hint">클릭 / Space / Enter 진행 · 숫자키로 선택 · Esc 닫기</div>
+    <div class="vn-box"><div class="vn-name"></div><div class="vn-text"></div><div class="vn-next">▼ 클릭, Space</div></div>
+    <div class="vn-hint">클릭 / Space / Enter 진행, 숫자키로 선택, Esc 닫기</div>
   </div>`;
 const style = document.createElement("style"); style.textContent = CSS;
 document.head.appendChild(style);
@@ -263,7 +263,7 @@ function title(){
   sayThen([{ who: "sys", text:
     `**모의면접**에 오신 것을 환영합니다. 지금부터 당신이 면접관입니다.\n선택지로 질문하면 ${me}이(가) 답합니다. 질문할수록 위쪽 **관심도**가 오르고, 마무리할 때 결과가 나옵니다.` }],
     [
-      ...(cont ? [{ label: "이어서 면접하기", sub: `지금까지 질문 ${st.asked.length}개 · 관심도 ${st.gauge}`, icon: "▶", cls: "key", fn: () => { st.started = true; persist(); topicMenu(); } }] : []),
+      ...(cont ? [{ label: "이어서 면접하기", sub: `지금까지 질문 ${st.asked.length}개, 관심도 ${st.gauge}`, icon: "▶", cls: "key", fn: () => { st.started = true; persist(); topicMenu(); } }] : []),
       { label: cont ? "처음부터 다시" : "면접 시작", icon: cont ? "↺" : "▶", cls: cont ? "" : "key", fn: () => { reset(); st.started = true; persist(); paintGauge(); intro(); } },
       { label: "닫기", icon: "✕", cls: "ghost", fn: close },
     ]);
@@ -302,7 +302,7 @@ function docTitle(link){
   try {
     const [u, m, d] = String(link).split("-").map(Number);
     const L = window.PORTFOLIO_UNITS[u].mids[m].lessons[d];
-    return L ? `${window.PORTFOLIO_UNITS[u].mids[m].title} · ${L.title}` : "";
+    return L ? `${window.PORTFOLIO_UNITS[u].mids[m].title}, ${L.title}` : "";
   } catch(_) { return ""; }
 }
 function afterAnswer(q){
@@ -325,9 +325,9 @@ function ending(){
   const g = Math.min(100, st.gauge);
   const ends = (D.endings || []).slice().sort((a, b) => (b.min || 0) - (a.min || 0));
   const e = ends.find(x => g >= (x.min || 0)) || ends[ends.length - 1] || { grade: "-", title: "면접 종료", lines: ["감사합니다."] };
-  const topicsDone = TOPICS.filter(t => QS.some(q => q.topic === t.id && asked(q.id))).map(t => t.name).join(" · ");
+  const topicsDone = TOPICS.filter(t => QS.some(q => q.topic === t.id && asked(q.id))).map(t => t.name).join(", ");
   const summary = `<span class="vn-grade"><b>${esc(e.grade)}</b>${esc(e.title)}</span><br>` +
-    `질문 <b>${st.asked.length}</b>개 · 관심도 <b>${g}</b> · 다룬 주제: ${esc(topicsDone || "없음")}`;
+    `질문 <b>${st.asked.length}</b>개, 관심도 <b>${g}</b>, 다룬 주제: ${esc(topicsDone || "없음")}`;
   const lines = [{ who: "sys", text: "__SUMMARY__" }, ...(e.lines || []).map(t => ({ who: "me", text: t }))];
   /* 요약 줄은 타자 효과 없이 바로 보여 준다 */
   queue = lines.slice(1); after = () => setChoices([
