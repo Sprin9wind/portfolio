@@ -374,7 +374,33 @@ h1,h2,h3,h4,.hero-role{font-family:NanumSquareNeoExtraBold,Pretendard,sans-serif
 <main id="view"></main>
 <footer class="foot" id="foot"></footer>
 
+<style>
+.pf-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:24px 0;align-items:start}
+.pf-columns>*,.pf-columns figure{min-width:0;margin:0}.pf-columns img{max-width:100%;height:auto}
+[data-columns="1"]{grid-template-columns:minmax(0,1fr)!important}
+[data-columns="2"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.doc figure img{display:block}.doc figure figcaption{font-size:13px;color:var(--ink-2);margin-top:8px}
+#previewNotice{padding:12px 20px;background:#315f80;color:white;font:14px Pretendard,sans-serif;text-align:center}#previewNotice a{color:white;text-decoration:underline;margin-left:16px}
+@media(max-width:640px){.pf-columns,[data-columns="2"]{grid-template-columns:minmax(0,1fr)!important}}
+</style>
 <script src="data.js"></script>
+<script>
+if (new URLSearchParams(location.search).has("preview")){
+  let previewLoaded = false;
+  try {
+    const key = new URLSearchParams(location.search).get("preview");
+    const draft = JSON.parse(sessionStorage.getItem("pf-preview-" + key) || "null");
+    if (draft && Array.isArray(draft.units) && draft.profile){
+      window.PORTFOLIO_PROFILE = draft.profile; window.PORTFOLIO_UNITS = draft.units; window.PORTFOLIO_INTERVIEW = draft.interview;
+      previewLoaded = true;
+    }
+  } catch(_) {}
+  const banner = document.createElement("div"); banner.id = "previewNotice";
+  banner.textContent = previewLoaded ? "편집본 미리보기 — 아직 공개 사이트에 반영되지 않은 내용입니다." : "미리보기 내용을 찾지 못해 공개 내용을 표시합니다. 편집기에서 다시 열어 주세요.";
+  const back = document.createElement("a"); back.href = "admin.html" + location.hash; back.textContent = "편집기로 돌아가기";
+  banner.append(back); document.body.prepend(banner);
+}
+</script>
 <script src="vn.js" defer></script>
 <script>
 const PROFILE = window.PORTFOLIO_PROFILE;
@@ -656,6 +682,7 @@ function route(){
   curU = Math.max(0, Math.min(UNITS.length - 1, +p[0] || 0));
   curM = Math.max(0, +p[1] || 0);
   renderTabs(); renderPane();
+  document.querySelectorAll('a[href^="admin.html"]').forEach(a => a.href = 'admin.html#' + curU + '-' + curM + '-' + (+p[2] || 0));
   if (p.length > 2 && p[2] !== ""){
     const el = document.getElementById("d" + (+p[2] || 0));
     if (el) requestAnimationFrame(() => el.scrollIntoView({ block: "start" }));
