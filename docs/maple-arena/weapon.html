@@ -1,0 +1,190 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>무기 강화와 선택 라운드 — 메이플 배틀 아레나</title><style>
+@font-face{font-family:PortfolioPretendard;src:url('../../fonts/Pretendard-Regular.woff2') format('woff2');font-weight:400;font-display:block}
+@font-face{font-family:PortfolioPretendard;src:url('../../fonts/Pretendard-Bold.woff2') format('woff2');font-weight:700;font-display:block}
+@font-face{font-family:PortfolioNanumNeo;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2') format('woff2');font-weight:800;font-display:block}
+*{box-sizing:border-box}body{margin:0;background:#e9e9e9;color:#252525;font-family:PortfolioPretendard,Pretendard,sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.65}
+.sheet{width:1000px;min-height:1414px;background:#fff;padding:48px 54px;margin:24px auto}
+h1,h2,h3,h4,h5,h6{font-family:PortfolioNanumNeo,'NanumSquareNeo',sans-serif;font-weight:800;color:#202020}
+h1{font-size:25px;line-height:1.45;margin:0 0 24px;padding:7px 12px;background:#d9d9d9}
+h2{font-size:20px;line-height:1.45;margin:25px 0 12px;padding:0}
+h3{font-size:18px;line-height:1.5;margin:22px 0 10px;border-bottom:1px solid #d5d5d5;padding-bottom:7px}
+p,li{font-size:16px;margin:9px 0}ul,ol{padding-left:23px}
+blockquote{background:#f5f5f5;border:1px solid #c7c7c7;margin:14px 0;padding:13px 18px}blockquote p{font-size:16px;margin:6px 0}
+img{display:block;max-width:100%;width:100%;max-height:430px;object-fit:contain;margin:20px auto}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:15px;line-height:1.6}th,td{border:1px solid #aaa;padding:9px 11px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}td:first-child{width:23%}em{font-size:13px;color:#626262;font-style:normal}strong{color:inherit}
+a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px solid #bbb;padding-top:12px;margin-top:24px;font-size:12px;color:#666}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}.comparison figure{margin:0}.comparison img{margin:0}.comparison figcaption{font-size:13px;color:#626262;margin-top:6px}
+@media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:23px}h2{font-size:20px}p,li{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+@media print{body{background:#fff}.sheet{margin:0;break-after:page}}
+table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px}.sheet p>em:only-child{display:block;margin-top:-12px}.comparison>div ol{margin:0;padding-left:22px}.comparison>div li{font-size:14px;margin:4px 0}.sheet{padding:40px 48px}.sheet h1{margin:0 0 14px}.sheet h2{font-size:18px;margin:16px 0 8px}.sheet p,.sheet li{font-size:14.5px;margin:5px 0;line-height:1.6}.sheet ul,.sheet ol{margin:6px 0}.sheet table{font-size:13.5px;line-height:1.45;margin:9px 0}.sheet th,.sheet td{padding:5px 9px}.sheet img{margin:8px auto}.sheet p>em:only-child{margin-top:-6px;font-size:12.5px}.sheet blockquote{margin:8px 0;padding:8px 14px}.sheet blockquote p{font-size:14.5px;margin:3px 0}.comparison{gap:14px;margin:8px 0}.comparison figcaption{font-size:12.5px;margin-top:3px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.cols>div>*:first-child{margin-top:0}@media(max-width:1000px){.cols,.comparison{grid-template-columns:1fr}}</style><body><article class="sheet"><h1>4.1 무기 강화와 아레나룸 무기 화면</h1>
+<p><img src="../../images/maple-arena-specs/arena-room-weapon.png" alt="아레나룸 무기 탭" style="max-height:320px"></p>
+<p><em>원본 기획서 수록 UI 시안에 번호를 표시. 00, 0000, N은 시안의 자리표시 값이다.</em></p>
+<div class="cols">
+<div>
+<table>
+<thead>
+<tr>
+<th>IDX</th>
+<th>표시 내용과 동작</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>무기 정보: 아이콘, 레벨, 설명, 전용 무기 보너스, 카드 게이지</td>
+</tr>
+<tr>
+<td>2</td>
+<td>레벨업: 카드와 메소를 모두 충족할 때만 활성</td>
+</tr>
+<tr>
+<td>3</td>
+<td>능력치: 공격력, 체력의 현재값과 증가량, 공격속도, 이동속도</td>
+</tr>
+<tr>
+<td>4</td>
+<td>마일스톤: 3, 5, 10, 15, 20레벨 해금, 미해금은 잠금</td>
+</tr>
+<tr>
+<td>5</td>
+<td>무기 목록: 8종의 레벨과 카드 보유량</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div>
+<ul>
+<li>캐릭터는 경험치로 자동 레벨업하고, 별도 승급으로 비율 또는 고정 보너스를 계정 전체에 준다. 무기는 카드와 메소로 수동 레벨업하고(최대 20), 정수 스탯을 해당 무기 장착 시에만 준다.</li>
+<li>매 레벨 공격력과 체력이 오르며, 만렙에서 기본값 대비 +17% 내외로 설정했다(유물의 1.5배 정도). 공격속도와 이동속도는 매 레벨 증가 대상이 아니다.</li>
+</ul>
+</div>
+</div>
+<h2>● 마일스톤</h2>
+<p><img alt="무기 레벨 마일스톤" src="../../images/maple-arena-specs/weapon-milestone.png" /></p>
+<p><em>원문 규칙을 바탕으로 다시 그린 도식</em></p>
+<p>현자의서와 마법의서는 무기당 2종, 총 16종의 고유 유물이다. 해금은 후보 풀 진입을 뜻하며, 강화하지 않은 플레이어는 공용 유물과 공용 스킬만 본다.</p>
+<h2>● 레벨업 처리</h2>
+<div class="comparison">
+<figure><img src="../../images/maple-arena-specs/weapon-levelup-states.png" alt="레벨업 버튼 비활성과 활성"><figcaption>원본 기획서 수록, 카드 70/100 비활성(왼쪽), 150/100 활성(오른쪽)</figcaption></figure>
+<div>
+<ol>
+<li>무기 카드를 얻으면 해당 무기에 쌓인다.</li>
+<li>카드와 메소를 모두 충족하면 버튼이 활성화된다.</li>
+<li>버튼을 눌러야 반영하고, 요구량만 차감한다.</li>
+<li>여러 레벨분이 쌓여도 한 번에 1레벨씩 오른다.</li>
+<li>3, 5, 10, 15, 20레벨에 도달하면 해금을 처리한다.</li>
+</ol>
+</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>재화</th>
+<th>범위</th>
+<th>획득처</th>
+<th>규칙</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>무기 카드</td>
+<td>무기별 개별</td>
+<td>상점 구매, BM 요소</td>
+<td>다른 무기로 이전 불가. 최대 보유량은 만렙까지 필요한 수량이며 초안 기준 885장</td>
+</tr>
+<tr>
+<td>메소</td>
+<td>공용</td>
+<td>게임 보상</td>
+<td>캐릭터 승급에도 쓰여 두 성장 축이 같은 재화를 두고 경쟁</td>
+</tr>
+</tbody>
+</table></article><article class="sheet"><h1>4.2 선택 라운드와 시퀀스</h1>
+<p><img src="../../images/maple-arena-specs/skill-select.jpg" alt="스킬 선택 화면" style="max-height:320px"></p>
+<p><em>원본 기획서 수록 UI 시안에 번호를 표시. 카드 이름과 효과 문구는 시안의 임시 문구다.</em></p>
+<table>
+<thead>
+<tr>
+<th>IDX</th>
+<th>구분</th>
+<th>표시 내용과 동작</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>선택 창 헤더</td>
+<td>종류별 색 구분. 유물 파랑, 스킬 갈색, 장비 보라</td>
+</tr>
+<tr>
+<td>2</td>
+<td>후보 카드 3장</td>
+<td>하나를 고른다. 스킬은 1차에 4번, 2차에 5번 슬롯에 장착</td>
+</tr>
+<tr>
+<td>3</td>
+<td>새로고침</td>
+<td>선택 라운드마다 1회, 3장을 모두 교체. 쓰지 않으면 사라지며 이월 없음</td>
+</tr>
+</tbody>
+</table>
+<p>선택 라운드는 1회 20초이며, 시간이 지나거나 모든 유저가 고르면 즉시 끝난다. 배정이 여러 개면 그만큼 반복하고 각각 20초와 새로고침 1회를 따로 적용한다.</p>
+<h2>● 디폴트 시퀀스</h2>
+<p><img alt="1~15라운드 선택 배정" src="../../images/maple-arena-specs/sequence.png" /></p>
+<p><em>원문 규칙을 바탕으로 다시 그린 도식</em></p>
+<p>매치 시작 시 미리 만든 시퀀스(Arena01, Arena02 …) 중 하나를 추첨해, 같은 조합이라도 판마다 성장 흐름이 달라진다. 장비는 어느 시드에서도 매치당 1회이며, 시퀀스는 데이터로 분리해 계속 추가할 수 있다.</p>
+<h2>● 후보 등장 규칙</h2>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>후보 풀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>유물</td>
+<td>공용 유물과 현재 무기의 고유 유물 중 해금된 것. 이미 얻은 1회 한정 유물은 제외</td>
+</tr>
+<tr>
+<td>스킬</td>
+<td>공용 4종, 무기 10레벨 이상이면 무기 스킬 A, 20레벨이면 B까지 최대 6종. 2차 선택에서는 이미 장착한 스킬 제외</td>
+</tr>
+<tr>
+<td>장비</td>
+<td>장비 8종. 망토에 장착되어 상대에게 보이며 대부분 자동 발동</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>무기</th>
+<th>무기 스킬 A, 10레벨</th>
+<th>무기 스킬 B, 20레벨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>망치, 대검</td>
+<td>디바인 스윙, 인사이징</td>
+<td>디바인 차지, 광폭화</td>
+</tr>
+<tr>
+<td>단검, 권총</td>
+<td>레디 투 다이, 시즈 봄버</td>
+<td>페이크, 럭키 다이스</td>
+</tr>
+<tr>
+<td>활, 표창</td>
+<td>폭풍의 시, 쉐도우 파트너</td>
+<td>리트리트 샷, 스타 더스트</td>
+</tr>
+<tr>
+<td>건틀릿, 스태프</td>
+<td>폭류권, 에메랄드 플라워</td>
+<td>섬멸, 매직 가드</td>
+</tr>
+</tbody>
+</table>
+<p><em>무기 고유 스킬 기획서 기준. 무기 성장 문서의 스킬명은 망치, 권총 외 6종에서 다르다. 시즈 봄버는 facing 방향 벽 앞에 5초간 포탑을 세워 1초마다 적 최대 체력 3% 피해를 준다.</em></p></article></body></html>
