@@ -1,6 +1,6 @@
 /* ============================================================
    포트폴리오 내용 데이터
-   admin.html(편집기)에서 자동 생성됨 — 2026. 10. 14. 오후 4:39:04
+   admin.html(편집기)에서 자동 생성됨 — 2026. 10. 14. 오후 4:47:46
    ============================================================ */
 window.PORTFOLIO_PROFILE = {
   "name": "이정훈",
@@ -115,7 +115,7 @@ window.PORTFOLIO_UNITS = [
           {
             "title": "1. 미니게임 콘텐츠 기획",
             "tag": "담당 업무",
-            "html": "<h2>게임 플레이 루프 설계</h2><ul><li>운반 성공, 실패 조건과 게임 종료 조건을 정의해 한 판의 플레이 루프를 설계했습니다.</li></ul><h2>상자 기믹 설계</h2><ul><li>일반 / 파손주의 / 냉장보관 등 상자 유형별 규칙과 처리 방식을 기획했습니다.</li></ul><h2>UI/UX 기획</h2><ul><li>미니게임 내 UI의 동작 구조와 화면 흐름을 <strong>플로우차트와 와이어프레임</strong>으로 설계해 아트, 프로그래밍팀에 전달했습니다.</li></ul><div class=\"img-row\"><img src=\"images/restored/alien-02.png\" alt=\"\"><img src=\"images/restored/alien-03.png\" alt=\"\"></div><div class=\"img-row\"><img src=\"images/restored/alien-04.png\" alt=\"\"><img src=\"images/restored/alien-05.png\" alt=\"\"></div><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">미니게임 기획서, UI 플로우, 와이어프레임</p>"
+            "html": "<h2>게임 플레이 루프 설계</h2><ul><li>상자 운반의 성공, 실패 조건과 게임 종료 조건을 정의해 미니게임 한 판의 플레이 루프를 설계했습니다.</li></ul><h2>상자 기믹 설계</h2><ul><li>일반 / 파손주의 / 냉장보관 등 상자 유형 별 규칙과 처리 방식을 기획했습니다.</li></ul><h2>UI/UX 기획</h2><ul><li>미니게임 내 UI의 동작 구조와 화면 흐름을 <strong>플로우차트와 와이어프레임</strong>으로 설계해 아트, 프로그래밍팀에 전달했습니다.</li></ul><div class=\"img-row\"><img src=\"images/restored/alien-02.png\" alt=\"\"><img src=\"images/restored/alien-03.png\" alt=\"\"></div><div class=\"img-row\"><img src=\"images/restored/alien-04.png\" alt=\"\"><img src=\"images/restored/alien-05.png\" alt=\"\"></div><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">미니게임 기획서, UI 플로우, 와이어프레임</p>"
           },
           {
             "title": "2. 대화 시스템 및 시나리오 기획",
@@ -125,12 +125,12 @@ window.PORTFOLIO_UNITS = [
           {
             "title": "3. 스킬 시스템 기획",
             "tag": "담당 업무",
-            "html": "<ul><li><strong>효과, 동작 구조 정의</strong> — 스킬의 효과와 동작 구조를 정의하고, 레벨별 성능 변화와 업그레이드 비용을 설계했습니다.</li><li><strong>연출 설계</strong> — 스킬 발동 시의 시각적 변화(캐릭터 이동, 이펙트, 상자 처리 애니메이션)를 동작 단위로 정의하고, 개발팀과 아트팀이 의도를 바로 이해할 수 있도록 <strong>동작 애니메이션 시안</strong>을 함께 제공했습니다.</li></ul><img src=\"images/alien-08.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스킬 동작 구조 및 연출 기획</p><img src=\"images/alien-09.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스킬 관리창 UI 기획 및 구간별 수치 설정</p>"
+            "html": "<ul><li><strong>효과, 동작 구조 정의</strong>&nbsp;: 스킬의 효과와 동작 구조를 정의하고, 레벨별 성능 변화와 업그레이드 비용을 설계했습니다.</li><li><strong>연출 설계</strong>&nbsp;: 스킬 발동 시의 시각적 변화(캐릭터 이동, 이펙트, 상자 처리 애니메이션)를 동작 단위로 정의하고, 개발팀과 아트팀이 의도를 바로 이해할 수 있도록 <strong>동작 애니메이션 시안</strong>을 Figma 프로토타입으로 함께 제공했습니다.</li></ul><img src=\"images/alien-08.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스킬 동작 구조 및 연출 기획</p><img src=\"images/alien-09.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스킬 관리창 UI 기획 및 구간별 수치 설정</p>"
           },
           {
             "title": "4. 스테이지 디자인",
             "tag": "담당 업무",
-            "html": "<ul><li>엔진 안에서 스테이지별 오브젝트 배치, 상자 스폰 빈도, 게임 시간, 캐릭터 이동 속도, 오브젝트 동작 주기를 직접 조정하며 스테이지별 흐름과 난이도를 설계했습니다.</li><li>반복적인 플레이테스트로 수치를 보정하며 난이도 곡선을 다듬었습니다.</li></ul><img src=\"images/alien-10.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스테이지 편집 화면</p>"
+            "html": "<ul><li>유니티 엔진 내 안에서 스테이지별 오브젝트 배치 및 인스펙터 창에서 상자 스폰 빈도, 게임 시간, 캐릭터 이동 속도, 오브젝트 동작 주기등의 파라미터등을 직접 조정하며 스테이지별 흐름과 난이도 곡선을 설계했습니다.</li><li>반복적인 플레이테스트로 수치를 보정하며 난이도 곡선을 다듬었습니다.</li></ul><img src=\"images/alien-10.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스테이지 편집 화면</p>"
           },
           {
             "title": "5. 기타 시스템 및 콘텐츠 기획",
@@ -140,12 +140,12 @@ window.PORTFOLIO_UNITS = [
           {
             "title": "6. 스테이지 난이도 & 재화 밸런스 설계",
             "tag": "담당 업무",
-            "html": "<h2>방법</h2><ul><li>반복 플레이테스트로 스테이지별 기준 수치를 설정하고, 테스터의 실제 플레이 데이터를 수집해 세부 조정을 진행했습니다.</li><li>스코어 기록 일지를 직접 작성해 회차별 점수 편차와 특이사항을 분석하고, 이를 바탕으로 상자 스폰 확률, 이동속도 보정치 등을 조정했습니다.</li></ul><h2>결과</h2><div class=\"callout insight\"><div class=\"callout-ico\">📈</div><div class=\"callout-body\"><p><strong>CH3 병목 구간 발견 → 난이도 곡선 보완</strong><br>데이터 분석 과정에서 CH3 구간의 클리어율이 급격히 낮아지는 병목을 식별했습니다. CH1, CH2의 기본 지급 골드량과 CH3의 클리어 기준 점수를 재설정해 난이도 곡선을 보완했습니다.</p></div></div><img src=\"images/alien-13.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스코어 기록 일지</p><div class=\"img-row\"><img src=\"images/alien-14.png\" alt=\"\"><img src=\"images/alien-15.png\" alt=\"\"></div><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스테이지별 기준 수치, 재화 밸런스 표</p>"
+            "html": "<h2>방법</h2><ul><li>직접 반복 플레이테스트로 스테이지별 기준 수치를 설정하고, 테스터의 실제 플레이 데이터를 수집해 세부 조정을 진행했습니다.</li><li>스코어 기록 일지를 직접 작성해 회차별 점수 편차와 특이사항을 분석하고, 이를 바탕으로 상자 스폰 확률, 이동속도 보정치 등을 조정했습니다.</li></ul><h2>결과</h2><div class=\"callout insight\"><div class=\"callout-ico\">📈</div><div class=\"callout-body\"><p><strong>CH3 병목 구간 발견 → 난이도 곡선 보완</strong><br>데이터 분석 과정에서 CH3 구간의 클리어율이 급격히 낮아지는 병목을 식별했습니다. CH1, CH2의 기본 지급 골드량과 CH3의 클리어 기준 점수를 재설정해 난이도 곡선을 보완했습니다.</p></div></div><img src=\"images/alien-13.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스코어 기록 일지</p><div class=\"img-row\"><img src=\"images/alien-14.png\" alt=\"\"><img src=\"images/alien-15.png\" alt=\"\"></div><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">스테이지별 기준 수치, 재화 밸런스 표</p>"
           },
           {
             "title": "7. 회고 — 기획 의도의 전달 방식",
             "tag": "회고",
-            "html": "<div class=\"callout insight\"><div class=\"callout-ico\">💡</div><div class=\"callout-body\"><p>9개월간 프로젝트를 진행하며 가장 크게 배운 것은 <strong>같은 기획이라도 직군마다 필요한 정보가 다르다</strong>는 점입니다.</p></div></div><h2>문제</h2><p>초반 UI 기획에서는 와이어프레임, UX 플로우, 수치 계산 방식, 디자인 레퍼런스를 한 문서에 담아 아트팀과 프로그래밍팀에 똑같이 전달했습니다. 정보가 빠지는 것보다 모두 주는 편이 낫다고 판단했기 때문입니다.</p><div class=\"callout problem\"><div class=\"callout-ico\">⚠</div><div class=\"callout-body\"><p>아트팀은 수치 정보 사이에서 연출 포인트를 찾는 데 시간이 걸렸고, 프로그래밍팀은 구현 로직이 설명 속에 묻혀 해석하기 어려워했습니다. 스코어보드 UI의 숫자 카운팅 애니메이션은 프로그래머의 구현 영역인데도 아트팀이 자신들의 작업 범위인지 되묻는 일이 생겼고, 그만큼 질문과 확인에 드는 시간이 늘었습니다.</p></div></div><img src=\"images/alien-16.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">초기 스코어보드 UI 문서 일부 — 모든 정보를 한 문서에 담았던 시기</p><h2>개선</h2><p>직군별로 필요한 정보만 골라 따로 정리하는 방식으로 바꿨습니다.</p><ul><li><strong>아트팀</strong> — 화면 레이아웃, 색상, 레퍼런스 이미지 중심</li><li><strong>프로그래밍팀</strong> — 버튼 동작 조건, 입력 로직, 수치 값만 간결하게</li></ul><div class=\"img-row\"><img src=\"images/alien-17.png\" alt=\"\"><img src=\"images/restored/alien-18.png\" alt=\"\"></div><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">같은 스테이터스 기획을 프로그래밍팀용(왼쪽)과 아트팀용(오른쪽)으로 나눠 작성</p><h2>결과, 배운 점</h2><ul><li>문서를 나눈 뒤에는 각 팀원이 자신의 작업에 필요한 내용을 바로 찾았고, 작업 범위를 확인하는 질문과 구현 중 수정이 줄었습니다.</li><li>지금은 문서를 쓰기 전에 <strong>\"이 정보가 누구에게 필요한가?\"</strong>를 먼저 정합니다.</li></ul>"
+            "html": "<div class=\"callout insight\"><div class=\"callout-ico\">💡</div><div class=\"callout-body\"><p>9개월간 프로젝트를 진행하며 가장 크게 배운 것은 <strong>같은 기획이라도 직군마다 필요한 정보가 다르다</strong>는 점입니다.</p></div></div><h2>문제</h2><p>초반 UI 기획에서는 와이어프레임, UX 플로우, 수치 계산 방식, 디자인 레퍼런스를 한 문서에 담아 아트팀과 프로그래밍팀에 똑같이 전달했습니다. 정보가 빠지는 것보다 모두 주는 편이 낫다고 판단했기 때문입니다.</p><div class=\"callout problem\"><div class=\"callout-ico\">⚠</div><div class=\"callout-body\"><p>아트팀은 수치 정보 사이에서 연출 포인트를 찾는 데 시간이 걸렸고, 프로그래밍팀은 구현 로직이 설명 속에 묻혀 해석하기 어려워했습니다. 예시로 스코어보드 UI의 숫자 카운팅 애니메이션은 프로그래머의 구현 영역인데도 아트팀이 자신들의 작업 범위인지 되묻는 일이 생겼고, 그만큼 질문과 확인에 드는 시간이 늘었습니다.</p></div></div><img src=\"images/alien-16.png\" alt=\"\"><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">초기 스코어보드 UI 문서 일부 — 모든 정보를 한 문서에 담았던 시기</p><h2>개선</h2><p>직군별로 필요한 정보만 골라 따로 정리하는 방식으로 바꿨습니다.</p><ul><li><strong>아트팀</strong>&nbsp;: 화면 레이아웃, 색상, 레퍼런스 이미지 중심으로</li><li><strong>프로그래밍팀</strong>&nbsp;: 버튼 동작 조건, 입력 로직, 수치 값만 간결하게</li></ul><div class=\"img-row\"><img src=\"images/alien-17.png\" alt=\"\"><img src=\"images/restored/alien-18.png\" alt=\"\"></div><p style=\"text-align:center;font-size:12px;color:var(--ink-3)\">같은 스테이터스 기획을 프로그래밍팀용(왼쪽)과 아트팀용(오른쪽)으로 나눠 작성</p><h2>결과, 배운 점</h2><ul><li>문서를 나눈 뒤에는 각 팀원이 자신의 작업에 필요한 내용을 바로 찾았고, 작업 범위를 확인하는 질문과 구현 중 수정이 줄었습니다.</li><li>지금은 문서를 쓰기 전에 <strong>\"이 정보가 누구에게 필요한가?\"</strong>를 먼저 정합니다.</li></ul>"
           }
         ]
       },
