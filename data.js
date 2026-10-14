@@ -1,7 +1,4 @@
-/* ============================================================
-   포트폴리오 내용 데이터
-   admin.html(편집기)에서 자동 생성됨 — 2026. 10. 14. 오후 4:47:46
-   ============================================================ */
+/* 포트폴리오 내용 데이터 */
 window.PORTFOLIO_PROFILE = {
   "name": "이정훈",
   "title": "Game Designer Portfolio",
@@ -93,6 +90,44 @@ window.PORTFOLIO_UNITS = [
             "title": "5. 작업 관리와 회고",
             "tag": "PM, 협업",
             "html": "<h2>작업 기준 — 결과물과 함께 적용 조건을 넘긴다</h2><p>최종 기획 결정과 프로젝트 매니징을 맡아 제작 범위와 검증 항목을 정리했습니다. AI 작업에서도 담당 파일과 통합 담당을 구분하고, 에셋을 전달할 때 적용 방법과 남은 확인 사항을 함께 남겼습니다.</p><div class=\"wt-pages\"><figure><a href=\"images/whos-tail/management-1.png\" target=\"_blank\" rel=\"noopener\"><img src=\"images/whos-tail/management-1.png\" alt=\"기획 정리본 1, 클릭하여 확대\" loading=\"lazy\"></a><figcaption>기획 정리본 1, 클릭하여 확대</figcaption></figure></div><p class=\"wt-doclinks\"><a href=\"docs/whos-tail/management.html\" target=\"_blank\" rel=\"noopener\">기획서 보기 ↗</a><a href=\"docs/whos-tail/management.md\" download>Markdown 다운로드 ↓</a></p><h2>AI 요청 — 수정 범위와 완료 기준</h2><h3>저장소의 에이전트 작업 규칙 요약</h3><blockquote>담당 파일과 원본을 먼저 확인한다. 결과물에는 적용 방법, 필요한 컴포넌트, 검사 결과를 포함한다. Unity 씬 쓰기 담당은 하나로 정하고, 실제 플레이에서 확인하지 못한 항목을 구분한다.</blockquote><h2>결과 — 팀이 이어서 작업할 수 있는 인계</h2><table><thead><tr><th>자료</th><th>정리한 내용</th></tr></thead><tbody><tr><td>꼬리 Unity 적용 요청문</td><td>플레이어 색상, 실시간 관성, 구르기, 리스폰 연결 조건</td></tr><tr><td>모션 요청 가이드</td><td>비교안의 속도, 높이, 하체를 고정하는 요청 방식</td></tr><tr><td>카메라 검증 기록</td><td>대결, 정체 공개, 결과 UI 순서와 종료 후 상태 복구</td></tr></tbody></table><h3>회고 — 생성보다 선택과 검증 기준이 중요했다</h3><p>모션을 여러 개 만드는 것만으로는 최종안을 정하기 어려웠습니다. 비교 조건을 맞추고, 왜 제외하는지와 어느 부위를 유지할지를 구체적으로 전달해야 다음 수정이 분명해졌습니다. 걷기는 원본을 유지하고 잡기는 오른팔만 수정한 판단이 그 예입니다.</p><p>Blender에서 확인한 결과가 Unity에서도 같지는 않았습니다. 이후 작업에서는 제작 완료와 게임 적용 완료를 나누고, 샘플 자세 대조와 상태 전환 검사를 인계 기준에 포함했습니다.</p><h3>남은 검증</h3><p>배포 빌드와 다중 접속 환경에서의 동작, 실제 플레이어가 정보를 해석하는 방식은 추가로 확인해야 합니다. 에디터 검증 결과와 플레이테스트 결과를 구분해 다음 작업 범위를 정리하고 있습니다.</p>"
+          }
+        ]
+      },
+      {
+        "title": "메이플 배틀 아레나",
+        "meta": "메커톤 & MSW 글로벌 개발 콘테스트 출품작, 심사 대기",
+        "cover": "images/maple-arena/banner.png",
+        "lessons": [
+          {
+            "title": "프로젝트 소개",
+            "tag": "출품 완료",
+            "links": [
+              {
+                "label": "메이플 배틀 아레나 PV",
+                "url": "https://youtu.be/a3pLMFKK8l8"
+              }
+            ],
+            "html": "<div class=\"callout\"><div class=\"callout-body\"><p><strong>조작은 간단하게, 승부는 스킬 타이밍과 성장 선택으로</strong><br>자동 이동과 자동 공격을 바탕으로 4명이 라운드마다 1:1로 겨루는 횡스크롤 오토 브롤러입니다. 메이플스토리 월드에서 제작한 메커톤 & MSW 글로벌 개발 콘테스트 출품작입니다. 현재 출품을 마치고 심사를 기다리고 있습니다.</p></div></div><table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody><tr><td>장르와 인원</td><td>횡스크롤 오토 브롤러, 4인 대전</td></tr><tr><td>제작 플랫폼</td><td>메이플스토리 월드</td></tr><tr><td>진행 상태</td><td>콘테스트 출품 완료, 심사 대기</td></tr><tr><td>주요 기획</td><td>전투 규칙, 라운드 매칭, 성장 시스템, 스킬과 무기, 아레나룸 UI</td></tr></tbody></table><h2>기획의 핵심</h2><p>한 매치 안에서는 전투와 성장 선택을 반복하고, 매치 밖에서는 캐릭터와 무기를 육성합니다. 성장의 적용 범위와 초기화 시점을 구분하고, 아레나룸에서 현재 능력치와 다음 성장 목표를 확인하도록 구성했습니다.</p><p class=\"wt-note\">아래 UI와 전투 이미지는 기획서에 수록된 설계 자료입니다. 출품작의 실제 화면과 연출은 PV에서 확인할 수 있습니다.</p>"
+          },
+          {
+            "title": "1. 저조작 전투와 라운드 매칭",
+            "tag": "전투, 예외 처리 기획",
+            "html": "<h2>이동과 공격은 자동, 개입할 순간은 플레이어가 선택</h2><p>캐릭터는 바라보는 방향으로 자동 이동하며 공격합니다. 플레이어는 방향전환, 대시, 스킬 타이밍에 개입합니다. 지속적인 이동 조작의 부담을 줄이고, 상대와의 거리와 방향을 읽어 대응하는 데 집중하는 전투입니다.</p><figure><a href=\"images/maple-arena/combat-plan.png\" target=\"_blank\" rel=\"noopener\"><img src=\"images/maple-arena/combat-plan.png\" alt=\"무기별 공격 기획서의 전투 배치 시안\" loading=\"lazy\"></a><figcaption>원본 무기별 공격 기획서의 전투 배치 시안</figcaption></figure><h3>앞면 충돌과 뒷면 충돌을 구분</h3><p>캐릭터의 앞면이 벽에 닿으면 이동 방향을 전환합니다. 넉백이나 후방 대시로 등이 벽에 닿은 경우에는 방향을 바꾸지 않고 이동만 제한합니다. 같은 벽 충돌이라도 진입 방향에 따라 처리 기준을 나누었습니다.</p><h3>생존 인원이 줄어도 전투가 이어지도록</h3><table><thead><tr><th>생존 인원</th><th>페어링 규칙</th><th>설계 목적</th></tr></thead><tbody><tr><td>4명</td><td>직전 라운드 조합을 제외한 나머지 조합 중 추첨</td><td>같은 상대와 연속 대전 방지</td></tr><tr><td>3명</td><td>플레이어 1쌍과 플레이어 대 클론 1쌍 구성</td><td>남는 플레이어 없이 전투 진행</td></tr><tr><td>2명</td><td>남은 두 플레이어가 계속 대전</td><td>최종 승자 결정</td></tr></tbody></table><p>클론은 라운드 시작 직전 원본의 능력치와 스킬, 어빌리티, 유물의 누적 상태를 복제하는 전투 전용 개체입니다. 해당 라운드가 끝나면 소멸하며 다음 라운드에는 다시 갱신합니다. 3인과 2인 상황에서는 4인용 연속 대전 방지 규칙을 적용하지 않습니다.</p><h3>클론의 스킬 판단을 조건 데이터로 구성</h3><p>스킬마다 별도 행동을 지정하기보다 거리, 방향, 체력, 남은 사용 횟수를 조건으로 조합합니다. 조건을 모두 충족한 스킬 중 우선순위에 따라 후보를 정하고, 지연 시간이 지난 뒤 조건을 다시 확인해 사용하거나 취소합니다. 이 행동 규칙은 클론과 매칭 봇에서 함께 사용하는 구조입니다.</p>"
+          },
+          {
+            "title": "2. 아레나룸 UI와 캐릭터 성장",
+            "tag": "시스템, UI 기획",
+            "html": "<h2>랜덤 캐릭터 선택에도 육성의 가치가 이어지도록</h2><p>전투에서 캐릭터가 랜덤 후보로 제시되므로, 한 캐릭터를 성장시킨 보상이 다른 캐릭터를 사용할 때도 유효해야 합니다. 8종의 캐릭터를 처음부터 보유하게 하고, 경험치는 사용한 캐릭터에 쌓되 승급 보너스는 모든 캐릭터에 적용하도록 설계했습니다.</p><figure><a href=\"images/maple-arena/character-growth-ui.png\" target=\"_blank\" rel=\"noopener\"><img src=\"images/maple-arena/character-growth-ui.png\" alt=\"아레나룸 캐릭터 탭, 원본 기획서 UI 시안. 표시 수치는 레이아웃 예시입니다.\" loading=\"lazy\"></a><figcaption>아레나룸 캐릭터 탭, 원본 기획서 UI 시안. 표시 수치는 레이아웃 예시입니다.</figcaption></figure><table><thead><tr><th>구분</th><th>성장 조건</th><th>보상과 적용 범위</th></tr></thead><tbody><tr><td>캐릭터 레벨</td><td>사용한 캐릭터에 전투 경험치 누적, 최대 25레벨</td><td>5, 10, 20, 25레벨에서 승급 자격 획득</td></tr><tr><td>캐릭터 등급</td><td>승급 조건 충족 후 메소를 소모해 수동 승급</td><td>캐릭터별 보너스가 계정 전체에 적용</td></tr><tr><td>아레나 레벨</td><td>8종 캐릭터 레벨의 합, 최대 200</td><td>10레벨마다 공격력과 체력 +1%, 25, 80, 150레벨에 어빌리티 슬롯 해금</td></tr></tbody></table><h3>현재 상태와 다음 행동을 한 화면에 배치</h3><p>왼쪽에는 계정 전체에 적용되는 아레나 레벨과 어빌리티, 가운데에는 선택한 캐릭터의 성장 상태, 오른쪽에는 고유 능력과 승급 보상, 하단에는 캐릭터 목록을 배치했습니다. 개별 캐릭터의 성장과 계정 전체의 보상을 함께 확인하는 구조입니다.</p><h3>경험치 획득과 승급 처리를 분리</h3><p>경험치를 충족하면 레벨은 자동으로 상승하지만 승급은 버튼을 눌러야 반영됩니다. 승급하지 않아도 경험치와 레벨은 계속 쌓이며, 초과 경험치는 다음 레벨로 이월합니다. 최고 레벨에서는 경험치 획득을 멈추고 MAX를 표시하도록 정의했습니다.</p>"
+          },
+          {
+            "title": "3. 무기 강화와 해금 구조",
+            "tag": "시스템, 데이터 기획",
+            "html": "<h2>수치 성장과 선택지 확장을 함께 제공</h2><p>무기 8종은 각각 카드와 메소를 소모해 최대 20레벨까지 강화합니다. 강화 효과는 해당 무기를 장착했을 때만 적용하며, 공격력과 체력의 상승 외에 특정 레벨에서 고유 유물과 스킬 후보를 해금합니다.</p><figure><a href=\"images/maple-arena/weapon-growth-ui.png\" target=\"_blank\" rel=\"noopener\"><img src=\"images/maple-arena/weapon-growth-ui.png\" alt=\"아레나룸 무기 탭, 원본 기획서 UI 시안. 능력치, 카드 보유량, 다음 해금 목표를 함께 표시합니다.\" loading=\"lazy\"></a><figcaption>아레나룸 무기 탭, 원본 기획서 UI 시안. 능력치, 카드 보유량, 다음 해금 목표를 함께 표시합니다.</figcaption></figure><table><thead><tr><th>레벨</th><th>해금 내용</th><th>적용 방식</th></tr></thead><tbody><tr><td>3, 15</td><td>무기 고유 유물</td><td>매치의 유물 선택 후보에 추가</td></tr><tr><td>5</td><td>무기별 지정 능력치 +10%</td><td>해당 무기의 보너스로 적용</td></tr><tr><td>10, 20</td><td>무기 액티브 스킬 A, B</td><td>매치의 스킬 선택 후보에 추가</td></tr></tbody></table><p><strong>해금은 즉시 장착이 아니라 선택 후보에 들어가는 조건입니다.</strong> 매치 안에서 해당 유물이나 스킬을 선택해야 실제로 사용할 수 있습니다. 장기 육성의 목표가 매치 중 빌드 선택으로 연결되도록 구분했습니다.</p><h3>버튼 상태부터 재화 차감까지 명시</h3><ul><li>카드와 메소를 모두 충족해야 레벨업 버튼을 활성화합니다.</li><li>한 번 누를 때 한 레벨만 상승하며, 요구량만 차감하고 초과분은 보존합니다.</li><li>레벨 상승 후 능력치를 반영하고 해당 구간의 해금을 처리합니다.</li></ul><h3>화면과 데이터를 같은 기준으로 연결</h3><p>WeaponUpgrade 테이블은 무기 8종 × 20레벨로 구성했습니다. 누적 능력치와 레벨별 증가량, 필요 카드와 메소, 해금 유형과 대상, UI 설명을 구분해 관리하는 구조입니다.</p>"
+          },
+          {
+            "title": "4. 라운드 성장과 매치 진행",
+            "tag": "전투, 밸런스 기획",
+            "html": "<h2>전투와 선택이 번갈아 이어지는 성장 리듬</h2><p>한 라운드는 30초의 1:1 전투와 20초의 성장 선택으로 구성합니다. 선택은 유물, 스킬, 장비 중 배정된 종류의 카드 3장 가운데 하나를 고르는 방식입니다. 매치 안에서 얻은 성장은 매치가 끝나면 초기화됩니다.</p><figure><a href=\"images/maple-arena/skill-selection-plan.png\" target=\"_blank\" rel=\"noopener\"><img src=\"images/maple-arena/skill-selection-plan.png\" alt=\"원본 기획서의 스킬 선택 UI 시안, 후보 3장과 새로고침 배치\" loading=\"lazy\"></a><figcaption>원본 기획서의 스킬 선택 UI 시안, 후보 3장과 새로고침 배치</figcaption></figure><h3>선택의 순서와 횟수를 시퀀스 데이터로 분리</h3><p>매치 시작 시 성장 시퀀스를 추첨해 각 라운드에 어떤 선택이 몇 번 등장할지 정합니다. 같은 직업과 무기를 사용해도 성장 순서가 달라지도록 구성하고, 장비 선택은 매치당 한 번으로 제한했습니다.</p><table><thead><tr><th>상황</th><th>처리 기준</th></tr></thead><tbody><tr><td>선택 시간 종료 또는 전원 선택 완료</td><td>해당 선택 단계를 종료</td></tr><tr><td>한 라운드에 유물 선택 2회 배정</td><td>20초 선택 단계를 두 번 순서대로 진행</td></tr><tr><td>새로고침</td><td>선택 단계마다 1회, 미사용 횟수는 이월하지 않음</td></tr><tr><td>이미 획득한 1회성 유물</td><td>이후 후보 풀에서 제외</td></tr><tr><td>무기 고유 유물</td><td>현재 무기에 해당하고 해금된 것만 후보에 포함</td></tr></tbody></table><h3>접전 여부와 라운드 구간을 패배 비용에 반영</h3><p>매치 체력은 100에서 시작합니다. 패배 시 기본 피해는 1~5라운드 5, 6~10라운드 10, 11~15라운드 15로 증가합니다. 여기에 승자의 남은 전투 체력 비율을 10% 단위로 올림한 추가 피해를 더해, 접전 끝의 패배와 완패를 구분합니다.</p><p>예를 들어 3라운드에서 상대 체력이 55% 남은 채 패배하면, 60% 구간으로 계산해 5 + 6 = 11의 매치 체력이 감소합니다. 시간 초과 무승부는 양쪽에 기본 피해만 적용합니다.</p><p class=\"wt-note\">수치와 규칙은 출품작의 기획서 기준입니다.</p>"
           }
         ]
       },
@@ -352,9 +387,6 @@ window.PORTFOLIO_UNITS = [
   }
 ];
 
-/* ============================================================
-   모의면접 (비주얼 노벨) 데이터 — 편집기의 「모의면접」 시트에서 고칠 수 있다
-   ============================================================ */
 window.PORTFOLIO_INTERVIEW = {
   "me": {
     "name": "이정훈",
@@ -511,7 +543,7 @@ window.PORTFOLIO_INTERVIEW = {
         "p02"
       ],
       "sub": false,
-      "link": "1-1-1",
+      "link": "1-2-1",
       "pts": 5
     },
     {
@@ -529,7 +561,7 @@ window.PORTFOLIO_INTERVIEW = {
         "p03"
       ],
       "sub": false,
-      "link": "1-1-6",
+      "link": "1-2-6",
       "pts": 5
     },
     {
@@ -544,7 +576,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "1-2-3",
+      "link": "1-3-3",
       "pts": 7
     },
     {
@@ -562,7 +594,7 @@ window.PORTFOLIO_INTERVIEW = {
         "h05"
       ],
       "sub": false,
-      "link": "1-1-2",
+      "link": "1-2-2",
       "pts": 5
     },
     {
@@ -615,7 +647,7 @@ window.PORTFOLIO_INTERVIEW = {
         "p06"
       ],
       "sub": false,
-      "link": "1-1-0",
+      "link": "1-2-0",
       "pts": 5
     },
     {
@@ -629,7 +661,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "1-1-1",
+      "link": "1-2-1",
       "pts": 7
     },
     {
@@ -643,7 +675,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "1-1-6",
+      "link": "1-2-6",
       "pts": 7
     },
     {
@@ -662,7 +694,7 @@ window.PORTFOLIO_INTERVIEW = {
         "p06"
       ],
       "sub": false,
-      "link": "1-2-1",
+      "link": "1-3-1",
       "pts": 5
     },
     {
@@ -679,7 +711,7 @@ window.PORTFOLIO_INTERVIEW = {
         "h05"
       ],
       "sub": true,
-      "link": "1-1-7",
+      "link": "1-2-7",
       "pts": 7
     },
     {
@@ -693,7 +725,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "1-2-3",
+      "link": "1-3-3",
       "pts": 7
     },
     {
@@ -710,7 +742,7 @@ window.PORTFOLIO_INTERVIEW = {
         "s02"
       ],
       "sub": false,
-      "link": "1-3-0",
+      "link": "1-4-0",
       "pts": 5
     },
     {
@@ -724,7 +756,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "1-3-1",
+      "link": "1-4-1",
       "pts": 7
     },
     {
@@ -941,7 +973,7 @@ window.PORTFOLIO_INTERVIEW = {
         "h06"
       ],
       "sub": false,
-      "link": "1-1-7",
+      "link": "1-2-7",
       "pts": 5
     },
     {
@@ -955,7 +987,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "1-1-1",
+      "link": "1-2-1",
       "pts": 7
     },
     {
@@ -972,7 +1004,7 @@ window.PORTFOLIO_INTERVIEW = {
         "p03"
       ],
       "sub": false,
-      "link": "1-1-2",
+      "link": "1-2-2",
       "pts": 5
     },
     {
@@ -986,7 +1018,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": false,
-      "link": "1-3-1",
+      "link": "1-4-1",
       "pts": 5
     },
     {
@@ -1002,7 +1034,7 @@ window.PORTFOLIO_INTERVIEW = {
         "s04"
       ],
       "sub": false,
-      "link": "1-2-2",
+      "link": "1-3-2",
       "pts": 5
     },
     {
@@ -1016,7 +1048,7 @@ window.PORTFOLIO_INTERVIEW = {
       ],
       "follow": [],
       "sub": true,
-      "link": "1-2-2",
+      "link": "1-3-2",
       "pts": 7
     },
     {
