@@ -8,22 +8,23 @@ h1,h2,h3,h4,h5,h6{font-family:PortfolioNanumNeo,'NanumSquareNeo',sans-serif;font
 h1{font-size:25px;line-height:1.45;margin:0 0 24px;padding:7px 12px;background:#d9d9d9}
 h2{font-size:20px;line-height:1.45;margin:25px 0 12px;padding:0}
 h3{font-size:18px;line-height:1.5;margin:22px 0 10px;border-bottom:1px solid #d5d5d5;padding-bottom:7px}
-p,li{font-size:16px;margin:9px 0}ul,ol{padding-left:23px}
+p,li{font-size:15px;margin:8px 0}ul,ol{padding-left:23px}
 blockquote{background:#f5f5f5;border:1px solid #c7c7c7;margin:14px 0;padding:13px 18px}blockquote p{font-size:16px;margin:6px 0}
-img{display:block;max-width:100%;width:100%;max-height:430px;object-fit:contain;margin:20px auto}
-table{border-collapse:collapse;width:100%;margin:16px 0;font-size:15px;line-height:1.6}th,td{border:1px solid #aaa;padding:9px 11px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}td:first-child{width:23%}em{font-size:13px;color:#626262;font-style:normal}strong{color:inherit}
+img{display:block;max-width:100%;width:100%;max-height:370px;object-fit:contain;margin:20px auto}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14px;line-height:1.55}th,td{border:1px solid #aaa;padding:8px 10px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}td:first-child{width:23%}em{font-size:13px;color:#626262;font-style:normal}strong{color:inherit}
 a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px solid #bbb;padding-top:12px;margin-top:24px;font-size:12px;color:#666}
 .comparison{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}.comparison figure{margin:0}.comparison img{margin:0}.comparison figcaption{font-size:13px;color:#626262;margin-top:6px}
 @media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:23px}h2{font-size:20px}p,li{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+.sheet.objects:first-child img{max-height:250px}
 @media print{body{background:#fff}.sheet{margin:0;break-after:page}}
-</style><body><article class="sheet"><h1>1.1 게임 개요</h1>
-<h2>● 도시형 꼬리잡기</h2>
+</style><body><article class="sheet concept"><h1>1.1 게임 개요</h1>
+<h2>● 핵심 한 줄</h2>
 <ul>
-<li>지정된 타깃을 찾아 후방으로 접근하고, 꼬리 탈취를 시도하는 3D 소셜 추격 게임.</li>
-<li>모든 플레이어는 누군가를 추적하는 동시에 다른 플레이어의 타깃이 됨.</li>
-<li>타깃의 단서를 찾는 행동과 자신의 정체를 숨기는 행동이 함께 발생하도록 설계.</li>
+<li><strong>타깃에게는 내 정체를 숨기고, 나를 쫓는 추격자의 단서는 찾아내는</strong> 3D 멀티플레이 소셜 추격 게임.</li>
+<li>타깃은 시작 시 지정됨. 접근하는 동안 타깃이 나를 추격자로 알아채지 못하게 하는 것이 공격의 과제.</li>
+<li>나를 쫓는 사람은 모름. 관찰과 이벤트로 추격자의 단서를 모아 먼저 알아채는 것이 방어의 과제.</li>
 </ul>
-<p><img alt="플레이어 간 순환 추적 관계" src="../../images/whos-tail/specs/target-cycle.svg" /></p>
+<p><img alt="쫓는 루프와 쫓기는 루프가 동시에 진행되는 코어 루프" src="../../images/whos-tail/revision/loop.svg" /></p>
 <table>
 <thead>
 <tr>
@@ -33,95 +34,191 @@ a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px
 </thead>
 <tbody>
 <tr>
-<td>플랫폼</td>
-<td>PC</td>
+<td>플랫폼, 인원</td>
+<td>PC, 6~8인 목표 (빈자리는 봇으로 채우는 구조)</td>
 </tr>
 <tr>
-<td>플레이 인원</td>
-<td>6~8인 목표</td>
+<td>공간</td>
+<td>광장, 상업 거리, 골목, 실내, 수직 공간을 추격에 맞게 압축한 도시</td>
 </tr>
 <tr>
-<td>주요 공간</td>
-<td>골목, 계단, 건물 등 시야와 이동 경로가 교차하는 도시</td>
+<td>관계</td>
+<td>시작 시 타깃 1명 지정. 모든 플레이어가 누군가의 타깃이 되는 사슬 구조. 탈락 시 앞뒤 재연결</td>
 </tr>
 <tr>
-<td>목표 행동</td>
-<td>타깃 탐색 → 후방 접근 → 꼬리 잡기 → 대결 → 탈취</td>
+<td>포획</td>
+<td>후방 일정 범위에서만 잡기 가능. 잡은 뒤 짧은 대결(C/V 게이지)을 거쳐 탈취</td>
 </tr>
 <tr>
-<td>방어 행동</td>
-<td>주변 경계 → 추격자 발견 → 도주 → 잡힌 뒤 저항</td>
+<td>담당</td>
+<td>기초 컨셉, 플레이 루프, 시스템 및 카메라 연출 기획 / PM / Unity CLI 기반 AI 구현. 맵, 레벨 디자인 제작은 팀원 담당</td>
 </tr>
 </tbody>
 </table>
-<h2>● 핵심 재미와 범위</h2>
+<h2>● 핵심 재미</h2>
 <ol>
-<li>타깃을 찾는 동안 자신의 추격자도 경계하도록 하여, 이동 중에도 주변 인물을 관찰하게 함.</li>
-<li>꼬리가 잡힌 뒤 대결 단계를 두어 접촉만으로 승패가 끝나지 않도록 함.</li>
-<li>체력, 무기, 자기장 중심의 난전보다 탐색, 속임수, 추격에 집중.</li>
-</ol></article><article class="sheet"><h1>1.2 플레이 화면 및 정보 구조</h1>
-<p><img alt="타깃 정보, 지도, 꼬리 상태, 잡기 입력을 구분한 화면 구성안" src="../../images/whos-tail/specs/play-layout.svg" /></p>
+<li><strong>숨기기:</strong> 타깃 근처에서 평범한 행인처럼 움직여 접근 의도를 감추고, 추격을 눈치채기 전에 후방을 확보.</li>
+<li><strong>찾아내기:</strong> 주변 인물 중 누가 나를 쫓는지 의심하고, 단서를 모아 먼저 피하거나 역으로 유인.</li>
+<li><strong>조작으로 결정:</strong> 심리전의 결과는 후방 접근, 잡기, 대결 입력으로 판가름. 말만으로 승패가 끝나지 않음.</li>
+</ol></article><article class="sheet concept"><h1>1.2 플레이 루프 및 화면 정보</h1>
+<h2>● 쫓는 루프와 쫓기는 루프</h2>
+<table>
+<thead>
+<tr>
+<th>루프</th>
+<th>순서</th>
+<th>플레이어 판단</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>공격</td>
+<td>탐색 → 위장 접근 → 후방 잡기 → 대결 → 탈취 → 다음 타깃 재연결</td>
+<td>타깃의 위치를 찾되, 접근 경로와 행동으로 정체가 드러나지 않게 함</td>
+</tr>
+<tr>
+<td>방어</td>
+<td>경계 → 단서 수집 → 추격자 추정 → 도주, 뿌리치기</td>
+<td>마주친 사람이 추격자인지 판단. 잡힌 뒤에도 대결로 저항</td>
+</tr>
+<tr>
+<td>이벤트</td>
+<td>알림 → 이동 → 경쟁 → 정보, 포획</td>
+<td>정보나 고블린을 얻기 위해 한곳에 모이며 노출 위험을 감수</td>
+</tr>
+</tbody>
+</table>
+<p>두 루프가 한 플레이어 안에서 동시에 돌아가도록 설계. 타깃만 쫓으면 등 뒤가 비고, 추격자만 경계하면 타깃을 놓침.</p>
+<p><img alt="타깃, 꼬리 상태, 지도, 대결 입력을 구분한 플레이 화면 구성" src="../../images/whos-tail/revision/layout.svg" /></p>
 <table>
 <thead>
 <tr>
 <th>IDX</th>
-<th>구분</th>
-<th>표시 내용 및 동작</th>
+<th>화면 요소</th>
+<th>표시 내용 및 기획 의도</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>1</td>
-<td>타깃 정보</td>
-<td>현재 확보한 타깃 단서를 표시. 확인되지 않은 정체는 숨김</td>
+<td>내 타깃</td>
+<td>타깃의 꼬리 색. 위치는 표시하지 않아 직접 탐색하게 함</td>
 </tr>
 <tr>
 <td>2</td>
-<td>지도</td>
-<td>주변 공간과 이동 경로 파악에 사용</td>
+<td>내 꼬리 상태</td>
+<td>자신의 꼬리 색. 추격자의 정체는 표시하지 않음</td>
 </tr>
 <tr>
 <td>3</td>
-<td>내 꼬리 상태</td>
-<td>자신의 꼬리 색 등 현재 상태를 표시</td>
+<td>미니맵</td>
+<td>지형 파악, 이벤트 위치와 황금 고블린 아이콘 표시</td>
 </tr>
 <tr>
 <td>4</td>
-<td>잡기 입력</td>
-<td>후방 접근 후 꼬리 잡기를 시도하는 입력 영역</td>
+<td>이벤트, 정보 알림</td>
+<td>전화부스 활성화와 획득한 정보를 짧게 표시</td>
+</tr>
+<tr>
+<td>5</td>
+<td>아이템 슬롯</td>
+<td>1~4 선택, E 사용. 능력치 강화가 아닌 추격, 도주 보조 수단</td>
+</tr>
+<tr>
+<td>6</td>
+<td>대결 입력</td>
+<td>잡기 성공 후 C/V 교대 입력과 게이지. 수비자 화면에서는 공격자 정체를 숨김</td>
 </tr>
 </tbody>
 </table>
-<h2>● 정보 획득과 위험</h2>
+<h2>● 정보 공개 기준</h2>
 <table>
 <thead>
 <tr>
-<th>요소</th>
-<th>플레이어 선택</th>
+<th>정보</th>
+<th>획득 방법</th>
 <th>기획 의도</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>제한된 타깃 정보</td>
-<td>관찰, 이벤트로 단서 확보</td>
-<td>좌표를 따라가는 이동보다 탐색과 판단을 유도</td>
+<td>내 타깃의 꼬리 색</td>
+<td>시작부터 표시</td>
+<td>공격 측의 과제를 '찾기'와 '들키지 않기'로 집중</td>
 </tr>
+<tr>
+<td>추격자의 정체</td>
+<td>관찰, 전화부스 정보, 포획 후 공개 컷</td>
+<td>방어 측의 과제를 단서 추리로 만듦</td>
+</tr>
+<tr>
+<td>실시간 위치 추적</td>
+<td>제공하지 않음. 이벤트 정보도 '확인 당시 위치'를 5초간 표시</td>
+<td>좌표 추적 대신 직접 찾아가는 과정을 유지</td>
+</tr>
+</tbody>
+</table></article><article class="sheet concept"><h1>1.3 사람을 모으는 이벤트</h1>
+<h2>● 설계 목적</h2>
+<ul>
+<li>서로를 경계하는 구조는 모두가 숨기만 하는 소극적인 판으로 흐를 위험이 있음.</li>
+<li>정해진 시점에 가치 있는 목표를 한곳에 두어 <strong>이동할 이유</strong>를 만들고, 그 장소에서 타깃, 추격자와 마주칠 가능성을 만듦.</li>
+</ul>
+<p><img alt="전화부스와 황금 고블린을 중심으로 플레이어가 모이는 조우 구조" src="../../images/whos-tail/revision/encounters.svg" /></p>
+<table>
+<thead>
+<tr>
+<th>이벤트</th>
+<th>규칙 (현재 구현 기준)</th>
+<th>모이는 이유와 위험</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>전화부스</td>
-<td>정보 보상을 위해 정해진 장소로 이동</td>
-<td>정보 획득과 위치 노출의 위험을 함께 제공</td>
+<td>라운드 중 주기적으로 활성화, 전원에게 알림과 벨소리. 먼저 통화한 플레이어가 정보 1개 선택</td>
+<td>추격자 이름, 추격자 위치, 타깃 위치 중 선택 가능. 통화 중에는 이동과 시점이 잠겨 무방비</td>
 </tr>
 <tr>
-<td>대결</td>
-<td>꼬리가 잡힌 뒤에도 저항</td>
-<td>추격의 마지막 순간에 긴장과 대응 기회 제공</td>
+<td>황금 고블린</td>
+<td>라운드 시작 10초 후 무작위 위치에 1마리 등장. 플레이어 달리기의 1.5배 속도로 5~10초마다 목적지 변경</td>
+<td>미니맵에 전원에게 표시되어 추적 경로가 겹침. 손전등 기절 후 포획 가능</td>
 </tr>
 </tbody>
 </table>
-<h2>● 플레이테스트 확인 항목</h2>
+<table>
+<thead>
+<tr>
+<th>조정 가능 값</th>
+<th>현재 값</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>전화부스 첫 활성, 주기, 지속</td>
+<td>10초, 45초, 25초</td>
+<td>UI 프로토타입에서 가져온 초기값. 확정 수치 아님</td>
+</tr>
+<tr>
+<td>정보 표시 시간</td>
+<td>5초</td>
+<td>위치는 확인 당시 지점만 표시</td>
+</tr>
+<tr>
+<td>고블린 등장, 속도</td>
+<td>10초, 달리기 × 1.5 (약 9m/s)</td>
+<td>카운트다운 제외</td>
+</tr>
+<tr>
+<td>고블린 잡기 여유 반경</td>
+<td>0.25m</td>
+<td>Inspector에서 조정</td>
+</tr>
+</tbody>
+</table>
+<h2>● 확인 범위</h2>
 <ul>
-<li>정보 보상이 이동의 이유가 되는가?</li>
-<li>전화부스 주변에서 추격, 협상, 기습이 발생하는가?</li>
-<li>새로운 기능이 타깃 탐색과 꼬리 탈취를 돕는가?</li>
+<li><strong>Unity 로컬 실행에서 확인:</strong> 고블린 등장 시점, 이동, 미니맵 아이콘 추적과 포획 후 숨김, 손전등 기절과 기절 중 포획.</li>
+<li><strong>미구현:</strong> 고블린 포획 보상과 라운드 승패 연결. 현재는 포획 이펙트 후 제거만 연결.</li>
+<li><strong>미검증:</strong> 실제 6~8인 플레이에서 이벤트가 조우와 추격을 늘리는지. 두 PC 접속, 배포 빌드 검증도 남아 있음.</li>
 </ul></article></body></html>

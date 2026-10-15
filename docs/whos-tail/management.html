@@ -8,95 +8,59 @@ h1,h2,h3,h4,h5,h6{font-family:PortfolioNanumNeo,'NanumSquareNeo',sans-serif;font
 h1{font-size:25px;line-height:1.45;margin:0 0 24px;padding:7px 12px;background:#d9d9d9}
 h2{font-size:20px;line-height:1.45;margin:25px 0 12px;padding:0}
 h3{font-size:18px;line-height:1.5;margin:22px 0 10px;border-bottom:1px solid #d5d5d5;padding-bottom:7px}
-p,li{font-size:16px;margin:9px 0}ul,ol{padding-left:23px}
+p,li{font-size:15px;margin:8px 0}ul,ol{padding-left:23px}
 blockquote{background:#f5f5f5;border:1px solid #c7c7c7;margin:14px 0;padding:13px 18px}blockquote p{font-size:16px;margin:6px 0}
-img{display:block;max-width:100%;width:100%;max-height:430px;object-fit:contain;margin:20px auto}
-table{border-collapse:collapse;width:100%;margin:16px 0;font-size:15px;line-height:1.6}th,td{border:1px solid #aaa;padding:9px 11px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}td:first-child{width:23%}em{font-size:13px;color:#626262;font-style:normal}strong{color:inherit}
+img{display:block;max-width:100%;width:100%;max-height:370px;object-fit:contain;margin:20px auto}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14px;line-height:1.55}th,td{border:1px solid #aaa;padding:8px 10px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}td:first-child{width:23%}em{font-size:13px;color:#626262;font-style:normal}strong{color:inherit}
 a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px solid #bbb;padding-top:12px;margin-top:24px;font-size:12px;color:#666}
 .comparison{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}.comparison figure{margin:0}.comparison img{margin:0}.comparison figcaption{font-size:13px;color:#626262;margin-top:6px}
 @media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:23px}h2{font-size:20px}p,li{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+.sheet.objects:first-child img{max-height:250px}
 @media print{body{background:#fff}.sheet{margin:0;break-after:page}}
-</style><body><article class="sheet"><h1>5.1 제작, 검증, 인계 기준</h1>
-<h2>● 작업 단위</h2>
-<p>기획 조건과 완료 기준을 먼저 정한 뒤, 구현, 검증, 통합의 담당 범위를 구분한다.</p>
+</style><body><article class="sheet management"><h1>5.1 작업 관리와 회고</h1>
+<h2>● 회의록과 발표 피드백 정리</h2>
+<p>프로젝트 매니징을 맡아 Confluence 회의록의 질문, 답변과 메모를 구조화하고 발표 자료와 피드백을 함께 정리했습니다.</p>
 <table>
 <thead>
 <tr>
-<th>단계</th>
-<th>필요한 입력</th>
-<th>산출물, 확인 사항</th>
+<th>실제 정리한 문서</th>
+<th>구성한 내용</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>기획</td>
-<td>목적, 적용 대상, 플레이 규칙</td>
-<td>요구사항과 제외 범위</td>
+<td>2026/09/30 회의록</td>
+<td>담당과 질문자, 질문/답변 표, 작성자 메모</td>
 </tr>
 <tr>
-<td>구현 요청</td>
-<td>담당 파일, 원본, 레퍼런스, 고정 조건</td>
-<td>후보 또는 구현 결과</td>
+<td>1차 프로토 발표회 다른 조 자료</td>
+<td>조별 섹션, 게임 개요, 발표 순서에 따른 슬라이드와 캡션</td>
 </tr>
 <tr>
-<td>검토</td>
-<td>동일 조건의 비교 자료</td>
-<td>채택안, 수정할 부위, 재작업 사유</td>
-</tr>
-<tr>
-<td>통합</td>
-<td>확정된 결과와 적용 방법</td>
-<td>연결 상태, 참조 관계 확인</td>
-</tr>
-<tr>
-<td>검증</td>
-<td>재현 조건과 예상 동작</td>
-<td>실행 결과, 실패 항목, 미확인 항목</td>
-</tr>
-<tr>
-<td>인계</td>
-<td>적용 파일과 검증 기록</td>
-<td>다음 담당자가 수행할 작업</td>
+<td>1차 프로토 우리 조 피드백</td>
+<td>발표 슬라이드 13장과 피드백을 한 문서에서 확인하도록 구성</td>
 </tr>
 </tbody>
 </table>
-<h2>● 협업 규칙</h2>
-<ul>
-<li>에이전트별 수정 파일을 나누고 공통 파일의 통합 담당을 지정.</li>
-<li>Unity 씬을 동시에 수정하지 않도록 에디터 쓰기 담당을 일원화.</li>
-<li>원본 에셋과 작업본을 분리하고, 채택한 버전을 명시.</li>
-<li>검사 통과와 실제 플레이 확인을 구분하여 기록.</li>
-</ul>
-<h2>● 인계 문서의 필수 항목</h2>
+<h2>● 구현과 통합의 담당 구분</h2>
+<p>개인 브랜치 작업 → 구현 검증 → Unity 패키지 내보내기 → 적용 문서 작성 → 통합 담당자 반영의 흐름을 정리했습니다. 적용 문서에는 필요한 컴포넌트, 연결 조건, 확인 결과와 남은 항목을 기록했습니다.</p>
+<h2>● 회고와 반영</h2>
 <table>
 <thead>
 <tr>
-<th>항목</th>
-<th>예시</th>
+<th>발견한 문제</th>
+<th>이후 작업에 반영한 기준</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>적용 대상</td>
-<td>캐릭터, 꼬리, 전화부스 등 연결할 오브젝트</td>
+<td>모션 후보가 많아도 비교 조건이 다르면 선택하기 어려움</td>
+<td>속도, 하체처럼 유지할 조건과 팔 궤적처럼 바꿀 부위를 나눠 요청</td>
 </tr>
 <tr>
-<td>연결 조건</td>
-<td>필요한 컴포넌트, 참조 대상, 호출 시점</td>
-</tr>
-<tr>
-<td>재현 방법</td>
-<td>대결 진입, 문 개폐, 리스폰 등 확인 절차</td>
-</tr>
-<tr>
-<td>검증 결과</td>
-<td>실제 실행한 검사와 확인한 동작</td>
-</tr>
-<tr>
-<td>남은 작업</td>
-<td>배포 빌드, 다중 접속 등 별도로 확인할 항목</td>
+<td>Blender에서 선택한 자세가 Unity에서 달라짐</td>
+<td>제작 완료와 적용 완료를 구분하고 표본 자세 대조와 상태 전환 확인을 인계 내용에 포함</td>
 </tr>
 </tbody>
 </table>
-<h2>● 완료 판정</h2>
-<p>파일 전달만으로 완료 처리하지 않는다. 적용 방법과 검증 기록을 함께 남기고, 미확인 항목은 다음 작업으로 넘긴다.</p></article></body></html>
+<p><em>제작 기록을 바탕으로 정리한 내용입니다. 실제 Jira, Confluence 화면 캡처를 재현한 문서가 아닙니다.</em></p></article></body></html>

@@ -8,114 +8,138 @@ h1,h2,h3,h4,h5,h6{font-family:PortfolioNanumNeo,'NanumSquareNeo',sans-serif;font
 h1{font-size:25px;line-height:1.45;margin:0 0 24px;padding:7px 12px;background:#d9d9d9}
 h2{font-size:20px;line-height:1.45;margin:25px 0 12px;padding:0}
 h3{font-size:18px;line-height:1.5;margin:22px 0 10px;border-bottom:1px solid #d5d5d5;padding-bottom:7px}
-p,li{font-size:16px;margin:9px 0}ul,ol{padding-left:23px}
+p,li{font-size:15px;margin:8px 0}ul,ol{padding-left:23px}
 blockquote{background:#f5f5f5;border:1px solid #c7c7c7;margin:14px 0;padding:13px 18px}blockquote p{font-size:16px;margin:6px 0}
-img{display:block;max-width:100%;width:100%;max-height:430px;object-fit:contain;margin:20px auto}
-table{border-collapse:collapse;width:100%;margin:16px 0;font-size:15px;line-height:1.6}th,td{border:1px solid #aaa;padding:9px 11px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}td:first-child{width:23%}em{font-size:13px;color:#626262;font-style:normal}strong{color:inherit}
+img{display:block;max-width:100%;width:100%;max-height:370px;object-fit:contain;margin:20px auto}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14px;line-height:1.55}th,td{border:1px solid #aaa;padding:8px 10px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}td:first-child{width:23%}em{font-size:13px;color:#626262;font-style:normal}strong{color:inherit}
 a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px solid #bbb;padding-top:12px;margin-top:24px;font-size:12px;color:#666}
 .comparison{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}.comparison figure{margin:0}.comparison img{margin:0}.comparison figcaption{font-size:13px;color:#626262;margin-top:6px}
 @media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:23px}h2{font-size:20px}p,li{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+.sheet.objects:first-child img{max-height:250px}
 @media print{body{background:#fff}.sheet{margin:0;break-after:page}}
-</style><body><article class="sheet"><h1>4.1 전화부스 오브젝트 기획</h1>
-<h2>● 기능 개요</h2>
+</style><body><article class="sheet objects"><h1>4.1 전화부스 기획</h1>
+<h2>● 기획 의도</h2>
 <ul>
-<li>정보 획득을 위해 접근하는 장소로, 이용 상태를 멀리서 구분할 수 있도록 표시등 사용.</li>
-<li>내부 점유 여부를 확인할 수 있는 유리 벽과 출입문으로 구성.</li>
-<li>문 개폐와 표시등은 별도로 제어하여 게임의 상태 변경에 대응.</li>
+<li>추격자 정보를 얻을 수 있는 장소. 정보가 가치 있는 만큼, 사용 중에는 움직일 수 없게 하여 위험을 함께 줌.</li>
+<li>활성화를 전원에게 알려 여러 플레이어가 한곳으로 모이게 하고, 그 주변에서 추격, 기습, 눈치 싸움이 생기도록 의도.</li>
 </ul>
-<p><img alt="전화부스 외형, 표시등, 문 회전축 구성안" src="../../images/whos-tail/specs/phone-spec.svg" /></p>
+<p><img alt="전화부스 이벤트 흐름: 활성화, 이동, 통화, 정보 선택, 종료" src="../../images/whos-tail/revision/phone-flow.svg" /></p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>처리 규칙</th>
+<th>조정 값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>활성화</td>
+<td>라운드 중 자동 활성화, 화면 알림과 벨소리</td>
+<td>첫 10초, 주기 45초, 지속 25초 (초기값)</td>
+</tr>
+<tr>
+<td>사용 조건</td>
+<td>탈락, 유령, 대결 중, 넉백, 기절, 탑승 중에는 사용 불가</td>
+<td></td>
+</tr>
+<tr>
+<td>통화</td>
+<td>이동과 시점 잠금. 취소 시 원래 상태로 복원</td>
+<td></td>
+</tr>
+<tr>
+<td>정보 선택</td>
+<td>추격자 이름, 추격자 위치, 타깃 위치 중 1개</td>
+<td>위치는 확인 당시 지점을 5초간 표시</td>
+</tr>
+</tbody>
+</table>
+<h2>● 오브젝트 설계</h2>
+<p><img alt="전화부스 표시등, 문 회전과 머플러 꼬리 본 구조 스케치" src="../../images/whos-tail/revision/objects-sketch.png" /></p>
+<p><em>설명용 스케치. 꼬리 끝의 원은 판정 기준 위치를 나타내며, 현재 판정은 4.2의 본 사슬 전체를 사용.</em></p>
 <table>
 <thead>
 <tr>
 <th>구분</th>
 <th>표현, 동작</th>
-<th>처리 기준</th>
+<th>기획 의도</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>이용 가능</td>
-<td>초록 표시등</td>
-<td>진입 가능한 상태를 전달</td>
+<td>표시등</td>
+<td>초록 이용 가능, 빨강 이용 중. Blender 시안에는 고장 표시용 노랑 점멸도 포함</td>
+<td>멀리서도 부스 상태와 점유 여부를 구분</td>
 </tr>
 <tr>
-<td>이용 중</td>
-<td>빨강 표시등</td>
-<td>내부 점유 상태와 연동</td>
+<td>문</td>
+<td>경첩 기준 105° 회전, 열고 닫는 도중 반전 가능</td>
+<td>들어가는 행동 자체가 노출로 보이게 함</td>
 </tr>
 <tr>
-<td>사용 불가</td>
-<td>노랑 점멸</td>
-<td>이용 가능, 이용 중과 구분</td>
+<td>유리 벽</td>
+<td>내부 점유자가 밖에서 보임</td>
+<td>통화 중인 사람이 기습 대상이 됨</td>
 </tr>
 <tr>
-<td>문 열기</td>
-<td>경첩을 기준으로 105° 회전</td>
-<td>문과 본체의 기준축 일치</td>
-</tr>
-<tr>
-<td>도중 반전</td>
-<td>열기, 닫기 입력 전환</td>
-<td>진행 중인 각도에서 자연스럽게 전환</td>
-</tr>
-<tr>
-<td>여러 부스</td>
-<td>상태를 개별 관리</td>
-<td>한 부스의 조작이 다른 부스에 영향을 주지 않음</td>
+<td>독립 제어</td>
+<td>문과 표시등, 부스별 상태를 따로 관리</td>
+<td>여러 부스 배치에 대응</td>
 </tr>
 </tbody>
 </table>
-<h2>● 적용 범위 및 검수</h2>
+<p><em>확인 범위: Blender로 제작한 부스는 Unity 시험 씬에서 문 개폐, 내부 점유에 따른 초록, 빨강 표시를 확인. 본게임 정보 이벤트는 별도 부스 모델로 동작하며, 새 부스의 본게임 적용은 미완료. 텍스처 일부는 AnimeCity 에셋을 가공해 사용.</em></p></article><article class="sheet objects"><h1>4.2 꼬리 (머플러) 설계</h1>
+<h2>● 형태와 관성</h2>
 <ul>
-<li>시험 씬: 문 개폐, 내부 점유, 초록/빨강 표시 연동 확인.</li>
-<li>본게임 정보 조회 이벤트 연결은 별도 작업으로 구분.</li>
-<li>문 회전축, 재질, 반복 조작, 여러 인스턴스의 독립 동작 확인.</li>
-</ul></article><article class="sheet"><h1>4.2 꼬리 오브젝트 기획</h1>
-<h2>● 기능 개요</h2>
-<ul>
-<li>캐릭터 뒤에서 위치가 읽히는 한 가닥 머플러 형태.</li>
-<li>플레이어 색상으로 구분하며, 머플러 끝과 실제 잡기 판정 위치를 연결.</li>
-<li>고정 키프레임 재생 대신 이동 변화에 반응하는 실시간 관성 사용.</li>
+<li>잡아야 하는 대상이므로 뒤에서 위치와 움직임이 바로 읽혀야 함. 허리 머플러, 풍선 등 형태 비교 후 한 가닥 머플러로 결정.</li>
+<li>키프레임 재생은 입력이 바뀔 때마다 어색해져, 본 5개에 실시간 관성을 계산하는 방식으로 전환.</li>
 </ul>
-<p><img alt="머플러 본 구조와 끝점 판정 연결" src="../../images/whos-tail/specs/tail-spec.svg" /></p>
 <table>
 <thead>
 <tr>
 <th>항목</th>
-<th>처리 규칙</th>
+<th>처리 규칙, 값</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>구조</td>
-<td>본 5개로 구성하여 연속적인 흔들림 표현</td>
-</tr>
-<tr>
 <td>색상</td>
-<td>흰 공통 바탕에 플레이어별 색상 적용</td>
+<td>흰 공통 바탕에 플레이어별 색 적용</td>
 </tr>
 <tr>
-<td>이동, 점프, 방향 전환</td>
-<td>캐릭터의 움직임 변화에 따라 관성 반응</td>
+<td>관성</td>
+<td>이동, 점프, 방향 전환에 반응. 구르기 시작, 종료 전달. 리스폰, 텔레포트 시 흔들림 초기화</td>
 </tr>
 <tr>
-<td>구르기 시작, 종료</td>
-<td>해당 상태를 꼬리 제어에 전달</td>
-</tr>
-<tr>
-<td>리스폰, 텔레포트, 재사용</td>
-<td>이전 위치의 흔들림을 초기화</td>
+<td>조정</td>
+<td>과한 팔랑거림 확인 후 강성 85→140, 감쇠 7→20. 최대 각도 85° 유지</td>
 </tr>
 <tr>
 <td>잡기 판정</td>
-<td>머플러 끝의 위치와 판정점 일치</td>
+<td>관성으로 움직이는 본 사슬을 따라 판정 캡슐을 연결. 허리 쪽 35% 제외, 여유 반경 0.15m</td>
 </tr>
 </tbody>
 </table>
-<h2>● 조정 기준</h2>
-<ol>
-<li>과도한 흔들림은 강성과 감쇠를 조정하여 줄임.</li>
-<li>정지 후 안정되는 시간과 급전환 시 꺾임을 함께 확인.</li>
-<li>플레이어와 봇 모두 같은 색상, 상태 전달 규칙 적용.</li>
-<li>원거리 카메라에서도 꼬리의 위치와 색을 식별할 수 있는지 확인.</li>
-</ol></article></body></html>
+<p><em>확인: 관성은 30, 60, 120fps에서 달리기, 회전, 점프, 구르기, 텔레포트 검사 통과. 캡슐 판정은 사슬 중간 접촉, 굽힌 뒤 새 위치, 벽 차단을 Unity에서 별도 확인. 실제 플레이어가 직접 조작한 전체 플레이 검증은 별도.</em></p>
+<p><img alt="Unity 로컬 실행에서 확인한 캐릭터와 머플러" src="../../images/whos-tail/unity-current.png" /></p>
+<h2>● 확인한 문제와 수정</h2>
+<table>
+<thead>
+<tr>
+<th>확인한 문제</th>
+<th>조정한 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>이동과 회전에서 머플러가 과하게 팔랑거림</td>
+<td>강성과 감쇠를 높여 반응을 정리하고, 순간 이동 후에는 관성을 초기화</td>
+</tr>
+<tr>
+<td>끝점만으로는 움직이는 꼬리의 중간 접촉을 표현하기 어려움</td>
+<td>본 사슬을 따른 연속 캡슐 판정으로 변경. 중간 접촉, 굽힌 뒤 위치, 벽 차단 확인</td>
+</tr>
+</tbody>
+</table>
+<p><em>초기 형태 후보 영상과 최종 한 가닥 머플러의 적용 화면은 서로 다른 제작 단계.</em></p></article></body></html>

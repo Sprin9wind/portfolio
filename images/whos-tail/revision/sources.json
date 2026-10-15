@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-15",
+  "purpose": "Who’s Tail 기획 설명용 재구성 이미지. 당시 원본이나 실제 게임 캡처가 아님.",
+  "generated": {
+    "camera-sketch.png": "Gray graphite pencil, dimensional round toy mannequins. Three shots: rear tail catch, side contest with camera arc, catcher face close-up. No text.",
+    "motion-sketch.png": "Gray graphite pencil rounded 3D mannequin. Three rows: run cycle; jump arm alternatives with fixed legs; right-hand downward grab. No text.",
+    "objects-sketch.png": "Gray graphite pencil phone booth with hinged door and separate lamp, and mannequin scarf with bone chain and inertia ghost poses. No text."
+  },
+  "diagrams": "loop.svg, layout.svg, encounters.svg, phone-flow.svg: code-generated SVG based on current rules and records."
+}
