@@ -16,7 +16,7 @@
 
 ## ● 제작 모델의 상태별 동작
 
-![사용 가능, 문 개방, 내부 점유, 퇴장 후 상태 구성](../../images/whos-tail/revision/phone-states.svg)
+![사용 가능, 문 개방, 내부 점유, 퇴장 후 상태 구성](../../images/whos-tail/revision/phone-states.svg?v=line3)
 
 1. 내부가 비어 있으면 초록 표시등으로 이용 가능 상태를 표현.
 2. 문은 경첩 기준으로 열리며, 회전 중 반대 입력을 받으면 현재 각도에서 방향 전환.
@@ -52,7 +52,7 @@
 
 *확인: 관성은 30, 60, 120fps에서 달리기, 회전, 점프, 구르기, 텔레포트 검사 통과. 캡슐 판정은 사슬 중간 접촉, 굽힌 뒤 새 위치, 벽 차단을 Unity에서 별도 확인. 실제 플레이어가 직접 조작한 전체 플레이 검증은 별도.*
 
-![허리 머플러의 본 구조와 움직이는 사슬에 연결된 판정 범위](../../images/whos-tail/revision/tail-structure.svg)
+![허리 머플러의 본 구조와 움직이는 사슬에 연결된 판정 범위](../../images/whos-tail/revision/tail-structure.svg?v=line3)
 
 
 ## ● 확인한 문제와 수정

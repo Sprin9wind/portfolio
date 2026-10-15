@@ -7,7 +7,9 @@
     "objects-sketch.png": "Gray graphite pencil phone booth with hinged door and separate lamp, and mannequin scarf with bone chain and inertia ghost poses. No text."
   },
   "diagrams": "loop.svg, layout.svg, encounters.svg, phone-flow.svg: code-generated SVG based on current rules and records.",
-  "current_style": "2026-10-15: Reference document numbered screen sequences, rule tables and labels. Native SVG diagrams with flat articulated figures, no synthetic pencil texture.",
+  "current_style": "2026-10-16: User rejected flat articulated pseudo-3D figures too. Current drawings follow their simple round-head, trapezoid-torso, thin-limb hand-drawn reference. Four built-in image_gen illustrations are composed with separately typeset labels in SVG. No fabricated original planning records or actual keyframes.",
+  "current_raster_sources": ["camera-line-sketch.png", "motion-line-sketch.png", "phone-line-sketch.png", "tail-line-sketch.png"],
+  "generation_record": "line-sketch-prompts.md",
   "archived_images": "camera-sketch.png, motion-sketch.png, objects-sketch.png are retained for history only; no longer used in current docs or site.",
   "current_diagrams": [
     "camera-steps.svg",
