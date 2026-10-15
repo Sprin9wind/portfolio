@@ -27,5 +27,15 @@
     "upstream_metadata": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/data/simple-icons.json",
     "upstream_hex": "412991",
     "brand_guidelines": "https://openai.com/brand"
+  },
+  {
+    "name": "jira",
+    "source": "Reused from the existing application document assets (v14)",
+    "treatment": "Existing SVG preserved without modification."
+  },
+  {
+    "name": "confluence",
+    "source": "Reused from the existing application document assets (v14)",
+    "treatment": "Existing SVG preserved without modification."
   }
 ]
