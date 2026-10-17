@@ -16,56 +16,86 @@ a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px
 .comparison{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}.comparison figure{margin:0}.comparison img{margin:0}.comparison figcaption{font-size:13px;color:#626262;margin-top:6px}
 @media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:23px}h2{font-size:20px}p,li{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 @media print{body{background:#fff}.sheet{margin:0;break-after:page}}
-table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px}.sheet p>em:only-child{display:block;margin-top:-12px}.comparison>div ol{margin:0;padding-left:22px}.comparison>div li{font-size:14px;margin:4px 0}.sheet{padding:40px 48px}.sheet h1{margin:0 0 14px}.sheet h2{font-size:18px;margin:16px 0 8px}.sheet p,.sheet li{font-size:14.5px;margin:5px 0;line-height:1.6}.sheet ul,.sheet ol{margin:6px 0}.sheet table{font-size:13.5px;line-height:1.45;margin:9px 0}.sheet th,.sheet td{padding:5px 9px}.sheet img{margin:8px auto}.sheet p>em:only-child{margin-top:-6px;font-size:12.5px}.sheet blockquote{margin:8px 0;padding:8px 14px}.sheet blockquote p{font-size:14.5px;margin:3px 0}.comparison{gap:14px;margin:8px 0}.comparison figcaption{font-size:12.5px;margin-top:3px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.cols>div>*:first-child{margin-top:0}@media(max-width:1000px){.cols,.comparison{grid-template-columns:1fr}}</style><body><article class="sheet"><h1>4.1 무기 강화와 아레나룸 무기 화면</h1>
+table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px}.sheet p>em:only-child{display:block;margin-top:-12px}.comparison>div ol{margin:0;padding-left:22px}.comparison>div li{font-size:14px;margin:4px 0}.sheet{padding:40px 48px}.sheet h1{margin:0 0 14px}.sheet h2{font-size:18px;margin:16px 0 8px}.sheet p,.sheet li{font-size:14.5px;margin:5px 0;line-height:1.6}.sheet ul,.sheet ol{margin:6px 0}.sheet table{font-size:13.5px;line-height:1.45;margin:9px 0}.sheet th,.sheet td{padding:5px 9px}.sheet img{margin:8px auto}.sheet p>em:only-child{margin-top:-6px;font-size:12.5px}.sheet blockquote{margin:8px 0;padding:8px 14px}.sheet blockquote p{font-size:14.5px;margin:3px 0}.comparison{gap:14px;margin:8px 0}.comparison figcaption{font-size:12.5px;margin-top:3px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.cols>div>*:first-child{margin-top:0}@media(max-width:1000px){.cols,.comparison{grid-template-columns:1fr}}
+.sheet h2{margin-top:28px;margin-bottom:12px}.sheet h1+h2{margin-top:16px}
+/* a4-layout */.sheet{width:1000px;height:1414px;min-height:1414px}.sheet h2,.sheet:nth-of-type(2) h2{margin-top:42px;margin-bottom:12px}.sheet h1+h2,.sheet:nth-of-type(2) h1+h2{margin-top:16px}.sheet code{font-size:12.5px;overflow-wrap:anywhere}.sheet table{table-layout:auto}.sheet img[src*="round-flow-a4"]{max-height:none!important;width:100%}@media(max-width:1000px){.sheet{width:100%;height:auto;min-height:0}}@media print{.sheet{width:210mm;height:297mm;min-height:297mm}}/* end-a4-layout */</style><body><article class="sheet"><h1>무기 강화와 아레나룸 무기 화면</h1>
 <p><img src="../../images/maple-arena-specs/arena-room-weapon.png" alt="아레나룸 무기 탭" style="max-height:320px"></p>
-<p><em>원본 기획서 수록 UI 시안에 번호를 표시. 00, 0000, N은 시안의 자리표시 값이다.</em></p>
-<div class="cols">
-<div>
 <table>
 <thead>
 <tr>
 <th>IDX</th>
-<th>표시 내용과 동작</th>
+<th>표시 내용</th>
+<th>데이터 연결</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>1</td>
-<td>무기 정보: 아이콘, 레벨, 설명, 전용 무기 보너스, 카드 게이지</td>
+<td>무기 아이콘, Lv, 무기명</td>
+<td>보유 무기 레벨. 무기명은 <code>WeaponBaseInfo</code>의 <code>weapon</code>(<code>WeaponUpgrade</code>의 <code>weaponName</code>)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>무기 설명</td>
+<td><code>WeaponBaseInfo</code>의 <code>WeaponDesc</code>. 줄바꿈 구분</td>
+</tr>
+<tr>
+<td>1</td>
+<td>전용 무기 보너스: 직업명, 공격력 +5%, 체력 +5%</td>
+<td>이 무기를 전용무기로 지정한 직업</td>
+</tr>
+<tr>
+<td>1</td>
+<td>카드 게이지</td>
+<td>해당 무기 카드 보유량 / 다음 레벨 행의 <code>RequireCard</code></td>
 </tr>
 <tr>
 <td>2</td>
-<td>레벨업: 카드와 메소를 모두 충족할 때만 활성</td>
+<td>레벨업 버튼과 소모 메소</td>
+<td>다음 레벨 행의 <code>RequireMeso</code></td>
 </tr>
 <tr>
 <td>3</td>
-<td>능력치: 공격력, 체력의 현재값과 증가량, 공격속도, 이동속도</td>
+<td>공격력, 체력 현재값</td>
+<td>현재 레벨 행의 <code>Damage</code>, <code>Hp</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>공격력, 체력 증가량 (+N)</td>
+<td>다음 레벨 행의 <code>DamageGain</code>, <code>HpGain</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>공격속도, 이동속도</td>
+<td><code>WeaponBaseInfo</code>의 <code>attackInterval</code>, <code>moveSpeed</code>. 매 레벨 증가 대상 아님</td>
 </tr>
 <tr>
 <td>4</td>
-<td>마일스톤: 3, 5, 10, 15, 20레벨 해금, 미해금은 잠금</td>
+<td>Lv.3, 5, 10, 15, 20 해금 문구</td>
+<td><code>WeaponUpgrade</code>의 <code>descUi</code>. 유형과 대상은 <code>milestoneType</code>, <code>milestoneKey</code>, <code>milestoneValue</code></td>
 </tr>
 <tr>
 <td>5</td>
-<td>무기 목록: 8종의 레벨과 카드 보유량</td>
+<td>8종 카드: Lv, 무기명, 카드 게이지</td>
+<td>무기별 보유 레벨과 카드 보유량</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div>
 <ul>
-<li>캐릭터는 경험치로 자동 레벨업하고, 별도 승급으로 비율 또는 고정 보너스를 계정 전체에 준다. 무기는 카드와 메소로 수동 레벨업하고(최대 20), 정수 스탯을 해당 무기 장착 시에만 준다.</li>
-<li>매 레벨 공격력과 체력이 오르며, 만렙에서 기본값 대비 +17% 내외로 설정했다(유물의 1.5배 정도). 공격속도와 이동속도는 매 레벨 증가 대상이 아니다.</li>
+<li>다음 레벨 행은 <code>id</code>(무기명_레벨)로 찾는다. 증가량과 요구량은 모두 이전 레벨에서 해당 레벨로 오를 때의 값이다.</li>
+<li>캐릭터는 경험치로 자동 레벨업하고 승급 보너스를 계정 전체에 준다. 무기는 카드와 메소로 수동 레벨업하고(최대 20), 정수 스탯을 해당 무기 장착 시에만 준다.</li>
+<li>매 레벨 공격력과 체력이 오르며, 만렙에서 기본값 대비 +17% 내외로 설정했다(유물의 1.5배 정도).</li>
 </ul>
-</div>
-</div>
 <h2>● 마일스톤</h2>
 <p><img alt="무기 레벨 마일스톤" src="../../images/maple-arena-specs/weapon-milestone.png" /></p>
-<p><em>원문 규칙을 바탕으로 다시 그린 도식</em></p>
 <p>현자의서와 마법의서는 무기당 2종, 총 16종의 고유 유물이다. 해금은 후보 풀 진입을 뜻하며, 강화하지 않은 플레이어는 공용 유물과 공용 스킬만 본다.</p>
+<ul>
+<li>Lv.10, 20의 스킬명은 <code>SkillData</code>에서 <code>owner</code>가 해당 무기이고 <code>reqWeaponLevel</code>이 10, 20인 행의 <code>name</code>이다.</li>
+<li>현재 레벨이 마일스톤 레벨보다 낮으면 문구를 흐리게 하고 잠금 아이콘을 얹는다.</li>
+</ul></article><article class="sheet"><h1>무기 화면 상태와 동작</h1>
 <h2>● 레벨업 처리</h2>
 <div class="comparison">
-<figure><img src="../../images/maple-arena-specs/weapon-levelup-states.png" alt="레벨업 버튼 비활성과 활성"><figcaption>원본 기획서 수록, 카드 70/100 비활성(왼쪽), 150/100 활성(오른쪽)</figcaption></figure>
+<figure><img src="../../images/maple-arena-specs/weapon-levelup-states.png" alt="레벨업 버튼 비활성과 활성"></figure>
 <div>
 <ol>
 <li>무기 카드를 얻으면 해당 무기에 쌓인다.</li>
@@ -76,6 +106,70 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 </ol>
 </div>
 </div>
+<h2>● 레벨업 버튼</h2>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>조건</th>
+<th>버튼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>카드 부족</td>
+<td>보유 카드 &lt; <code>RequireCard</code></td>
+<td>비활성</td>
+</tr>
+<tr>
+<td>메소 부족</td>
+<td>보유 메소 &lt; <code>RequireMeso</code></td>
+<td>비활성</td>
+</tr>
+<tr>
+<td>레벨업 가능</td>
+<td>카드, 메소 모두 충족</td>
+<td>활성</td>
+</tr>
+<tr>
+<td>최고 레벨</td>
+<td>20레벨 도달</td>
+<td>비활성, <code>MAX</code> 표시. 요구 카드와 메소, 다음 레벨 증가량은 숨김</td>
+</tr>
+</tbody>
+</table>
+<p><em>캐릭터 승급은 메소가 부족해도 버튼을 켜고 글자색만 바꾸지만, 무기 레벨업은 하나라도 부족하면 버튼을 끈다.</em></p>
+<h2>● 클릭과 갱신</h2>
+<table>
+<thead>
+<tr>
+<th>입력, 시점</th>
+<th>처리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5번 카드 클릭</td>
+<td>선택 무기를 바꾸고 1~4번을 그 무기의 행으로 다시 그린다</td>
+</tr>
+<tr>
+<td>레벨업 클릭</td>
+<td>현재 레벨과 카드, 메소를 재확인 → 요구량 차감 → 레벨 +1 → 1번 Lv와 게이지, 2번 요구 메소, 3번 수치, 5번 카드 갱신. 조건 미충족 시 차감과 레벨 변경 없이 버튼 상태만 갱신</td>
+</tr>
+<tr>
+<td>마일스톤 도달</td>
+<td>4번 해당 줄의 잠금 해제. 유물과 스킬은 선택 라운드 후보 풀에 진입</td>
+</tr>
+<tr>
+<td>카드 획득</td>
+<td>해당 무기의 1번, 5번 게이지와 2번 버튼 상태 재계산</td>
+</tr>
+<tr>
+<td>메소 변동</td>
+<td>2번 버튼 상태 재계산. 메소는 캐릭터 승급과 공용이다</td>
+</tr>
+</tbody>
+</table>
 <table>
 <thead>
 <tr>
@@ -99,9 +193,8 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 <td>캐릭터 승급에도 쓰여 두 성장 축이 같은 재화를 두고 경쟁</td>
 </tr>
 </tbody>
-</table></article><article class="sheet"><h1>4.2 선택 라운드와 시퀀스</h1>
+</table></article><article class="sheet"><h1>선택 라운드와 시퀀스</h1>
 <p><img src="../../images/maple-arena-specs/skill-select.jpg" alt="스킬 선택 화면" style="max-height:320px"></p>
-<p><em>원본 기획서 수록 UI 시안에 번호를 표시. 카드 이름과 효과 문구는 시안의 임시 문구다.</em></p>
 <table>
 <thead>
 <tr>
@@ -131,7 +224,6 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 <p>선택 라운드는 1회 20초이며, 시간이 지나거나 모든 유저가 고르면 즉시 끝난다. 배정이 여러 개면 그만큼 반복하고 각각 20초와 새로고침 1회를 따로 적용한다.</p>
 <h2>● 디폴트 시퀀스</h2>
 <p><img alt="1~15라운드 선택 배정" src="../../images/maple-arena-specs/sequence.png" /></p>
-<p><em>원문 규칙을 바탕으로 다시 그린 도식</em></p>
 <p>매치 시작 시 미리 만든 시퀀스(Arena01, Arena02 …) 중 하나를 추첨해, 같은 조합이라도 판마다 성장 흐름이 달라진다. 장비는 어느 시드에서도 매치당 1회이며, 시퀀스는 데이터로 분리해 계속 추가할 수 있다.</p>
 <h2>● 후보 등장 규칙</h2>
 <table>

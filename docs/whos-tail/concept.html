@@ -16,6 +16,7 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 .sheet.objects:first-child table{font-size:13.5px}.sheet.objects:first-child td,.sheet.objects:first-child th{padding:7px 9px}.sheet.objects:first-child li{font-size:14px;margin:3px 0}
 @media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:22px}table{font-size:13px}td,th{padding:7px}img{max-height:none}.comparison{gap:10px}}
 @media print{body{background:white}.sheet{margin:0;break-after:page}}
+.flow{margin:16px auto 6px;max-width:760px}.flow svg{display:block;width:100%;height:auto;font-family:P,sans-serif}
 </style><body><article class="sheet concept"><h1>1.1 게임 개요</h1>
 <h2>● 핵심 한 줄</h2>
 <ul>
@@ -46,7 +47,7 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 </tr>
 <tr>
 <td>포획</td>
-<td>후방 일정 범위에서만 잡기 가능. 잡은 뒤 짧은 대결(C/V 게이지)을 거쳐 탈취</td>
+<td>후방 일정 범위에서만 꼬리 잡기 가능. 잡히면 C/V 교대 입력 QTE로 저항. 같은 공격자가 시도를 거듭할수록 게이지 가중치가 공격 쪽으로 이동</td>
 </tr>
 <tr>
 <td>담당</td>
@@ -54,11 +55,11 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 </tr>
 </tbody>
 </table>
-<h2>● 핵심 재미</h2>
+<h2>● 핵심 재미: 타깃에게 정체를 숨기며, 나를 쫓는 추격자를 추리</h2>
 <ol>
-<li><strong>숨기기:</strong> 타깃 근처에서 평범한 행인처럼 움직여 접근 의도를 감추고, 추격을 눈치채기 전에 후방을 확보.</li>
-<li><strong>찾아내기:</strong> 주변 인물 중 누가 나를 쫓는지 의심하고, 단서를 모아 먼저 피하거나 역으로 유인.</li>
-<li><strong>조작으로 결정:</strong> 심리전의 결과는 후방 접근, 잡기, 대결 입력으로 판가름. 말만으로 승패가 끝나지 않음.</li>
+<li><strong>타깃에게 내 정체 숨기기:</strong> 타깃 근처에서 평범한 행인처럼 움직여 접근 의도를 감추고, 추격을 눈치채기 전에 후방을 확보.</li>
+<li><strong>나를 쫓는 추격자 추리하기:</strong> 주변 인물 중 누가 나를 쫓는지 의심하고, 관찰과 이벤트 정보로 단서를 모아 먼저 피하거나 역으로 유인.</li>
+<li><strong>꼬리를 잡힌 순간의 QTE 저항:</strong> 심리전의 결과는 후방 잡기와 C/V 교대 입력으로 판가름. 첫 잡기는 수비가 뿌리칠 여지가 크고, 같은 공격자의 재시도가 쌓일수록 포획 쪽으로 기울어 추격이 결말에 도달함.</li>
 </ol></article><article class="sheet concept"><h1>1.2 플레이 루프 및 화면 정보</h1>
 <h2>● 쫓는 루프와 쫓기는 루프</h2>
 <table>
@@ -78,7 +79,7 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 <tr>
 <td>방어</td>
 <td>경계 → 단서 수집 → 추격자 추정 → 도주, 뿌리치기</td>
-<td>마주친 사람이 추격자인지 판단. 잡힌 뒤에도 대결로 저항</td>
+<td>마주친 사람이 추격자인지 판단. 잡힌 뒤에도 QTE로 저항</td>
 </tr>
 <tr>
 <td>이벤트</td>
@@ -125,7 +126,7 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 </tr>
 <tr>
 <td>6</td>
-<td>대결 입력</td>
+<td>대결 입력(QTE)</td>
 <td>잡기 성공 후 C/V 교대 입력과 게이지. 수비자 화면에서는 공격자 정체를 숨김</td>
 </tr>
 </tbody>

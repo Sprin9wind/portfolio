@@ -1,4 +1,5 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>objects — Who’s Tail</title><style>
+<!DOCTYPE html>
+<html lang="ko"><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>objects — Who’s Tail</title><style>
 @font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400}
 @font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
 @font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
@@ -55,14 +56,14 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 </tbody>
 </table>
 <h2>● 제작 모델의 상태별 동작</h2>
-<p><img alt="사용 가능, 문 개방, 내부 점유, 퇴장 후 상태 구성" src="../../images/whos-tail/revision/phone-states.svg?v=line3" /></p>
+<p><img alt="사용 가능, 문 개방, 내부 점유, 퇴장 후 상태 구성" src="../../images/whos-tail/revision/phone-states.svg?v=line3"/></p>
 <ol>
 <li>내부가 비어 있으면 초록 표시등으로 이용 가능 상태를 표현.</li>
 <li>문은 경첩 기준으로 열리며, 회전 중 반대 입력을 받으면 현재 각도에서 방향 전환.</li>
 <li>내부 점유 시 빨강으로 표시. 문 상태와 표시등은 별도 제어.</li>
 <li>퇴장 후에는 다시 이용 가능 상태를 표시.</li>
 </ol>
-<p><em>새 부스의 문과 점유 상태를 설명하는 도식. 본게임 정보 이벤트와의 통합 완료 화면이 아님.</em></p>
+
 <table>
 <thead>
 <tr>
@@ -94,7 +95,7 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 </tr>
 </tbody>
 </table>
-<p><em>확인 범위: Blender로 제작한 부스는 Unity 시험 씬에서 문 개폐, 내부 점유에 따른 초록, 빨강 표시를 확인. 본게임 정보 이벤트는 별도 부스 모델로 동작하며, 새 부스의 본게임 적용은 미완료. 텍스처 일부는 AnimeCity 에셋을 가공해 사용.</em></p></article><article class="sheet objects"><h1>4.2 꼬리 (머플러) 설계</h1>
+<p>확인 범위: Blender로 제작한 부스는 Unity 시험 씬에서 문 개폐, 내부 점유에 따른 초록, 빨강 표시를 확인. 본게임 정보 이벤트는 별도 부스 모델로 동작하며, 새 부스의 본게임 적용은 미완료. 텍스처 일부는 AnimeCity 에셋을 가공해 사용.</p></article><article class="sheet objects"><h1>4.2 꼬리 (머플러) 설계</h1>
 <h2>● 형태와 관성</h2>
 <ul>
 <li>잡아야 하는 대상이므로 뒤에서 위치와 움직임이 바로 읽혀야 함. 허리 머플러, 풍선 등 형태 비교 후 한 가닥 머플러로 결정.</li>
@@ -126,8 +127,8 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 </tr>
 </tbody>
 </table>
-<p><em>확인: 관성은 30, 60, 120fps에서 달리기, 회전, 점프, 구르기, 텔레포트 검사 통과. 캡슐 판정은 사슬 중간 접촉, 굽힌 뒤 새 위치, 벽 차단을 Unity에서 별도 확인. 실제 플레이어가 직접 조작한 전체 플레이 검증은 별도.</em></p>
-<p><img alt="허리 머플러의 본 구조와 움직이는 사슬에 연결된 판정 범위" src="../../images/whos-tail/revision/tail-structure.svg?v=line3" /></p>
+<p>확인: 관성은 30, 60, 120fps에서 달리기, 회전, 점프, 구르기, 텔레포트 검사 통과. 캡슐 판정은 사슬 중간 접촉, 굽힌 뒤 새 위치, 벽 차단을 Unity에서 별도 확인. 실제 플레이어가 직접 조작한 전체 플레이 검증은 별도.</p>
+<p><img alt="허리 머플러의 본 구조와 움직이는 사슬에 연결된 판정 범위" src="../../images/whos-tail/revision/tail-structure.svg?v=line3"/></p>
 <h2>● 확인한 문제와 수정</h2>
 <table>
 <thead>
@@ -147,4 +148,4 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 </tr>
 </tbody>
 </table>
-<p><em>초기 형태 후보 영상과 최종 한 가닥 머플러의 적용 화면은 서로 다른 제작 단계.</em></p></article></body></html>
+<p>초기 형태 후보 영상과 최종 한 가닥 머플러의 적용 화면은 서로 다른 제작 단계.</p></article></body></html>

@@ -42,9 +42,8 @@
 
 ## ● 실제 화면에서 발견하고 수정한 문제
 
-<div class="comparison"><figure><img src="../../images/whos-tail/camera-contest.png" alt="수비자 시점의 C/V 대결 입력과 게이지"><figcaption>대결: 수비자 화면의 C/V 교대 입력과 게이지</figcaption></figure><figure><img src="../../images/whos-tail/camera-reveal.png" alt="탈취 후 공격자 얼굴과 이름이 공개되는 화면"><figcaption>공개: 얼굴, 이름, 꼬리 색 표시</figcaption></figure></div>
+<div class="comparison"><figure><img src="../../images/whos-tail/camera-contest.png" alt="수비자 시점의 C/V 대결 입력과 게이지"></figure><figure><img src="../../images/whos-tail/camera-reveal.png" alt="탈취 후 공격자 얼굴과 이름이 공개되는 화면"></figure></div>
 
-*Unity 에디터 실행 캡처 (2026.10.13).*
 
 | IDX | 발견한 문제 | 수정 내용 |
 | --- | --- | --- |
