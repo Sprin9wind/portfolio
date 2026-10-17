@@ -37,5 +37,24 @@
     "name": "confluence",
     "source": "Reused from the existing application document assets (v14)",
     "treatment": "Existing SVG preserved without modification."
+  },
+  {
+    "name": "git",
+    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/icons/git.svg",
+    "license": "CC-BY-3.0 (Git Logo by Jason Long); simple-icons path. Brand marks remain their owners’ trademarks.",
+    "treatment": "Original path preserved, brand color assigned.",
+    "brand_source": "https://git-scm.com/downloads/logos",
+    "upstream_metadata": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/data/simple-icons.json",
+    "upstream_hex": "F05032"
+  },
+  {
+    "name": "lua",
+    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/icons/lua.svg",
+    "license": "Simple Icons path from lua.org logo; brand marks remain their owners’ trademarks.",
+    "treatment": "Original path preserved, brand color assigned.",
+    "brand_source": "https://www.lua.org/images/",
+    "upstream_metadata": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/data/simple-icons.json",
+    "upstream_hex": "2C2D72",
+    "brand_guidelines": "https://www.lua.org/images/"
   }
 ]

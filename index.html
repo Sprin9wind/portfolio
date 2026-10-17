@@ -394,8 +394,9 @@ h1,h2,h3,h4,.hero-role{font-family:NanumSquareNeoExtraBold,Pretendard,sans-serif
 @media(max-width:740px){.nav-in{gap:4px 16px;flex-wrap:wrap;padding-top:6px;padding-bottom:0;min-height:0}.brand{font-size:18px}.nav-act{margin-left:auto}.tabs{order:3;flex:1 1 100%;justify-content:center;margin:0;width:100%;border-bottom:0}.tabs button{flex:1;min-width:0;min-height:38px;padding:8px;font-size:14px}.nav-act .btn{padding:6px 10px}.gallery-heading{padding:24px 0 20px}.gallery-heading h1{font-size:28px}.gallery-heading p{font-size:15px}.project-tools{padding-top:4px}.mini-card{font-size:12px}.project-tools .jump{padding:4px 0}.project-tools .jump button{min-height:36px}}
 @media(max-width:580px){.project-grid{grid-template-columns:1fr;gap:18px}}
 </style>
+<link rel="stylesheet" href="portfolio.css?v=20261018-blue">
 </head>
-<body>
+<body data-design="blue">
 <header class="nav"><div class="wrapx nav-in">
   <a class="brand" href="#0-0" id="brand"></a>
   <nav class="tabs" id="tabs" aria-label="섹션"></nav>
@@ -417,7 +418,7 @@ h1,h2,h3,h4,.hero-role{font-family:NanumSquareNeoExtraBold,Pretendard,sans-serif
 #previewNotice{padding:12px 20px;background:#315f80;color:white;font:14px Pretendard,sans-serif;text-align:center}#previewNotice a{color:white;text-decoration:underline;margin-left:16px}
 @media(max-width:640px){.pf-columns,[data-columns="2"]{grid-template-columns:minmax(0,1fr)!important}}
 </style>
-<script src="data.js"></script>
+<script src="data.js?v=20261018-blue"></script>
 <script>
 if (new URLSearchParams(location.search).has("preview")){
   let previewLoaded = false;
@@ -752,7 +753,7 @@ if (!saved && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").ma
 setTheme(saved || "light");
 
 renderFoot();
-route();
 </script>
+<script src="portfolio.js?v=20261018-blue"></script>
 </body>
 </html>

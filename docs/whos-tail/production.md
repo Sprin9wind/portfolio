@@ -6,7 +6,7 @@
 - 구매 에셋(Cute Characters Modular Animated Pack)의 모델, 리그, 기본 모션을 기반으로, 플레이에 필요한 부위만 AI 에이전트에 지시하여 수정.
 - 실제 이동은 게임 코드가 담당. 애니메이션은 제자리 재생으로 제작하여 이동 거리와 중복되지 않게 함.
 
-![달리기, 점프, 잡기의 단계와 수정 부위](../../images/whos-tail/revision/motion-steps.svg?v=line3)
+![달리기, 점프, 잡기의 단계와 수정 부위](../../images/whos-tail/design-refine-20261018/motion-steps.svg?v=line3)
 
 
 ## ● 유지한 부분과 바꾼 부분
