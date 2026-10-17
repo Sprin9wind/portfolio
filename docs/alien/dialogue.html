@@ -1,0 +1,292 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>외(계인)노(동)자 기획서</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400;font-display:block}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700;font-display:block}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800;font-display:block}*{box-sizing:border-box}body{margin:0;background:#e9e9e9;color:#252525;font-family:P,sans-serif;word-break:keep-all;overflow-wrap:break-word}.sheet{width:1000px;height:1414px;min-height:1414px;padding:40px 48px;margin:24px auto;background:white}h1,h2,h3{font-family:N,sans-serif;font-weight:800;color:#202020}h1{font-size:25px;line-height:1.45;margin:0 0 28px;padding:7px 12px;background:#d9d9d9}h2{font-size:18px;line-height:1.45;margin:42px 0 12px}h1+h2{margin-top:16px}h3{font-size:16px;line-height:1.5;margin:24px 0 10px}p,li{font-size:14.5px;margin:5px 0;line-height:1.6}ul,ol{padding-left:23px;margin:6px 0}table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px;line-height:1.45}th,td{border:1px solid #aaa;padding:6px 9px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}img{display:block;max-width:100%;max-height:360px;width:100%;object-fit:contain;margin:18px auto 24px}code{font-family:inherit;font-size:13px;overflow-wrap:anywhere}blockquote{background:#f4f4f4;border:1px solid #ccc;margin:14px 0;padding:10px 14px}a{color:inherit}.cols,.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}.cols>div>*:first-child{margin-top:0}.comparison figure{margin:0}.comparison img{margin:0}figure{margin:18px 0}.small{font-size:13px}@media print{body{background:#fff}.sheet{margin:0;break-after:page}}</style></head><body><article class="sheet"><h1>대화시스템_화면 및 진행규칙</h1>
+<h2>화면 구성</h2>
+<ul>
+<li>1920 × 1080 화면을 기준으로 좌우 이미지 영역(각 500 × 400), 대화창(1800 × 400), 이름 창(320 × 120)을 둔다.</li>
+<li>모든 영역의 크기와 위치는 고정이다. 이미지 영역에 표시되는 캐릭터 이미지만 장면에 따라 바뀐다.</li>
+<li>대화가 진행되는 동안 뒤의 화면은 흐리게 처리한다.</li>
+<li>초기안에서는 이름 창이 대화창 위로 튀어나와 왼쪽 이미지를 가릴 수 있었다. 이를 막기 위해 이름 창을 대화창 안쪽 왼쪽 위로 옮겼다.</li>
+</ul>
+<p><img alt="" src="../../images/alien-specs/dialogue-layout.png" /></p>
+<h2>텍스트 출력과 다음 대사</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>표시</th>
+<th>입력과 전환</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>출력 중</td>
+<td>대사를 한 번에 띄우지 않고 초당 10글자씩 순서대로 출력한다.</td>
+<td>출력이 끝나야 다음 대사로 넘어갈 수 있다.</td>
+</tr>
+<tr>
+<td>출력 완료</td>
+<td>대화창 오른쪽 아래에 화살표를 표시한다.</td>
+<td>화면을 터치하면 다음 대사 출력을 시작한다.</td>
+</tr>
+<tr>
+<td>마지막 대사 완료</td>
+<td>화살표를 표시한다.</td>
+<td>화면을 터치하면 대화를 끝내고 대화창 UI를 닫는다.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>텍스트는 왼쪽 정렬이며, 줄 수와 관계없이 시작 위치가 같다.</li>
+<li>한 줄이 30자를 넘으면 자동으로 줄을 바꾼다. 바이트가 아닌 글자 수로 세며, 공백, 특수기호, 영어, 숫자, 한글을 모두 1자로 센다.</li>
+<li>한 대사는 최대 4줄(120자)까지 출력한다. 대사를 쓸 때부터 4줄을 넘지 않게 작성한다.</li>
+</ul>
+<h2>화자 이미지</h2>
+<p>말하지 않는 캐릭터의 이미지는 채도를 0으로 낮춰 현재 화자를 구분합니다. 독백일 때는 이미지 한 장만 표시합니다.</p>
+<p><img alt="" src="../../images/alien-specs/dialogue-speaker.png" /></p></article><article class="sheet"><h1>대화시스템_대사 데이터 및 이벤트 연결</h1>
+<h2>이벤트 데이터: 진행 순서</h2>
+<p>챕터마다 이벤트 시트(Event_C1~Event_C5)가 있으며, 이벤트를 차례로 실행해 대화와 미니게임을 불러옵니다. 대화와 미니게임이 같은 이벤트 목록에 있어, 챕터의 진행 순서를 시트 한 장에서 확인할 수 있습니다.</p>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>자료형</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EventID</td>
+<td>STRING</td>
+<td>이벤트 고유 ID. 시트마다 Start 행에서 시작한다.</td>
+</tr>
+<tr>
+<td>EventType</td>
+<td>STRING</td>
+<td>Dialog, MiniGame, End. 진입용 Start 행은 Unknown을 쓴다.</td>
+</tr>
+<tr>
+<td>Parameter</td>
+<td>STRING</td>
+<td>Dialog이면 대사 시트 키(S1_01 등), MiniGame이면 미니게임 종류(Unload)</td>
+</tr>
+<tr>
+<td>NextEventID</td>
+<td>List&lt;STRING&gt;</td>
+<td>다음에 실행할 이벤트 ID. End이면 해당 시트의 진행을 마친다.</td>
+</tr>
+<tr>
+<td>DialogScene</td>
+<td>STRING</td>
+<td>대화가 진행되는 장소. Office, UnloadWorkplace, DeliveryGarage, House, ManagerRoom 등</td>
+</tr>
+</tbody>
+</table>
+<p>Event_C1은 다음 순서로 연결됩니다.</p>
+<table>
+<thead>
+<tr>
+<th>EventID</th>
+<th>EventType</th>
+<th>Parameter</th>
+<th>DialogScene</th>
+<th>NextEventID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1_E1</td>
+<td>Dialog</td>
+<td>S1_01</td>
+<td>Office</td>
+<td>C1_E2</td>
+</tr>
+<tr>
+<td>C1_E2</td>
+<td>Dialog</td>
+<td>S1_02</td>
+<td>UnloadWorkplace</td>
+<td>C1_E3</td>
+</tr>
+<tr>
+<td>C1_E3</td>
+<td>Dialog</td>
+<td>S1_03</td>
+<td>UnloadWorkplace</td>
+<td>C1_E4</td>
+</tr>
+<tr>
+<td>C1_E4</td>
+<td>MiniGame</td>
+<td>Unload</td>
+<td>Unknown</td>
+<td>C1_E5</td>
+</tr>
+<tr>
+<td>C1_E5</td>
+<td>Dialog</td>
+<td>S1_04</td>
+<td>DeliveryGarage</td>
+<td>C1_E6</td>
+</tr>
+<tr>
+<td>C1_E6</td>
+<td>Dialog</td>
+<td>S1_05</td>
+<td>House</td>
+<td>C1_E7</td>
+</tr>
+<tr>
+<td>C1_E7</td>
+<td>End</td>
+<td></td>
+<td>Unknown</td>
+<td>End</td>
+</tr>
+</tbody>
+</table>
+<h2>대사 데이터: 한 행이 한 대사</h2>
+<p>대사 데이터는 Parameter와 같은 이름의 시트(S1_01 등)로 나뉩니다. 각 행이 다음 행의 ID를 가리키며, Type이 End인 행에서 대화가 끝납니다.</p>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DialogID, NextDialogID</td>
+<td>대사 ID와 다음 대사 ID. 마지막 대사의 다음 ID는 End다.</td>
+</tr>
+<tr>
+<td>CharacterName, Script</td>
+<td>이름 창에 표시할 화자 이름과 대사. 대사 안의 줄바꿈을 그대로 쓴다.</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>Dialog(대화), Monolog(독백), End(종료)</td>
+</tr>
+<tr>
+<td>SpeakerType, SpeakerPosType</td>
+<td>표시할 화자 이미지(예: KIM_DEFAULT, HWANG_DEFAULT)와 위치(Left, Right, Center, Unknown)</td>
+</tr>
+</tbody>
+</table>
+<p>S1_01 시트의 일부 행입니다.</p>
+<table>
+<thead>
+<tr>
+<th>DialogID</th>
+<th>CharacterName</th>
+<th>Script</th>
+<th>NextDialogID</th>
+<th>Type</th>
+<th>SpeakerType</th>
+<th>SpeakerPosType</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1_01_001</td>
+<td>김이민</td>
+<td>여기가 코스모 물류.... 내가 배정 받은 곳이다.</td>
+<td>S1_01_002</td>
+<td>Monolog</td>
+<td>KIM_DEFAULT</td>
+<td>Left</td>
+</tr>
+<tr>
+<td>S1_01_003</td>
+<td>황반장</td>
+<td>여~~~~</td>
+<td>S1_01_004</td>
+<td>Dialog</td>
+<td>HWANG_DEFAULT</td>
+<td>Right</td>
+</tr>
+<tr>
+<td>S1_01_015</td>
+<td>황반장</td>
+<td>아이 참. 우리는 그냥 일한만큼 받아간다고 생각하면 돼. 쓸데없는 소리 하지말고 빨리 이동혀. 김씨</td>
+<td>End</td>
+<td>Dialog</td>
+<td>HWANG_DEFAULT</td>
+<td>Right</td>
+</tr>
+<tr>
+<td>End</td>
+<td>End</td>
+<td>End</td>
+<td>End</td>
+<td>End</td>
+<td>UNKNOWN</td>
+<td>Unknown</td>
+</tr>
+</tbody>
+</table></article><article class="sheet"><h1>대화시스템_선택지 및 분기</h1>
+<h2>선택지 대화의 진행 규칙</h2>
+<p>일반 대화는 화면 터치로 넘어가지만, 선택지가 있는 대화는 플레이어가 버튼을 골라야 다음으로 넘어갑니다. 대사 표시는 <code>DIALOG_TB</code>가, 선택 결과에 따른 이벤트 전환은 <code>DAILY_DATA</code>가 맡도록 나누었습니다.</p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>표시</th>
+<th>진행 조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>일반 대화</td>
+<td>대사와 화자 정보</td>
+<td>대사 출력이 끝난 뒤 화면 터치</td>
+</tr>
+<tr>
+<td>선택지 대화</td>
+<td><code>Type</code>이 <code>choice</code>이면 선택지 버튼 표시</td>
+<td>선택지 버튼을 누를 때까지 현재 대화를 유지</td>
+</tr>
+<tr>
+<td>선택지 문구</td>
+<td><code>ChoiceA</code>, <code>ChoiceB</code>, <code>ChoiceC</code>의 문자열</td>
+<td>고른 버튼의 순서를 이벤트 전환에 전달</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>선택지 대화에서는 화면 터치로 선택을 건너뛸 수 없다.</li>
+<li><code>choice</code>가 아닌 대사에는 선택지 버튼을 표시하지 않는다.</li>
+</ul>
+<h2>선택 결과와 다음 이벤트 연결</h2>
+<p>11일차 대화 <code>D11_03_02</code>의 마지막 대사 <code>(신중하게 생각하자…)</code>가 선택지 대화입니다. 이 대화를 부르는 이벤트 <code>D11_E8</code>의 <code>EventType</code>은 <code>Choice</code>이며, <code>NextEvent</code> 목록 가운데 고른 버튼에 해당하는 이벤트로 이동합니다.</p>
+<table>
+<thead>
+<tr>
+<th>선택</th>
+<th>연결 데이터</th>
+<th>전환 결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>선택 A</td>
+<td><code>NextEvent</code>의 첫 번째 항목</td>
+<td><code>D11_E9A</code> → <code>D11_03_03A</code> 대화</td>
+</tr>
+<tr>
+<td>선택 B</td>
+<td><code>NextEvent</code>의 두 번째 항목</td>
+<td><code>D11_E9B</code> → <code>D11_03_03B</code> 대화</td>
+</tr>
+<tr>
+<td>선택 C</td>
+<td><code>NextEvent</code>의 세 번째 항목</td>
+<td><code>D11_E9C</code> → <code>D11_03_03C</code> 대화</td>
+</tr>
+<tr>
+<td>분기 종료</td>
+<td>각 분기 이벤트의 다음 값 <code>END</code></td>
+<td>해당 진행을 마친다.</td>
+</tr>
+</tbody>
+</table>
+<h2>데이터 구조의 구분</h2>
+<p>이 선택지 구조는 <code>DIALOG_TB</code>의 <code>ChoiceA/B/C</code>와 <code>DAILY_DATA</code>의 <code>NextEvent</code> 목록을 함께 쓰는 확장안입니다. 스테이지 단위로 관리하는 데이터는 <code>EventData.NextEventID</code>로 이벤트를 연결하며, 이 대사 시트에는 선택지 열이 없습니다. 두 구조의 필드를 섞지 않고 용도에 따라 구분합니다.</p></article></body></html>

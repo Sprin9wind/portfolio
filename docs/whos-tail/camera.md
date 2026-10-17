@@ -42,7 +42,7 @@
 
 ## ● 실제 화면에서 발견하고 수정한 문제
 
-<div class="comparison"><figure><img src="../../images/whos-tail/camera-contest.png" alt="수비자 시점의 C/V 대결 입력과 게이지"></figure><figure><img src="../../images/whos-tail/camera-reveal.png" alt="탈취 후 공격자 얼굴과 이름이 공개되는 화면"></figure></div>
+<div class="comparison"><figure><img src="../../images/whos-tail/latest-20261018/camera-contest-latest.png" alt="수비자 시점의 C/V 대결 입력과 게이지"></figure><figure><img src="../../images/whos-tail/latest-20261018/camera-reveal-latest.png" alt="탈취 후 공격자 얼굴이 공개되는 화면"></figure></div>
 
 
 | IDX | 발견한 문제 | 수정 내용 |

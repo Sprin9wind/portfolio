@@ -1,0 +1,130 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>외(계인)노(동)자 기획서</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400;font-display:block}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700;font-display:block}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800;font-display:block}*{box-sizing:border-box}body{margin:0;background:#e9e9e9;color:#252525;font-family:P,sans-serif;word-break:keep-all;overflow-wrap:break-word}.sheet{width:1000px;height:1414px;min-height:1414px;padding:40px 48px;margin:24px auto;background:white}h1,h2,h3{font-family:N,sans-serif;font-weight:800;color:#202020}h1{font-size:25px;line-height:1.45;margin:0 0 28px;padding:7px 12px;background:#d9d9d9}h2{font-size:18px;line-height:1.45;margin:42px 0 12px}h1+h2{margin-top:16px}h3{font-size:16px;line-height:1.5;margin:24px 0 10px}p,li{font-size:14.5px;margin:5px 0;line-height:1.6}ul,ol{padding-left:23px;margin:6px 0}table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px;line-height:1.45}th,td{border:1px solid #aaa;padding:6px 9px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}img{display:block;max-width:100%;max-height:360px;width:100%;object-fit:contain;margin:18px auto 24px}code{font-family:inherit;font-size:13px;overflow-wrap:anywhere}blockquote{background:#f4f4f4;border:1px solid #ccc;margin:14px 0;padding:10px 14px}a{color:inherit}.cols,.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}.cols>div>*:first-child{margin-top:0}.comparison figure{margin:0}.comparison img{margin:0}figure{margin:18px 0}.small{font-size:13px}@media print{body{background:#fff}.sheet{margin:0;break-after:page}}</style></head><body><article class="sheet"><h1>재화_골드 시스템</h1>
+<p>골드는 미니게임으로 벌고 일과와 스킬 성장에 쓰는 기본 재화입니다. 미니게임의 점수와 스탯이 보상 크기를 정하고, 그 보상으로 키운 스탯과 스킬이 다시 다음 플레이를 돕도록 획득과 소모를 연결했습니다.</p>
+<h2>표시</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>규칙</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>위치</td>
+<td>피로도 표시와 함께 화면 오른쪽 위에 항상 띄운다.</td>
+</tr>
+<tr>
+<td>형식</td>
+<td><code>xxxxxxxxx N</code> 형식으로 보유량을 표시한다. 최댓값은 999,999,999 N이다.</td>
+</tr>
+</tbody>
+</table>
+<h2>획득처와 소모처</h2>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>획득</td>
+<td>미니게임 완료 보상, 특별 이벤트의 GoodEvent</td>
+</tr>
+<tr>
+<td>소모</td>
+<td>일과 수행 비용(병원 입원 포함), 워크 모듈의 스킬 업그레이드 비용, 특별 이벤트의 BadEvent</td>
+</tr>
+</tbody>
+</table>
+<h2>미니게임 완료 보상</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>규칙</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>최저시급</td>
+<td>기본 지급액. 초기 기획값은 100,000골드이며, 테스트 결과에 따라 조정한다.</td>
+</tr>
+<tr>
+<td>스코어 보너스</td>
+<td>점수 100점당 10%. 100점 미만은 버린다. 예: 3750점 → 370%, 3710점 → 370%</td>
+</tr>
+<tr>
+<td>스탯 보너스</td>
+<td>작업 숙련 스탯 10 단위 구간마다 10%(0~9는 없음, 100이면 100%). 화면에는 % 단위로 표시한다.</td>
+</tr>
+</tbody>
+</table>
+<p>결과 화면은 급여 명세서 형태로 점수, 최저시급, 보너스 내역을 한 줄씩 보여 주고, 지급액은 숫자가 올라가는 애니메이션으로 표시합니다.</p>
+<h2>특별 이벤트</h2>
+<ul>
+<li>미니게임 결과 화면이 끝난 뒤 50% 확률로 등장한다.</li>
+<li>등장하면 해당 미니게임의 4종 중 1종이 선택된다. 기본 확률은 각 25%이며, 운빨 스탯이 높을수록 GoodEvent 확률이 오른다.</li>
+<li>GoodEvent는 골드를 추가로 지급하고, BadEvent는 보유 골드에서 차감한다.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>미니게임</th>
+<th>분류</th>
+<th>이벤트 문구</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>하차게임</td>
+<td>Good 1</td>
+<td>택배 배송인이 유명한 중고 사기꾼인 것을 발견하고 신고했습니다.</td>
+<td>신고 포상금 획득</td>
+</tr>
+<tr>
+<td>하차게임</td>
+<td>Good 2</td>
+<td>택배 상자 사이에 있던 문화상품권을 발견했습니다.</td>
+<td>30000골드 획득</td>
+</tr>
+<tr>
+<td>하차게임</td>
+<td>Bad 1</td>
+<td>하차 트럭에 앉아서 쉬다 타이어가 펑크 났습니다.</td>
+<td>수리비 80000골드 차감</td>
+</tr>
+<tr>
+<td>하차게임</td>
+<td>Bad 2</td>
+<td>택배 상자 안에 있던 김치통이 터졌습니다.</td>
+<td>작업복 세탁비 30000골드 차감</td>
+</tr>
+<tr>
+<td>배송게임</td>
+<td>Good 1</td>
+<td>불법 번호판을 단 오토바이를 발견했습니다.</td>
+<td>신고 포상금 80000골드 획득</td>
+</tr>
+<tr>
+<td>배송게임</td>
+<td>Good 2</td>
+<td>코스모IC의 하이패스 인식기가 고장 났습니다.</td>
+<td>톨게이트 비용 50000골드 절약</td>
+</tr>
+<tr>
+<td>배송게임</td>
+<td>Bad 1</td>
+<td>갑자기 나타난 R스로이스를 뒤에서 박아 버렸습니다.</td>
+<td>수리비 100000골드 차감</td>
+</tr>
+<tr>
+<td>배송게임</td>
+<td>Bad 2</td>
+<td>과속 카메라에 잡히고 말았습니다.</td>
+<td>범칙금 30000골드 차감</td>
+</tr>
+</tbody>
+</table></article></body></html>
