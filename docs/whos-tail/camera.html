@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>camera — Who’s Tail</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>카메라 연출 — Who’s Tail</title><style>
 @font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400}
 @font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
 @font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
@@ -17,171 +17,152 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 @media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:22px}table{font-size:13px}td,th{padding:7px}img{max-height:none}.comparison{gap:10px}}
 @media print{body{background:white}.sheet{margin:0;break-after:page}}
 
-/* Reading layout: fixed A4, deliberate sentence breaks, stable table columns. */
+
 .sheet{height:1414px;min-height:1414px;overflow:hidden}
 p,li,td{text-wrap:pretty;overflow-wrap:normal}
-h1,h2,h3{break-after:avoid}
 table{table-layout:fixed}
-
-.sheet:nth-child(1) img[src*="camera-steps"]{max-height:390px}
-.sheet:nth-child(1) table th:nth-child(1),.sheet:nth-child(1) table td:nth-child(1){width:11%}
-.sheet:nth-child(1) table th:nth-child(2),.sheet:nth-child(1) table td:nth-child(2){width:19%}
-.sheet:nth-child(1) table th:nth-child(3),.sheet:nth-child(1) table td:nth-child(3){width:40%}
-.sheet:nth-child(1) table th:nth-child(4),.sheet:nth-child(1) table td:nth-child(4){width:30%}
-.sheet:nth-child(2) table:nth-of-type(1) th:nth-child(1),.sheet:nth-child(2) table:nth-of-type(1) td:nth-child(1){width:18%}
-.sheet:nth-child(2) table:nth-of-type(1) th:nth-child(2),.sheet:nth-child(2) table:nth-of-type(1) td:nth-child(2){width:43%}
-.sheet:nth-child(2) table:nth-of-type(1) th:nth-child(3),.sheet:nth-child(2) table:nth-of-type(1) td:nth-child(3){width:39%}
-.sheet:nth-child(2) table:nth-of-type(2) th:nth-child(1),.sheet:nth-child(2) table:nth-of-type(2) td:nth-child(1){width:7%}
-.sheet:nth-child(2) table:nth-of-type(2) th:nth-child(2),.sheet:nth-child(2) table:nth-of-type(2) td:nth-child(2){width:43%}
-.sheet:nth-child(2) table:nth-of-type(2) th:nth-child(3),.sheet:nth-child(2) table:nth-of-type(2) td:nth-child(3){width:50%}
-</style></head><body><article class="sheet camera"><h1>2.1 꼬리 잡기 카메라 연출 기획</h1>
+.sheet:nth-child(1) img[src*="camera-steps"]{max-height:350px;margin:14px auto}
+.sheet:nth-child(1) table th:first-child,.sheet:nth-child(1) table td:first-child{width:14%}
+.sheet:nth-child(1) table th:nth-child(2),.sheet:nth-child(1) table td:nth-child(2){width:45%}
+.sheet:nth-child(1) table th:nth-child(3),.sheet:nth-child(1) table td:nth-child(3){width:41%}
+.sheet:nth-child(2) table:first-of-type th:first-child,.sheet:nth-child(2) table:first-of-type td:first-child{width:18%}
+.sheet:nth-child(2) table:first-of-type th:nth-child(2),.sheet:nth-child(2) table:first-of-type td:nth-child(2){width:46%}
+.sheet:nth-child(2) table:first-of-type th:nth-child(3),.sheet:nth-child(2) table:first-of-type td:nth-child(3){width:36%}
+.sheet:nth-child(2) table:last-of-type th:first-child,.sheet:nth-child(2) table:last-of-type td:first-child{width:41%}
+.sheet:nth-child(2) table:last-of-type th:last-child,.sheet:nth-child(2) table:last-of-type td:last-child{width:59%}
+.comparison figcaption{font-size:13px;color:#45494e}
+</style></head><body><article class="sheet camera"><h1>카메라 연출_기획 의도와 연출 흐름</h1>
 <h2>● 연출 목적</h2>
 <ul>
-<li>이 게임에서 수비자가 끝까지 모르는 정보는 <strong>"누가 나를 쫓았는가"</strong>.<br>카메라 연출은 이 질문의 답을 대결이 끝나는 순간에 돌려주는 장치로 설계.</li>
-<li>대결 중에는 공격자의 정체를 가려 긴장을 유지하고, 탈취가 확정된 뒤에만 공개.</li>
-<li>승패 판정은 서버 규칙이 담당.<br>카메라는 결과를 전달할 뿐 판정, 입력 허용 시간을 바꾸지 않음.</li>
+<li>대결 중에는 수비자가 자신을 잡은 상대를 쉽게 알아보지 못하도록 공격자의 정체를 가린다.<br>꼬리를 빼앗긴 뒤 공격자의 얼굴을 보여주며, <strong>누가 자신을 노렸는지 확인하는 순간</strong>을 강조한다.</li>
+<li>공격자에게는 꼬리를 빼앗는 동작을, 수비자에게는 상대의 정체가 드러나는 장면을 보여준다.<br>같은 결과라도 각자의 역할에 맞는 화면으로 전달한다.</li>
+<li>연출은 승패를 보여주는 역할이다. 카메라가 움직이는 동안에도 판정과 입력 규칙은 바뀌지 않는다.</li>
 </ul>
-<p><img alt="후방 꼬리 잡기와 공격자 정체 공개 구도 스케치 및 연출 순서" src="../../images/whos-tail/design-refine-20261018/camera-steps.svg?v=line3" /></p>
-<h2>● 회전과 확대를 선택한 이유</h2>
+<p><img alt="접촉과 대결 구도, 공격자의 정체를 공개하는 장면 및 연출 순서" src="../../images/whos-tail/editorial-20261019/camera-steps.svg" /></p>
+<h2>● 장면별 구도와 의도</h2>
 <ul>
-<li><strong>원호 이동:</strong> 두 캐릭터와 꼬리를 한 화면에 담아 대결의 위치 관계를 유지.</li>
-<li><strong>공격자 화면 확대:</strong> 꼬리를 쥔 손과 허리 쪽으로 접근해 탈취 동작을 강조.</li>
-<li><strong>수비자 공개 컷:</strong> 공격자 얼굴로 회전, 확대해 얼굴과 이름, 꼬리 색을 함께 확인.</li>
+<li><strong>대결 구도:</strong> 카메라가 두 캐릭터 주위를 돌며 꼬리를 잡은 모습을 담는다.<br>누가 잡고 누가 잡혔는지 보여주되, 수비자에게는 공격자의 정체가 드러나지 않도록 한다.</li>
+<li><strong>공격자 화면:</strong> 꼬리를 쥔 손에 가까이 다가가 꼬리를 빼앗는 동작을 강조한다.</li>
+<li><strong>수비자 화면:</strong> 포획이 확정되면 공격자의 얼굴 쪽으로 카메라를 돌려 확대한다.<br>얼굴과 이름, 꼬리 색을 확인한 뒤 결과 화면으로 넘어간다.</li>
 </ul>
-<h2>● 단계별 시점과 시간</h2>
+<h2>● 연출 순서</h2>
 <table>
 <thead>
 <tr>
 <th>단계</th>
-<th>시간</th>
-<th>화면 연출</th>
-<th>정보 표시</th>
+<th>화면에서 보여줄 내용</th>
+<th>전환과 표시 기준</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>접촉</td>
-<td>0.12초</td>
-<td>역할별 짧은 전후 반응과 흔들림</td>
-<td>잡힌 사실만 전달</td>
+<td>짧은 반동으로 꼬리가 잡힌 순간을 알린다.</td>
+<td>약 0.1초 동안 반응을 보여준다.</td>
 </tr>
 <tr>
 <td>대결 진입</td>
-<td>0.35초</td>
-<td>원호 이동으로 대결 구도, FOV 전환</td>
-<td>공격자 정체 숨김 유지</td>
+<td>두 캐릭터 주위를 돌며 대결 구도로 전환한다.</td>
+<td>구도가 바뀌는 동안에도 공격자의 정체는 계속 가린다.</td>
 </tr>
 <tr>
 <td>대결</td>
-<td>서버 남은 시간</td>
-<td>게이지에 따라 FOV 변화, 비네팅, 심장박동</td>
-<td>수비자 화면에서 공격자 정체 숨김,<br>이름과 색 정보 비공개</td>
+<td>화면의 폭과 주변 어두워짐, 심장박동으로 대결 상황을 전달한다.</td>
+<td>미니게임이 끝날 때까지 유지한다.</td>
 </tr>
 <tr>
-<td>탈취</td>
-<td>0.6초</td>
-<td>공격자 화면:<br>꼬리, 허리 쪽 0.6m 접근, FOV 40°</td>
-<td>결과 패널은 대기</td>
-</tr>
-<tr>
-<td>탈출</td>
-<td>0.5초</td>
-<td>공격자 후방 반동, 수비자 FOV 70°</td>
-<td>정체 공개 없음</td>
+<td>꼬리 탈취</td>
+<td>공격자 화면에서 손과 꼬리를 가까이 보여준다.</td>
+<td>손과 꼬리를 보여준 뒤 공격자는 추격 화면으로 돌아간다.</td>
 </tr>
 <tr>
 <td>정체 공개</td>
-<td>0.8초</td>
-<td>수비자 화면:<br>0.25초 동안 공격자 얼굴로 회전, 확대,<br>FOV 45°</td>
-<td>이름, 꼬리 색 공개.<br>이후 결과 화면</td>
+<td>수비자 화면에서 공격자의 얼굴을 확대하고 이름과 꼬리 색을 공개한다.</td>
+<td>약 0.8초 동안 보여준 뒤 결과 화면으로 전환한다.</td>
 </tr>
 <tr>
-<td>복귀</td>
-<td>탈취 후 공격자 0.4초,<br>탈출 후 수비자 0.3초</td>
-<td>일반 추적 시점으로 보간.<br>정체 공개를 본 수비자는 복귀 없이<br>결과 화면으로 전환</td>
-<td>입력 잠금, 숨김 해제</td>
+<td>탈출</td>
+<td>공격자가 밀려나는 반응을 보여주고 추격 화면으로 돌아간다.</td>
+<td>다시 도망치거나 쫓을 수 있도록 연결한다. 별도 정체 공개 장면은 없다.</td>
+</tr>
+<tr>
+<td>추격 복귀</td>
+<td>생존한 플레이어는 평소의 추격 시점으로 돌아간다.</td>
+<td>꼬리를 빼앗은 공격자와 탈출한 수비자에게 적용한다.</td>
 </tr>
 </tbody>
-</table></article><article class="sheet camera"><h1>2.2 조정 파라미터 및 실제 보정</h1>
-<h2>● 조정 가능 파라미터</h2>
+</table></article><article class="sheet camera"><h1>카메라 연출_구현 결과와 개선</h1>
+<h2>● 연출 조정 기준</h2>
+<ul>
+<li>기획한 구도를 Unity에 적용한 뒤, 실제 캐릭터와 배경에서 보이는 화면을 기준으로 조정했다.</li>
+<li><strong>이동 중에는 길과 타깃이 잘 보이는지</strong>, 대결과 정체 공개 장면에서는 <strong>필요한 동작과 얼굴이 가려지지 않는지</strong>를 살폈다.</li>
+</ul>
 <table>
 <thead>
 <tr>
 <th>항목</th>
-<th>현재 값</th>
-<th>조정 의도</th>
+<th>조정 방향</th>
+<th>판단 기준</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>기본 시점</td>
-<td>오프셋 (0, 2.5, -2.5),<br>초기 pitch -15°, FOV 60°</td>
-<td>추격 중 경로와 상대 꼬리를 함께 읽음</td>
+<td>캐릭터 뒤에서 이동 경로와 상대의 꼬리를 함께 담는다.</td>
+<td>추격하면서 길과 타깃을 확인할 수 있는가.</td>
 </tr>
 <tr>
 <td>달리기 시점</td>
-<td>거리 × 1.108, FOV 69°,<br>진입 0.4초, 해제 0.65초</td>
-<td>속도감은 주되 조작을 방해하지 않는 폭</td>
+<td>화면 변화의 강도를 줄여 속도감과 조작 편의의 균형을 맞춘다.</td>
+<td>이동과 방향 전환을 방해하지 않는가.</td>
 </tr>
 <tr>
-<td>벽 충돌</td>
-<td>반경 0.2m, 여유 0.04m,<br>선호 최소 0.8m, 복귀 0.3초</td>
-<td>좁은 골목에서 벽 너머 정보 노출 방지</td>
+<td>벽 주변 시점</td>
+<td>벽에 가려지지 않도록 카메라 위치를 조정한다.</td>
+<td>좁은 골목에서 벽 너머가 보이지 않는가.</td>
 </tr>
 <tr>
-<td>대결 FOV</td>
-<td>공격 48~55°, 수비 55~62°</td>
-<td>게이지 우세, 열세를 화면 폭으로 전달</td>
+<td>대결 구도</td>
+<td>대결의 우세와 열세에 따라 화면의 폭을 바꾼다.</td>
+<td>정체를 가리면서 대결 상황을 전달하는가.</td>
 </tr>
 <tr>
-<td>공개 구도</td>
-<td>실제 머리 범위 기준 거리 (최소 0.7m),<br>화면 높이 약 60%</td>
-<td>캐릭터 크기, 모자와 무관하게 얼굴을 담음</td>
+<td>정체 공개 구도</td>
+<td>캐릭터의 실제 머리 위치와 크기에 맞춰 얼굴을 담는다.</td>
+<td>키나 모자가 달라도 얼굴이 잘 보이는가.</td>
 </tr>
 </tbody>
 </table>
-<h2>● 실제 화면에서 발견하고 수정한 문제</h2>
-<div class="comparison"><figure><img src="../../images/whos-tail/latest-20261018/camera-contest-latest.png" alt="수비자 시점의 C/V 대결 입력과 게이지"></figure><figure><img src="../../images/whos-tail/latest-20261018/camera-reveal-latest.png" alt="탈취 후 공격자 얼굴이 공개되는 화면"></figure></div>
+<h2>● 발견한 문제와 개선 내용</h2>
+<div class="comparison"><figure><img src="../../images/whos-tail/latest-20261018/camera-contest-latest.png" alt="수비자 시점의 C/V 대결 입력과 게이지"><figcaption>대결 중 — 수비자에게 공격자의 정체를 숨기는 화면</figcaption></figure><figure><img src="../../images/whos-tail/latest-20261018/camera-reveal-latest.png" alt="탈취 후 공격자 얼굴이 공개되는 화면"><figcaption>포획 후 — 공격자의 얼굴을 공개하는 화면</figcaption></figure></div>
 
 <table>
 <thead>
 <tr>
-<th>IDX</th>
 <th>발견한 문제</th>
-<th>수정 내용</th>
+<th>개선 내용</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td>고정 얼굴 높이가 실제 모델보다 높아<br>얼굴이 화면 아래로 잘림</td>
-<td>실제 머리, 골반 위치와<br>머리 범위를 읽어 구도 계산</td>
+<td>고정된 높이에 맞춘 카메라 때문에 얼굴이 화면 아래로 잘렸다.</td>
+<td>캐릭터의 실제 머리 위치와 크기에 맞춰 얼굴을 담도록 수정했다.</td>
 </tr>
 <tr>
-<td>2</td>
-<td>공개 컷에서 잡힌 본인 모델이<br>공격자 얼굴을 가림</td>
-<td>해당 카메라의 공개 렌더 중에만 본인 모델을 숨기고<br>종료, 취소 시 복원</td>
+<td>수비자 캐릭터가 공격자의 얼굴을 가렸다.</td>
+<td>정체 공개 장면의 카메라에서만 수비자 캐릭터를 숨기고, 장면이 끝나거나 취소되면 다시 표시했다.</td>
 </tr>
 <tr>
-<td>3</td>
-<td>결과 패널이 공개 컷을 덮음</td>
-<td>결과 패널을 공개 컷 종료 뒤에 표시</td>
+<td>결과 패널이 정체 공개 장면을 덮었다.</td>
+<td>얼굴을 보여주는 장면이 끝난 뒤 결과 패널이 나오도록 순서를 조정했다.</td>
 </tr>
 <tr>
-<td>4</td>
-<td>달리기 확대가 과함</td>
-<td>확대 증가분 10% 축소, 스피드라인 제거</td>
+<td>달리기 화면의 확대와 효과가 과했다.</td>
+<td>화면 변화의 강도를 낮추고 속도감을 표현하던 선 효과를 제거했다.</td>
 </tr>
 <tr>
-<td>5</td>
-<td>달리기 중 급선회 시 화면이 기울어짐</td>
-<td>일반 이동 시점의 기울기 적용 제거, 수평 유지</td>
+<td>달리며 급하게 방향을 바꾸면 화면이 기울었다.</td>
+<td>일반 이동 카메라의 기울기 효과를 제거해 수평을 유지하도록 했다.</td>
 </tr>
 </tbody>
-</table>
-<h2>● 확인 범위</h2>
-<ul>
-<li><strong>Unity 실제 실행:</strong> 대결 → 탈취 → 정체 공개 → 결과 화면을 실행하여 정체 숨김, 공개, 결과 패널 지연, 입력과 숨김 복원 확인.</li>
-<li><strong>상태 검사:</strong> 보행 14, 벽 충돌 11, 연출 단계 33항목 통과.<br>연출 단계는 시간을 주입한 검사로 실제 재생 시간 검증과 구분.</li>
-<li><strong>미검증:</strong> 배포 빌드, 두 PC 통신, 모든 캐릭터, 벽 배치에서의 구도, 멀미 등 체감 조정.</li>
-</ul></article></body></html>
+</table></article></body></html>

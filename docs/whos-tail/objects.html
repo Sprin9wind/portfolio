@@ -20,134 +20,146 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 /* Fixed A4 output and deliberate column measure keep phrases together. */
 .sheet{height:1414px;min-height:1414px}table{table-layout:fixed}td:first-child{width:auto}p,li,td{word-break:keep-all;overflow-wrap:normal;text-wrap:pretty}h1,h2,h3{word-break:keep-all;text-wrap:balance}
 .sheet.objects:first-child img[src*="phone-states"]{max-height:350px}
-</style></head><body><article class="sheet objects"><h1>4.1 전화부스 기획</h1>
+
+.sheet.production:first-child img[src*="motion-steps"]{max-height:430px}
+.sheet.production:nth-child(2) img{max-height:245px}
+.sheet.objects img[src*="phone-states"]{max-height:335px}
+.sheet.objects img[src*="tail-structure"]{max-height:300px}
+</style></head><body><article class="sheet objects"><h1>전화부스_이용 규칙과 상태 표현</h1>
 <h2>● 기획 의도</h2>
 <ul>
-<li>추격자 정보를 얻을 수 있는 장소.<br/>정보가 가치 있는 만큼, 사용 중에는 움직일 수 없게 하여 위험을 함께 줌.</li>
-<li>활성화를 전원에게 알려 여러 플레이어가 한곳으로 모이게 하고,<br/>그 주변에서 추격, 기습, 눈치 싸움이 생기도록 의도.</li>
+<li>추격자에 관한 정보를 얻는 대신, 통화 중에는 움직일 수 없도록 한다.<br/>정보를 얻을 이점과 공격받을 위험을 함께 판단하게 한다.</li>
+<li>활성화를 모두에게 알려 여러 플레이어가 같은 장소로 향하도록 한다.<br/>전화부스 주변에서 추격과 기습, 서로를 경계하는 상황이 생기도록 의도했다.</li>
 </ul>
-<h2>● 본게임 정보 이벤트 규칙</h2>
-<table><colgroup><col style="width:13%"/><col style="width:54%"/><col style="width:33%"/></colgroup>
+<h2>● 이용 규칙</h2>
+<table><colgroup><col style="width:16%"/><col style="width:46%"/><col style="width:38%"/></colgroup>
 <thead>
 <tr>
 <th>단계</th>
-<th>처리 규칙</th>
-<th>조정 값</th>
+<th>규칙</th>
+<th>플레이어에게 보이는 정보</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>활성화</td>
-<td>라운드 중 자동 활성화, 화면 알림과 벨소리</td>
-<td>최신 통합 버전은 매치 이벤트 스케줄러로 제어</td>
+<td>라운드 중 정해진 시점에 이용할 수 있게 된다.</td>
+<td>화면 알림과 벨소리로 활성화를 알린다.</td>
 </tr>
 <tr>
 <td>사용 조건</td>
-<td>탈락, 유령, 대결 중, 넉백, 기절, 탑승 중에는 사용 불가</td>
-<td></td>
+<td>탈락, 유령, 대결, 넉백, 기절, 탑승 상태에서는 이용할 수 없다.</td>
+<td>이용 가능한 상태에서 통화를 시작한다.</td>
 </tr>
 <tr>
 <td>통화</td>
-<td>이동과 시점 잠금.<br/>취소 시 원래 상태로 복원</td>
-<td></td>
+<td>이동과 시점 조작을 멈춘다. 취소하면 조작을 돌려준다.</td>
+<td>통화에 집중하는 동안 주변 위험에 노출된다.</td>
 </tr>
 <tr>
 <td>정보 선택</td>
-<td>추격자 이름, 추격자 위치, 타깃 위치 중 1개</td>
-<td>위치 정보는 5초간 표시하며 대상 위치를 갱신</td>
+<td>추격자 이름, 추격자 위치, 타깃 위치 중 하나를 고른다.</td>
+<td>위치를 선택하면 5초 동안 대상의 위치를 보여준다.</td>
 </tr>
 </tbody>
 </table>
-<h2>● 제작 모델의 상태별 동작</h2>
-<p><img alt="사용 가능, 문 개방, 내부 점유, 퇴장 후 상태 구성" src="../../images/whos-tail/design-refine-20261018/phone-states.svg?v=line3"/></p>
-<ol>
-<li>내부가 비어 있으면 초록 표시등으로 이용 가능 상태를 표현.</li>
-<li>문은 경첩 기준으로 열리며, 회전 중 반대 입력을 받으면 현재 각도에서 방향 전환.</li>
-<li>내부 점유 시 빨강으로 표시. 문 상태와 표시등은 별도 제어.</li>
-<li>퇴장 후에는 다시 이용 가능 상태를 표시.</li>
-</ol>
-<table><colgroup><col style="width:13%"/><col style="width:52%"/><col style="width:35%"/></colgroup>
+<h2>● 상태별 표현</h2>
+<p><img alt="전화부스의 사용 가능, 문 개방, 이용 중, 퇴장 후 상태" src="../../images/whos-tail/editorial-20261019/phone-states.svg"/></p>
+<table><colgroup><col style="width:16%"/><col style="width:44%"/><col style="width:40%"/></colgroup>
 <thead>
 <tr>
-<th>구분</th>
-<th>표현, 동작</th>
+<th>요소</th>
+<th>표현 방식</th>
 <th>기획 의도</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>표시등</td>
-<td>초록 이용 가능, 빨강 이용 중.<br/>Blender 시안에는 고장 표시용 노랑 점멸도 포함</td>
-<td>멀리서도 부스 상태와 점유 여부를 구분</td>
+<td>초록은 이용 가능, 빨강은 이용 중을 나타낸다.</td>
+<td>멀리서도 누군가 사용하고 있는지 알아볼 수 있게 한다.</td>
 </tr>
 <tr>
 <td>문</td>
-<td>경첩 기준 105° 회전, 열고 닫는 도중 반전 가능</td>
-<td>들어가는 행동 자체가 노출로 보이게 함</td>
+<td>내부 공간과 출입 동작이 보일 만큼 충분히 열린다.</td>
+<td>부스에 들어가는 행동이 주변 플레이어에게 드러나도록 한다.</td>
 </tr>
 <tr>
 <td>유리 벽</td>
-<td>내부 점유자가 밖에서 보임</td>
-<td>통화 중인 사람이 기습 대상이 됨</td>
-</tr>
-<tr>
-<td>독립 제어</td>
-<td>문과 표시등, 부스별 상태를 따로 관리</td>
-<td>여러 부스 배치에 대응</td>
+<td>바깥에서도 안에 있는 사람을 볼 수 있다.</td>
+<td>정보를 얻는 동안에도 다른 플레이어를 경계하게 한다.</td>
 </tr>
 </tbody>
 </table>
-<p>확인 범위: 제작한 부스를 최신 통합 씬에 적용.<br/>문 열기와 부스 내부의 사용 동작으로 정보 선택 화면이 뜨는 것을 실제 Play Mode에서 확인.<br/>내부 점유에 따른 초록·빨강 표시와 문 상태는 독립적으로 관리.<br/>텍스처 일부는 AnimeCity 에셋을 가공해 사용.</p></article><article class="sheet objects"><h1>4.2 꼬리 (머플러) 설계</h1>
-<h2>● 형태와 관성</h2>
+<h2>● 구현한 동작</h2>
 <ul>
-<li>잡아야 하는 대상이므로 뒤에서 위치와 움직임이 바로 읽혀야 함.<br/>허리 머플러, 풍선 등 형태 비교 후 한 가닥 머플러로 결정.</li>
-<li>키프레임 재생은 입력이 바뀔 때마다 어색해져, 본 5개에 실시간 관성을 계산하는 방식으로 전환.</li>
+<li>문을 열고 내부에서 사용하면 정보 선택 화면으로 이어지도록 연결했다.</li>
+<li>문이 열리거나 닫히는 도중 반대 입력을 받으면 움직임의 방향을 바꾸도록 했다.</li>
+<li>부스마다 문과 점유 상태를 따로 관리하고, 표시등으로 이용 상태를 보여주도록 했다.</li>
 </ul>
-<table><colgroup><col style="width:18%"/><col style="width:82%"/></colgroup>
+<p>텍스처 일부는 AnimeCity 에셋을 가공해 사용했다.</p></article><article class="sheet objects"><h1>꼬리_형태와 움직임 설계</h1>
+<h2>● 기획 의도</h2>
+<ul>
+<li>꼬리는 뒤에서 접근해 잡아야 하는 대상이다.<br/>캐릭터의 몸과 구분되고, 달리거나 방향을 바꿀 때도 위치를 알아볼 수 있어야 한다.</li>
+<li>캐릭터가 움직인 뒤 꼬리가 자연스럽게 뒤따라 흔들리도록 한다.<br/>고정된 장식보다 이동 방향과 속도 변화가 느껴지는 움직임을 원했다.</li>
+</ul>
+<h2>● 형태와 동작 기준</h2>
+<table><colgroup><col style="width:14%"/><col style="width:42%"/><col style="width:44%"/></colgroup>
 <thead>
 <tr>
-<th>항목</th>
-<th>처리 규칙, 값</th>
+<th>요소</th>
+<th>표현과 동작</th>
+<th>기획 의도</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>형태</td>
+<td>허리 뒤에서 한 가닥으로 이어지는 머플러</td>
+<td>뒤에서 접근할 때 잡아야 할 대상을 분명하게 보여준다.</td>
+</tr>
 <tr>
 <td>색상</td>
-<td>흰 공통 바탕에 플레이어별 색 적용</td>
+<td>공통 형태에 플레이어별 색을 적용</td>
+<td>타깃의 꼬리 색을 단서로 삼을 수 있게 한다.</td>
 </tr>
 <tr>
-<td>관성</td>
-<td>이동, 점프, 방향 전환에 반응. 구르기 시작, 종료 전달.<br/>리스폰, 텔레포트 시 흔들림 초기화</td>
+<td>흔들림</td>
+<td>달리기, 점프, 방향 전환에 맞춰 뒤따라 움직임</td>
+<td>캐릭터의 행동에 자연스럽게 반응하면서 꼬리의 위치가 읽히도록 한다.</td>
 </tr>
 <tr>
-<td>조정</td>
-<td>과한 팔랑거림 확인 후 강성 85→140, 감쇠 7→20. 최대 각도 85° 유지</td>
-</tr>
-<tr>
-<td>잡기 판정</td>
-<td>손의 판정 영역이 움직이는 꼬리의 판정 영역에 닿으면 접촉으로 처리.<br/>허리 쪽 35% 제외, 여유 반경 0.15m</td>
+<td>잡기</td>
+<td>잡기 모션 중 손이 보이는 꼬리에 닿으면 반응</td>
+<td>눈으로 본 접촉과 실제 잡기 결과가 일치하도록 한다.</td>
 </tr>
 </tbody>
 </table>
-<p>확인: 관성은 30, 60, 120fps에서 달리기, 회전, 점프, 구르기, 텔레포트 검사 통과.<br/>손과 꼬리 판정 영역의 중간 접촉, 굽힌 뒤 새 위치, 벽 차단을 Unity에서 별도 확인.<br/>실제 플레이어가 직접 조작한 전체 플레이 검증은 별도.</p>
-<p><img alt="허리 머플러의 본 구조와 움직이는 사슬에 연결된 판정 범위" src="../../images/whos-tail/design-refine-20261018/tail-structure-v2.svg?v=line3"/></p>
-<h2>● 확인한 문제와 수정</h2>
-<table><colgroup><col style="width:36%"/><col style="width:64%"/></colgroup>
+<p><img alt="꼬리의 형태와 움직임에 맞춰 따라가는 잡기 범위" src="../../images/whos-tail/editorial-20261019/tail-structure.svg"/></p>
+<h2>● 구현 과정에서 개선한 내용</h2>
+<table><colgroup><col style="width:32%"/><col style="width:68%"/></colgroup>
 <thead>
 <tr>
-<th>확인한 문제</th>
-<th>조정한 내용</th>
+<th>발견한 문제</th>
+<th>수정 방향과 결과</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>이동과 회전에서 머플러가 과하게 팔랑거림</td>
-<td>강성과 감쇠를 높여 반응을 정리하고, 순간 이동 후에는 관성을 초기화</td>
+<td>고정된 동작을 반복하면 방향 전환에 자연스럽게 반응하지 못함</td>
+<td>캐릭터의 움직임에 따라 꼬리가 뒤따라 흔들리도록 바꿨다.</td>
 </tr>
 <tr>
-<td>끝점만으로는 움직이는 꼬리의 중간 접촉을 표현하기 어려움</td>
-<td>꼬리의 움직임을 따라 판정 영역이 갱신되도록 변경.<br/>중간 접촉, 굽힌 뒤 위치, 벽 차단 확인</td>
+<td>이동과 회전에서 꼬리가 과하게 팔랑거림</td>
+<td>흔들리는 폭과 가라앉는 속도를 조정해 움직임을 정리했다. 순간 이동 후에는 이전 흔들림이 이어지지 않도록 했다.</td>
 </tr>
 </tbody>
 </table>
-<p>초기 형태 후보 영상과 최종 한 가닥 머플러의 적용 화면은 서로 다른 제작 단계.</p></article></body></html>
+<ul>
+<li>허리 머플러와 풍선 등 형태 후보를 비교한 뒤 한 가닥 머플러를 선택했다.</li>
+<li>초기 형태 후보와 최종 적용 화면은 서로 다른 제작 단계의 결과다.</li>
+</ul>
+<h2>● 구현한 동작</h2>
+<ul>
+<li>꼬리가 굽거나 움직여도 그 형태를 따라 잡기 범위가 갱신되도록 구현했다.</li>
+</ul></article></body></html>
