@@ -33,7 +33,17 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 /* round section spacing */
 .sheet:nth-of-type(2) h2{margin-top:32px;margin-bottom:12px}
 .sheet:nth-of-type(2) h1+h2{margin-top:16px}
-.sheet:nth-of-type(2) img{max-height:230px}.sheet:nth-of-type(2) img{max-height:230px}/* a4-layout */.sheet{width:1000px;height:1414px;min-height:1414px}.sheet h2,.sheet:nth-of-type(2) h2{margin-top:42px;margin-bottom:12px}.sheet h1+h2,.sheet:nth-of-type(2) h1+h2{margin-top:16px}.sheet code{font-size:12.5px;overflow-wrap:anywhere}.sheet table{table-layout:auto}.sheet img[src*="round-flow-a4"]{max-height:none!important;width:100%}@media(max-width:1000px){.sheet{width:100%;height:auto;min-height:0}}@media print{.sheet{width:210mm;height:297mm;min-height:297mm}}.sheet:first-of-type table:has(th:nth-child(10)){table-layout:fixed}/* end-a4-layout */</style><body><article class="sheet"><h1>기본 전투 규칙과 무기</h1>
+.sheet:nth-of-type(2) img{max-height:230px}.sheet:nth-of-type(2) img{max-height:230px}/* a4-layout */.sheet{width:1000px;height:1414px;min-height:1414px}.sheet h2,.sheet:nth-of-type(2) h2{margin-top:42px;margin-bottom:12px}.sheet h1+h2,.sheet:nth-of-type(2) h1+h2{margin-top:16px}.sheet code{font-size:12.5px;overflow-wrap:anywhere}.sheet table{table-layout:auto}.sheet img[src*="round-flow-a4"]{max-height:none!important;width:100%}@media(max-width:1000px){.sheet{width:100%;height:auto;min-height:0}}@media print{.sheet{width:210mm;height:297mm;min-height:297mm}}.sheet:first-of-type table:has(th:nth-child(10)){table-layout:fixed}/* end-a4-layout */
+/* feedback-20261019 */
+.calc-accent{color:#cc2929;font-weight:700}
+.color-chip{display:inline-block;width:10px;height:10px;background:var(--chip);border:1px solid #777;vertical-align:baseline;margin-right:2px}
+.xp-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0}
+.sheet .xp-groups table{width:100%;margin:0;border:2px solid #555;table-layout:fixed}
+.sheet .xp-groups th,.sheet .xp-groups td{padding:5px 7px;white-space:nowrap;width:auto}
+.sheet .xp-groups td:first-child{width:auto}
+.sheet table+table{margin-top:24px}
+/* end-feedback-20261019 */
+.sheet:nth-of-type(2) h1+h2{margin-top:36px}</style><body><article class="sheet"><h1>기본 전투 규칙과 무기</h1>
 <h2>● 자동 전진, 자동 공격</h2>
 <ul>
 <li>캐릭터는 바라보는 방향(facing)으로 일정한 속도로 자동 이동하며 기본 공격을 반복한다.</li>
@@ -232,7 +242,11 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 </li>
 </ul>
 <h2>● 매치 체력 감소</h2>
-<p>매치 체력은 100에서 시작하며, 패배한 쪽만 감소한다. 0이면 탈락하고, 등수는 탈락 순서의 역순이다.<br>매치가 길어지며 긴장감이 떨어지는 것을 막기 위해 라운드 구간이 진행될수록 기본 피해량을 높인다.<br>접전 끝의 패배와 완패에 차이를 주기 위해 승자의 남은 라운드 체력에 비례한 추가 피해를 적용한다.</p>
+<ul>
+<li>매치 체력은 100에서 시작하며, 패배한 쪽만 감소한다. 0이면 탈락하고, 등수는 탈락 순서의 역순이다.</li>
+<li>매치가 길어지며 긴장감이 떨어지는 것을 막기 위해 라운드 구간이 진행될수록 기본 피해량을 높인다.</li>
+<li>접전 끝의 패배와 완패에 차이를 주기 위해 승자의 남은 라운드 체력에 비례한 추가 피해를 적용한다.</li>
+</ul>
 <blockquote>
 <p><strong>패배한 쪽 감소량 = 기본 피해 + 승리한 쪽 남은 라운드 체력 비율 ÷ 10</strong><br>
 남은 체력 비율은 10% 단위 구간으로 올림 처리하며, 추가 피해는 최대 +10이다.</p>
@@ -270,28 +284,28 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 <td>3라운드 패배</td>
 <td>55%</td>
 <td>60%</td>
-<td>5 + 6</td>
+<td>5 <span class="calc-accent">+</span> 6</td>
 <td>11</td>
 </tr>
 <tr>
 <td>8라운드 패배</td>
 <td>45%</td>
 <td>50%</td>
-<td>10 + 5</td>
+<td>10 <span class="calc-accent">+</span> 5</td>
 <td>15</td>
 </tr>
 <tr>
 <td>12라운드 패배</td>
 <td>95%</td>
 <td>100%</td>
-<td>15 + 10</td>
+<td>15 <span class="calc-accent">+</span> 10</td>
 <td>25</td>
 </tr>
 <tr>
 <td>8라운드 무승부</td>
 <td>없음</td>
 <td>없음</td>
-<td>10, 기본만</td>
+<td>10, <span class="calc-accent">기본만</span></td>
 <td>양쪽 10</td>
 </tr>
 </tbody>

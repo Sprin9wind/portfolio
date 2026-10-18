@@ -18,7 +18,17 @@ a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px
 @media print{body{background:#fff}.sheet{margin:0;break-after:page}}
 table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px}.sheet p>em:only-child{display:block;margin-top:-12px}.comparison>div ol{margin:0;padding-left:22px}.comparison>div li{font-size:14px;margin:4px 0}.sheet{padding:40px 48px}.sheet h1{margin:0 0 14px}.sheet h2{font-size:18px;margin:16px 0 8px}.sheet p,.sheet li{font-size:14.5px;margin:5px 0;line-height:1.6}.sheet ul,.sheet ol{margin:6px 0}.sheet table{font-size:13.5px;line-height:1.45;margin:9px 0}.sheet th,.sheet td{padding:5px 9px}.sheet img{margin:8px auto}.sheet p>em:only-child{margin-top:-6px;font-size:12.5px}.sheet blockquote{margin:8px 0;padding:8px 14px}.sheet blockquote p{font-size:14.5px;margin:3px 0}.comparison{gap:14px;margin:8px 0}.comparison figcaption{font-size:12.5px;margin-top:3px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.cols>div>*:first-child{margin-top:0}@media(max-width:1000px){.cols,.comparison{grid-template-columns:1fr}}
 .sheet h2{margin-top:28px;margin-bottom:12px}.sheet h1+h2{margin-top:16px}
-.sheet:nth-of-type(2) img{max-height:280px}.sheet:nth-of-type(2) img{max-height:280px!important}.sheet:nth-of-type(3) table{font-size:11.5px;line-height:1.3}.sheet:nth-of-type(3) th,.sheet:nth-of-type(3) td{padding:5px 6px}.sheet:nth-of-type(3) td:nth-child(3){width:36%}.sheet:nth-of-type(3) table{font-size:11.5px;line-height:1.3}.sheet:nth-of-type(3) th,.sheet:nth-of-type(3) td{padding:5px 6px}.sheet:nth-of-type(3) td:nth-child(3){width:36%}/* a4-layout */.sheet{width:1000px;height:1414px;min-height:1414px}.sheet h2,.sheet:nth-of-type(2) h2{margin-top:42px;margin-bottom:12px}.sheet h1+h2,.sheet:nth-of-type(2) h1+h2{margin-top:16px}.sheet code{font-size:12.5px;overflow-wrap:anywhere}.sheet table{table-layout:auto}.sheet img[src*="round-flow-a4"]{max-height:none!important;width:100%}@media(max-width:1000px){.sheet{width:100%;height:auto;min-height:0}}@media print{.sheet{width:210mm;height:297mm;min-height:297mm}}/* end-a4-layout */</style><body><article class="sheet"><h1>스킬 슬롯과 공통 규칙</h1>
+.sheet:nth-of-type(2) img{max-height:280px}.sheet:nth-of-type(2) img{max-height:280px!important}.sheet:nth-of-type(3) table{font-size:11.5px;line-height:1.3}.sheet:nth-of-type(3) th,.sheet:nth-of-type(3) td{padding:5px 6px}.sheet:nth-of-type(3) td:nth-child(3){width:36%}.sheet:nth-of-type(3) table{font-size:11.5px;line-height:1.3}.sheet:nth-of-type(3) th,.sheet:nth-of-type(3) td{padding:5px 6px}.sheet:nth-of-type(3) td:nth-child(3){width:36%}/* a4-layout */.sheet{width:1000px;height:1414px;min-height:1414px}.sheet h2,.sheet:nth-of-type(2) h2{margin-top:42px;margin-bottom:12px}.sheet h1+h2,.sheet:nth-of-type(2) h1+h2{margin-top:16px}.sheet code{font-size:12.5px;overflow-wrap:anywhere}.sheet table{table-layout:auto}.sheet img[src*="round-flow-a4"]{max-height:none!important;width:100%}@media(max-width:1000px){.sheet{width:100%;height:auto;min-height:0}}@media print{.sheet{width:210mm;height:297mm;min-height:297mm}}/* end-a4-layout */
+/* feedback-20261019 */
+.calc-accent{color:#cc2929;font-weight:700}
+.color-chip{display:inline-block;width:10px;height:10px;background:var(--chip);border:1px solid #777;vertical-align:baseline;margin-right:2px}
+.xp-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0}
+.sheet .xp-groups table{width:100%;margin:0;border:2px solid #555;table-layout:fixed}
+.sheet .xp-groups th,.sheet .xp-groups td{padding:5px 7px;white-space:nowrap;width:auto}
+.sheet .xp-groups td:first-child{width:auto}
+.sheet table+table{margin-top:24px}
+/* end-feedback-20261019 */
+.sheet:first-of-type h1+h2{margin-top:36px}</style><body><article class="sheet"><h1>스킬 슬롯과 공통 규칙</h1>
 <h2>● 스킬 구분과 해금</h2>
 <table>
 <thead>
@@ -46,9 +56,15 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 </tr>
 </tbody>
 </table>
-<p>해금은 선택 후보에 포함되는 조건이며, 스킬이 자동으로 장착되는 것은 아니다.<br>선택 라운드에서 공용 스킬과 해금된 무기 스킬 중 하나를 골라 4, 5번 슬롯에 장착한다.</p>
+<ul>
+<li>해금은 선택 라운드의 추첨 풀에 해당 스킬이 포함되는 조건이다. 해금만으로 자동 장착되지는 않는다.</li>
+<li>선택 라운드에서 공용 스킬과 해금된 무기 스킬 중 하나를 골라 4, 5번 슬롯에 장착한다.</li>
+</ul>
 <h2>● 스킬 슬롯</h2>
-<p>전투 화면 하단에 스킬 슬롯 5개를 배치한다. 각 슬롯에는 스킬 아이콘과 사용 단축키를 텍스트로 표시하며, 해당 단축키를 입력하면 슬롯에 배치된 스킬이 발동한다.</p>
+<ul>
+<li>전투 화면 하단에 스킬 슬롯 5개를 배치한다.</li>
+<li>각 슬롯에는 스킬 아이콘과 사용 단축키를 표시한다. 해당 단축키를 입력하면 배치된 스킬이 발동한다.</li>
+</ul>
 <div class="cols">
 <div>
 <p><img src="../../images/maple-arena-specs/battle-hud.jpg" alt="1~5번 스킬 슬롯"></p>
@@ -92,8 +108,12 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 </table>
 </div>
 </div>
-<p>스킬 선택은 매치당 2회이며, 선택 시점은 시퀀스에 따른다. 두 번째 선택에서는 이미 장착한 스킬을 후보에서 제외한다.</p>
-<p>스킬은 라운드마다 1회씩 사용할 수 있으며 다음 라운드에 사용 횟수가 충전된다. 선택한 스킬은 해당 슬롯에 고정되며 교체할 수 없다.</p>
+<ul>
+<li>스킬 선택은 매치당 2회이며, 선택 시점은 시퀀스에 따른다.</li>
+<li>두 번째 선택에서는 이미 장착한 스킬을 후보에서 제외한다.</li>
+<li>스킬은 라운드마다 1회씩 사용할 수 있으며, 다음 라운드에 사용 횟수가 충전된다.</li>
+<li>선택한 스킬은 해당 슬롯에 고정되며 교체할 수 없다.</li>
+</ul>
 <h2>● 스킬 데이터</h2>
 <p>스킬별 효과, 지속 시간, 상태 이상, 모션과 이펙트 RUID는 SkillData 시트에서 관리한다.</p></article><article class="sheet"><h1>클론, 봇 플레이어의 스킬 사용 AI 조건</h1>
 <p>클론과 봇 플레이어가 보유 스킬을 자동으로 사용할 시점을 판단하는 조건이다. 상대와의 거리, 방향, 체력 등의 조건을 확인해 사용할 스킬을 선택한다.</p>
@@ -165,7 +185,7 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 </tbody>
 </table>
 <ul>
-<li>지연은 행동 패턴이 고정되지 않게 하기 위해 둔다. 데이터 컬럼은 <code>aiPriority</code>, <code>aiCondition1~3</code>, <code>aiValue1~3</code>, <code>aiDelayMin/Max</code>, <code>aiChainCondition</code>이다.</li>
+<li>지연은 행동 패턴이 고정되지 않게 하기 위해 둔다.</li>
 <li>설정 대상은 공용 4종, 무기 스킬 16종(8무기 × 2), 직업 스킬 8종이다. 2단 스킬은 폭류권, 스타 더스트, 퀴버 플로우다.</li>
 <li>기본 스킬의 우선순위는 대시 12, 방향전환 0이다. 예를 들어 사용 조건을 함께 만족하면 매직 가드(1)가 석화(2)보다 먼저 선택되고, 우선순위가 3으로 같은 페이크와 여제의 축복은 무작위로 고른다.</li>
 </ul>
