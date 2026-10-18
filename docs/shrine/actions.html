@@ -1,0 +1,96 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>캐릭터 동작과 연출 전달</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}*{box-sizing:border-box}body{margin:0;background:#e7e7e7;color:#222;font:16px/1.65 P,sans-serif}.sheet{width:1000px;height:1414px;padding:42px 48px;background:#fff;margin:24px auto;overflow:hidden}h1{font:800 27px/1.45 N,sans-serif;margin:0 0 36px;padding:10px 14px;background:#ddd}h2{font:800 19px/1.5 N,sans-serif;margin:30px 0 14px}h1+h2{margin-top:0}p{margin:12px 0}ul{padding-left:23px;margin:10px 0}li{margin:8px 0}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:15px;line-height:1.65;margin:14px 0 22px}th,td{padding:10px 12px;border:1px solid #bbb;vertical-align:top;text-align:left;overflow-wrap:anywhere}th{background:#dedede;font-weight:700}th:first-child{width:22%}code{font:14px P,sans-serif}.flow{display:flex;align-items:center;gap:9px;margin:24px 0 30px}.flow>div{flex:1;min-width:0;text-align:center;border:1.5px solid #888;background:#f5f5f5;padding:16px 7px;line-height:1.55;font-weight:700}.flow small{display:block;font-weight:400;font-size:13px}.flow>b{font-size:23px;color:#666}.flow .timed{min-width:36px;text-align:center}.flow .timed small{font-size:11px;white-space:nowrap}.town{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;border-bottom:4px solid #777;margin:30px 0;padding-bottom:12px}.town>div{background:#f4f4f4;border:1px solid #888;padding:25px 5px;text-align:center;font-weight:700}.town small{display:block;font-weight:400;font-size:12px;margin-top:8px}.return-line{text-align:center;padding:8px;border-bottom:1px solid #888}.outcomes{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:12px;margin:20px 0 26px}.outcomes>div{border:1px solid #999;background:#f6f6f6;padding:18px 12px;text-align:center}.outcomes p{margin:8px 0 0}.formula{border:1px solid #aaa;background:#f4f4f4;padding:20px;margin:18px 0;font-size:18px}@media print{body{background:white}.sheet{margin:0;break-after:page}}table{line-height:1.55}th,td{padding:7px 10px}.flow{margin:20px 0 24px}.flow>div{padding:13px 7px}h2{margin-top:28px}body{line-height:1.6}body{word-break:keep-all}th:first-child:nth-last-child(2){width:28%}th:first-child:nth-last-child(4){width:18%}th:nth-child(2):nth-last-child(3){width:30%}th:nth-child(3):nth-last-child(2){width:35%}</style></head><body><article class="sheet"><h1>캐릭터 동작과 연출 전달</h1>
+<h2>● 동작을 제작 단위로 나누기</h2>
+<ul>
+<li>더블 점프, 기본 공격, 패링, 슬라이딩 등 주요 동작의 애니메이션, 이펙트, 사운드를 정의한다.</li>
+<li>동작을 <strong>준비 → 액션 → 마무리</strong>로 나눠 시작과 종료 자세를 연결한다. 각 구간에 필요한 리소스, 반복 여부, 재생 시간을 작성한다.</li>
+<li>참고 이미지와 영상은 동작의 방향을 설명하는 자료로 사용하고, 실제 제작할 리소스의 이름과 규격은 별도로 명시한다.</li>
+</ul>
+<div class="flow"><div>준비<br><small>이전 동작과 연결</small></div><b>→</b><div>액션<br><small>핵심 움직임과 효과</small></div><b>→</b><div>마무리<br><small>착지 등 후속 자세 연결</small></div></div>
+
+<h2>● 더블 점프의 움직임</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>애니메이션 지시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>준비</td>
+<td>기본 점프 동작 상태에서 이어진다.</td>
+</tr>
+<tr>
+<td>액션</td>
+<td>공중에서 한 바퀴 더 회전한다. 한 번 재생하며 길이는 400ms다.</td>
+</tr>
+<tr>
+<td>마무리</td>
+<td>기본 점프의 착지와 동일한 동작을 사용한다.</td>
+</tr>
+</tbody>
+</table>
+<h2>● 같은 동작에 필요한 리소스</h2>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>리소스명</th>
+<th>내용</th>
+<th>반복 / 시간</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>애니메이션</td>
+<td>Player_DoubleJump_Anim</td>
+<td>공중 회전 동작</td>
+<td>1회 / 400ms</td>
+</tr>
+<tr>
+<td>이펙트</td>
+<td>Player_DoubleJump_Effect</td>
+<td>더블 점프 시 먼지와 구름 형태의 잔상이 남는 효과</td>
+<td>1회 / 200ms</td>
+</tr>
+<tr>
+<td>사운드</td>
+<td>Player_Jump_sound</td>
+<td>기본 점프와 동일한 사운드 사용</td>
+<td>1회 / 200ms</td>
+</tr>
+</tbody>
+</table>
+<h2>● 제작 요청에 포함할 정보</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>전달 목적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>시작과 종료 자세</td>
+<td>앞뒤 동작을 연결할 기준을 제공한다.</td>
+</tr>
+<tr>
+<td>동작 설명</td>
+<td>어떤 움직임을 표현해야 하는지 구체화한다.</td>
+</tr>
+<tr>
+<td>리소스명</td>
+<td>제작 파일과 게임에서 사용할 대상을 대응시킨다.</td>
+</tr>
+<tr>
+<td>반복 여부와 재생 시간</td>
+<td>반복 동작과 일회성 동작을 구분하고 길이를 맞춘다.</td>
+</tr>
+<tr>
+<td>참고 이미지와 영상</td>
+<td>움직임, 잔상, 분위기의 방향을 공유한다.</td>
+</tr>
+</tbody>
+</table>
+<h2>● 기획과 제작의 역할</h2>
+<p>동작의 구성과 제작 기준을 기획해 아트 작업에 전달한다. 완성된 애니메이션 초안은 팀의 제작 결과로 구분하고, 기획한 동작과 연결되는지 확인하는 자료로 사용한다.</p></article></body></html>

@@ -1,0 +1,82 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>몬스터 인식과 전투 규칙</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}*{box-sizing:border-box}body{margin:0;background:#e7e7e7;color:#222;font:16px/1.65 P,sans-serif}.sheet{width:1000px;height:1414px;padding:42px 48px;background:#fff;margin:24px auto;overflow:hidden}h1{font:800 27px/1.45 N,sans-serif;margin:0 0 36px;padding:10px 14px;background:#ddd}h2{font:800 19px/1.5 N,sans-serif;margin:30px 0 14px}h1+h2{margin-top:0}p{margin:12px 0}ul{padding-left:23px;margin:10px 0}li{margin:8px 0}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:15px;line-height:1.65;margin:14px 0 22px}th,td{padding:10px 12px;border:1px solid #bbb;vertical-align:top;text-align:left;overflow-wrap:anywhere}th{background:#dedede;font-weight:700}th:first-child{width:22%}code{font:14px P,sans-serif}.flow{display:flex;align-items:center;gap:9px;margin:24px 0 30px}.flow>div{flex:1;min-width:0;text-align:center;border:1.5px solid #888;background:#f5f5f5;padding:16px 7px;line-height:1.55;font-weight:700}.flow small{display:block;font-weight:400;font-size:13px}.flow>b{font-size:23px;color:#666}.flow .timed{min-width:36px;text-align:center}.flow .timed small{font-size:11px;white-space:nowrap}.town{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;border-bottom:4px solid #777;margin:30px 0;padding-bottom:12px}.town>div{background:#f4f4f4;border:1px solid #888;padding:25px 5px;text-align:center;font-weight:700}.town small{display:block;font-weight:400;font-size:12px;margin-top:8px}.return-line{text-align:center;padding:8px;border-bottom:1px solid #888}.outcomes{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:12px;margin:20px 0 26px}.outcomes>div{border:1px solid #999;background:#f6f6f6;padding:18px 12px;text-align:center}.outcomes p{margin:8px 0 0}.formula{border:1px solid #aaa;background:#f4f4f4;padding:20px;margin:18px 0;font-size:18px}@media print{body{background:white}.sheet{margin:0;break-after:page}}table{line-height:1.55}th,td{padding:7px 10px}.flow{margin:20px 0 24px}.flow>div{padding:13px 7px}h2{margin-top:28px}body{line-height:1.6}body{word-break:keep-all}th:first-child:nth-last-child(2){width:28%}th:first-child:nth-last-child(4){width:18%}th:nth-child(2):nth-last-child(3){width:30%}th:nth-child(3):nth-last-child(2){width:35%}</style></head><body><article class="sheet"><h1>몬스터 인식과 전투 규칙</h1>
+<h2>● 인식 거리와 공격 사거리의 역할</h2>
+<ul>
+<li><strong>시야 거리</strong>는 플레이어를 발견하는 범위, <strong>공격 사거리</strong>는 공격을 시작할 수 있는 범위다. 두 거리를 분리해 발견 즉시 공격하는 경우와 접근이 필요한 경우를 구분한다.</li>
+<li>몬스터의 시야는 위치를 중심으로 한 원형 범위로 설정한다. 시야 안에 들어온 플레이어를 상대로 선공 여부를 판단한다.</li>
+<li>선공 몬스터는 플레이어를 발견하면 전투에 진입한다. 비선공 몬스터는 플레이어가 시야에 들어와도 피격 전까지 먼저 공격하지 않는다.</li>
+</ul>
+<div class="flow"><div>플레이어 인식<br><small>시야 거리 안에 진입</small></div><b>→</b><div>선공 여부 판단<br><small>비선공은 피격까지 대기</small></div><b>→</b><div>전투 진입<br><small>공격 사거리 확인</small></div></div>
+
+<h2>● 추적과 공격 전환</h2>
+<table>
+<thead>
+<tr>
+<th>전투 중 조건</th>
+<th>몬스터의 행동</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>플레이어가 공격 사거리 밖, 시야 거리 안에 있음</td>
+<td>플레이어가 있는 방향으로 이동하며 추적한다. 이동 속도는 몬스터 테이블을 참조한다.</td>
+</tr>
+<tr>
+<td>플레이어가 공격 사거리 안에 있음</td>
+<td>공격 스킬을 발동한다. 공격 동작과 몬스터 공격력에 따라 플레이어의 체력을 감소시킨다.</td>
+</tr>
+<tr>
+<td>공격 동작이 종료됨</td>
+<td>다음 공격까지 정해진 간격을 둔다. 공격 사거리 안에 플레이어가 있으면 다시 공격한다.</td>
+</tr>
+</tbody>
+</table>
+<h2>● 공격 간격과 투사체</h2>
+<ul>
+<li><code>MonsterAS</code>는 초당 공격 횟수가 아니라 <strong>공격 동작 종료 후 다음 공격까지의 대기 시간(ms)</strong>이다. 값이 500이면 공격 종료 후 500ms를 기다린다.</li>
+<li>투사체는 <strong>스킬 발동 시점의 몬스터 위치에서 플레이어 위치로 향하는 직선 경로</strong>를 따른다. 발사 후 플레이어를 따라 방향을 바꾸는 유도탄은 아니다.</li>
+<li>투사체 이동 속도는 <code>MonsterSS</code> 값을 사용한다.</li>
+</ul>
+<div class="flow"><div>공격 동작</div><b>→</b><div>공격 종료</div><b>→</b><div>대기<br><small>MonsterAS 밀리초</small></div><b>→</b><div>다음 공격<br><small>사거리 안에 있을 때</small></div></div>
+
+<h2>● 공통 규칙과 개별 데이터</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>데이터</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>시야 거리</td>
+<td>ViewDistance</td>
+<td>플레이어 인식 범위의 반지름</td>
+</tr>
+<tr>
+<td>선공 여부</td>
+<td>MonsterAttackType</td>
+<td>True: 발견 시 전투 / False: 피격 전까지 선공하지 않음</td>
+</tr>
+<tr>
+<td>공격 사거리</td>
+<td>AttackDistance</td>
+<td>추적과 공격을 나누는 거리</td>
+</tr>
+<tr>
+<td>공격력</td>
+<td>MonsterAD</td>
+<td>공격 시 피해에 사용하는 값</td>
+</tr>
+<tr>
+<td>공격 간격</td>
+<td>MonsterAS</td>
+<td>공격 동작 종료 후 다음 공격까지의 시간(ms)</td>
+</tr>
+<tr>
+<td>투사체 속도</td>
+<td>MonsterSS</td>
+<td>발사한 투사체의 이동 속도</td>
+</tr>
+</tbody>
+</table></article></body></html>

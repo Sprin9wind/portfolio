@@ -1,0 +1,63 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>제스처 입력과 게임의 연결</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}*{box-sizing:border-box}body{margin:0;background:#e7e7e7;color:#222;font:16px/1.65 P,sans-serif}.sheet{width:1000px;height:1414px;padding:42px 48px;background:#fff;margin:24px auto;overflow:hidden}h1{font:800 27px/1.45 N,sans-serif;margin:0 0 36px;padding:10px 14px;background:#ddd}h2{font:800 19px/1.5 N,sans-serif;margin:30px 0 14px}h1+h2{margin-top:0}p{margin:12px 0}ul{padding-left:23px;margin:10px 0}li{margin:8px 0}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:15px;line-height:1.65;margin:14px 0 22px}th,td{padding:10px 12px;border:1px solid #bbb;vertical-align:top;text-align:left;overflow-wrap:anywhere}th{background:#dedede;font-weight:700}th:first-child{width:22%}code{font:14px P,sans-serif}.flow{display:flex;align-items:center;gap:9px;margin:24px 0 30px}.flow>div{flex:1;min-width:0;text-align:center;border:1.5px solid #888;background:#f5f5f5;padding:16px 7px;line-height:1.55;font-weight:700}.flow small{display:block;font-weight:400;font-size:13px}.flow>b{font-size:23px;color:#666}.flow .timed{min-width:36px;text-align:center}.flow .timed small{font-size:11px;white-space:nowrap}.town{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;border-bottom:4px solid #777;margin:30px 0;padding-bottom:12px}.town>div{background:#f4f4f4;border:1px solid #888;padding:25px 5px;text-align:center;font-weight:700}.town small{display:block;font-weight:400;font-size:12px;margin-top:8px}.return-line{text-align:center;padding:8px;border-bottom:1px solid #888}.outcomes{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:12px;margin:20px 0 26px}.outcomes>div{border:1px solid #999;background:#f6f6f6;padding:18px 12px;text-align:center}.outcomes p{margin:8px 0 0}.formula{border:1px solid #aaa;background:#f4f4f4;padding:20px;margin:18px 0;font-size:18px}@media print{body{background:white}.sheet{margin:0;break-after:page}}table{line-height:1.55}th,td{padding:7px 10px}.flow{margin:20px 0 24px}.flow>div{padding:13px 7px}h2{margin-top:28px}body{line-height:1.6}body{word-break:keep-all}th:first-child:nth-last-child(2){width:28%}th:first-child:nth-last-child(4){width:18%}th:nth-child(2):nth-last-child(3){width:30%}th:nth-child(3):nth-last-child(2){width:35%}</style></head><body><article class="sheet"><h1>제스처 입력과 게임의 연결</h1>
+<h2>● 초기 이동 조작에서 포수 사인으로</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>손동작이 입력하는 정보</th>
+<th>확인한 구현 범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>초기 프로토타입</td>
+<td>앞, 뒤, 좌, 우, 점프, 정지</td>
+<td>인식한 제스처를 텍스트로 전송하고 Unity의 이동 입력에 연결</td>
+</tr>
+<tr>
+<td>포수 시뮬레이터</td>
+<td>구종 6종과 위치 9개</td>
+<td>각 제스처의 각도 데이터를 수집하고 분류 결과를 전송</td>
+</tr>
+<tr>
+<td>영상 전송 추가</td>
+<td>인식 결과와 웹캠 화면</td>
+<td>텍스트와 인코딩한 영상을 함께 보내 게임 내 카메라 UI에 표시할 수 있도록 구성</td>
+</tr>
+</tbody>
+</table>
+<p>교수님의 피드백을 바탕으로 이동 키를 대체하던 주제를 포수의 사인 전달로 전환했다. 입력 장치의 차이를 보여주는 데서, 손동작이 게임 속 역할과 직접 연결되도록 방향을 바꾼 것이다.</p>
+<h2>● 손동작을 구분하는 과정</h2>
+<div class="flow"><div>웹캠 영상</div><b>→</b><div>손의 특징점<br><small>MediaPipe</small></div><b>→</b><div>관절 각도<br><small>벡터 정규화와 내적</small></div><b>→</b><div>제스처 분류<br><small>OpenCV KNN</small></div></div>
+
+<ul>
+<li>MediaPipe로 손의 특징점 좌표를 얻고, 관절 사이 벡터로 각도를 계산한다.</li>
+<li>제스처마다 각도 데이터와 분류 이름을 짝지어 CSV 데이터셋으로 저장한다.</li>
+<li>KNN은 입력 각도와 학습 데이터의 가까운 표본을 비교해 제스처를 분류한다. 손동작의 의미는 구종과 위치에 맞춘 라벨로 정한다.</li>
+</ul>
+<h2>● Unity에 전달하는 정보</h2>
+<table>
+<thead>
+<tr>
+<th>전달 항목</th>
+<th>Python에서 처리</th>
+<th>Unity에서 사용할 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>인식 결과</td>
+<td>구종 또는 위치 이름을 텍스트로 변환</td>
+<td>게임 입력값</td>
+</tr>
+<tr>
+<td>웹캠 화면</td>
+<td>프레임을 이미지로 인코딩</td>
+<td>카메라 UI에 표시할 영상</td>
+</tr>
+</tbody>
+</table>
+<div class="flow"><div>Python<br><small>인식 결과 + 영상 인코딩</small></div><b>→</b><div>UDP 전송</div><b>→</b><div>Unity<br><small>게임 입력과 카메라 UI</small></div></div>
+
+<h2>● 담당 범위</h2>
+<p>주제와 모델 선정, 제스처 데이터 수집과 인식 프로그램, Unity로 보내는 전송부를 구현했다. 게임 진행 흐름, 타자 정보, 구종별 궤적과 화면 UI의 기초 기획안을 작성하고 야구장과 선수 에셋을 함께 전달했다. 게임을 구성하는 Unity 개발은 팀원이 담당했다.</p></article></body></html>

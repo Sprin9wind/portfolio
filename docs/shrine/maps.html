@@ -1,0 +1,163 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>마을의 역할과 배치 기준</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}*{box-sizing:border-box}body{margin:0;background:#e7e7e7;color:#222;font:16px/1.65 P,sans-serif}.sheet{width:1000px;height:1414px;padding:42px 48px;background:#fff;margin:24px auto;overflow:hidden}h1{font:800 27px/1.45 N,sans-serif;margin:0 0 36px;padding:10px 14px;background:#ddd}h2{font:800 19px/1.5 N,sans-serif;margin:30px 0 14px}h1+h2{margin-top:0}p{margin:12px 0}ul{padding-left:23px;margin:10px 0}li{margin:8px 0}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:15px;line-height:1.65;margin:14px 0 22px}th,td{padding:10px 12px;border:1px solid #bbb;vertical-align:top;text-align:left;overflow-wrap:anywhere}th{background:#dedede;font-weight:700}th:first-child{width:22%}code{font:14px P,sans-serif}.flow{display:flex;align-items:center;gap:9px;margin:24px 0 30px}.flow>div{flex:1;min-width:0;text-align:center;border:1.5px solid #888;background:#f5f5f5;padding:16px 7px;line-height:1.55;font-weight:700}.flow small{display:block;font-weight:400;font-size:13px}.flow>b{font-size:23px;color:#666}.flow .timed{min-width:36px;text-align:center}.flow .timed small{font-size:11px;white-space:nowrap}.town{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;border-bottom:4px solid #777;margin:30px 0;padding-bottom:12px}.town>div{background:#f4f4f4;border:1px solid #888;padding:25px 5px;text-align:center;font-weight:700}.town small{display:block;font-weight:400;font-size:12px;margin-top:8px}.return-line{text-align:center;padding:8px;border-bottom:1px solid #888}.outcomes{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:12px;margin:20px 0 26px}.outcomes>div{border:1px solid #999;background:#f6f6f6;padding:18px 12px;text-align:center}.outcomes p{margin:8px 0 0}.formula{border:1px solid #aaa;background:#f4f4f4;padding:20px;margin:18px 0;font-size:18px}@media print{body{background:white}.sheet{margin:0;break-after:page}}table{line-height:1.55}th,td{padding:7px 10px}.flow{margin:20px 0 24px}.flow>div{padding:13px 7px}h2{margin-top:28px}body{line-height:1.6}body{word-break:keep-all}th:first-child:nth-last-child(2){width:28%}th:first-child:nth-last-child(4){width:18%}th:nth-child(2):nth-last-child(3){width:30%}th:nth-child(3):nth-last-child(2){width:35%}</style></head><body><article class="sheet"><h1>마을의 역할과 배치 기준</h1>
+<h2>● 신당 운영과 던전 탐험을 잇는 공간</h2>
+<ul>
+<li>신당에서 망자를 상담하며 성장하고, 성장한 캐릭터로 플랫포머 던전을 진행하는 구조다.</li>
+<li>마을은 구매, 타이쿤 진입, 이야기 진행, 퀘스트 수락, 던전 입장을 담당하는 시설을 한 공간에 배치한다.</li>
+</ul>
+<div class="town"><div>저승 관문<small>던전 입장</small></div><div>퀘스트 알림판<small>퀘스트 수락</small></div><div>저승 재판소<small>이야기 진행</small></div><div>흥신소<small>타이쿤 진입</small></div><div>상점<small>재화와 소모품 구매</small></div></div>
+
+<h2>● 시설별 기능</h2>
+<table>
+<thead>
+<tr>
+<th>시설</th>
+<th>플레이어가 이용하는 기능</th>
+<th>리소스명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>상점</td>
+<td>재화와 소모품 구매</td>
+<td>Adv_Town_Shop</td>
+</tr>
+<tr>
+<td>흥신소</td>
+<td>타이쿤 진행 공간으로 진입</td>
+<td>Adv_Town_TaycoonEntry</td>
+</tr>
+<tr>
+<td>저승 재판소</td>
+<td>스토리 관련 진행</td>
+<td>Adv_Town_Tribunal</td>
+</tr>
+<tr>
+<td>퀘스트 알림판</td>
+<td>메인 퀘스트와 서브 퀘스트 수락</td>
+<td>Adv_Town_Questboard</td>
+</tr>
+<tr>
+<td>저승 관문</td>
+<td>던전, 메인 퀘스트 입장</td>
+<td>Adv_Town_Gateway</td>
+</tr>
+</tbody>
+</table>
+<h2>● 크기와 화면 배치</h2>
+<ul>
+<li>마을의 가로 길이는 40m, 걷기 이동 속도는 2m/s를 기준으로 잡는다. 단순 직선 이동으로는 약 20초이며, 마을 전체 이동 시간은 20~25초를 기준으로 기획한다.</li>
+<li>건물과 플레이어 사이에는 충돌을 두지 않는다.</li>
+<li>레이어는 <strong>배경 → 건물 → 바닥 타일과 플레이어</strong> 순으로 구성한다.</li>
+<li>아트 요청에는 리소스명, 대략적인 작업 크기, 캐릭터 대비 가로와 세로 비율을 함께 전달한다.</li>
+</ul>
+<h2>● 시설의 기능을 드러내는 외형</h2>
+<table>
+<thead>
+<tr>
+<th>시설</th>
+<th>디자인 방향</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>흥신소</td>
+<td>무너지기 직전의 기와집, 성불 기원 현수막과 거미줄</td>
+</tr>
+<tr>
+<td>저승 재판소</td>
+<td>큰 문과 웅장한 외관, 조선시대 성문을 연상시키는 형태</td>
+</tr>
+<tr>
+<td>상점</td>
+<td>트럭과 마차를 연상시키는 판매대, 위에 놓인 호리병과 부적</td>
+</tr>
+<tr>
+<td>퀘스트 알림판</td>
+<td>기와지붕과 나무 몸체, 가운데 붙은 낡은 종이</td>
+</tr>
+</tbody>
+</table>
+<p>시설의 용도와 외형을 함께 정의해 기능 배치와 아트 제작이 같은 공간 구성을 기준으로 진행되도록 한다.</p></article><article class="sheet"><h1>탐험 동선과 구역별 장치</h1>
+<h2>● 연결된 구역을 돌아 막힌 통로를 여는 구조</h2>
+<ul>
+<li>챕터 1은 A1~A6을 순서대로 연결한다. A6의 레버를 작동하면 A1의 통로를 막던 벽이 올라간다.</li>
+<li>몬스터 배치, 이동 발판, 함정, 레버를 구역별로 정의해 이동과 전투의 조건을 구분한다.</li>
+</ul>
+<div class="flow"><div>A1<br><small>진입 / 막힌 통로</small></div><b>→</b><div>A2</div><b>→</b><div>A3</div><b>→</b><div>A4<br><small>철퇴 함정</small></div><b>→</b><div>A5<br><small>이동 발판</small></div><b>→</b><div>A6<br><small>레버 작동</small></div></div>
+<p class="return-line">A6 레버 작동 → A1의 막힌 벽 상승</p>
+
+<h2>● 장치별 작동 조건</h2>
+<table>
+<thead>
+<tr>
+<th>구역</th>
+<th>장치</th>
+<th>동작과 조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>통과 가능한 발판</td>
+<td>발판 위에서 점프와 아래 방향키를 함께 입력하면 아래로 통과한다.</td>
+</tr>
+<tr>
+<td>A1</td>
+<td>통로를 막은 벽</td>
+<td>처음에는 통로를 막는다. A6 레버를 누르면 벽이 올라간다.</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>철퇴 함정</td>
+<td>철퇴 부분에 피격 판정을 둔다. 연결된 쇠사슬에는 충돌 판정을 두지 않는다.</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>1번 이동 발판</td>
+<td>위아래로 계속 왕복한다.</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>2번 이동 발판</td>
+<td>위쪽에 고정돼 있다가 A5의 몬스터를 모두 처치하면 위아래로 움직인다.</td>
+</tr>
+</tbody>
+</table>
+<h2>● 탐험과 전투가 연결되는 지점</h2>
+<ul>
+<li>A1에서는 통과 가능한 발판과 통로의 차단 상태를 구분한다. 길이 막혀 있는 이유를 레버 작동과 연결한다.</li>
+<li>A4에서는 피해를 주는 철퇴와 충돌하지 않는 쇠사슬을 분리해 함정의 판정 범위를 정한다.</li>
+<li>A5에서는 항상 움직이는 발판과 전투 후 활성화되는 발판을 구분한다. <strong>몬스터 처치가 다음 이동 수단을 여는 조건</strong>이 된다.</li>
+</ul>
+<h2>● 배치 문서의 전달 항목</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>문서에 표시할 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연결</td>
+<td>구역 사이 연결부와 진입 위치</td>
+</tr>
+<tr>
+<td>몬스터</td>
+<td>종류별 배치 영역과 구분 기호</td>
+</tr>
+<tr>
+<td>발판</td>
+<td>통과 여부, 이동 방향, 시작 조건</td>
+</tr>
+<tr>
+<td>장치</td>
+<td>조작 위치와 영향을 받는 대상</td>
+</tr>
+<tr>
+<td>판정</td>
+<td>피해 또는 충돌이 적용되는 부분</td>
+</tr>
+</tbody>
+</table>
+<p>지도상의 위치만 제시하지 않고, 각 장치가 언제 어떤 상태로 바뀌는지 함께 명시한다.</p></article></body></html>
