@@ -1,0 +1,291 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>qte — Who’s Tail</title><style>
+@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400}
+@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
+@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
+*{box-sizing:border-box}body{margin:0;background:#e7e7e7;color:#262626;font-family:P,sans-serif;word-break:keep-all;overflow-wrap:break-word;line-height:1.6}
+.sheet{width:1000px;min-height:1414px;background:white;padding:45px 54px;margin:24px auto}
+h1{font-family:N,sans-serif;font-weight:800;font-size:23px;line-height:1.4;background:#595b5d;color:white;margin:0 0 25px;padding:6px 12px}
+h2{font-family:N,sans-serif;font-weight:800;font-size:18px;line-height:1.4;margin:23px 0 12px}
+h3{font-size:17px;background:#ddd;padding:3px 8px;margin:20px 0 12px}
+p,li{font-size:15px;margin:7px 0}ul,ol{padding-left:23px}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.5;margin:15px 0}th,td{border:1px solid #aeb0b1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#606264;color:white;font-weight:700}td:first-child{width:21%}
+img{display:block;width:100%;max-width:100%;max-height:380px;object-fit:contain;margin:18px auto}
+img[src*="camera-steps"]{max-height:465px}img[src*="motion-steps"]{max-height:460px}img[src*="phone-states"]{max-height:360px}img[src*="tail-structure"]{max-height:310px}
+em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline-offset:3px}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}.comparison figure{margin:0}.comparison img{margin:0}.comparison figcaption{font-size:12px;color:#62676b;margin-top:6px}
+.sheet.objects:first-child table{font-size:13.5px}.sheet.objects:first-child td,.sheet.objects:first-child th{padding:7px 9px}.sheet.objects:first-child li{font-size:14px;margin:3px 0}
+@media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:22px}table{font-size:13px}td,th{padding:7px}img{max-height:none}.comparison{gap:10px}}
+@media print{body{background:white}.sheet{margin:0;break-after:page}}
+.flow{margin:16px auto 6px;max-width:760px}.flow svg{display:block;width:100%;height:auto;font-family:P,sans-serif}
+
+.qte-ui{margin:20px 0 16px}.qte-ui svg{display:block;width:100%;height:auto}
+.sheet.qte:nth-child(2) table:first-of-type td:first-child{width:8%}.sheet.qte:nth-child(2) table:first-of-type td:nth-child(2){width:20%}
+</style><body><article class="sheet qte"><h1>꼬리 잡기_저항 미니게임</h1>
+<h2>● 저항 미니게임 개요</h2>
+<p>꼬리를 잡았다고 바로 승부가 끝나지는 않는다. <strong>잡은 플레이어와 잡힌 플레이어가 C와 V를 번갈아 눌러, 최대 5초 동안 꼬리를 빼앗거나 뿌리치는 대결</strong>을 진행한다.</p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>참여자</td>
+<td>공격자는 타깃의 꼬리를 잡은 플레이어, 수비자는 꼬리를 잡힌 플레이어다.</td>
+</tr>
+<tr>
+<td>목표</td>
+<td>공격자는 꼬리를 빼앗아 타깃을 탈락시키고, 수비자는 잡기를 뿌리쳐 살아남는다.</td>
+</tr>
+<tr>
+<td>조작</td>
+<td>양쪽 모두 C부터 시작해 C → V → C 순서로 교대 입력한다. 다음에 눌러야 하는 키를 화면에서 강조한다.</td>
+</tr>
+<tr>
+<td>시간과 판정</td>
+<td>제한 시간은 5초다. 게이지가 한쪽 끝에 닿으면 즉시 종료하며, 시간이 끝나면 우세한 쪽이 이긴다. 중앙이면 수비자가 탈출한다.</td>
+</tr>
+</tbody>
+</table>
+<h2>● 설계 의도</h2>
+<ul>
+<li>꼬리를 잡힌 뒤에도 저항할 기회를 남겨, 수비자가 마지막 순간까지 생존을 위해 행동하도록 한다.</li>
+<li>공격자의 첫 대결에서는 수비자가 뿌리치기 쉽도록 하고, 공격자가 라운드 중 대결을 거듭하면 공격 입력의 힘을 높인다. 추격이 반복되더라도 포획으로 이어질 수 있도록 한다.</li>
+<li>대결 중 수비자에게 공격자의 얼굴, 이름과 꼬리 색을 숨긴다. 탈출 시에는 별도 정체 공개 연출 없이 추격을 재개하고, 포획됐을 때 공격자를 공개한다.</li>
+</ul>
+<h2>● 진입 조건</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>처리 기준</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>자신에게 지정된 타깃의 꼬리만 잡을 수 있다.</td>
+</tr>
+<tr>
+<td>위치와 접촉</td>
+<td>타깃 정면 기준 후방 120° 안에서 손이 꼬리 판정에 닿아야 한다. 꼬리 판정은 본 사슬을 따라 배치한 캡슐이며, 두 캐릭터 사이를 가리는 물체가 없어야 한다.</td>
+</tr>
+<tr>
+<td>재시도</td>
+<td>잡기 입력마다 2초를 기다린다. 헛잡기에도 같은 대기 시간을 적용한다.</td>
+</tr>
+<tr>
+<td>제외 상태</td>
+<td>탈락, 대결 중, 넉백, 차량 탑승, 입력 잠금 상태에서는 시작하지 않는다.</td>
+</tr>
+</tbody>
+</table></article><article class="sheet qte"><h1>꼬리 잡기_게이지 UI와 입력 안내</h1>
+<h2>● 화면 배치</h2>
+<p>미니게임 패널은 <strong>화면 하단 중앙</strong>에 배치한다. 두 캐릭터가 보이는 중앙 영역을 가리지 않으며, 조작 키와 남은 시간, 대결의 우세를 한 패널에 모은다.</p>
+<div class="qte-ui"><svg viewBox="0 0 900 390" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="저항 미니게임 UI, C와 V 키, 남은 시간, 시간 막대, 중앙에서 시작하는 우세 게이지">
+<defs><marker id="direction" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#444"/></marker></defs>
+<rect x="114" y="62" width="672" height="192" fill="#333" stroke="#111" stroke-width="2"/>
+<rect x="330" y="78" width="112" height="88" rx="6" fill="#777" stroke="#fff" stroke-width="3"/>
+<rect x="458" y="78" width="112" height="88" rx="6" fill="#eee" stroke="#888" stroke-width="3"/>
+<g font-family="P,sans-serif" font-weight="700" text-anchor="middle"><text x="386" y="136" font-size="48" fill="#fff">C</text><text x="514" y="136" font-size="48" fill="#222">V</text></g>
+<text x="154" y="148" font-family="P,sans-serif" font-size="26" fill="#fff" font-weight="700">5.0초</text>
+<rect x="154" y="174" width="592" height="8" fill="#ddd"/><circle cx="746" cy="178" r="7" fill="#eee"/>
+<rect x="154" y="198" width="592" height="24" fill="#ccc"/><rect x="154" y="198" width="296" height="24" fill="#777"/><circle cx="450" cy="210" r="12" fill="#fff" stroke="#222" stroke-width="2"/>
+<g stroke="#555" stroke-width="1.5" fill="none"><path d="M330 76V68H570V76M450 68V42H388"/><path d="M154 133H92"/><path d="M746 178H820"/><path d="M450 222V282"/></g>
+<g fill="#fff" stroke="#333" stroke-width="2"><circle cx="372" cy="42" r="16"/><circle cx="76" cy="133" r="16"/><circle cx="836" cy="178" r="16"/><circle cx="450" cy="298" r="16"/></g>
+<g fill="#222" font-family="P,sans-serif" font-size="19" font-weight="700" text-anchor="middle"><text x="372" y="48">1</text><text x="76" y="139">2</text><text x="836" y="184">3</text><text x="450" y="304">4</text></g>
+<g stroke="#555" stroke-width="2" marker-end="url(#direction)"><path d="M404 298H190"/><path d="M496 298H710"/></g>
+<g font-family="P,sans-serif" font-size="18" fill="#262626" text-anchor="middle"><text x="290" y="331">수비 입력 → 왼쪽으로 이동</text><text x="610" y="331">공격 입력 → 오른쪽으로 이동</text><text x="290" y="356">왼쪽 끝 도달: 탈출</text><text x="610" y="356">오른쪽 끝 도달: 포획</text><text x="450" y="385" font-size="15">경계점은 중앙에서 시작한다.</text></g>
+</svg></div>
+
+<h2>● 번호별 표시와 동작</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>요소</th>
+<th>표시와 변화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>C / V 조작 키</td>
+<td>다음에 눌러야 하는 키를 강조한다. C부터 시작하며 유효 입력이 들어오면 강조가 반대 키로 넘어간다. 눌린 상태도 함께 표시한다.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>남은 시간</td>
+<td>5.0초에서 시작해 남은 시간을 소수점 한 자리로 표시한다.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>시간 막대</td>
+<td>남은 시간의 비율을 표시한다. 처음에는 가득 차 있고, 시간이 줄어들수록 오른쪽 끝점이 왼쪽으로 이동한다.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>우세 게이지</td>
+<td>중앙에서 시작한다. 공격 입력은 경계점을 오른쪽으로, 수비 입력은 왼쪽으로 이동시킨다. 경계점의 위치로 어느 쪽이 우세한지 판단한다.</td>
+</tr>
+</tbody>
+</table>
+<h2>● 게이지와 종료 판정</h2>
+<table>
+<thead>
+<tr>
+<th>경계점 위치</th>
+<th>판정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대결 중 오른쪽 끝에 도달</td>
+<td>공격자 승리. 즉시 포획한다.</td>
+</tr>
+<tr>
+<td>대결 중 왼쪽 끝에 도달</td>
+<td>수비자 승리. 즉시 탈출한다.</td>
+</tr>
+<tr>
+<td>시간 종료 시 중앙보다 오른쪽</td>
+<td>공격자 승리. 포획한다.</td>
+</tr>
+<tr>
+<td>시간 종료 시 중앙 또는 왼쪽</td>
+<td>수비자 승리. 탈출한다.</td>
+</tr>
+</tbody>
+</table>
+<p>시간 막대는 <strong>얼마나 시간이 남았는지</strong>, 우세 게이지는 <strong>누가 이기고 있는지</strong>를 나타낸다. 두 막대를 위아래로 분리해 같은 정보로 읽히지 않도록 한다.</p>
+<p>수비자 화면에서는 게이지에 표시되는 공격자 쪽 색도 숨긴다. 패널 안에 상대의 이름이나 얼굴을 추가하지 않는다.</p></article><article class="sheet qte"><h1>꼬리 잡기_진행 흐름</h1>
+<h2>● 시작과 승패 판정</h2>
+<p>지정된 타깃의 꼬리를 잡으면 저항 미니게임에 진입한다. 게이지가 한쪽 끝에 도달하면 즉시 판정하고, 끝에 닿지 않은 채 시간이 지나면 종료 시점의 우세로 결정한다. 중앙에서 끝났을 때는 수비자가 탈출한다.</p>
+<div class="flow"><svg viewBox="0 0 900 690" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="꼬리 잡기에서 QTE를 거쳐 포획 또는 탈출로 이어지는 흐름">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#55595c"/></marker></defs>
+<g fill="none" stroke="#55595c" stroke-width="2" marker-end="url(#a)">
+<path d="M450 74V108"/><path d="M450 210V238"/><path d="M600 160H658"/><path d="M450 296V328"/><path d="M450 386V408"/><path d="M450 510V558"/>
+<path d="M300 460H140V503"/><path d="M300 610H140V567"/><path d="M600 460H760V503"/><path d="M600 610H760V567"/>
+</g>
+<g font-size="15" fill="#262626" text-anchor="middle">
+<rect x="340" y="30" width="220" height="44" rx="22" fill="#3d7ea6"/><text x="450" y="57" fill="#fff" font-weight="700">꼬리 잡기 입력</text>
+<path d="M450 110L600 160L450 210L300 160Z" fill="#e3e4e5" stroke="#8c8f91" stroke-width="1.5"/><text x="450" y="155">후방 120° 안에서</text><text x="450" y="176">꼬리에 손이 닿았는가?</text>
+<text x="472" y="230" font-size="13">Yes</text><text x="628" y="150" font-size="13">No</text>
+<rect x="660" y="132" width="200" height="56" fill="#f3f4f4" stroke="#8c8f91" stroke-width="1.5"/><text x="760" y="155">헛잡기</text><text x="760" y="176">2초 뒤 다시 시도</text>
+<rect x="250" y="240" width="400" height="56" fill="#f3f4f4" stroke="#8c8f91" stroke-width="1.5"/><text x="450" y="263">저항 미니게임 진입, 공격자의 시도 횟수 +1</text><text x="450" y="284">횟수에 따라 공격 입력의 가중치 결정</text>
+<rect x="250" y="330" width="400" height="56" fill="#f3f4f4" stroke="#8c8f91" stroke-width="1.5"/><text x="450" y="353">5초 동안 양쪽이 C, V 교대 입력</text><text x="450" y="374">게이지는 가운데에서 시작</text>
+<path d="M450 410L600 460L450 510L300 460Z" fill="#e3e4e5" stroke="#8c8f91" stroke-width="1.5"/><text x="450" y="455">게이지가 한쪽</text><text x="450" y="476">끝에 닿았는가?</text>
+<text x="220" y="450" font-size="13">공격 끝</text><text x="680" y="450" font-size="13">수비 끝</text><text x="490" y="540" font-size="13">5초 종료</text>
+<path d="M450 560L600 610L450 660L300 610Z" fill="#e3e4e5" stroke="#8c8f91" stroke-width="1.5"/><text x="450" y="605">게이지가 공격 쪽으로</text><text x="450" y="626">기울어 있는가?</text>
+<text x="220" y="600" font-size="13">Yes</text><text x="680" y="600" font-size="13">No (가운데 포함)</text>
+<rect x="40" y="505" width="200" height="60" rx="30" fill="#3d7ea6"/><text x="140" y="530" fill="#fff" font-weight="700">포획</text><text x="140" y="551" fill="#fff" font-size="14">꼬리 탈취, 수비자 탈락</text>
+<rect x="660" y="505" width="200" height="60" rx="30" fill="#3d7ea6"/><text x="760" y="530" fill="#fff" font-weight="700">탈출</text><text x="760" y="551" fill="#fff" font-size="14">공격자 넉백, 추격 재개</text>
+</g></svg></div></article><article class="sheet qte"><h1>꼬리 잡기_입력 수치와 결과 처리</h1>
+<h2>● 입력과 이동량</h2>
+<p>같은 키를 연속으로 누르면 게이지에 반영하지 않는다. 다음에 요구하는 키를 눌렀을 때만 입력을 인정하며, 양쪽은 각각 자신의 다음 키를 따라 입력한다.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>기준</th>
+<th>의도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>제한 시간</td>
+<td>최대 5초</td>
+<td>잡힌 순간의 긴장을 짧은 대결로 마무리한다.</td>
+</tr>
+<tr>
+<td>시작과 끝</td>
+<td>내부 게이지 값은 0에서 시작하며 −1은 포획, +1은 탈출이다. 화면에는 중앙에서 양쪽 끝으로 표현한다.</td>
+<td>우세와 종료까지 남은 거리를 전달한다.</td>
+</tr>
+<tr>
+<td>수비 입력</td>
+<td>유효 입력 1회당 +0.08</td>
+<td>매 대결에서 같은 힘으로 저항할 수 있다.</td>
+</tr>
+<tr>
+<td>공격 입력</td>
+<td>유효 입력 1회당 −0.08 × 시도 배율</td>
+<td>반복된 추격에 공격 측의 이점을 준다.</td>
+</tr>
+<tr>
+<td>동시 입력</td>
+<td>같은 프레임의 양쪽 입력량을 합산한 뒤 끝점 도달을 판정한다.</td>
+<td>같은 가중치의 입력은 처리 순서와 관계없이 상쇄한다.</td>
+</tr>
+</tbody>
+</table>
+<h2>● 시도 횟수에 따른 공격 배율</h2>
+<table>
+<thead>
+<tr>
+<th>공격자의 시도</th>
+<th>배율</th>
+<th>공격 입력 1회 이동량</th>
+<th>의도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1회째</td>
+<td>×0.8</td>
+<td>0.064</td>
+<td>같은 속도로 입력하면 수비자가 우세하다. 첫 잡기는 뿌리칠 여지가 크다.</td>
+</tr>
+<tr>
+<td>2회째</td>
+<td>×1.0</td>
+<td>0.08</td>
+<td>양쪽 입력의 힘이 같다. 입력 속도와 정확도로 우세를 겨룬다.</td>
+</tr>
+<tr>
+<td>3회째 이후</td>
+<td>×1.2</td>
+<td>0.096</td>
+<td>같은 속도로 입력하면 공격자가 우세하다. 반복된 추격이 포획으로 이어지도록 한다.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>시도 횟수는 <strong>공격자별로 라운드 동안 누적</strong>하며, 라운드가 바뀌면 초기화한다. 수비자별 횟수나 연속 실패 횟수가 아니다.</li>
+<li>대결에 정상 진입하면 결과와 관계없이 1회를 기록한다. 헛잡기는 대결에 진입하지 않았으므로 이 횟수에 포함하지 않는다.</li>
+<li>수비 입력은 항상 ×1.0이다. 가중치는 공격 입력에만 적용하며, 시작 위치를 공격 쪽으로 옮기지 않는다.</li>
+</ul>
+<h2>● 결과 처리</h2>
+<table>
+<thead>
+<tr>
+<th>결과</th>
+<th>처리</th>
+<th>연출</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>포획</td>
+<td>수비자의 꼬리를 탈취하고 수비자를 탈락시킨다. 추격 사슬의 앞뒤를 다시 연결해 공격자에게 다음 타깃을 지정한다.</td>
+<td>공격자의 얼굴과 이름을 수비자에게 공개한 뒤 결과 화면으로 전환한다.</td>
+</tr>
+<tr>
+<td>탈출</td>
+<td>공격자를 수비자 반대 방향으로 밀어낸다. 넉백 속도는 12, 지속 시간은 0.65초이며 수비자는 생존한다.</td>
+<td>별도 정체 공개 연출 없이 수비자의 일반 시점으로 복귀한다.</td>
+</tr>
+<tr>
+<td>취소</td>
+<td>대결 중 한쪽이 탈락하거나 사라지면 결과 없이 종료한다. 이미 진입한 시도 횟수는 유지한다.</td>
+<td>승패를 확정하지 않는다.</td>
+</tr>
+</tbody>
+</table>
+<h2>● 확인 범위</h2>
+<ul>
+<li><strong>Unity 실행에서 확인:</strong> 대결 → 포획 → 정체 공개 → 결과 화면 흐름과 대결 중 공격자 정체 숨김.</li>
+<li><strong>추가 플레이 검증:</strong> 배율 0.8 / 1.0 / 1.2가 실제 다인원 플레이에서 의도한 탈출·포획 비율을 만드는지 확인해야 한다. 제3자 개입과 접속 종료 시의 승패 규칙은 별도로 확정해야 한다.</li>
+</ul></article></body></html>

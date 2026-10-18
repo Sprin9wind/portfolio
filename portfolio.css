@@ -30,6 +30,24 @@ body:not([data-section="projects"]) .wrapx{max-width:1200px}
 .study-eyebrow{font-size:11px;letter-spacing:.18em;color:var(--study-muted);font-weight:700;margin:0}
 .study-intro{font-size:15px;line-height:1.9;color:var(--study-muted);max-width:430px}.study-intro strong{font-size:19px;color:var(--study-text)}
 .study-actions{display:flex;gap:26px;align-items:center;margin-top:30px}.study-actions a{font-size:14px;text-decoration:none;color:var(--study-text)}
+.study-contact{margin-top:28px;font-style:normal;color:var(--study-text);font-size:14px}
+.study-contact dl{margin:0;padding-top:16px;border-top:1px solid var(--study-line);max-width:430px}
+.study-contact dl>div{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;align-items:baseline;margin:6px 0}
+.study-contact dt{color:var(--study-muted);font-size:12px}
+.study-contact dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.study-contact a{display:inline-block;padding:7px 0;color:inherit;text-underline-offset:4px;text-decoration-thickness:1px}
+.study-contact a:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:2px}
+@media(max-width:640px){
+  .doc .wt-intent-table thead{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .doc .wt-intent-table,.doc .wt-intent-table tbody,.doc .wt-intent-table tr,.doc .wt-intent-table td{display:block;width:100%}
+  .doc .wt-intent-table tr+tr{border-top:2px solid var(--line)}
+  .doc .wt-intent-table td{padding:14px 16px;border:0}
+  .doc .wt-intent-table td+td{padding-top:0}
+  .doc .wt-intent-table td::before{display:block;color:var(--accent);font-size:11px;font-weight:700;margin-bottom:5px}
+  .doc .wt-intent-table td:nth-child(1)::before{content:'의도한 재미'}
+  .doc .wt-intent-table td:nth-child(2)::before{content:'기획한 장치'}
+  .doc .wt-intent-table td:nth-child(3)::before{content:'구현 방향'}
+}
 .study-primary{border:0;border-radius:7px;background:var(--study-key);color:#fff;font:700 14px var(--font);padding:15px 22px;cursor:pointer;display:flex;gap:25px;align-items:center;min-height:48px}.study-primary:hover{filter:brightness(.94)}
 .study-hero-bottom{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--study-muted);margin-top:36px;border-top:1px solid var(--study-line);padding-top:18px}.study-hero-bottom a{text-decoration:none;font-weight:700;letter-spacing:.08em}
 body[data-design="blue"] .study-hero-wrap{background:#1458d5;max-width:none;padding:42px max(28px,calc((100vw - 1144px)/2))}
