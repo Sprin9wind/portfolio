@@ -56,5 +56,11 @@
     "upstream_metadata": "https://raw.githubusercontent.com/simple-icons/simple-icons/15.0.0/data/simple-icons.json",
     "upstream_hex": "2C2D72",
     "brand_guidelines": "https://www.lua.org/images/"
+  },
+  {
+    "name": "orca",
+    "source": "https://www.onorca.dev/favicon.ico",
+    "treatment": "Official site favicon preserved unchanged; used to identify Orca.",
+    "license": "Brand mark belongs to its owner; no license inferred."
   }
 ]

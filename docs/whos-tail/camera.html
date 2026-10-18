@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-
-<html lang="ko"><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>camera — Who’s Tail</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>camera — Who’s Tail</title><style>
 @font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400}
 @font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
 @font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
@@ -18,14 +16,32 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 .sheet.objects:first-child table{font-size:13.5px}.sheet.objects:first-child td,.sheet.objects:first-child th{padding:7px 9px}.sheet.objects:first-child li{font-size:14px;margin:3px 0}
 @media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:22px}table{font-size:13px}td,th{padding:7px}img{max-height:none}.comparison{gap:10px}}
 @media print{body{background:white}.sheet{margin:0;break-after:page}}
-</style><body><article class="sheet camera"><h1>2.1 꼬리 잡기 카메라 연출 기획</h1>
+
+/* Reading layout: fixed A4, deliberate sentence breaks, stable table columns. */
+.sheet{height:1414px;min-height:1414px;overflow:hidden}
+p,li,td{text-wrap:pretty;overflow-wrap:normal}
+h1,h2,h3{break-after:avoid}
+table{table-layout:fixed}
+
+.sheet:nth-child(1) img[src*="camera-steps"]{max-height:390px}
+.sheet:nth-child(1) table th:nth-child(1),.sheet:nth-child(1) table td:nth-child(1){width:11%}
+.sheet:nth-child(1) table th:nth-child(2),.sheet:nth-child(1) table td:nth-child(2){width:19%}
+.sheet:nth-child(1) table th:nth-child(3),.sheet:nth-child(1) table td:nth-child(3){width:40%}
+.sheet:nth-child(1) table th:nth-child(4),.sheet:nth-child(1) table td:nth-child(4){width:30%}
+.sheet:nth-child(2) table:nth-of-type(1) th:nth-child(1),.sheet:nth-child(2) table:nth-of-type(1) td:nth-child(1){width:18%}
+.sheet:nth-child(2) table:nth-of-type(1) th:nth-child(2),.sheet:nth-child(2) table:nth-of-type(1) td:nth-child(2){width:43%}
+.sheet:nth-child(2) table:nth-of-type(1) th:nth-child(3),.sheet:nth-child(2) table:nth-of-type(1) td:nth-child(3){width:39%}
+.sheet:nth-child(2) table:nth-of-type(2) th:nth-child(1),.sheet:nth-child(2) table:nth-of-type(2) td:nth-child(1){width:7%}
+.sheet:nth-child(2) table:nth-of-type(2) th:nth-child(2),.sheet:nth-child(2) table:nth-of-type(2) td:nth-child(2){width:43%}
+.sheet:nth-child(2) table:nth-of-type(2) th:nth-child(3),.sheet:nth-child(2) table:nth-of-type(2) td:nth-child(3){width:50%}
+</style></head><body><article class="sheet camera"><h1>2.1 꼬리 잡기 카메라 연출 기획</h1>
 <h2>● 연출 목적</h2>
 <ul>
-<li>이 게임에서 수비자가 끝까지 모르는 정보는 <strong>"누가 나를 쫓았는가"</strong>. 카메라 연출은 이 질문의 답을 대결이 끝나는 순간에 돌려주는 장치로 설계.</li>
+<li>이 게임에서 수비자가 끝까지 모르는 정보는 <strong>"누가 나를 쫓았는가"</strong>.<br>카메라 연출은 이 질문의 답을 대결이 끝나는 순간에 돌려주는 장치로 설계.</li>
 <li>대결 중에는 공격자의 정체를 가려 긴장을 유지하고, 탈취가 확정된 뒤에만 공개.</li>
-<li>승패 판정은 서버 규칙이 담당. 카메라는 결과를 전달할 뿐 판정, 입력 허용 시간을 바꾸지 않음.</li>
+<li>승패 판정은 서버 규칙이 담당.<br>카메라는 결과를 전달할 뿐 판정, 입력 허용 시간을 바꾸지 않음.</li>
 </ul>
-<p><img alt="후방 꼬리 잡기와 공격자 정체 공개 구도 스케치 및 연출 순서" src="../../images/whos-tail/design-refine-20261018/camera-steps.svg?v=line3"/></p>
+<p><img alt="후방 꼬리 잡기와 공격자 정체 공개 구도 스케치 및 연출 순서" src="../../images/whos-tail/design-refine-20261018/camera-steps.svg?v=line3" /></p>
 <h2>● 회전과 확대를 선택한 이유</h2>
 <ul>
 <li><strong>원호 이동:</strong> 두 캐릭터와 꼬리를 한 화면에 담아 대결의 위치 관계를 유지.</li>
@@ -59,12 +75,12 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 <td>대결</td>
 <td>서버 남은 시간</td>
 <td>게이지에 따라 FOV 변화, 비네팅, 심장박동</td>
-<td>수비자 화면에서 공격자 정체 숨김, 이름과 색 정보 비공개</td>
+<td>수비자 화면에서 공격자 정체 숨김,<br>이름과 색 정보 비공개</td>
 </tr>
 <tr>
 <td>탈취</td>
 <td>0.6초</td>
-<td>공격자 화면: 꼬리, 허리 쪽 0.6m 접근, FOV 40°</td>
+<td>공격자 화면:<br>꼬리, 허리 쪽 0.6m 접근, FOV 40°</td>
 <td>결과 패널은 대기</td>
 </tr>
 <tr>
@@ -76,13 +92,13 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 <tr>
 <td>정체 공개</td>
 <td>0.8초</td>
-<td>수비자 화면: 0.25초 동안 공격자 얼굴로 회전, 확대, FOV 45°</td>
-<td>이름, 꼬리 색 공개. 이후 결과 화면</td>
+<td>수비자 화면:<br>0.25초 동안 공격자 얼굴로 회전, 확대,<br>FOV 45°</td>
+<td>이름, 꼬리 색 공개.<br>이후 결과 화면</td>
 </tr>
 <tr>
 <td>복귀</td>
-<td>탈취 후 공격자 0.4초, 탈출 후 수비자 0.3초</td>
-<td>일반 추적 시점으로 보간. 정체 공개를 본 수비자는 복귀 없이 결과 화면으로 전환</td>
+<td>탈취 후 공격자 0.4초,<br>탈출 후 수비자 0.3초</td>
+<td>일반 추적 시점으로 보간.<br>정체 공개를 본 수비자는 복귀 없이<br>결과 화면으로 전환</td>
 <td>입력 잠금, 숨김 해제</td>
 </tr>
 </tbody>
@@ -99,17 +115,17 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 <tbody>
 <tr>
 <td>기본 시점</td>
-<td>오프셋 (0, 2.5, -2.5), 초기 pitch -15°, FOV 60°</td>
+<td>오프셋 (0, 2.5, -2.5),<br>초기 pitch -15°, FOV 60°</td>
 <td>추격 중 경로와 상대 꼬리를 함께 읽음</td>
 </tr>
 <tr>
 <td>달리기 시점</td>
-<td>거리 × 1.108, FOV 69°, 진입 0.4초, 해제 0.65초</td>
+<td>거리 × 1.108, FOV 69°,<br>진입 0.4초, 해제 0.65초</td>
 <td>속도감은 주되 조작을 방해하지 않는 폭</td>
 </tr>
 <tr>
 <td>벽 충돌</td>
-<td>반경 0.2m, 여유 0.04m, 선호 최소 0.8m, 복귀 0.3초</td>
+<td>반경 0.2m, 여유 0.04m,<br>선호 최소 0.8m, 복귀 0.3초</td>
 <td>좁은 골목에서 벽 너머 정보 노출 방지</td>
 </tr>
 <tr>
@@ -119,13 +135,14 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 </tr>
 <tr>
 <td>공개 구도</td>
-<td>실제 머리 범위 기준 거리 (최소 0.7m), 화면 높이 약 60%</td>
+<td>실제 머리 범위 기준 거리 (최소 0.7m),<br>화면 높이 약 60%</td>
 <td>캐릭터 크기, 모자와 무관하게 얼굴을 담음</td>
 </tr>
 </tbody>
 </table>
 <h2>● 실제 화면에서 발견하고 수정한 문제</h2>
-<div class="comparison"><figure><img alt="수비자 시점의 C/V 대결 입력과 게이지" src="../../images/whos-tail/latest-20261018/camera-contest-latest.png"/></figure><figure><img alt="탈취 후 공격자 얼굴이 공개되는 화면" src="../../images/whos-tail/latest-20261018/camera-reveal-latest.png"/></figure></div>
+<div class="comparison"><figure><img src="../../images/whos-tail/latest-20261018/camera-contest-latest.png" alt="수비자 시점의 C/V 대결 입력과 게이지"></figure><figure><img src="../../images/whos-tail/latest-20261018/camera-reveal-latest.png" alt="탈취 후 공격자 얼굴이 공개되는 화면"></figure></div>
+
 <table>
 <thead>
 <tr>
@@ -137,13 +154,13 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 <tbody>
 <tr>
 <td>1</td>
-<td>고정 얼굴 높이가 실제 모델보다 높아 얼굴이 화면 아래로 잘림</td>
-<td>실제 머리, 골반 위치와 머리 범위를 읽어 구도 계산</td>
+<td>고정 얼굴 높이가 실제 모델보다 높아<br>얼굴이 화면 아래로 잘림</td>
+<td>실제 머리, 골반 위치와<br>머리 범위를 읽어 구도 계산</td>
 </tr>
 <tr>
 <td>2</td>
-<td>공개 컷에서 잡힌 본인 모델이 공격자 얼굴을 가림</td>
-<td>해당 카메라의 공개 렌더 중에만 본인 모델을 숨기고 종료, 취소 시 복원</td>
+<td>공개 컷에서 잡힌 본인 모델이<br>공격자 얼굴을 가림</td>
+<td>해당 카메라의 공개 렌더 중에만 본인 모델을 숨기고<br>종료, 취소 시 복원</td>
 </tr>
 <tr>
 <td>3</td>
@@ -165,6 +182,6 @@ em{font-size:12px;color:#62676b;font-style:normal}a{color:#315f80;text-underline
 <h2>● 확인 범위</h2>
 <ul>
 <li><strong>Unity 실제 실행:</strong> 대결 → 탈취 → 정체 공개 → 결과 화면을 실행하여 정체 숨김, 공개, 결과 패널 지연, 입력과 숨김 복원 확인.</li>
-<li><strong>상태 검사:</strong> 보행 14, 벽 충돌 11, 연출 단계 33항목 통과. 연출 단계는 시간을 주입한 검사로 실제 재생 시간 검증과 구분.</li>
+<li><strong>상태 검사:</strong> 보행 14, 벽 충돌 11, 연출 단계 33항목 통과.<br>연출 단계는 시간을 주입한 검사로 실제 재생 시간 검증과 구분.</li>
 <li><strong>미검증:</strong> 배포 빌드, 두 PC 통신, 모든 캐릭터, 벽 배치에서의 구도, 멀미 등 체감 조정.</li>
 </ul></article></body></html>

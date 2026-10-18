@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko"><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><title>management — Who’s Tail</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>management — Who’s Tail</title><style>
 @font-face{font-family:PortfolioPretendard;src:url('../../fonts/Pretendard-Regular.woff2') format('woff2');font-weight:400;font-display:block}
 @font-face{font-family:PortfolioPretendard;src:url('../../fonts/Pretendard-Bold.woff2') format('woff2');font-weight:700;font-display:block}
 @font-face{font-family:PortfolioNanumNeo;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2') format('woff2');font-weight:800;font-display:block}
@@ -18,10 +17,13 @@ a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px
 @media(max-width:1000px){.sheet{width:100%;min-height:0;margin:0;padding:25px 20px}h1{font-size:23px}h2{font-size:20px}p,li{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 .sheet.objects:first-child img{max-height:250px}
 @media print{body{background:#fff}.sheet{margin:0;break-after:page}}
-</style><body><article class="sheet management"><h1>5.1 작업 관리와 회고</h1>
+
+/* Fixed A4 output and deliberate column measure keep phrases together. */
+.sheet{height:1414px;min-height:1414px}table{table-layout:fixed}td:first-child{width:auto}p,li,td{word-break:keep-all;overflow-wrap:normal;text-wrap:pretty}h1,h2,h3{word-break:keep-all;text-wrap:balance}
+</style></head><body><article class="sheet management"><h1>5.1 작업 관리와 회고</h1>
 <h2>● 회의록과 발표 피드백 정리</h2>
-<p>프로젝트 매니징을 맡아 Confluence 회의록의 질문, 답변과 메모를 구조화하고 발표 자료와 피드백을 함께 정리했습니다.</p>
-<table>
+<p>프로젝트 매니징을 맡아 Confluence 회의록의 질문, 답변과 메모를 구조화하고<br/>발표 자료와 피드백을 함께 정리했습니다.</p>
+<table><colgroup><col style="width:34%"/><col style="width:66%"/></colgroup>
 <thead>
 <tr>
 <th>실제 정리한 문서</th>
@@ -44,9 +46,9 @@ a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px
 </tbody>
 </table>
 <h2>● 구현과 통합의 담당 구분</h2>
-<p>개인 브랜치 작업 → 구현 검증 → Unity 패키지 내보내기 → 적용 문서 작성 → 통합 담당자 반영의 흐름을 정리했습니다. 적용 문서에는 필요한 컴포넌트, 연결 조건, 확인 결과와 남은 항목을 기록했습니다.</p>
+<p>개인 브랜치 작업 → 구현 검증 → Unity 패키지 내보내기 → 적용 문서 작성 → 통합 담당자 반영의 흐름을 정리했습니다.<br/>적용 문서에는 필요한 컴포넌트, 연결 조건, 확인 결과와 남은 항목을 기록했습니다.</p>
 <h2>● 회고와 반영</h2>
-<table>
+<table><colgroup><col style="width:40%"/><col style="width:60%"/></colgroup>
 <thead>
 <tr>
 <th>발견한 문제</th>
@@ -63,5 +65,4 @@ a{color:#333;text-underline-offset:3px}a:hover{color:#000}.footer{border-top:1px
 <td>제작 완료와 적용 완료를 구분하고 표본 자세 대조와 상태 전환 확인을 인계 내용에 포함</td>
 </tr>
 </tbody>
-</table>
-</article></body></html>
+</table></article></body></html>
