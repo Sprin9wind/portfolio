@@ -1,18 +1,43 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>캐릭터 동작과 연출 전달</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}*{box-sizing:border-box}body{margin:0;background:#e7e7e7;color:#222;font:16px/1.65 P,sans-serif}.sheet{width:1000px;height:1414px;padding:42px 48px;background:#fff;margin:24px auto;overflow:hidden}h1{font:800 27px/1.45 N,sans-serif;margin:0 0 36px;padding:10px 14px;background:#ddd}h2{font:800 19px/1.5 N,sans-serif;margin:30px 0 14px}h1+h2{margin-top:0}p{margin:12px 0}ul{padding-left:23px;margin:10px 0}li{margin:8px 0}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:15px;line-height:1.65;margin:14px 0 22px}th,td{padding:10px 12px;border:1px solid #bbb;vertical-align:top;text-align:left;overflow-wrap:anywhere}th{background:#dedede;font-weight:700}th:first-child{width:22%}code{font:14px P,sans-serif}.flow{display:flex;align-items:center;gap:9px;margin:24px 0 30px}.flow>div{flex:1;min-width:0;text-align:center;border:1.5px solid #888;background:#f5f5f5;padding:16px 7px;line-height:1.55;font-weight:700}.flow small{display:block;font-weight:400;font-size:13px}.flow>b{font-size:23px;color:#666}.flow .timed{min-width:36px;text-align:center}.flow .timed small{font-size:11px;white-space:nowrap}.town{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;border-bottom:4px solid #777;margin:30px 0;padding-bottom:12px}.town>div{background:#f4f4f4;border:1px solid #888;padding:25px 5px;text-align:center;font-weight:700}.town small{display:block;font-weight:400;font-size:12px;margin-top:8px}.return-line{text-align:center;padding:8px;border-bottom:1px solid #888}.outcomes{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:12px;margin:20px 0 26px}.outcomes>div{border:1px solid #999;background:#f6f6f6;padding:18px 12px;text-align:center}.outcomes p{margin:8px 0 0}.formula{border:1px solid #aaa;background:#f4f4f4;padding:20px;margin:18px 0;font-size:18px}@media print{body{background:white}.sheet{margin:0;break-after:page}}table{line-height:1.55}th,td{padding:7px 10px}.flow{margin:20px 0 24px}.flow>div{padding:13px 7px}h2{margin-top:28px}body{line-height:1.6}body{word-break:keep-all}th:first-child:nth-last-child(2){width:28%}th:first-child:nth-last-child(4){width:18%}th:nth-child(2):nth-last-child(3){width:30%}th:nth-child(3):nth-last-child(2){width:35%}</style></head><body><article class="sheet"><h1>캐릭터 동작과 연출 전달</h1>
-<h2>● 동작을 제작 단위로 나누기</h2>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>캐릭터 연출 기획_더블 점프</title><style>
+@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}
+@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
+@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
+*{box-sizing:border-box}body{margin:0;background:#dedfe1;color:#152326;font:18px/1.55 P,sans-serif;word-break:keep-all}
+.sheet{position:relative;width:1800px;height:1200px;padding:42px 68px 52px;background:#f3f3f5;margin:24px auto;overflow:hidden}
+header{height:84px;position:relative;text-align:center}header span{position:absolute;left:0;top:3px;background:#10282b;color:white;border-radius:30px;padding:10px 22px;font-size:15px}
+h1{display:inline-block;min-width:600px;font-size:32px;line-height:1.4;margin:0;padding:0 35px 13px;border-bottom:1px solid #14292b}
+h1,h2{font-family:N,sans-serif;font-weight:800}h2{font-size:22px;line-height:1.35;margin:0 0 16px}p{margin:10px 0}ul{padding-left:22px;margin:0}li{margin:8px 0}
+.hero{height:230px;margin:0 0 25px;border-bottom:1px solid #a6b0b0;display:flex;align-items:center;justify-content:center;gap:45px;padding:6px 15px 24px}
+.hero img{width:650px;height:205px;object-fit:contain;mix-blend-mode:multiply}
+.hero-copy{width:520px}.hero-copy h2{font-size:25px}.hero-copy p{font-size:18px}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:48px}.column section{margin-bottom:25px}.column section+section{padding-top:22px;border-top:1px solid #c4cbcb}
+table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:16px;line-height:1.45;margin:12px 0}
+th,td{border:1px solid #a6acad;padding:8px 12px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+th{background:#dce1e1;font-weight:700}th:first-child{width:23%}code{font:15px P,sans-serif}
+th:first-child:nth-last-child(4){width:15%}th:nth-child(2):nth-last-child(3){width:36%}th:nth-child(3):nth-last-child(2){width:32%}
+.flow{display:flex;align-items:center;gap:14px;width:100%;margin:18px 0}.flow>div{flex:1;text-align:center;border:1px solid #809092;background:#fff;padding:14px 10px;font-weight:700}
+.flow>b{font-size:27px}.flow small{display:block;font-size:16px;font-weight:400;margin-top:8px}
+.hero .flow>div{padding:24px 12px;font-size:22px}.hero .flow{margin:0}
+.town{display:flex;align-items:end;width:100%;gap:24px;padding-bottom:16px}
+.town>div{flex:1;text-align:center;font-weight:700;font-size:23px;padding:22px 10px;background:#e1e7e7;border-top:4px solid #455f61}
+.town small{display:block;font-weight:400;font-size:17px;margin-top:12px}
+.return-line{text-align:right;font-size:18px;margin:10px 0 0;border-bottom:1px solid #7c9192;padding-bottom:10px}
+.hero.route{display:block;padding-top:15px}.hero.route .flow>div{padding:18px 8px}
+.hero.actions{height:210px}.hero.actions .flow small{font-size:18px}
+.foot{position:absolute;bottom:25px;left:68px;right:68px;display:flex;justify-content:space-between;font-size:13px;color:#657678;border-top:1px solid #bac4c5;padding-top:10px}
+@media print{body{background:white}.sheet{margin:0;break-after:page}}
+</style></head><body><article class="sheet" style="height:960px"><header><span>캐릭터</span><h1>캐릭터 연출 기획_더블 점프</h1></header><div class="hero actions"><div class="flow"><div>준비<small>기본 점프에서 연결</small></div><b>→</b><div>액션<small>공중에서 한 바퀴 회전</small></div><b>→</b><div>마무리<small>기본 점프의 착지 동작</small></div></div></div><div class="columns"><div class="column"><section><h2>연출 개요</h2>
 <ul>
-<li>더블 점프, 기본 공격, 패링, 슬라이딩 등 주요 동작의 애니메이션, 이펙트, 사운드를 정의한다.</li>
-<li>동작을 <strong>준비 → 액션 → 마무리</strong>로 나눠 시작과 종료 자세를 연결한다. 각 구간에 필요한 리소스, 반복 여부, 재생 시간을 작성한다.</li>
-<li>참고 이미지와 영상은 동작의 방향을 설명하는 자료로 사용하고, 실제 제작할 리소스의 이름과 규격은 별도로 명시한다.</li>
+<li>기본 점프 중 공중에서 한 바퀴 더 회전하는 동작이다. 회전은 한 번 재생하고, 마무리는 기본 점프의 착지 동작으로 이어진다.</li>
+<li>공중 회전 애니메이션에 먼지와 구름 형태의 잔상 이펙트를 조합한다. 사운드는 기본 점프와 동일한 리소스를 사용한다.</li>
 </ul>
-<div class="flow"><div>준비<br><small>이전 동작과 연결</small></div><b>→</b><div>액션<br><small>핵심 움직임과 효과</small></div><b>→</b><div>마무리<br><small>착지 등 후속 자세 연결</small></div></div>
 
-<h2>● 더블 점프의 움직임</h2>
+</section><section><h2>동작 구성</h2>
 <table>
 <thead>
 <tr>
 <th>단계</th>
-<th>애니메이션 지시</th>
+<th>애니메이션</th>
 </tr>
 </thead>
 <tbody>
@@ -30,7 +55,7 @@
 </tr>
 </tbody>
 </table>
-<h2>● 같은 동작에 필요한 리소스</h2>
+</section></div><div class="column"><section><h2>리소스 구성</h2>
 <table>
 <thead>
 <tr>
@@ -61,36 +86,8 @@
 </tr>
 </tbody>
 </table>
-<h2>● 제작 요청에 포함할 정보</h2>
-<table>
-<thead>
-<tr>
-<th>항목</th>
-<th>전달 목적</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>시작과 종료 자세</td>
-<td>앞뒤 동작을 연결할 기준을 제공한다.</td>
-</tr>
-<tr>
-<td>동작 설명</td>
-<td>어떤 움직임을 표현해야 하는지 구체화한다.</td>
-</tr>
-<tr>
-<td>리소스명</td>
-<td>제작 파일과 게임에서 사용할 대상을 대응시킨다.</td>
-</tr>
-<tr>
-<td>반복 여부와 재생 시간</td>
-<td>반복 동작과 일회성 동작을 구분하고 길이를 맞춘다.</td>
-</tr>
-<tr>
-<td>참고 이미지와 영상</td>
-<td>움직임, 잔상, 분위기의 방향을 공유한다.</td>
-</tr>
-</tbody>
-</table>
-<h2>● 기획과 제작의 역할</h2>
-<p>동작의 구성과 제작 기준을 기획해 아트 작업에 전달한다. 완성된 애니메이션 초안은 팀의 제작 결과로 구분하고, 기획한 동작과 연결되는지 확인하는 자료로 사용한다.</p></article></body></html>
+</section><section><h2>효과와 사운드</h2>
+<ul>
+<li>이펙트는 먼지와 구름 형태의 잔상으로 표현하며, 한 번 재생한다. 재생 시간은 200ms다.</li>
+<li>사운드는 기본 점프와 동일한 Player_Jump_sound를 사용한다. 한 번 재생하며 재생 시간은 200ms다.</li>
+</ul></section></div></div></article></body></html>
