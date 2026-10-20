@@ -474,4 +474,4 @@ Who’s Tail 소개를 동시 추격·경계, 저항, 위험·보상 중심으�
 - 포수 시뮬레이터 3쪽은 원본 기획서 스타일의 가로형으로 바꾸고 문장과 수치를 보존했다. 메이플 코어 루프 문장, 외노자 회고 이미지의 흰 배경, 전체 프로젝트 카드 기간 표시를 반영했다.
 - 16쪽 렌더, 40개 반응형·테마 조건, 이미지 확대와 스크립트 파싱을 확인했다. Claude Opus 5.5 교차검토에서 발견한 스케치의 글자·꼬리 부착 위치를 수정하고 재검증했다. 기록: `.work/ai-runs/portfolio-feedback-20261020/`; 서버 반영: 하위 `release/record.json`.
 
-- 2026-10-20: Who’s Tail 꼬리 도식의 왼쪽 캐릭터 원본을 유지하고 오른쪽 확대 도식에만 본을 표시하도록 정정. 원고·이미지·캐시 참조를 갱신하고 Claude 교차검토 통과. 극락가신당 공개 기획서 4장은 390/942/1440px 밝은·어두운 모드에서 클릭 전 표시 확인; 미표시 현상은 재현되지 않음. 근거: `.work/ai-runs/portfolio-feedback-20261020/tail-right-*`, `shrine-live-qa.json`, `release/tail-right/`.
+- 2026-10-20: Who’s Tail 꼬리 도식의 왼쪽 캐릭터 원본을 유지하고 오른쪽 확대 도식에만 본을 표시하도록 정정. 원고·이미지·캐시 참조를 갱신하고 Claude 교차검토 통과. 극락가신당은 초기 일반 로딩 검사에서는 정상 표시됐지만, 전체 이미지를 먼저 로딩하고 긴 문서로 이동하는 PC 조건에서 본문이 투명하게 남는 현상을 추가 재현했다. `.doc-sec.rv`에 `opacity:1`을 명시해 본문이 등장 효과와 무관하게 표시되도록 수정했다. 근거: `.work/ai-runs/portfolio-feedback-20261020/tail-right-*`, `shrine-local-qa.json`, `release/tail-right/visibility-failure.json`, `release/shrine-visibility/`.
