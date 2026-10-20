@@ -344,6 +344,7 @@ tr:last-child th,tr:last-child td{border-bottom:0}
 .wt-pages a,.wt-compare figure>a{display:block}
 .wt-pages img,.wt-compare img{width:100%;height:auto;margin:0;border-radius:10px;border:1px solid var(--line);box-shadow:var(--shadow)}
 .wt-pages a:focus-visible,.wt-compare a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.wt-pages.sos-documents{grid-template-columns:1fr;max-width:1080px;gap:24px}
 .wt-compare video{display:block;width:100%;aspect-ratio:16/10;object-fit:contain;background:#20272b;border-radius:10px}
 .wt-pages.shrine-pages{gap:12px;margin:24px 0 40px;padding:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;align-items:stretch}
 .wt-pages.shrine-pages figure{background:#f1f2f4}
@@ -423,7 +424,7 @@ h1,h2,h3,h4,.hero-role{font-family:NanumSquareNeoExtraBold,Pretendard,sans-serif
 #previewNotice{padding:12px 20px;background:#315f80;color:white;font:14px Pretendard,sans-serif;text-align:center}#previewNotice a{color:white;text-decoration:underline;margin-left:16px}
 @media(max-width:640px){.pf-columns,[data-columns="2"]{grid-template-columns:minmax(0,1fr)!important}}
 </style>
-<script src="data.js?v=20261021-catcher-flow"></script>
+<script src="data.js?v=20261021-sos-rebuild"></script>
 <script>
 if (new URLSearchParams(location.search).has("preview")){
   let previewLoaded = false;
@@ -627,7 +628,7 @@ function renderPane(){
       <h1>${esc(m.title)}</h1>
       ${m.meta ? `<p class="meta">${esc(m.meta)}</p>` : ""}
       ${linkRow(links, "links", "btn key")}
-      ${m.cover ? `<img class="cover" src="${esc(m.cover)}" alt="${esc(m.title)} 대표 이미지" loading="lazy">` : ""}
+      ${m.cover && !m.hideDetailCover ? `<img class="cover" src="${esc(m.cover)}" alt="${esc(m.title)} 대표 이미지" loading="lazy">` : ""}
     </header>`;
 
   shownLinks = isAbout ? new Set() : new Set(links.map(l => l.url));
