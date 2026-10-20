@@ -475,3 +475,10 @@ Who’s Tail 소개를 동시 추격·경계, 저항, 위험·보상 중심으�
 - 16쪽 렌더, 40개 반응형·테마 조건, 이미지 확대와 스크립트 파싱을 확인했다. Claude Opus 5.5 교차검토에서 발견한 스케치의 글자·꼬리 부착 위치를 수정하고 재검증했다. 기록: `.work/ai-runs/portfolio-feedback-20261020/`; 서버 반영: 하위 `release/record.json`.
 
 - 2026-10-20: Who’s Tail 꼬리 도식의 왼쪽 캐릭터 원본을 유지하고 오른쪽 확대 도식에만 본을 표시하도록 정정. 원고·이미지·캐시 참조를 갱신하고 Claude 교차검토 통과. 극락가신당은 초기 일반 로딩 검사에서는 정상 표시됐지만, 전체 이미지를 먼저 로딩하고 긴 문서로 이동하는 PC 조건에서 본문이 투명하게 남는 현상을 추가 재현했다. `.doc-sec.rv`에 `opacity:1`을 명시해 본문이 등장 효과와 무관하게 표시되도록 수정했다. 근거: `.work/ai-runs/portfolio-feedback-20261020/tail-right-*`, `shrine-local-qa.json`, `release/tail-right/visibility-failure.json`, `release/shrine-visibility/`.
+
+
+## 2026-10-21 극락가신당 원본 기획서 재가공
+
+- 제공받은 PPTX·Excel·PDF를 바탕으로 몬스터 12쪽, 마을·Ch1 맵 13쪽, 플레이어 이동·연출 5쪽을 재구성했다. 원본 그림·색상·태그·표 구조를 유지하고 문장과 줄바꿈, 여백을 정리했다.
+- 어드벤처 항목의 기존 합본 이미지와 중복 요약을 30쪽으로 교체했다. 팀 제작 애니메이션·크레딧과 다른 항목은 보존했다. 편집 원고는 `docs/shrine/source-20261021/`, 출력 이미지는 `images/shrine-specs/source-20261021/`에 둔다.
+- 원본 수치·리소스명 대조, 30쪽 출력 검사, 390/942/1440px 밝은·어두운 테마와 확대 동작 검사를 통과했다. Claude Code 실제 모델 `claude-opus-5-5[1m]`의 독립 검토와 수정 후 검토 모두 ship. 공개 반영 결과와 파일 해시는 `.work/ai-runs/shrine-source-20261021/release.json` 및 `release-manifest.json`에 기록한다.
