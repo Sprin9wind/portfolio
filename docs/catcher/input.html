@@ -1,5 +1,55 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>제스처 입력과 게임의 연결</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}*{box-sizing:border-box}body{margin:0;background:#e7e7e7;color:#222;font:16px/1.65 P,sans-serif}.sheet{width:1000px;height:1414px;padding:42px 48px;background:#fff;margin:24px auto;overflow:hidden}h1{font:800 27px/1.45 N,sans-serif;margin:0 0 36px;padding:10px 14px;background:#ddd}h2{font:800 19px/1.5 N,sans-serif;margin:30px 0 14px}h1+h2{margin-top:0}p{margin:12px 0}ul{padding-left:23px;margin:10px 0}li{margin:8px 0}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:15px;line-height:1.65;margin:14px 0 22px}th,td{padding:10px 12px;border:1px solid #bbb;vertical-align:top;text-align:left;overflow-wrap:anywhere}th{background:#dedede;font-weight:700}th:first-child{width:22%}code{font:14px P,sans-serif}.flow{display:flex;align-items:center;gap:9px;margin:24px 0 30px}.flow>div{flex:1;min-width:0;text-align:center;border:1.5px solid #888;background:#f5f5f5;padding:16px 7px;line-height:1.55;font-weight:700}.flow small{display:block;font-weight:400;font-size:13px}.flow>b{font-size:23px;color:#666}.flow .timed{min-width:36px;text-align:center}.flow .timed small{font-size:11px;white-space:nowrap}.town{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;border-bottom:4px solid #777;margin:30px 0;padding-bottom:12px}.town>div{background:#f4f4f4;border:1px solid #888;padding:25px 5px;text-align:center;font-weight:700}.town small{display:block;font-weight:400;font-size:12px;margin-top:8px}.return-line{text-align:center;padding:8px;border-bottom:1px solid #888}.outcomes{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:12px;margin:20px 0 26px}.outcomes>div{border:1px solid #999;background:#f6f6f6;padding:18px 12px;text-align:center}.outcomes p{margin:8px 0 0}.formula{border:1px solid #aaa;background:#f4f4f4;padding:20px;margin:18px 0;font-size:18px}@media print{body{background:white}.sheet{margin:0;break-after:page}}table{line-height:1.55}th,td{padding:7px 10px}.flow{margin:20px 0 24px}.flow>div{padding:13px 7px}h2{margin-top:28px}body{line-height:1.6}body{word-break:keep-all}th:first-child:nth-last-child(2){width:28%}th:first-child:nth-last-child(4){width:18%}th:nth-child(2):nth-last-child(3){width:30%}th:nth-child(3):nth-last-child(2){width:35%}</style></head><body><article class="sheet"><h1>제스처 입력과 게임의 연결</h1>
-<h2>● 초기 이동 조작에서 포수 사인으로</h2>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>제스처 입력과 게임의 연결</title><style>
+@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}
+@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
+@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
+*{box-sizing:border-box}
+body{margin:0;background:#dedfe1;color:#17191c;font:20px/1.55 P,sans-serif;word-break:keep-all}
+.sheet{position:relative;width:1800px;height:1120px;padding:40px 64px 52px;background:#f3f4f5;margin:24px auto;overflow:hidden}
+header{position:relative;min-height:108px;text-align:center}
+.category{position:absolute;left:0;top:17px;font:800 19px/1.4 N,sans-serif;padding:0 0 11px;border-bottom:4px solid #cfaa17}
+h1{display:inline-block;min-width:760px;margin:0;padding:11px 24px 14px;border-top:3px solid #272b30;border-bottom:1px solid #565b60;font:800 34px/1.4 N,sans-serif}
+h2{font:800 23px/1.4 N,sans-serif;margin:0 0 17px}
+h2:before{content:"";display:inline-block;width:7px;height:17px;background:#353a3f;margin-right:12px}
+p{margin:12px 0 0}ul{margin:0;padding-left:24px}li{margin:10px 0}
+.columns{display:grid;grid-template-columns:1fr 1fr;column-gap:52px}
+.column>section+section{margin-top:29px;padding-top:26px;border-top:1px solid #b7bdc3}
+.hero{margin:0 0 29px;padding:0 0 25px;border-bottom:1px solid #afb7bf}
+.hero h2{font-size:21px;margin-bottom:13px}
+table{border-collapse:collapse;table-layout:fixed;width:100%;font-size:18px;line-height:1.45;margin:15px 0}
+th,td{border:1px solid #9ca4ad;padding:10px 12px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+th{background:#dde1e5;font-weight:700}
+th:first-child{width:23%}table.probability th:first-child{width:31%}
+table.probability th:last-child{background:#c6dced}
+table.probability td:not(:first-child),table.probability th:not(:first-child){text-align:center}
+table.probability tbody tr:last-child{font-weight:700;background:#e9ecef}
+.flow{display:flex;align-items:center;gap:15px;margin:15px 0}
+.flow>div{flex:1;min-width:0;text-align:center;border:2px solid #4891c9;border-radius:6px;background:#fff;padding:18px 12px;line-height:1.45;font-weight:700}
+.flow>div:last-child{border-color:#d5b22a}
+.flow>b{font-size:27px;font-weight:400;color:#34383d}
+.flow small{display:block;font-size:17px;line-height:1.35;font-weight:400;margin-top:7px}
+.flow .timed{width:74px;text-align:center}
+.flow .timed small{font-size:17px;white-space:nowrap}
+.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0 0}
+.outcomes>div{background:#fff;border:1px solid #6a737d;padding:18px;text-align:center}
+.outcomes>div:last-child{grid-column:1/-1}
+.outcomes p{margin:7px 0 0}
+.outcomes strong{font-size:20px}
+.formula{background:#fff;border:1px solid #8d9da9;border-left:5px solid #498fc2;padding:19px 23px;font-size:22px;line-height:1.65;margin:15px 0}
+code{font:18px P,sans-serif}
+.pitch .column:first-child{padding-right:2px}
+.pitch .outcomes>div{padding:14px 10px}
+.pitch table{margin-bottom:0}
+.pitch .input-options table th:first-child{width:23%}
+.probability-page .column:first-child{padding-right:2px}
+.probability-page .column:last-child{padding-left:2px}
+.input-page .column>section+section{margin-top:26px;padding-top:24px}
+.input-page table{font-size:18px}
+.input-page .column:first-child table th:first-child{width:24%}
+.input-page .column:first-child table th:nth-child(2){width:29%}
+.input-page .column:last-child .flow>div{padding:14px 8px}
+.input-page .column:last-child .flow small{font-size:16px}
+@media print{body{background:white}.sheet{margin:0;break-after:page}}
+</style></head><body><article class="sheet input-page"><header><span class="category">제스처 인식</span><h1>제스처 입력과 게임의 연결</h1></header><div class="hero"><div class="flow"><div>웹캠 영상</div><b>→</b><div>손의 특징점<br/><small>MediaPipe</small></div><b>→</b><div>관절 각도<br/><small>벡터 정규화와 내적</small></div><b>→</b><div>제스처 분류<br/><small>OpenCV KNN</small></div></div></div><div class="columns"><div class="column"><section><h2>초기 이동 조작에서 포수 사인으로</h2>
 <table>
 <thead>
 <tr>
@@ -27,15 +77,15 @@
 </tbody>
 </table>
 <p>교수님의 피드백을 바탕으로 이동 키를 대체하던 주제를 포수의 사인 전달로 전환했다. 입력 장치의 차이를 보여주는 데서, 손동작이 게임 속 역할과 직접 연결되도록 방향을 바꾼 것이다.</p>
-<h2>● 손동작을 구분하는 과정</h2>
-<div class="flow"><div>웹캠 영상</div><b>→</b><div>손의 특징점<br><small>MediaPipe</small></div><b>→</b><div>관절 각도<br><small>벡터 정규화와 내적</small></div><b>→</b><div>제스처 분류<br><small>OpenCV KNN</small></div></div>
+</section><section><h2>담당 범위</h2>
+<p>주제와 모델 선정, 제스처 데이터 수집과 인식 프로그램, Unity로 보내는 전송부를 구현했다. 게임 진행 흐름, 타자 정보, 구종별 궤적과 화면 UI의 기초 기획안을 작성하고 야구장과 선수 에셋을 함께 전달했다. 게임을 구성하는 Unity 개발은 팀원이 담당했다.</p></section></div><div class="column"><section><h2>손동작을 구분하는 과정</h2>
 
 <ul>
 <li>MediaPipe로 손의 특징점 좌표를 얻고, 관절 사이 벡터로 각도를 계산한다.</li>
 <li>제스처마다 각도 데이터와 분류 이름을 짝지어 CSV 데이터셋으로 저장한다.</li>
 <li>KNN은 입력 각도와 학습 데이터의 가까운 표본을 비교해 제스처를 분류한다. 손동작의 의미는 구종과 위치에 맞춘 라벨로 정한다.</li>
 </ul>
-<h2>● Unity에 전달하는 정보</h2>
+</section><section><h2>Unity에 전달하는 정보</h2>
 <table>
 <thead>
 <tr>
@@ -57,7 +107,5 @@
 </tr>
 </tbody>
 </table>
-<div class="flow"><div>Python<br><small>인식 결과 + 영상 인코딩</small></div><b>→</b><div>UDP 전송</div><b>→</b><div>Unity<br><small>게임 입력과 카메라 UI</small></div></div>
-
-<h2>● 담당 범위</h2>
-<p>주제와 모델 선정, 제스처 데이터 수집과 인식 프로그램, Unity로 보내는 전송부를 구현했다. 게임 진행 흐름, 타자 정보, 구종별 궤적과 화면 UI의 기초 기획안을 작성하고 야구장과 선수 에셋을 함께 전달했다. 게임을 구성하는 Unity 개발은 팀원이 담당했다.</p></article></body></html>
+<div class="flow"><div>Python<br/><small>인식 결과 + 영상 인코딩</small></div><b>→</b><div>UDP 전송</div><b>→</b><div>Unity<br/><small>게임 입력과 카메라 UI</small></div></div>
+</section></div></div></article></body></html>

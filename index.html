@@ -394,7 +394,7 @@ h1,h2,h3,h4,.hero-role{font-family:NanumSquareNeoExtraBold,Pretendard,sans-serif
 @media(max-width:740px){.nav-in{gap:4px 16px;flex-wrap:wrap;padding-top:6px;padding-bottom:0;min-height:0}.brand{font-size:18px}.nav-act{margin-left:auto}.tabs{order:3;flex:1 1 100%;justify-content:center;margin:0;width:100%;border-bottom:0}.tabs button{flex:1;min-width:0;min-height:38px;padding:8px;font-size:14px}.nav-act .btn{padding:6px 10px}.gallery-heading{padding:24px 0 20px}.gallery-heading h1{font-size:28px}.gallery-heading p{font-size:15px}.project-tools{padding-top:4px}.mini-card{font-size:12px}.project-tools .jump{padding:4px 0}.project-tools .jump button{min-height:36px}}
 @media(max-width:580px){.project-grid{grid-template-columns:1fr;gap:18px}}
 </style>
-<link rel="stylesheet" href="portfolio.css?v=20261019-tools-wt-v5">
+<link rel="stylesheet" href="portfolio.css?v=20261020-feedback">
 </head>
 <body data-design="blue">
 <header class="nav"><div class="wrapx nav-in">
@@ -418,7 +418,7 @@ h1,h2,h3,h4,.hero-role{font-family:NanumSquareNeoExtraBold,Pretendard,sans-serif
 #previewNotice{padding:12px 20px;background:#315f80;color:white;font:14px Pretendard,sans-serif;text-align:center}#previewNotice a{color:white;text-decoration:underline;margin-left:16px}
 @media(max-width:640px){.pf-columns,[data-columns="2"]{grid-template-columns:minmax(0,1fr)!important}}
 </style>
-<script src="data.js?v=20261019-tools-wt-v5"></script>
+<script src="data.js?v=20261020-feedback"></script>
 <script>
 if (new URLSearchParams(location.search).has("preview")){
   let previewLoaded = false;
@@ -589,8 +589,15 @@ function docSection(l, li){
   </section>`;
 }
 
+function projectPeriod(m){
+ const source=document.createElement('template');
+ source.innerHTML=m.lessons?.[0]?.html||'';
+ const row=[...source.content.querySelectorAll('tr')].find(r=>r.cells[0]?.textContent.includes('기간'));
+ const dates=row?.cells[1]?.textContent.match(/\d{4}\.\d{2}(?:\.\d{2})?\s*~\s*(?:개발 중|현재|(?:\d{4}\.)?\d{2}(?:\.\d{2})?)/g);
+ return dates?dates.join(' / '):'';
+}
 function projectGallery(unit){
- return `<section class="project-gallery" id="project-gallery" aria-label="프로젝트 목록"><div class="gallery-heading"><h1>프로젝트</h1><p>게임의 규칙을 설계하고, 구현과 검증으로 구체화한 작업입니다.</p></div><div class="project-grid">${unit.mids.map((m,i)=>`<button type="button" class="project-card" data-m="${i}" aria-label="${esc(m.title)} 프로젝트 보기"><div class="card-image">${m.cover?`<img src="${esc(m.cover)}" alt="" loading="${i<2?'eager':'lazy'}">`:''}</div><div class="card-content"><p class="card-type">${esc(m.projectType||'팀 프로젝트')}</p><h2>${esc(m.title.replace(/ — .*/,''))}</h2><p class="card-summary">${esc(m.summary||m.meta||'')}</p><div class="card-roles">${(m.roles||[]).map(r=>`<span>${esc(r)}</span>`).join('')}</div><span class="card-more">프로젝트 보기 <span aria-hidden="true">↗</span></span></div></button>`).join('')}</div></section>`;
+ return `<section class="project-gallery" id="project-gallery" aria-label="프로젝트 목록"><div class="gallery-heading"><h1>프로젝트</h1><p>게임의 규칙을 설계하고, 구현과 검증으로 구체화한 작업입니다.</p></div><div class="project-grid">${unit.mids.map((m,i)=>`<button type="button" class="project-card" data-m="${i}" aria-label="${esc(m.title)} 프로젝트 보기"><div class="card-image">${m.cover?`<img src="${esc(m.cover)}" alt="" loading="${i<2?'eager':'lazy'}">`:''}</div><div class="card-content"><p class="card-type">${esc(m.projectType||'팀 프로젝트')}</p><h2>${esc(m.title.replace(/ — .*/,''))}</h2>${projectPeriod(m)?`<p class="card-period"><span>기간</span> ${esc(projectPeriod(m))}</p>`:''}<p class="card-summary">${esc(m.summary||m.meta||'')}</p><div class="card-roles">${(m.roles||[]).map(r=>`<span>${esc(r)}</span>`).join('')}</div><span class="card-more">프로젝트 보기 <span aria-hidden="true">↗</span></span></div></button>`).join('')}</div></section>`;
 }
 let navigationSizeObserver;
 function measureNavigation(){
@@ -754,6 +761,6 @@ setTheme(saved || "light");
 
 renderFoot();
 </script>
-<script src="portfolio.js?v=20261019-tools-wt-v5"></script>
+<script src="portfolio.js?v=20261020-feedback"></script>
 </body>
 </html>

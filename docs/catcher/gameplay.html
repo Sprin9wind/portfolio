@@ -1,12 +1,80 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>포수 사인과 이닝 진행</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}*{box-sizing:border-box}body{margin:0;background:#e7e7e7;color:#222;font:16px/1.65 P,sans-serif}.sheet{width:1000px;height:1414px;padding:42px 48px;background:#fff;margin:24px auto;overflow:hidden}h1{font:800 27px/1.45 N,sans-serif;margin:0 0 36px;padding:10px 14px;background:#ddd}h2{font:800 19px/1.5 N,sans-serif;margin:30px 0 14px}h1+h2{margin-top:0}p{margin:12px 0}ul{padding-left:23px;margin:10px 0}li{margin:8px 0}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:15px;line-height:1.65;margin:14px 0 22px}th,td{padding:10px 12px;border:1px solid #bbb;vertical-align:top;text-align:left;overflow-wrap:anywhere}th{background:#dedede;font-weight:700}th:first-child{width:22%}code{font:14px P,sans-serif}.flow{display:flex;align-items:center;gap:9px;margin:24px 0 30px}.flow>div{flex:1;min-width:0;text-align:center;border:1.5px solid #888;background:#f5f5f5;padding:16px 7px;line-height:1.55;font-weight:700}.flow small{display:block;font-weight:400;font-size:13px}.flow>b{font-size:23px;color:#666}.flow .timed{min-width:36px;text-align:center}.flow .timed small{font-size:11px;white-space:nowrap}.town{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;border-bottom:4px solid #777;margin:30px 0;padding-bottom:12px}.town>div{background:#f4f4f4;border:1px solid #888;padding:25px 5px;text-align:center;font-weight:700}.town small{display:block;font-weight:400;font-size:12px;margin-top:8px}.return-line{text-align:center;padding:8px;border-bottom:1px solid #888}.outcomes{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:12px;margin:20px 0 26px}.outcomes>div{border:1px solid #999;background:#f6f6f6;padding:18px 12px;text-align:center}.outcomes p{margin:8px 0 0}.formula{border:1px solid #aaa;background:#f4f4f4;padding:20px;margin:18px 0;font-size:18px}@media print{body{background:white}.sheet{margin:0;break-after:page}}table{line-height:1.55}th,td{padding:7px 10px}.flow{margin:20px 0 24px}.flow>div{padding:13px 7px}h2{margin-top:28px}body{line-height:1.6}body{word-break:keep-all}th:first-child:nth-last-child(2){width:28%}th:first-child:nth-last-child(4){width:18%}th:nth-child(2):nth-last-child(3){width:30%}th:nth-child(3):nth-last-child(2){width:35%}</style></head><body><article class="sheet"><h1>포수 사인과 이닝 진행</h1>
-<h2>● 손동작을 배합 판단으로 연결</h2>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>포수 사인과 이닝 진행</title><style>
+@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2')}
+@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700}
+@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}
+*{box-sizing:border-box}
+body{margin:0;background:#dedfe1;color:#17191c;font:20px/1.55 P,sans-serif;word-break:keep-all}
+.sheet{position:relative;width:1800px;height:1120px;padding:40px 64px 52px;background:#f3f4f5;margin:24px auto;overflow:hidden}
+header{position:relative;min-height:108px;text-align:center}
+.category{position:absolute;left:0;top:17px;font:800 19px/1.4 N,sans-serif;padding:0 0 11px;border-bottom:4px solid #cfaa17}
+h1{display:inline-block;min-width:760px;margin:0;padding:11px 24px 14px;border-top:3px solid #272b30;border-bottom:1px solid #565b60;font:800 34px/1.4 N,sans-serif}
+h2{font:800 23px/1.4 N,sans-serif;margin:0 0 17px}
+h2:before{content:"";display:inline-block;width:7px;height:17px;background:#353a3f;margin-right:12px}
+p{margin:12px 0 0}ul{margin:0;padding-left:24px}li{margin:10px 0}
+.columns{display:grid;grid-template-columns:1fr 1fr;column-gap:52px}
+.column>section+section{margin-top:29px;padding-top:26px;border-top:1px solid #b7bdc3}
+.hero{margin:0 0 29px;padding:0 0 25px;border-bottom:1px solid #afb7bf}
+.hero h2{font-size:21px;margin-bottom:13px}
+table{border-collapse:collapse;table-layout:fixed;width:100%;font-size:18px;line-height:1.45;margin:15px 0}
+th,td{border:1px solid #9ca4ad;padding:10px 12px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+th{background:#dde1e5;font-weight:700}
+th:first-child{width:23%}table.probability th:first-child{width:31%}
+table.probability th:last-child{background:#c6dced}
+table.probability td:not(:first-child),table.probability th:not(:first-child){text-align:center}
+table.probability tbody tr:last-child{font-weight:700;background:#e9ecef}
+.flow{display:flex;align-items:center;gap:15px;margin:15px 0}
+.flow>div{flex:1;min-width:0;text-align:center;border:2px solid #4891c9;border-radius:6px;background:#fff;padding:18px 12px;line-height:1.45;font-weight:700}
+.flow>div:last-child{border-color:#d5b22a}
+.flow>b{font-size:27px;font-weight:400;color:#34383d}
+.flow small{display:block;font-size:17px;line-height:1.35;font-weight:400;margin-top:7px}
+.flow .timed{width:74px;text-align:center}
+.flow .timed small{font-size:17px;white-space:nowrap}
+.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0 0}
+.outcomes>div{background:#fff;border:1px solid #6a737d;padding:18px;text-align:center}
+.outcomes>div:last-child{grid-column:1/-1}
+.outcomes p{margin:7px 0 0}
+.outcomes strong{font-size:20px}
+.formula{background:#fff;border:1px solid #8d9da9;border-left:5px solid #498fc2;padding:19px 23px;font-size:22px;line-height:1.65;margin:15px 0}
+code{font:18px P,sans-serif}
+.pitch .column:first-child{padding-right:2px}
+.pitch .outcomes>div{padding:14px 10px}
+.pitch table{margin-bottom:0}
+.pitch .input-options table th:first-child{width:23%}
+.probability-page .column:first-child{padding-right:2px}
+.probability-page .column:last-child{padding-left:2px}
+.input-page .column>section+section{margin-top:26px;padding-top:24px}
+.input-page table{font-size:18px}
+.input-page .column:first-child table th:first-child{width:24%}
+.input-page .column:first-child table th:nth-child(2){width:29%}
+.input-page .column:last-child .flow>div{padding:14px 8px}
+.input-page .column:last-child .flow small{font-size:16px}
+@media print{body{background:white}.sheet{margin:0;break-after:page}}
+</style></head><body><article class="sheet pitch"><header><span class="category">게임 진행</span><h1>포수 사인과 이닝 진행</h1></header><div class="hero"><div class="flow"><div>타자 정보 확인</div><b>→</b><div>확인 버튼</div><b>→</b><div>구종 사인</div><b class="timed">→<small>5초 후</small></b><div>위치 사인</div><b class="timed">→<small>5초 후</small></b><div>피칭과 타격</div></div></div><div class="columns"><div class="column"><section><h2>손동작을 배합 판단으로 연결</h2>
 <ul>
 <li>플레이어는 포수 역할을 맡아 타자의 특성과 약점을 보고 구종과 투구 위치를 정한다.</li>
 <li>키보드의 이동 입력을 손동작으로 대체하는 데서 나아가, <strong>사인을 내는 행동 자체가 포수의 역할</strong>이 되도록 한다.</li>
 <li>웹캠으로 입력한 사인에 따라 투수가 공을 던지고, 타격 결과와 아웃 카운트에 따라 게임을 진행한다.</li>
 </ul>
-<h2>● 한 번의 투구 흐름</h2>
-<div class="flow"><div>타자 정보 확인</div><b>→</b><div>확인 버튼</div><b>→</b><div>구종 사인</div><b class="timed">→<small>5초 후</small></b><div>위치 사인</div><b class="timed">→<small>5초 후</small></b><div>피칭과 타격</div></div>
+</section><section class="input-options"><h2>입력 선택지</h2>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>종류</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>구종 6종</td>
+<td>패스트볼, 슬라이더, 커브, 체인지업, 투심 패스트볼, 싱커</td>
+</tr>
+<tr>
+<td>위치 9개</td>
+<td>높은 / 가운데 / 낮은 코스 × 몸쪽 / 가운데 / 바깥쪽</td>
+</tr>
+</tbody>
+</table>
+<p>구종과 위치를 나눠 입력받아 두 판단을 순서대로 진행한다. 손을 어디로 움직였는지만 읽는 방식이 아니라, 각 구종과 구역에 대응하는 제스처를 분류해 입력값으로 사용한다.</p></section></div><div class="column"><section><h2>한 번의 투구 흐름</h2>
 
 <table>
 <thead>
@@ -44,43 +112,52 @@
 </tr>
 </tbody>
 </table>
-<h2>● 승패와 반복</h2>
+</section><section><h2>승패와 반복</h2>
 <div class="outcomes"><div><strong>홈런 발생</strong><p>게임 패배</p></div><div><strong>홈런 없음 + 3아웃</strong><p>게임 승리</p></div><div><strong>홈런 없음 + 3아웃 미만</strong><p>타자 정보와 사인 입력 단계로 복귀</p></div></div>
-
-<h2>● 입력 선택지</h2>
-<table>
-<thead>
-<tr>
-<th>구분</th>
-<th>종류</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>구종 6종</td>
-<td>패스트볼, 슬라이더, 커브, 체인지업, 투심 패스트볼, 싱커</td>
-</tr>
-<tr>
-<td>위치 9개</td>
-<td>높은 / 가운데 / 낮은 코스 × 몸쪽 / 가운데 / 바깥쪽</td>
-</tr>
-</tbody>
-</table>
-<p>구종과 위치를 나눠 입력받아 두 판단을 순서대로 진행한다. 손을 어디로 움직였는지만 읽는 방식이 아니라, 각 구종과 구역에 대응하는 제스처를 분류해 입력값으로 사용한다.</p></article><article class="sheet"><h1>타자 약점과 투구 결과</h1>
-<h2>● 타자별 특성이 사인 선택에 주는 의미</h2>
+</section></div></div></article><article class="sheet probability-page"><header><span class="category">타자 정보</span><h1>타자 약점과 투구 결과</h1></header><div class="columns"><div class="column"><section><h2>타자별 특성이 사인 선택에 주는 의미</h2>
 <ul>
 <li>타자마다 결과 확률과 약점 조건을 둔다. 플레이어는 표시된 특성을 보고 구종이나 코스를 선택한다.</li>
 <li>약점은 구종 조건 또는 위치 조건으로 구분한다. 예를 들어 빠른 공에 약한 타자는 패스트볼이나 투심 패스트볼을, 몸쪽 공에 약한 타자는 몸쪽 코스를 조건으로 사용한다.</li>
 <li>약점에 맞춘 사인은 유리한 결과의 확률을 높인다. 특정 사인을 냈다고 결과가 항상 같아지는 구조는 아니다.</li>
 </ul>
-<h2>● 약점 조건에 따른 확률 보정</h2>
-<div class="formula"><strong>조건을 만족하면</strong><br>안타 확률 −5%p / 홈런 확률 −5%p / 스트라이크 확률 +10%p</div>
-
+</section><section><h2>타자 데이터의 구성</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>이름, 타율</td>
+<td>타자 정보를 표시한다. 타율은 기본 안타 확률과 홈런 확률의 합이다.</td>
+</tr>
+<tr>
+<td>Strike / Flyout / Hit / HomeRun</td>
+<td>결과별 확률을 정의한다. 표시용 타율과 안타 결과 확률을 구분한다.</td>
+</tr>
+<tr>
+<td>특성 설명</td>
+<td>플레이어가 구종과 코스를 선택할 단서를 제공한다.</td>
+</tr>
+<tr>
+<td>조건</td>
+<td>입력 구종 또는 위치가 약점에 해당하는지 판단한다.</td>
+</tr>
+</tbody>
+</table>
+</section><section><h2>구현 결과와 보완점</h2>
+<ul>
+<li>약점 보정은 위 확률표의 스트라이크, 플라이아웃, 안타, 홈런 항목을 기준으로 설명한다.</li>
+<li>번트와 파울, 투수도 함께 변화하는 구성은 당시 구현 결과에 포함하지 않는다. 이후 게임의 선택과 변수를 확장할 수 있는 보완 방향이다.</li>
+</ul></section></div><div class="column"><section><h2>약점 조건에 따른 확률 보정</h2>
+<div class="formula"><strong>조건을 만족하면</strong><br/>안타 확률 −5%p / 홈런 확률 −5%p / 스트라이크 확률 +10%p</div>
 <ul>
 <li>소수로 표현한 확률에서 <code>0.05</code>를 빼거나 <code>0.1</code>을 더한다. 기존 확률의 5%를 곱해 줄이는 방식이 아니다.</li>
 <li>플라이아웃 확률은 이 보정에서 바꾸지 않는다.</li>
 </ul>
-<table>
+<table class="probability">
 <thead>
 <tr>
 <th>결과 항목</th>
@@ -117,35 +194,4 @@
 </tbody>
 </table>
 <p>기본 데이터에서 <strong>안타 확률과 홈런 확률의 합은 타율</strong>에 해당한다. 위 예시에서는 21.2% + 10.0% = 31.2%다. 약점 보정을 적용하면 이 합이 21.2%로 줄어든다.</p>
-<h2>● 타자 데이터의 구성</h2>
-<table>
-<thead>
-<tr>
-<th>항목</th>
-<th>역할</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>이름, 타율</td>
-<td>타자 정보를 표시한다. 타율은 기본 안타 확률과 홈런 확률의 합이다.</td>
-</tr>
-<tr>
-<td>Strike / Flyout / Hit / HomeRun</td>
-<td>결과별 확률을 정의한다. 표시용 타율과 안타 결과 확률을 구분한다.</td>
-</tr>
-<tr>
-<td>특성 설명</td>
-<td>플레이어가 구종과 코스를 선택할 단서를 제공한다.</td>
-</tr>
-<tr>
-<td>조건</td>
-<td>입력 구종 또는 위치가 약점에 해당하는지 판단한다.</td>
-</tr>
-</tbody>
-</table>
-<h2>● 구현 결과와 보완점</h2>
-<ul>
-<li>약점 보정은 위 확률표의 스트라이크, 플라이아웃, 안타, 홈런 항목을 기준으로 설명한다.</li>
-<li>번트와 파울, 투수도 함께 변화하는 구성은 당시 구현 결과에 포함하지 않는다. 이후 게임의 선택과 변수를 확장할 수 있는 보완 방향이다.</li>
-</ul></article></body></html>
+</section></div></div></article></body></html>
