@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOS 몬스터 시스템</title><link rel="stylesheet" href="style.css"></head><body><article class="sheet" id="monster-1"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>05 / 07</span></div><h1>몬스터_데이터와 등급별 공략</h1><h2>기본값과 전투 규칙을 나누어 관리</h2>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOS 몬스터 시스템</title><link rel="stylesheet" href="style.css"></head><body><article class="sheet" id="monster-1"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>05 / 07</span></div><h1>몬스터_데이터와 등급별 공략</h1><h2>● 기본값과 전투 규칙을 나누어 관리</h2>
 <div class="data-flow"><b>MonsterTB<br><small>개체의 스탯, 커맨드, 패턴, 드롭</small></b><span>→</span><div><p>MonAtkPatternTB, 공격 효과</p><p>MonToPlayerSeTB, 상태이상</p><p>DropTB, 보상 구성</p></div></div>
 
 <table>
@@ -27,7 +27,7 @@
 </tr>
 </tbody>
 </table>
-<h2>등급에 따라 공략을 이어 간다</h2>
+<h2>● 등급에 따라 공략을 이어 간다</h2>
 <table>
 <thead>
 <tr>
@@ -54,7 +54,7 @@
 </tr>
 </tbody>
 </table>
-<h2>개체 생성, 공격, 보상</h2>
+<h2>● 개체 생성, 공격, 보상</h2>
 <ul>
 <li>ID는 <strong>지역 1자리 + 등급 1자리 + 고유 번호 3자리</strong>다. 예: 10001.</li>
 <li>스탯의 기본 계산은 <strong>기본값 × (1 + (레벨 − 1) × 0.1)</strong>이다. 현재 시뮬레이터는 HP, ATK, DEF, 수명에 적용한 뒤 소수점을 버리고, ATB 속도는 원래 값을 사용한다.</li>

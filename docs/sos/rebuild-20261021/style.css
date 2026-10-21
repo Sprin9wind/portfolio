@@ -24,3 +24,28 @@ table th:first-child{width:24%}
 .note{border-left-width:1px;padding:12px 16px}
 @media(max-width:999px){body{overflow-x:auto}.sheet{margin:0 auto 20px}}
 @media print{@page{size:A4 portrait;margin:0}.sheet{margin:0;break-after:page}}
+
+/* 2026-10-21: Maple Arena document scale; retain A4 geometry and original palette. */
+body{font-size:15.5px;line-height:1.58}
+h1{font-size:26px}
+h2,.ui-pair h2{font-size:18px}
+.lead{font-size:18px}
+table{font-size:15px}
+.eyebrow{font-size:12px}
+.note{font-size:15px}
+.formula{font-size:20px}
+.formula small{font-size:14px}
+.flow b{font-size:18px}
+.flow span{font-size:15px}
+.flow i{font-size:21px}
+.loop{font-size:14px}
+.ui-pair p{font-size:15px}
+.ui-pair .small{font-size:12px}
+.inline-example em{font-size:14px}
+.command-row span{font-size:19px}
+.command-row strong{font-size:15.5px}
+.command p{font-size:15px}
+.data-flow>b{font-size:20px}
+.data-flow small{font-size:15px}
+.data-flow>span{font-size:25px}
+.data-flow p{font-size:15px}
