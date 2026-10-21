@@ -1,4 +1,7 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>외(계인)노(동)자 기획서</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400;font-display:block}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700;font-display:block}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800;font-display:block}*{box-sizing:border-box}body{margin:0;background:#e9e9e9;color:#252525;font-family:P,sans-serif;word-break:keep-all;overflow-wrap:break-word}.sheet{width:1000px;height:1414px;min-height:1414px;padding:40px 48px;margin:24px auto;background:white}h1,h2,h3{font-family:N,sans-serif;font-weight:800;color:#202020}h1{font-size:25px;line-height:1.45;margin:0 0 28px;padding:7px 12px;background:#d9d9d9}h2{font-size:18px;line-height:1.45;margin:42px 0 12px}h1+h2{margin-top:16px}h3{font-size:16px;line-height:1.5;margin:24px 0 10px}p,li{font-size:14.5px;margin:5px 0;line-height:1.6}ul,ol{padding-left:23px;margin:6px 0}table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px;line-height:1.45}th,td{border:1px solid #aaa;padding:6px 9px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}img{display:block;max-width:100%;max-height:360px;width:100%;object-fit:contain;margin:18px auto 24px}code{font-family:inherit;font-size:13px;overflow-wrap:anywhere}blockquote{background:#f4f4f4;border:1px solid #ccc;margin:14px 0;padding:10px 14px}a{color:inherit}.cols,.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}.cols>div>*:first-child{margin-top:0}.comparison figure{margin:0}.comparison img{margin:0}figure{margin:18px 0}.small{font-size:13px}@media print{body{background:#fff}.sheet{margin:0;break-after:page}}</style></head><body><article class="sheet"><h1>대화 시스템_화면 및 진행규칙</h1>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>외(계인)노(동)자 기획서</title><style>@font-face{font-family:P;src:url('../../fonts/Pretendard-Regular.woff2');font-weight:400;font-display:block}@font-face{font-family:P;src:url('../../fonts/Pretendard-Bold.woff2');font-weight:700;font-display:block}@font-face{font-family:N;src:url('../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800;font-display:block}*{box-sizing:border-box}body{margin:0;background:#e9e9e9;color:#252525;font-family:P,sans-serif;word-break:keep-all;overflow-wrap:break-word}.sheet{width:1000px;height:1414px;min-height:1414px;padding:40px 48px;margin:24px auto;background:white}h1,h2,h3{font-family:N,sans-serif;font-weight:800;color:#202020}h1{font-size:25px;line-height:1.45;margin:0 0 28px;padding:7px 12px;background:#d9d9d9}h2{font-size:18px;line-height:1.45;margin:42px 0 12px}h1+h2{margin-top:16px}h3{font-size:16px;line-height:1.5;margin:24px 0 10px}p,li{font-size:14.5px;margin:5px 0;line-height:1.6}ul,ol{padding-left:23px;margin:6px 0}table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px;line-height:1.45}th,td{border:1px solid #aaa;padding:6px 9px;text-align:left;vertical-align:top}th{background:#dedede;font-weight:700}img{display:block;max-width:100%;max-height:360px;width:100%;object-fit:contain;margin:18px auto 24px}code{font-family:inherit;font-size:13px;overflow-wrap:anywhere}blockquote{background:#f4f4f4;border:1px solid #ccc;margin:14px 0;padding:10px 14px}a{color:inherit}.cols,.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}.cols>div>*:first-child{margin-top:0}.comparison figure{margin:0}.comparison img{margin:0}figure{margin:18px 0}.small{font-size:13px}@media print{body{background:#fff}.sheet{margin:0;break-after:page}}
+/* Readable embedded figures and sentence lists. */
+img,svg[role="img"]{border:1px solid #111}ul{list-style:none;padding-left:18px}ul>li{position:relative}ul>li::before{content:"-";position:absolute;left:-15px}p,li{text-wrap:pretty}
+</style></head><body><article class="sheet"><h1>대화 시스템_화면 및 진행규칙</h1>
 <h2>화면 구성</h2>
 <ul>
 <li>1920 × 1080 화면을 기준으로 좌우 이미지 영역(각 500 × 400), 대화창(1800 × 400), 이름 창(320 × 120)을 둔다.</li>
@@ -40,10 +43,16 @@
 <li>한 대사는 최대 4줄(120자)까지 출력한다. 대사를 쓸 때부터 4줄을 넘지 않게 작성한다.</li>
 </ul>
 <h2>화자 이미지</h2>
-<p>말하지 않는 캐릭터의 이미지는 채도를 0으로 낮춰 현재 화자를 구분합니다. 독백일 때는 이미지 한 장만 표시합니다.</p>
+<ul>
+<li>말하지 않는 캐릭터의 이미지는 채도를 0으로 낮춰 현재 화자를 구분합니다.</li>
+<li>독백일 때는 이미지 한 장만 표시합니다.</li>
+</ul>
 <p><img alt="" src="../../images/alien-specs/dialogue-speaker.png" /></p></article><article class="sheet"><h1>대화 시스템_대사 데이터 및 이벤트 연결</h1>
 <h2>이벤트 데이터: 진행 순서</h2>
-<p>챕터마다 이벤트 시트(Event_C1~Event_C5)가 있으며, 이벤트를 차례로 실행해 대화와 미니게임을 불러옵니다. 대화와 미니게임이 같은 이벤트 목록에 있어, 챕터의 진행 순서를 시트 한 장에서 확인할 수 있습니다.</p>
+<ul>
+<li>챕터마다 이벤트 시트(Event_C1~Event_C5)가 있으며, 이벤트를 차례로 실행해 대화와 미니게임을 불러옵니다.</li>
+<li>대화와 미니게임이 같은 이벤트 목록에 있어, 챕터의 진행 순서를 시트 한 장에서 확인할 수 있습니다.</li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -144,7 +153,10 @@
 </tbody>
 </table>
 <h2>대사 데이터: 한 행이 한 대사</h2>
-<p>대사 데이터는 Parameter와 같은 이름의 시트(S1_01 등)로 나뉩니다. 각 행이 다음 행의 ID를 가리키며, Type이 End인 행에서 대화가 끝납니다.</p>
+<ul>
+<li>대사 데이터는 Parameter와 같은 이름의 시트(S1_01 등)로 나뉩니다.</li>
+<li>각 행이 다음 행의 ID를 가리키며, Type이 End인 행에서 대화가 끝납니다.</li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -224,7 +236,10 @@
 </tbody>
 </table></article><article class="sheet"><h1>대화 시스템_선택지 및 분기</h1>
 <h2>선택지 대화의 진행 규칙</h2>
-<p>일반 대화는 화면 터치로 넘어가지만, 선택지가 있는 대화는 플레이어가 버튼을 골라야 다음으로 넘어갑니다. 대사 표시는 <code>DIALOG_TB</code>가, 선택 결과에 따른 이벤트 전환은 <code>DAILY_DATA</code>가 맡도록 나누었습니다.</p>
+<ul>
+<li>일반 대화는 화면 터치로 넘어가지만, 선택지가 있는 대화는 플레이어가 버튼을 골라야 다음으로 넘어갑니다.</li>
+<li>대사 표시는 <code>DIALOG_TB</code>가, 선택 결과에 따른 이벤트 전환은 <code>DAILY_DATA</code>가 맡도록 나누었습니다.</li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -256,7 +271,10 @@
 <li><code>choice</code>가 아닌 대사에는 선택지 버튼을 표시하지 않는다.</li>
 </ul>
 <h2>선택 결과와 다음 이벤트 연결</h2>
-<p>11일차 대화 <code>D11_03_02</code>의 마지막 대사 <code>(신중하게 생각하자…)</code>가 선택지 대화입니다. 이 대화를 부르는 이벤트 <code>D11_E8</code>의 <code>EventType</code>은 <code>Choice</code>이며, <code>NextEvent</code> 목록 가운데 고른 버튼에 해당하는 이벤트로 이동합니다.</p>
+<ul>
+<li>11일차 대화 <code>D11_03_02</code>의 마지막 대사 <code>(신중하게 생각하자…)</code>가 선택지 대화입니다.</li>
+<li>이 대화를 부르는 이벤트 <code>D11_E8</code>의 <code>EventType</code>은 <code>Choice</code>이며, <code>NextEvent</code> 목록 가운데 고른 버튼에 해당하는 이벤트로 이동합니다.</li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -289,4 +307,8 @@
 </tbody>
 </table>
 <h2>데이터 구조의 구분</h2>
-<p>이 선택지 구조는 <code>DIALOG_TB</code>의 <code>ChoiceA/B/C</code>와 <code>DAILY_DATA</code>의 <code>NextEvent</code> 목록을 함께 쓰는 확장안입니다. 스테이지 단위로 관리하는 데이터는 <code>EventData.NextEventID</code>로 이벤트를 연결하며, 이 대사 시트에는 선택지 열이 없습니다. 두 구조의 필드를 섞지 않고 용도에 따라 구분합니다.</p></article></body></html>
+<ul>
+<li>이 선택지 구조는 <code>DIALOG_TB</code>의 <code>ChoiceA/B/C</code>와 <code>DAILY_DATA</code>의 <code>NextEvent</code> 목록을 함께 쓰는 확장안입니다.</li>
+<li>스테이지 단위로 관리하는 데이터는 <code>EventData.NextEventID</code>로 이벤트를 연결하며, 이 대사 시트에는 선택지 열이 없습니다.</li>
+<li>두 구조의 필드를 섞지 않고 용도에 따라 구분합니다.</li>
+</ul></article></body></html>

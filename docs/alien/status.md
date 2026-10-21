@@ -1,6 +1,7 @@
 # 성장 시스템_캐릭터 스테이터스창
 
-외계인 노동자의 지구 체류 서류를 모티프로, 캐릭터 정보를 비자 카드 형태로 구성했습니다. 세계관에 맞는 외형 안에서 현재 스탯과 스킬 관리 기능을 함께 확인하도록 설계했습니다.
+- 외계인 노동자의 지구 체류 서류를 모티프로, 캐릭터 정보를 비자 카드 형태로 구성했습니다.
+- 세계관에 맞는 외형 안에서 현재 스탯과 스킬 관리 기능을 함께 확인하도록 설계했습니다.
 
 ## 진입과 닫기
 
@@ -10,7 +11,7 @@
 
 ## 화면 구성
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="237 46 674 395" style="display:block;width:780px;max-width:100%;margin:16px auto 24px" role="img" aria-label="비자 화면의 캐릭터, 정보, 스탯, 워크 모듈, 장식 영역">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="237 46 674 395" style="display:block;width:720px;max-width:100%;margin:16px auto 24px" role="img" aria-label="비자 화면의 캐릭터, 정보, 스탯, 워크 모듈, 장식 영역">
 <image href="../../images/alien-specs/status-layout.png" width="926" height="455"/><g><circle cx="280" cy="136" r="15" fill="#315f80" stroke="white" stroke-width="2"/><text x="280" y="141" text-anchor="middle" fill="white" font-family="Arial" font-size="17" font-weight="bold">1</text></g><g><circle cx="498" cy="104" r="15" fill="#315f80" stroke="white" stroke-width="2"/><text x="498" y="109" text-anchor="middle" fill="white" font-family="Arial" font-size="17" font-weight="bold">2</text></g><g><circle cx="695" cy="124" r="15" fill="#315f80" stroke="white" stroke-width="2"/><text x="695" y="129" text-anchor="middle" fill="white" font-family="Arial" font-size="17" font-weight="bold">3</text></g><g><circle cx="281" cy="358" r="15" fill="#315f80" stroke="white" stroke-width="2"/><text x="281" y="363" text-anchor="middle" fill="white" font-family="Arial" font-size="17" font-weight="bold">4</text></g><g><circle cx="886" cy="355" r="15" fill="#315f80" stroke="white" stroke-width="2"/><text x="886" y="360" text-anchor="middle" fill="white" font-family="Arial" font-size="17" font-weight="bold">5</text></g><text x="386" y="379" text-anchor="middle" font-size="18" font-family="P" font-weight="700" fill="#383126">워크 모듈</text></svg>
 
 | IDX | 요소 | 표시 및 동작 |
@@ -21,13 +22,16 @@
 | 4 | 워크 모듈 | 버튼을 누르면 스킬의 현재 성능을 확인하고 업그레이드하는 창을 연다. |
 | 5 | 비자 장식 | 바코드, 기계 판독 줄, 도장 등 꾸밈 요소는 글자 가독성을 위해 가장자리 쪽에 둔다. |
 
-스탯 아이콘은 일과 선택·결과 화면에서도 같은 모양을 사용합니다. 화면이 바뀌어도 같은 능력치를 바로 알아볼 수 있도록 합니다.
+- 스탯 아이콘은 일과 선택·결과 화면에서도 같은 모양을 사용합니다.
+- 화면이 바뀌어도 같은 능력치를 바로 알아볼 수 있도록 합니다.
 
 ---
 
 # 성장 시스템_피로도와 미니게임 진입
 
-피로도는 미니게임을 시작할 때 소모하는 플레이 자원입니다. 최대 3개를 보유하며, 소모 후에는 챕터 성과나 휴식 일과로 회복합니다. 화면 오른쪽 위에 남은 수량을 표시해 다음 플레이 가능 여부를 알 수 있도록 합니다.
+- 피로도는 미니게임을 시작할 때 소모하는 플레이 자원입니다.
+- 최대 3개를 보유하며, 소모 후에는 챕터 성과나 휴식 일과로 회복합니다.
+- 화면 오른쪽 위에 남은 수량을 표시해 다음 플레이 가능 여부를 알 수 있도록 합니다.
 
 ## 소모와 회복
 
@@ -53,7 +57,8 @@
 
 # 성장 시스템_휴식과 피로도 회복
 
-휴식 일과를 고를 때 회복될 피로도를 먼저 보여 줍니다. 플레이어가 휴식을 수행하기 전에 회복 효과를 확인하고, 무료 회복을 다시 이용할 수 있는 시점도 알 수 있도록 합니다.
+- 휴식 일과를 고를 때 회복될 피로도를 먼저 보여 줍니다.
+- 플레이어가 휴식을 수행하기 전에 회복 효과를 확인하고, 무료 회복을 다시 이용할 수 있는 시점도 알 수 있도록 합니다.
 
 ## 회복 일과 미리보기와 재사용 대기 시간
 
@@ -79,11 +84,14 @@
 
 # 성장 시스템_성장 스탯
 
-네 가지 스탯의 범위는 0~100입니다. 작업 숙련은 미니게임 성과로, 중력 적응은 챕터 클리어와 자기계발 일과로 올립니다. 지능과 운빨은 일과를 통해 변화합니다.
+- 네 가지 스탯의 범위는 0~100입니다.
+- 작업 숙련은 미니게임 성과로, 중력 적응은 챕터 클리어와 자기계발 일과로 올립니다.
+- 지능과 운빨은 일과를 통해 변화합니다.
 
 ## 작업 숙련
 
-미니게임 종료 시 받는 골드 보너스를 정합니다. 별과 챕터 클리어로만 오르며 줄지 않습니다.
+- 미니게임 종료 시 받는 골드 보너스를 정합니다.
+- 별과 챕터 클리어로만 오르며 줄지 않습니다.
 
 - 누적 획득 별 1개당 5 증가한다. 5개 챕터 × 별 3개를 모두 모으면 75다.
 - 클리어한 챕터(처음 별 1개 획득) 1개당 5 증가한다. 5개 챕터를 모두 클리어하면 25다.
@@ -109,7 +117,8 @@
 
 ## 운빨
 
-미니게임이 끝난 뒤 등장하는 특별 이벤트에서 좋은 이벤트가 나올 확률을 높입니다. 특별 이벤트는 GoodEvent 2종과 BadEvent 2종이며, 기본 확률은 각 25%입니다.
+- 미니게임이 끝난 뒤 등장하는 특별 이벤트에서 좋은 이벤트가 나올 확률을 높입니다.
+- 특별 이벤트는 GoodEvent 2종과 BadEvent 2종이며, 기본 확률은 각 25%입니다.
 
 | 운빨 | 0~24 | 25~49 | 50~74 | 75~100 |
 |---|---|---|---|---|
