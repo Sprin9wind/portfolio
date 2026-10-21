@@ -402,6 +402,46 @@ h1,h2,h3,h4,.hero-role{font-family:NanumSquareNeoExtraBold,Pretendard,sans-serif
 @media(max-width:1000px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:740px){.nav-in{gap:4px 16px;flex-wrap:wrap;padding-top:6px;padding-bottom:0;min-height:0}.brand{font-size:18px}.nav-act{margin-left:auto}.tabs{order:3;flex:1 1 100%;justify-content:center;margin:0;width:100%;border-bottom:0}.tabs button{flex:1;min-width:0;min-height:38px;padding:8px;font-size:14px}.nav-act .btn{padding:6px 10px}.gallery-heading{padding:24px 0 20px}.gallery-heading h1{font-size:28px}.gallery-heading p{font-size:15px}.project-tools{padding-top:4px}.mini-card{font-size:12px}.project-tools .jump{padding:4px 0}.project-tools .jump button{min-height:36px}}
 @media(max-width:580px){.project-grid{grid-template-columns:1fr;gap:18px}}
+
+/* Who's Tail: scoped test report, shared with the standalone source. */
+.tail-report{--tr-paper:#f5f7f6;--tr-ink:#182d2a;--tr-muted:#49615c;--tr-line:#bacbc5;--tr-accent:#196859;background:var(--tr-paper);color:var(--tr-ink);border:1px solid var(--tr-line);margin:28px 0 40px;font:15px/1.75 Pretendard,"Segoe UI",sans-serif;overflow-wrap:anywhere}
+.tail-report *{box-sizing:border-box}
+.tail-report .tr-header{padding:32px 36px 26px;border-bottom:2px solid var(--tr-ink)}
+.tail-report .tr-title{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.tail-report .tr-title h3{font-size:30px;letter-spacing:.025em;line-height:1.2;color:var(--tr-ink);margin:0;font-weight:850}
+.tail-report .tr-title span{font-size:14px;color:var(--tr-muted)}
+.tail-report .tr-subtitle{font-size:20px;font-weight:700;margin:12px 0 20px;color:var(--tr-ink)}
+.tail-report .tr-meta{display:flex;flex-wrap:wrap;gap:8px 24px;font:12px/1.6 Consolas,monospace;color:var(--tr-muted)}
+.tail-report .tr-status{margin:22px 0 0;padding-top:16px;border-top:1px solid var(--tr-line);color:var(--tr-ink)}
+.tail-report .tr-status b{color:var(--tr-accent)}
+.tail-report .tr-part{padding:28px 36px;border-bottom:1px solid var(--tr-line)}
+.tail-report h4{font-size:18px;color:var(--tr-ink);margin:0 0 14px;font-weight:800;line-height:1.5}
+.tail-report p{margin:0 0 14px;color:var(--tr-ink)}
+.tail-report p:last-child{margin-bottom:0}
+.tail-report strong,.tail-report p strong,.tail-report td strong{color:var(--tr-ink)}
+.tail-report .tr-note{font-size:13px;color:var(--tr-muted);margin-top:14px}
+.tail-report table{width:100%;border-collapse:collapse;border:0;border-radius:0;overflow:visible;margin:18px 0;font-size:14px;line-height:1.65;table-layout:fixed}
+.tail-report caption{text-align:left;font-size:12px;color:var(--tr-muted);padding-bottom:10px}
+.tail-report th,.tail-report td{padding:13px 12px;text-align:left;vertical-align:top;border:0;border-bottom:1px solid var(--tr-line);background:transparent;color:var(--tr-ink)}
+.tail-report th{font-size:12px;color:var(--tr-muted);font-weight:700;border-top:1px solid var(--tr-ink);border-bottom:1px solid var(--tr-ink)}
+.tail-report .tr-case{font:12px/1.5 Consolas,monospace;color:var(--tr-accent);display:block;margin-bottom:6px}
+.tail-report figure{margin:22px 0 0;min-width:0}
+.tail-report figure a{display:block}
+.tail-report img{display:block;width:100%;height:auto;border:0;border-radius:0;box-shadow:none;margin:0}
+.tail-report figcaption{font-size:12px;line-height:1.7;color:var(--tr-muted);margin-top:9px}
+.tail-report .tr-figures{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.tail-report .tr-footer{padding:18px 36px;font-size:12px;color:var(--tr-muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.tail-report a{color:var(--tr-accent);text-underline-offset:4px}
+.tail-report a:focus-visible{outline:3px solid var(--tr-accent);outline-offset:5px}
+.tail-report ::selection{background:#c8e4da;color:#182d2a}
+[data-theme="dark"] .tail-report{--tr-paper:#17221f;--tr-ink:#e5eee9;--tr-muted:#aebfb7;--tr-line:#465b52;--tr-accent:#8bd7bd}
+.wt-jira-evidence{display:grid;grid-template-columns:1fr;gap:28px;margin:24px 0 40px}
+.wt-jira-evidence figure{margin:0}.wt-jira-evidence img{width:100%;height:auto;display:block}.wt-jira-evidence figcaption{font-size:13px;color:var(--ink-2);margin-top:9px}
+.wt-pages.sos-monster-gallery{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 18px}.sos-monster-gallery figure h3{font-size:14px;line-height:1.5;min-height:3em;margin:0 0 10px}.sos-monster-gallery figure img{aspect-ratio:2/3;object-fit:contain}
+@media(max-width:640px){.wt-pages.sos-monster-gallery{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 8px}.sos-monster-gallery figure h3{font-size:11px;min-height:4.5em}.sos-monster-gallery figure img{border-radius:4px}}
+@media(max-width:640px){.tail-report .tr-header,.tail-report .tr-part{padding:22px 18px}.tail-report .tr-title h3{font-size:25px}.tail-report .tr-subtitle{font-size:18px}.tail-report .tr-footer{padding:18px}.tail-report .tr-figures{grid-template-columns:1fr;gap:8px}.tail-report table{display:table;overflow:visible}.tail-report thead{display:none}.tail-report tbody,.tail-report tr,.tail-report td{display:block;width:100%}.tail-report tr{padding:14px 0;border-top:1px solid var(--tr-line)}.tail-report td{padding:6px 0;border:0}.tail-report td[data-label]:before{content:attr(data-label);display:block;font-size:11px;color:var(--tr-muted);font-weight:700;margin-bottom:3px}}
+@media print{.tail-report{border:0}.tail-report .tr-part{break-inside:avoid}.tail-report figure{break-inside:avoid}}
+
 </style>
 <link rel="stylesheet" href="portfolio.css?v=20261020-feedback">
 </head>
@@ -427,7 +467,7 @@ h1,h2,h3,h4,.hero-role{font-family:NanumSquareNeoExtraBold,Pretendard,sans-serif
 #previewNotice{padding:12px 20px;background:#315f80;color:white;font:14px Pretendard,sans-serif;text-align:center}#previewNotice a{color:white;text-decoration:underline;margin-left:16px}
 @media(max-width:640px){.pf-columns,[data-columns="2"]{grid-template-columns:minmax(0,1fr)!important}}
 </style>
-<script src="data.js?v=20261022-tail-structured"></script>
+<script src="data.js?v=20261022-tail-report"></script>
 <script>
 if (new URLSearchParams(location.search).has("preview")){
   let previewLoaded = false;
