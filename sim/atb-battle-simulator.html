@@ -40,7 +40,18 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary);padding:16px;font-size:13px}
-.sim{max-width:960px;margin:0 auto}
+.sim-layout{display:grid;grid-template-columns:minmax(0,960px) minmax(250px,300px);gap:20px;max-width:1280px;margin:0 auto;align-items:start}
+.sim{min-width:0}
+.sim-guide{position:sticky;top:16px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:20px;color:var(--color-text-secondary);font-size:13px;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}
+.sim-guide h1{font-size:17px;font-weight:600;color:var(--color-text-primary);margin-bottom:18px}
+.guide-steps{padding-left:22px}
+.guide-steps li{padding-left:4px;margin-bottom:20px}
+.guide-steps li:last-child{margin-bottom:0}
+.guide-steps li::marker{font-weight:600;color:var(--color-text-info)}
+.guide-steps strong{display:block;color:var(--color-text-primary);font-size:13px;margin-bottom:4px}
+.guide-note{border-top:0.5px solid var(--color-border-tertiary);margin-top:20px;padding-top:14px;font-size:12px}
+@media(max-width:900px){.sim-layout{grid-template-columns:minmax(0,1fr);gap:8px;max-width:960px}.sim-guide{position:static}}
+@media(max-width:540px){body{padding:10px}.sim>.grid2{grid-template-columns:minmax(0,1fr)}.sim-guide{padding:18px}.grid2>*{min-width:0}}
 .panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;margin-bottom:8px}
 .panel-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.04em;margin-bottom:10px;text-transform:uppercase}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -110,6 +121,7 @@ select{padding:6px 8px;font-size:12px;border:0.5px solid var(--color-border-seco
 </style>
 </head>
 <body>
+<div class="sim-layout">
 <div class="sim">
 
 <div class="panel" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:10px 14px">
@@ -219,7 +231,7 @@ select{padding:6px 8px;font-size:12px;border:0.5px solid var(--color-border-seco
 </div>
 
 <div class="panel">
-  <div class="panel-title">행동 슬롯 <span style="color:var(--color-text-tertiary);font-weight:400;font-size:10px">게이지 만참 → 황금색 활성화 → 행동 선택 시 발동</span></div>
+  <div class="panel-title">행동 슬롯 <span style="color:var(--color-text-tertiary);font-weight:400;font-size:10px">행동 예약 → ATB 충전 완료 시 발동</span></div>
   <div class="grid4" id="slots">
     <div class="slot empty"><div class="slot-n">1</div><div class="slot-icon"><i class="ti ti-minus"></i></div><div class="slot-label">비어있음</div></div>
     <div class="slot empty"><div class="slot-n">2</div><div class="slot-icon"><i class="ti ti-minus"></i></div><div class="slot-label">비어있음</div></div>
@@ -292,6 +304,18 @@ select{padding:6px 8px;font-size:12px;border:0.5px solid var(--color-border-seco
   </div>
 </div>
 
+</div>
+<aside class="sim-guide" aria-labelledby="guide-title">
+  <h1 id="guide-title">시뮬레이터 사용 방법</h1>
+  <ol class="guide-steps">
+    <li><strong>테이블에서 몬스터 불러오기</strong><p>기본 MonsterTB 테이블은 자동으로 불러옵니다. 다른 데이터를 사용하거나 목록이 비어 있으면 상단 업로드 버튼으로 MonsterTB 시트가 있는 .xlsx 파일을 선택하세요.</p></li>
+    <li><strong>전투 조건 정하기</strong><p>몬스터, 인스턴스 레벨, 확인할 약점 커맨드를 선택합니다. 플레이어 스탯과 공식 변수를 조정한 뒤 <b>전투 시작</b>을 누르세요.</p></li>
+    <li><strong>행동 슬롯에 예약하기</strong><p>전투 시작 후 <b>공격 1, 공격 2, 공격 3</b>을 누르면 빈 슬롯에 차례로 예약됩니다. 방어와 회피도 같은 방식으로 예약할 수 있습니다.</p></li>
+    <li><strong>ATB 충전과 공격 확인하기</strong><p>플레이어의 ATB 게이지가 가득 차면 예약한 행동이 앞에서부터 하나씩 발동합니다. 예약 없이 충전된 슬롯은 황금색으로 표시되며, 이때 행동을 선택하면 즉시 발동합니다.</p></li>
+    <li><strong>로그에서 약점 판정 읽기</strong><p><b>행동 로그</b>의 A, B, C는 각각 공격 1, 2, 3입니다. <b>배틀 로그</b>에서 일반 공격, 약점, COMBO 판정을 확인하세요. 약점은 선택 커맨드에 포함된 공격, COMBO는 공격 기록에서 커맨드 순서가 맞은 경우입니다.</p></li>
+  </ol>
+  <p class="guide-note"><b>다시 비교하려면</b><br>전투를 중지하고 조건을 바꾼 뒤 다시 시작하세요. 전투 시작 시 체력, 수명, 행동 슬롯이 초기화됩니다. <b>초기화</b>를 누르면 로그와 결과 표시도 지워집니다.</p>
+</aside>
 </div>
 <script>
 const $=id=>document.getElementById(id);

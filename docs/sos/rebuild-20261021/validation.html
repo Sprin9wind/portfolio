@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOS 수치 검증</title><link rel="stylesheet" href="style.css"></head><body><article class="sheet" id="validation-1"><div class="eyebrow"><span>SOS · SANDS OF SIN</span><span>06 / 07</span></div><h1>검증_비교 조건과 수명 손익</h1><p class="lead">검증할 가설: 약점을 빠르게 알아내 처치한 전투가, 무작위 공격을 반복한 전투보다 수명 손익이 좋아야 한다.</p>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOS 수치 검증</title><link rel="stylesheet" href="style.css"></head><body><article class="sheet" id="validation-1"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>06 / 07</span></div><h1>검증_비교 조건과 수명 손익</h1><p class="lead">검증할 가설: 약점을 빠르게 알아내 처치한 전투가, 무작위 공격을 반복한 전투보다 수명 손익이 좋아야 한다.</p>
 
 <h2>같은 조건에서 한 가지 차이를 비교</h2>
 <table>
@@ -11,24 +11,24 @@
 </thead>
 <tbody>
 <tr>
-<td>같은 몬스터·레벨·플레이어 스탯</td>
+<td>같은 몬스터, 레벨, 플레이어 스탯</td>
 <td>커맨드 미공략 / 공략</td>
 <td>처치 시간, 행동 횟수, 수명 손익</td>
 </tr>
 <tr>
-<td>같은 커맨드·공격력·방어력</td>
+<td>같은 커맨드, 공격력, 방어력</td>
 <td>ATBSpeed</td>
 <td>충전 시간과 시간 비용</td>
 </tr>
 <tr>
-<td>같은 몬스터·커맨드·스탯</td>
+<td>같은 몬스터, 커맨드, 스탯</td>
 <td>약점 파악 미사용 / 사용</td>
 <td>힌트 비용과 처치 시간 단축분</td>
 </tr>
 <tr>
-<td>같은 등급·레벨·커맨드</td>
+<td>같은 등급, 레벨, 커맨드</td>
 <td>상태이상 유무</td>
-<td>행동 지연과 누적 피해 · 구현 후 비교</td>
+<td>행동 지연과 누적 피해, 구현 후 비교</td>
 </tr>
 </tbody>
 </table>
@@ -36,17 +36,17 @@
 <div class="formula">수명 손익 = 실제 흡수량 − 시간 소모 − 긴급 행동 비용<small>같은 수명 단위로 환산한다. 비용이 포함된 총소모를 썼다면 긴급 비용을 다시 빼지 않는다.</small></div>
 
 <p><strong>계산 예시</strong>: 승리하여 100을 흡수하고 시간에 20, 힌트에 10을 썼다면 손익은 +70이다. 이 숫자는 계산 설명을 위한 예시이며 플레이 측정 결과가 아니다.</p>
-<div class="note"><b>현재 결과 패널의 한계</b> · gained = max(0, 남은 몬스터 수명)을 승패와 무관하게 계산한다. 패배해도 흡수량이 표시될 수 있으므로 패배의 흡수량·손익을 유효한 보상으로 집계하지 않는다. 플레이어 총소모에는 이미 긴급 행동 비용이 포함된다.</div>
+<div class="note"><b>현재 결과 패널의 한계</b>, gained = max(0, 남은 몬스터 수명)을 승패와 무관하게 계산한다. 패배해도 흡수량이 표시될 수 있으므로 패배의 흡수량, 손익을 유효한 보상으로 집계하지 않는다. 플레이어 총소모에는 이미 긴급 행동 비용이 포함된다.</div>
 
 <h2>측정 전에 통과할 조건</h2>
 <ol>
 <li>엑셀의 열과 행이 올바르게 로드되는지, 원본 표와 화면 수치를 대조한다.</li>
-<li>수명 단위·소모율·긴급 비용과 성공 로그의 재사용 범위를 정한다.</li>
+<li>수명 단위, 소모율, 긴급 비용과 성공 로그의 재사용 범위를 정한다.</li>
 <li>승패별 보상 계산을 분리하고, 미구현 규칙은 비교 대상에서 제외한다.</li>
 <li>무작위 패턴의 선택 이력과 반복 횟수를 기록한다. 현재 난수 시드 고정 기능은 없다.</li>
 </ol>
 <h2>남길 기록</h2>
-<p>몬스터 ID·레벨·스탯·커맨드·공식 변수 → 예약·실행 행동·적 패턴·성공 시점 → 승패·전투 시간·양측 소모·실제 흡수·손익 순서로 기록한다. <strong>등급별 목표 전투 시간, 합격 수치, 반복 횟수는 아직 정하지 않았다.</strong></p></article><article class="sheet" id="validation-2"><div class="eyebrow"><span>SOS · SANDS OF SIN</span><span>07 / 07</span></div><h1>검증_구현 차이와 미결 기준</h1><h2>기획 규칙과 현재 시뮬레이터</h2>
+<p>몬스터 ID, 레벨, 스탯, 커맨드, 공식 변수 → 예약, 실행 행동, 적 패턴, 성공 시점 → 승패, 전투 시간, 양측 소모, 실제 흡수, 손익 순서로 기록한다. <strong>등급별 목표 전투 시간, 합격 수치, 반복 횟수는 아직 정하지 않았다.</strong></p></article><article class="sheet" id="validation-2"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>07 / 07</span></div><h1>검증_구현 차이와 미결 기준</h1><h2>기획 규칙과 현재 시뮬레이터</h2>
 <table>
 <thead>
 <tr>
@@ -59,7 +59,7 @@
 <tr>
 <td>행동 예약</td>
 <td>4슬롯, 실행 전 변경</td>
-<td>빈 슬롯 입력만 가능 · 변경 미구현</td>
+<td>빈 슬롯 입력만 가능, 변경 미구현</td>
 </tr>
 <tr>
 <td>입력 대기</td>
@@ -69,17 +69,17 @@
 <tr>
 <td>피해 계산</td>
 <td>기본 ATK−DEF, 커맨드 성공 ×2</td>
-<td>비율 방어식, 성공 ×5 · 버전 구분 필요</td>
+<td>비율 방어식, 성공 ×5, 버전 구분 필요</td>
 </tr>
 <tr>
-<td>방어·회피</td>
+<td>방어, 회피</td>
 <td>같은 행동 중복 예약 제한, 먼저 쓴 대응 처리</td>
 <td>중복 제한 없음, 회피 준비부터 확인</td>
 </tr>
 <tr>
 <td>긴급 행동</td>
 <td>양측 각 1회 행동 후 4종 사용</td>
-<td>시작 직후 사용 가능, 약점 파악·회복만 제공</td>
+<td>시작 직후 사용 가능, 약점 파악, 회복만 제공</td>
 </tr>
 <tr>
 <td>약점 파악</td>
@@ -93,13 +93,13 @@
 </tr>
 <tr>
 <td>상태이상</td>
-<td>지속 턴·갱신·중첩</td>
-<td>미구현, 해당 패턴의 피해 배율·이름만 표시</td>
+<td>지속 턴, 갱신, 중첩</td>
+<td>미구현, 해당 패턴의 피해 배율, 이름만 표시</td>
 </tr>
 </tbody>
 </table>
 <h2>연결된 데이터의 범위</h2>
-<p>현재 시뮬레이터는 <strong>MonsterTB의 스탯·커맨드·패턴 이름과 효과 코드</strong>를 읽는다. 공격 패턴·상태이상·드롭 시트 전체를 실행하는 도구는 아니다. 예를 들어 목패 포졸의 레벨 1 값은 HP 100, ATK 15, DEF 4, 수명 375다. 표의 값이 연결되어도 모든 효과의 동작까지 검증된 것은 아니다.</p>
+<p>현재 시뮬레이터는 <strong>MonsterTB의 스탯, 커맨드, 패턴 이름과 효과 코드</strong>를 읽는다. 공격 패턴, 상태이상, 드롭 시트 전체를 실행하는 도구는 아니다. 예를 들어 목패 포졸의 레벨 1 값은 HP 100, ATK 15, DEF 4, 수명 375다. 표의 값이 연결되어도 모든 효과의 동작까지 검증된 것은 아니다.</p>
 <h2>수명 수치는 한 기준으로 합의하기 전</h2>
 <table>
 <thead>
@@ -127,4 +127,4 @@
 </tr>
 </tbody>
 </table>
-<div class="note"><b>검증 범위</b> · 수식 계산과 코드의 동작 확인은 가능하지만, 밸런스 개선이나 재미 검증이 끝났다는 뜻은 아니다. 먼저 데이터 로딩과 기획 기준을 맞추고, 같은 조건의 반복 측정으로 채택할 값을 결정한다.</div></article></body></html>
+<div class="note"><b>검증 범위</b>, 수식 계산과 코드의 동작 확인은 가능하지만, 밸런스 개선이나 재미 검증이 끝났다는 뜻은 아니다. 먼저 데이터 로딩과 기획 기준을 맞추고, 같은 조건의 반복 측정으로 채택할 값을 결정한다.</div></article></body></html>

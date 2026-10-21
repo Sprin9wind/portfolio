@@ -1,1 +1,26 @@
 @font-face{font-family:Pretendard;src:url('../../../fonts/Pretendard-Regular.woff2');font-weight:400}@font-face{font-family:Pretendard;src:url('../../../fonts/Pretendard-Bold.woff2');font-weight:700}@font-face{font-family:NanumSquareNeo;src:url('../../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800}*{box-sizing:border-box}body{margin:0;background:#e7e7e7;color:#252525;font:20px/1.58 Pretendard,sans-serif;word-break:keep-all;overflow-wrap:break-word}.sheet{width:1200px;min-height:1050px;margin:24px auto;padding:40px 52px 42px;background:#fff;position:relative}.eyebrow{font-size:15px;letter-spacing:.12em;color:#666;display:flex;justify-content:space-between;margin-bottom:12px}h1,h2,h3{font-family:NanumSquareNeo,sans-serif;font-weight:800;line-height:1.35}h1{font-size:30px;margin:0 0 22px;background:#dedede;padding:15px 18px}h2{font-size:23px;margin:24px 0 10px}p{margin:11px 0}.lead{font-size:23px;line-height:1.55;font-weight:700;margin:16px 0 22px}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:18px;line-height:1.5;margin:12px 0 18px}th,td{border:1px solid #bdbdbd;padding:11px 14px;text-align:left;vertical-align:top}th{background:#ebebeb;font-weight:700}tr td:first-child{font-weight:700}table th:first-child{width:24%}li{margin:8px 0}ul,ol{padding-left:27px;margin:12px 0}.note{border-left:4px solid #5f6e78;background:#f1f3f4;padding:14px 18px;margin-top:18px;font-size:19px}.formula{font-size:24px;font-weight:700;background:#f1f1f1;border-top:2px solid #777;padding:18px 22px;margin:12px 0}.formula small{display:block;font-size:17px;font-weight:400;margin-top:6px}.flow{display:flex;align-items:center;gap:14px;margin:23px 0 0}.flow>div{flex:1;border:1px solid #9aa5ab;background:#f6f7f8;padding:17px 20px}.flow b{font-size:22px;display:block;margin-bottom:5px}.flow span{font-size:19px}.flow i{font-style:normal;font-size:25px;color:#65737c}.loop{font-size:17px;color:#535b60;border-bottom:1px solid #ccc;padding:0 0 15px}.ui-pair{display:grid;grid-template-columns:760px 1fr;gap:26px;align-items:start}.ui-pair img{width:760px;height:auto;margin:0}.ui-pair h2{margin:0 0 10px;font-size:21px}.ui-pair p{font-size:18px;margin:9px 0}.ui-pair .small{font-size:15px;color:#666}.inline-example{display:flex;gap:13px;align-items:center;margin:18px 0}.inline-example span{padding:8px 19px;border:1px solid #9ba4a9;background:#f5f6f7}.inline-example em{font-style:normal;font-size:17px;color:#666}.command{background:#f5f6f7;padding:20px 24px;border:1px solid #b7bec2;margin:14px 0}.command-row{display:flex;align-items:center;gap:12px;margin:0 0 12px}.command-row b{width:170px}.command-row span{display:flex;align-items:center;justify-content:center;width:54px;height:48px;border:1px solid #b1b7bb;font-size:23px}.command-row .hit{background:#dce7ec;border:2px solid #486575;font-weight:700}.command-row .skip{color:#777;background:#fff}.command-row strong{margin-left:12px;font-size:19px}.command p{font-size:18px;margin:0}.data-flow{display:flex;gap:25px;align-items:center;margin:15px 0 20px;padding:18px 24px;background:#f3f5f6;border:1px solid #adb7bc}.data-flow>b{min-width:440px;font-size:25px}.data-flow small{font-size:18px;font-weight:400}.data-flow>span{font-size:30px}.data-flow p{margin:3px 0;font-size:19px}@media(max-width:1199px){body{overflow-x:auto}.sheet{margin:0 auto 20px}}@media print{body{background:white}.sheet{margin:0;break-after:page}}
+/* A4 portrait: reflow live text and diagrams without scaling typography. */
+.sheet{width:1000px;height:1414px;min-height:1414px;padding:40px 48px 64px}
+.eyebrow{position:absolute;left:48px;right:48px;bottom:20px;margin:0;letter-spacing:.06em}
+h1{padding:12px 16px;margin-bottom:22px;text-wrap:balance}
+h2{margin:24px 0 10px;text-wrap:balance}
+p,li{text-wrap:pretty}
+th,td{padding:8px 10px}
+table th:first-child{width:24%}
+.flow{gap:12px}
+.flow>div{padding:14px 16px;min-width:0}
+.ui-pair{grid-template-columns:640px minmax(0,1fr);gap:22px}
+.ui-pair img{width:640px;max-width:100%;border:1px solid #111}
+.ui-pair h2{font-size:21px}
+.inline-example{gap:10px;flex-wrap:wrap}
+.inline-example span{padding:8px 15px}
+.command{padding:18px 20px}
+.command-row{gap:10px}
+.command-row b{width:156px;flex-shrink:0}
+.command-row span{flex-shrink:0}
+.data-flow{gap:18px;padding:18px 20px}
+.data-flow>b{min-width:0;flex:1}
+.data-flow>div{flex:1}
+.note{border-left-width:1px;padding:12px 16px}
+@media(max-width:999px){body{overflow-x:auto}.sheet{margin:0 auto 20px}}
+@media print{@page{size:A4 portrait;margin:0}.sheet{margin:0;break-after:page}}
