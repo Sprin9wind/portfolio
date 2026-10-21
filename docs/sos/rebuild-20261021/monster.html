@@ -1,6 +1,6 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOS 몬스터 시스템</title><link rel="stylesheet" href="style.css"></head><body><article class="sheet" id="monster-1"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>05 / 07</span></div><h1>몬스터_데이터와 등급별 공략</h1><h2>● 기본값과 전투 규칙을 나누어 관리</h2>
-<div class="data-flow"><b>MonsterTB<br><small>개체의 스탯, 커맨드, 패턴, 드롭</small></b><span>→</span><div><p>MonAtkPatternTB, 공격 효과</p><p>MonToPlayerSeTB, 상태이상</p><p>DropTB, 보상 구성</p></div></div>
-
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>SOS 몬스터 시스템</title><link href="style.css" rel="stylesheet"/></head><body><article class="sheet" id="monster-1"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>05 / 07</span></div><h1>몬스터_데이터와 등급별 공략</h1><h2>● 기본값과 전투 규칙을 나누어 관리</h2>
+<div class="data-flow"><b>MonsterTB<br/><small>개체의 스탯, 커맨드, 패턴, 드롭</small></b><span>→</span><div><p>MonAtkPatternTB, 공격 효과</p><p>MonToPlayerSeTB, 상태이상</p><p>DropTB, 보상 구성</p></div></div>
 <table>
 <thead>
 <tr>
@@ -57,9 +57,9 @@
 <h2>● 개체 생성, 공격, 보상</h2>
 <ul>
 <li>ID는 <strong>지역 1자리 + 등급 1자리 + 고유 번호 3자리</strong>다. 예: 10001.</li>
-<li>스탯의 기본 계산은 <strong>기본값 × (1 + (레벨 − 1) × 0.1)</strong>이다. 현재 시뮬레이터는 HP, ATK, DEF, 수명에 적용한 뒤 소수점을 버리고, ATB 속도는 원래 값을 사용한다.</li>
-<li>ATB 100%에서 지정된 공격 패턴 3개 중 1개를 무작위 실행한다. 기본 공격 외 강공, 중독, 출혈, 약화, 둔화, 흡수, 혼란, 수면, 축소를 구성한다.</li>
+<li>스탯의 기본 계산은 기본값 × (1 + (레벨 − 1) × 0.1)이다. 기본 데이터와 배치할 개체 레벨을 분리해 같은 몬스터를 다른 난이도로 구성한다.</li>
+<li>ATB 100%에서 지정된 공격 패턴 3개 중 1개를 무작위 실행한다. Pattern1은 기본 공격이며, 다른 패턴에 강공, 중독, 출혈, 약화, 둔화, 흡수, 혼란, 수면, 축소를 연결한다. 적의 별도 방어 행동은 두지 않는다.</li>
 <li>같은 상태이상은 더 긴 지속 턴으로 갱신하고, 다른 상태이상은 동시에 적용한다. <strong>플레이어의 행동 게이지 슬롯이 찰 때 1턴</strong>으로 센다. 중첩 여부는 상태별 정의를 따른다.</li>
 <li><strong>처치 시 획득 수명 = 몬스터 초기 수명 − 전투 중 몬스터가 소모한 수명.</strong> 늦게 처치할수록 남아 있는 보상이 줄어드는 구조다.</li>
 </ul>
-<div class="note">현재 시뮬레이터는 선택한 커맨드 번호로 고정한다. 등급별 전환과 상태이상 지속, 갱신, 중첩은 구현되어 있지 않아, 해당 규칙의 효과를 측정한 결과로 볼 수 없다.</div></article></body></html>
+<h2>● 효과의 해제와 드롭 연결</h2><ul><li>중독, 약화, 둔화, 혼란, 축소는 지속 턴 소진으로 해제하고, 수면은 피격 시 즉시 해제한다. 혼란은 공격 번호를 무작위로 바꾸되 방어, 회피는 정상 처리한다.</li><li>강공은 방어 행동을 무시하고, 흡수는 피해 일부를 몬스터 HP로 회복한다. 상세 배율과 지속 수치는 각 효과 테이블에서 관리한다.</li><li>DropTB에는 장비, 몬스터별 1종 죄악 조각, 기타 아이템의 ID와 기초 드롭 확률을 둔다. LUK 가중치의 세부 수식은 미정이다.</li></ul></article></body></html>

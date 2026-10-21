@@ -14,7 +14,7 @@
 
 변수명 | 변수명(영) | 자료형 | 설명
 
-공격 타입 | MonsterAttackType | bool | 몬스터의 선공 여부 True: 시야·공격 사거리 안에서 먼저 공격 False: 피격 전에는 먼저 공격하지 않음
+공격 타입 | MonsterAttackType | bool | 몬스터의 선공 여부 True: 시야, 공격 사거리 안에서 먼저 공격 False: 피격 전에는 먼저 공격하지 않음
 
 True 이면 캐릭터가 시야에 들어올 때 전투 프로세스를 시작한다.
 
@@ -92,7 +92,7 @@ MonsterAS가 500이면 공격 애니메이션 종료 후 500ms 대기
 ## 5. 디자인 컨셉
 
 
-이름 일꾼 망령 A·B (임시)
+이름 일꾼 망령 A, B (임시)
 
 삐뚤어진 안전모, 몸 곳곳의 생채기, 상의를 벗고 바지를 입은 모습. 발목에는 족쇄가 있고, 오른손에는 돌멩이를 쥐고 있다.
 
@@ -100,11 +100,11 @@ MonsterAS가 500이면 공격 애니메이션 종료 후 500ms 대기
 
 <REF>
 
-![일꾼 망령 A·B (임시) 원본 스케치](../../../images/shrine-specs/source-20261021/monsters/asset-2-6.png)
+![일꾼 망령 A, B (임시) 원본 스케치](../../../images/shrine-specs/source-20261021/monsters/asset-2-6.png)
 
-![일꾼 망령 A·B (임시) 원본 레퍼런스](../../../images/shrine-specs/source-20261021/monsters/asset-2-7.png)
+![일꾼 망령 A, B (임시) 원본 레퍼런스](../../../images/shrine-specs/source-20261021/monsters/asset-2-7.png)
 
-![일꾼 망령 A·B (임시) 원본 레퍼런스](../../../images/shrine-specs/source-20261021/monsters/asset-2-5.png)
+![일꾼 망령 A, B (임시) 원본 레퍼런스](../../../images/shrine-specs/source-20261021/monsters/asset-2-5.png)
 
 
 ---
@@ -112,7 +112,7 @@ MonsterAS가 500이면 공격 애니메이션 종료 후 500ms 대기
 ## 6. 디자인 컨셉
 
 
-이름 일꾼 망령 C·D (임시)
+이름 일꾼 망령 C, D (임시)
 
 누더기 두건을 쓰고, 양손에 족쇄가 있다.
 
@@ -120,11 +120,11 @@ MonsterAS가 500이면 공격 애니메이션 종료 후 500ms 대기
 
 <REF>
 
-![일꾼 망령 C·D (임시) 원본 스케치](../../../images/shrine-specs/source-20261021/monsters/asset-5-6.png)
+![일꾼 망령 C, D (임시) 원본 스케치](../../../images/shrine-specs/source-20261021/monsters/asset-5-6.png)
 
-![일꾼 망령 C·D (임시) 원본 레퍼런스](../../../images/shrine-specs/source-20261021/monsters/asset-5-7.png)
+![일꾼 망령 C, D (임시) 원본 레퍼런스](../../../images/shrine-specs/source-20261021/monsters/asset-5-7.png)
 
-![일꾼 망령 C·D (임시) 원본 레퍼런스](../../../images/shrine-specs/source-20261021/monsters/asset-5-5.png)
+![일꾼 망령 C, D (임시) 원본 레퍼런스](../../../images/shrine-specs/source-20261021/monsters/asset-5-5.png)
 
 
 ---
@@ -136,7 +136,7 @@ MonsterAS가 500이면 공격 애니메이션 종료 후 500ms 대기
 
 안전모를 쓰고, 점프 슈트 같은 한 벌 옷을 입는다. 손에는 각목을 들고, 오른쪽 팔뚝에는 완장을 찬다. 전체적으로 각진 인상이다.
 
-안전모·조끼·완장은 노란색, 옷은 남색 계열. 피부는 어두운 살구색 느낌이다.
+안전모, 조끼, 완장은 노란색, 옷은 남색 계열. 피부는 어두운 살구색 느낌이다.
 
 <REF>
 
@@ -172,7 +172,7 @@ MonsterAS가 500이면 공격 애니메이션 종료 후 500ms 대기
 ## 9. 애니메이션
 
 
-일꾼 망령 A·B
+일꾼 망령 A, B
 
 WorkSpecterA_Ideal
 
@@ -202,7 +202,7 @@ WorkSpecterA_Attack
 ## 10. 애니메이션
 
 
-일꾼 망령 C·D
+일꾼 망령 C, D
 
 WorkSpectorB_Ideal
 
