@@ -75,9 +75,9 @@
 
 | 상황 | 승리한 쪽 남은 체력 | 구간 올림 | 계산 | 패배한 쪽 감소 |
 | --- | --- | --- | --- | --- |
-| 3라운드 패배 | 55% | 60% | 5 <span class="calc-accent">+</span> 6 | 11 |
-| 8라운드 패배 | 45% | 50% | 10 <span class="calc-accent">+</span> 5 | 15 |
-| 12라운드 패배 | 95% | 100% | 15 <span class="calc-accent">+</span> 10 | 25 |
+| 3라운드 패배 | 55% | 60% | 5 + <span class="calc-accent">6</span> | 11 |
+| 8라운드 패배 | 45% | 50% | 10 + <span class="calc-accent">5</span> | 15 |
+| 12라운드 패배 | 95% | 100% | 15 + <span class="calc-accent">10</span> | 25 |
 | 8라운드 무승부 | 없음 | 없음 | 10, <span class="calc-accent">기본만</span> | 양쪽 10 |
 
 - 30초 시간 초과 무승부는 양쪽 모두 패배로 처리한다. 승리한 쪽이 없으므로 기본 피해만 양쪽에 적용한다.
