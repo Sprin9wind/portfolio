@@ -1,103 +1,107 @@
-# 검증_기획과 현재 구현의 차이
+# 검증_기획 규칙과 시뮬레이터 구현 차이
 
-## ● 구현된 범위부터 구분
+<ul class="intro">
+<li>ATB 시뮬레이터는 MonsterTB를 읽어 전투를 재현하는 검증 도구다. <strong>이 쪽의 구현값은 앞 쪽의 기획 규칙을 대체하지 않는다.</strong></li>
+<li>차이가 있는 규칙은 비교 대상에서 빼거나, 구현을 맞춘 뒤 비교한다.</li>
+</ul>
 
-<table class="compare">
-<colgroup><col style="width:16%"/><col style="width:38%"/><col style="width:46%"/></colgroup>
-<thead><tr><th>항목</th><th>기획 기준</th><th>현재 시뮬레이터</th></tr></thead>
+## ● 규칙별 차이
+
+<table class="sm compare">
+<colgroup><col style="width:17%"/><col style="width:37%"/><col style="width:46%"/></colgroup>
+<thead><tr><th>항목</th><th>기획 규칙</th><th>현재 시뮬레이터</th></tr></thead>
 <tbody>
 <tr class="group"><td colspan="3">행동과 입력</td></tr>
-<tr><td>행동 예약, 입력 대기</td><td>4슬롯, 실행 전 변경, 모두 활성 시 입력 대기 동안 플레이어 수명 소모 중지</td><td>빈 슬롯만 입력, 변경 미구현. 4슬롯이 활성화되어도 수명 계속 소모</td></tr>
-<tr><td>방어, 회피</td><td>중복 예약 제한, 먼저 사용한 대응 처리</td><td>중복 제한 없음, 회피 준비부터 확인. 기본 방어 DEF ×2, 회피 확률 50%</td></tr>
-<tr><td>긴급 행동</td><td>양측 각 1회 행동 뒤 4종 사용</td><td>시작 직후 약점 파악, 회복만 사용. 즉시 방어, 후퇴 미구현</td></tr>
-<tr><td>약점 파악</td><td>2회째 첫 슬롯 자동 예약, 횟수별 비용 증가</td><td>첫 공격 이름만 표시, 회당 WEAK_COST 고정(기본 10)</td></tr>
-<tr><td>회복</td><td>이번 전투에서 잃은 HP의 일정 비율, 회복량 비례 수명 비용</td><td>최대 HP의 10% 회복, 고정 HEAL_COST 차감</td></tr>
-<tr class="group"><td colspan="3">피해와 커맨드</td></tr>
-<tr><td>피해 계산</td><td>ATK−DEF, 후보 ×1.1, 성공 ×2</td><td>비율 방어식, 후보 ×1.1, 성공 ×5. 후보와 성공 배율은 중첩하지 않음</td></tr>
-<tr><td>커맨드</td><td>등급별 전환, 성공 이력 재사용 범위 결정 필요</td><td>선택 번호 고정, 성공 수열이 로그에 남으면 이후 공격에도 ×5 반복</td></tr>
-<tr class="group"><td colspan="3">데이터와 결과</td></tr>
-<tr><td>상태, 드롭</td><td>지속 턴, 갱신, 중첩, 드롭 확률</td><td>상태 지속과 드롭 미구현. 패턴 이름과 일부 피해/흡수 효과만 처리</td></tr>
-<tr><td>결과 표시</td><td>적 처치 후 남은 수명 흡수</td><td>승패와 무관하게 max(0, 남은 적 수명)을 흡수량으로 표시. 패배/런 종료의 흡수량과 손익은 실제 획득 보상으로 집계 불가</td></tr>
+<tr><td>예약 수정</td><td>실행 전 슬롯을 골라 수정</td><td>빈 슬롯에만 예약, 수정 없음</td></tr>
+<tr><td>입력 대기</td><td>4개 모두 활성, 선택 없음이면 수명 감소 정지</td><td>0.2초마다 수명 계속 감소</td></tr>
+<tr><td>방어, 회피</td><td>먼저 준비한 하나만 발동, 같은 행동 중복 금지</td><td>중복 제한 없음. 회피를 먼저 판정</td></tr>
+<tr><td>긴급 행동</td><td>양측 1회 행동 뒤 4종 활성</td><td>시작 직후 약점 파악, 회복만 사용. 즉시 방어, 후퇴 없음</td></tr>
+<tr><td>약점 파악</td><td>2회째 첫 슬롯 자동 예약, 횟수별 비용 가중</td><td>2회째 첫 공격 이름만 표시, 회당 WEAK_COST 10 고정</td></tr>
+<tr><td>회복</td><td>잃은 HP의 일정 비율, 회복량 비례 비용</td><td>최대 HP의 10%, HEAL_COST 10 고정</td></tr>
+<tr class="group"><td colspan="3">피해</td></tr>
+<tr><td>기본 피해</td><td>ATK − DEF</td><td>max(1, floor(ATK × 100 ÷ (100 + DEF)))</td></tr>
+<tr><td>커맨드 성공</td><td>× 2.0</td><td>× 5.0 (COMBO_MULT)</td></tr>
+<tr><td>성공 재판정</td><td>정해지지 않음</td><td>성공 수열이 로그에 남으면 이후 공격마다 × 5.0</td></tr>
+<tr><td>적 패턴 배율</td><td>패턴별 DamageRate (Poison 0.5, Sleep 0.3, Confuse 1.0 등)</td><td>PowerAtk 1.3, Absorb 1.15와 피해 30% 흡수, 그 외 상태이상 패턴 0.8 일괄</td></tr>
+<tr><td>방어 행동</td><td>DEF에 따라 일정 수치 감소</td><td>DEF × 2로 다시 계산하며 패턴 배율은 적용하지 않음</td></tr>
+<tr class="group"><td colspan="3">몬스터와 결과</td></tr>
+<tr><td>커맨드 운용</td><td>등급별 무작위 선택, 순차 전환</td><td>사용자가 고른 조합 번호 1개 고정</td></tr>
+<tr><td>레벨 스탯</td><td>등급별 배율, 테스트 후 확정</td><td>HP, ATK, DEF, 수명 × (1 + (레벨 − 1) × 0.1), 소수점 버림. ATB 속도는 그대로</td></tr>
+<tr><td>상태이상, 드롭</td><td>지속 턴, 갱신, 중첩, 드롭 확률</td><td>미구현</td></tr>
+<tr><td>결과 흡수량</td><td>승리 시 남은 적 수명</td><td>승패와 무관하게 max(0, 남은 적 수명) 표시</td></tr>
 </tbody>
 </table>
 
-## ● 현재 구현의 계산 예시
+## ● 같은 입력, 다른 결과
 
-<div class="formula">B = max(1, floor(ATK × 100 ÷ (100 + DEF)))<small>floor는 소수점 버림. ATK 30, DEF 20 → B 25, 후보 27, 성공 125.</small></div>
+<table>
+<colgroup><col style="width:28%"/><col style="width:24%"/><col style="width:24%"/><col style="width:24%"/></colgroup>
+<thead><tr><th>ATK 30, DEF 20</th><th class="num">기본</th><th class="num">약점 후보</th><th class="num">커맨드 성공</th></tr></thead>
+<tbody>
+<tr><td>기획 규칙</td><td class="num">10</td><td class="num">11</td><td class="num">20</td></tr>
+<tr><td>현재 시뮬레이터</td><td class="num">25</td><td class="num">27</td><td class="num">125</td></tr>
+</tbody>
+</table>
+<div class="exc"><b>결과를 읽을 때의 제한</b><ul>
+<li>두 피해식의 결과를 섞어 평가하지 않는다. 시뮬레이터 결과는 현재 구현의 동작 확인이며 밸런스나 재미의 검증이 아니다.</li>
+<li>패배, 런 종료 결과의 흡수량과 손익은 실제 보상으로 집계하지 않는다.</li>
+</ul></div>
 
-<ul>
-<li>방어 시 DEF ×2를 적용하면 같은 조건의 피해는 21이다. PowerAtk는 방어 행동 효과를 무시하지만 기본 DEF까지 0으로 만들지는 않는다.</li>
-<li>기획 피해식과 이 계산을 섞어 평가하지 않는다.</li>
-<li>기본 충전 시간 10초에서 T = 1000 ÷ (100 + ATBSpeed ÷ 5), 충전 중 소모 = T × LIFE_DECAY다. 실제 갱신은 0.2초 간격이다.</li>
-<li>레벨 배율은 HP, ATK, DEF, 수명에 적용 후 소수점을 버리며 ATB 속도는 원래 값을 쓴다.</li>
-</ul>
-
-## ● 연결된 데이터와 결과의 범위
-
-<ul>
-<li>MonsterTB의 스탯, 커맨드, 패턴 이름과 효과 코드를 읽는다. 다른 시트 전체의 규칙을 실행하지 않는다.</li>
-<li>목패 포졸 레벨 1의 원본 값은 HP 100, ATK 15, DEF 4, 수명 375다.</li>
-<li>플레이어 총소모에는 긴급 행동 비용이 이미 포함된다. 손익 계산에서 다시 빼지 않는다.</li>
-<li>수식과 코드의 동작 확인은 밸런스 개선이나 재미 검증 완료를 뜻하지 않는다.</li>
-</ul>
-
-# 검증_비교 조건과 수명 손익
+# 검증_비교 계획과 미결 수치
 
 <ul class="intro">
-<li>검증할 가설: 약점을 빠르게 알아내 처치한 전투가, 무작위 공격을 반복한 전투보다 수명 손익이 좋아야 한다.</li>
+<li><strong>검증할 가설</strong>: 약점을 빠르게 찾아 처치한 전투가, 무작위로 공격한 전투보다 수명 손익이 좋아야 한다.</li>
+<li>아래는 앞으로 수행할 계획이며 측정 결과가 아니다.</li>
 </ul>
 
-## ● 같은 조건에서 한 가지 차이를 비교
+## ● 한 번에 한 조건만 바꾼다
 
 <table>
 <colgroup><col style="width:34%"/><col style="width:26%"/><col style="width:40%"/></colgroup>
-<thead><tr><th>고정할 조건</th><th>비교할 조건</th><th>기록할 결과</th></tr></thead>
+<thead><tr><th>고정할 조건</th><th>바꿀 조건</th><th>기록할 결과</th></tr></thead>
 <tbody>
-<tr><td>같은 몬스터, 레벨, 플레이어 스탯</td><td>커맨드 미공략 / 공략</td><td>처치 시간, 행동 횟수, 수명 손익</td></tr>
-<tr><td>같은 커맨드, 공격력, 방어력</td><td>ATBSpeed</td><td>충전 시간과 시간 비용</td></tr>
-<tr><td>같은 몬스터, 커맨드, 스탯</td><td>약점 파악 미사용 / 사용</td><td>힌트 비용과 처치 시간 단축분</td></tr>
-<tr><td>같은 등급, 레벨, 커맨드</td><td>상태이상 유무</td><td>행동 지연과 누적 피해, 구현 후 비교</td></tr>
+<tr><td>몬스터, 레벨, 플레이어 스탯</td><td>커맨드 미공략 / 공략</td><td>처치 시간, 행동 횟수, 수명 손익</td></tr>
+<tr><td>커맨드, ATK, DEF</td><td>ATBSpeed</td><td>충전 시간, 시간 비용</td></tr>
+<tr><td>몬스터, 커맨드, 스탯</td><td>약점 파악 미사용 / 사용</td><td>약점 파악 비용, 단축된 처치 시간</td></tr>
+<tr><td>등급, 레벨, 커맨드</td><td>상태이상 유무</td><td>행동 지연, 누적 피해. 구현 후 비교</td></tr>
 </tbody>
 </table>
 
-## ● 손익을 읽는 기준
+## ● 수명 손익
 
-<div class="formula">수명 손익 = 실제 흡수량 − 시간 소모 − 긴급 행동 비용<small>같은 수명 단위로 환산한다. 비용이 포함된 총소모를 썼다면 긴급 비용을 다시 빼지 않는다.</small></div>
+<div class="formula">수명 손익 = 실제 흡수량 − 시간 소모 − 긴급 행동 비용<small>같은 수명 단위로 환산한다. 긴급 비용이 포함된 총소모를 썼다면 다시 빼지 않는다.</small></div>
+<p><strong>계산 예시</strong>: 승리해 100을 흡수하고 시간에 20, 약점 파악에 10을 썼다면 손익은 +70이다.</p>
 
-<p><strong>계산 예시</strong>: 승리하여 100을 흡수하고 시간에 20, 힌트에 10을 썼다면 손익은 +70이다. <span class="aside">이 숫자는 계산 설명을 위한 예시이며 플레이 측정 결과가 아니다.</span></p>
-
-## ● 측정 전에 통과할 조건
+<div class="cols">
+<div>
+## ● 측정 전 조건
 
 <ol>
-<li>엑셀의 열과 행이 올바르게 로드되는지, 원본 표와 화면 수치를 대조한다.</li>
-<li>수명 단위, 소모율, 긴급 비용과 성공 로그의 재사용 범위를 정한다.</li>
-<li>승패별 보상 계산을 분리하고, 미구현 규칙은 비교 대상에서 제외한다.</li>
-<li>무작위 패턴의 선택 이력과 반복 횟수를 기록한다. 현재 난수 시드 고정 기능은 없다.</li>
-</ol>
+<li>데이터 시트의 행과 열이 올바르게 읽히는지 원본 표와 대조한다.</li>
+<li>수명 단위, 소모율, 반올림, 긴급 비용, 성공 기록의 재사용 범위를 정한다.</li>
+<li>승패별 보상 계산을 나누고 미구현 규칙은 비교에서 뺀다.</li>
+<li>적 패턴 선택과 반복 횟수를 기록한다. 현재 난수 시드는 고정할 수 없다.</li>
+</ol></div>
+<div>
+## ● 기록 순서
 
-## ● 남길 기록
+<div aria-label="기록 순서" class="rec"><div><span class="nb">1</span> 몬스터 ID, 레벨, 스탯, 커맨드, 공식 변수</div><i>↓</i><div><span class="nb">2</span> 예약, 실행 행동, 적 패턴, 성공 시점</div><i>↓</i><div><span class="nb">3</span> 승패, 전투 시간, 양측 소모, 흡수량, 손익</div></div></div>
+</div>
 
-<div aria-label="기록 순서" class="rec"><div>몬스터 ID, 레벨, 스탯, 커맨드, 공식 변수</div><i>↓</i><div>예약, 실행 행동, 적 패턴, 성공 시점</div><i>↓</i><div>승패, 전투 시간, 양측 소모, 실제 흡수, 손익</div></div>
+## ● 자료마다 다른 수치
 
-<p>위 순서로 기록한다. <strong>등급별 목표 전투 시간, 합격 수치, 반복 횟수는 아직 정하지 않았다.</strong></p>
-
-## ● 검증 전 정리할 수치 기준
-
-<ul>
-<li>아래는 자료 간 차이를 정리한 표이며 확정 규칙이 아니다.</li>
-<li>초기 기획은 일(日) 단위, 시작 60년(21,900일), 일반 300~400일, 엘리트 500~1,000일, 중간보스 3,000일을 기준으로 삼았다.</li>
-<li>검증된 밸런스 수치가 아니며 LF는 수명을 가리키는 표기다.</li>
-</ul>
-
+<p>초기 기획은 일(日) 단위로 시작 수명 60년(21,900일), 일반 300~400일, 엘리트 500~1,000일, 중간보스 3,000일을 기준으로 삼았다. 아래는 확정 규칙이 아니다.</p>
 <table>
-<colgroup><col style="width:40%"/><col style="width:60%"/></colgroup>
-<thead><tr><th>불일치</th><th>남은 결정</th></tr></thead>
+<colgroup><col style="width:44%"/><col style="width:56%"/></colgroup>
+<thead><tr><th>자료 간 차이</th><th>정해야 할 것</th></tr></thead>
 <tbody>
-<tr><td>전투 1초당 1일 / 10일</td><td>수명 단위와 LIFE_DECAY 통일</td></tr>
-<tr><td>약점 파악 −8일 / −10 LF</td><td>단위, 기본 비용, 사용 횟수별 증가 규칙</td></tr>
+<tr><td>전투 1초당 1일 / 10일</td><td>수명 단위, LIFE_DECAY와 소수 처리 기준 통일</td></tr>
+<tr><td>약점 파악 −8일 / −10 LF</td><td>단위, 기본 비용, 횟수별 증가 규칙</td></tr>
 <tr><td>후퇴 0일 / −20일</td><td>후퇴 비용과 패배 손실을 함께 확정</td></tr>
-<tr><td>붉은 처형인 1065일 / Elite 상한 1000일</td><td>개체 예외인지, 기준 또는 테이블 수정 대상인지 결정</td></tr>
+<tr><td>엘리트 초기 기준 500~1,000일 / 시트 난수 범위 900~1,100일</td><td>수명 범위 통일, 난수 대신 고정값을 쓸지 결정</td></tr>
 </tbody>
 </table>
-
-<p class="aside">몬스터 처치로만 수명을 얻고 몬스터를 재생성하지 않는 팀 합의는 반복 사냥으로 수명을 무한히 모으지 못하게 하는 조건이다.</p>
+<div class="exc"><b>정하지 않은 것</b><ul>
+<li>등급별 목표 전투 시간, 합격 수치, 반복 횟수는 아직 정하지 않았다. LF는 수명을 가리키는 표기다.</li>
+<li>몬스터 처치로만 수명을 얻고 재생성하지 않는 팀 합의는 반복 사냥으로 수명을 무한히 모으지 못하게 하는 조건이다.</li>
+</ul></div>

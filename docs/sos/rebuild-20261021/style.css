@@ -1,4 +1,5 @@
-/* SOS 기획서: 외노자 기획서와 같은 문서 언어(회색 제목 막대, 흰 지면, 얇은 테두리, 간결한 표). A4 1000×1414 CSS px. */
+/* SOS 기획서: 외노자·메이플 기획서와 같은 문서 언어(회색 제목 막대, 흰 지면, 번호 주석 도식, 간결한 표). A4 1000×1414 CSS px.
+   2026-10-22 재구성: 목적 → 규칙과 조건 → 예시 → 예외 순서. 기획 규칙, 시뮬레이터 구현 차이, 검증 계획을 쪽 단위로 분리. */
 @font-face{font-family:Pretendard;src:url('../../../fonts/Pretendard-Regular.woff2');font-weight:400;font-display:block}
 @font-face{font-family:Pretendard;src:url('../../../fonts/Pretendard-Bold.woff2');font-weight:700;font-display:block}
 @font-face{font-family:NanumSquareNeo;src:url('../../../fonts/NanumSquareNeo-ExtraBold.woff2');font-weight:800;font-display:block}
@@ -114,5 +115,45 @@ figure.ui .defs{margin:0;border:0;border-top:1px solid #aaa}
 .rec>i{font-style:normal;text-align:center;color:#555;line-height:1.2}
 .tb-map .root .aside{display:block;margin-top:8px;font-size:13.5px}
 
+/* 2026-10-22 재구성 추가 */
+table.sm{font-size:13.5px;line-height:1.45}
+table.sm th,table.sm td{padding:5px 8px}
+td.c,th.c{text-align:center}
+.nb{display:inline-flex;flex:none;width:22px;height:22px;border-radius:50%;background:#222;color:#fff;font:700 12.5px/1 Pretendard,sans-serif;align-items:center;justify-content:center}
+/* 번호 주석 이미지 */
+.anno{position:relative;border:1px solid #111;line-height:0}
+.anno img{width:100%;height:auto}
+.anno .pin{position:absolute;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#fff;color:#111;border:2px solid #111;font:700 15px/1 Pretendard,sans-serif;display:flex;align-items:center;justify-content:center}
+.src{font-size:12.5px;color:#666;margin:6px 0 0;text-align:right}
+/* 예외 상자: 미정, 원문 간 차이 */
+.exc{border:1px solid #888;padding:10px 16px 10px 14px;margin:10px 0 0}
+.exc>b{display:block;font-family:NanumSquareNeo,sans-serif;font-weight:800;font-size:14.5px;margin-bottom:2px}
+.exc li,.exc p{font-size:14.5px;margin:3px 0}
+/* 번호 흐름 */
+.flow{display:flex;align-items:stretch;gap:8px}
+.flow>div{flex:1;border:1px solid #888;padding:10px 12px;min-width:0}
+.flow>div b{display:flex;gap:6px;align-items:center;margin-bottom:4px;font-size:15px}
+.flow>div span{display:block;font-size:14px;line-height:1.5}
+.flow .nb{display:inline-flex;font-size:12.5px;line-height:1}
+.flow>i{align-self:center;font-style:normal;color:#555}
+/* 슬롯 상태 전환 */
+.state{display:grid;grid-template-columns:150px 1fr 150px 1fr 150px;align-items:center;row-gap:16px;margin:6px 0}
+.state>div{border:1px solid #555;padding:9px 8px;text-align:center;font-weight:700;font-size:14.5px;line-height:1.35}
+.state>div small{display:block;font-weight:400;font-size:12.5px;color:#555}
+.state>div.key{border:2px solid #111;background:#ededed}
+.state>em{font-style:normal;font-size:13px;color:#333;text-align:center;position:relative;padding:0 8px 8px}
+.state>em:after{content:"";position:absolute;left:8px;right:12px;bottom:0;border-top:1.5px solid #333}
+.state>em:before{content:"";position:absolute;right:8px;bottom:-4px;border:5px solid transparent;border-left:7px solid #333}
+.state>.blank{border:0;padding:0}
+/* 색 견본 */
+.sw{display:inline-block;width:13px;height:13px;border:1px solid #777;vertical-align:-2px;margin-right:6px}
+/* ID 자리 */
+.idcode{display:inline-flex;gap:3px;font:700 17px/1 Pretendard,sans-serif}
+.idcode span{border:1px solid #555;padding:6px 8px}
+.idcode span.k{background:#e6e6e6}
+
 @media(max-width:999px){body{overflow-x:auto}.sheet{margin:0 auto 20px}}
 @media print{@page{size:A4 portrait;margin:0}body{background:#fff}.sheet{margin:0;break-after:page}}
+
+.status-ref{border-top:1px solid #aaa;margin-top:4px;padding-top:2px;font-size:13.5px}
+.tb-map .leaf>div{padding:6px 12px}
