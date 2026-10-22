@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="light">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +13,7 @@
                 담는 것(카드, 이미지) = 14px, 큰 판 = 20px. 알약 모양은 쓰지 않는다.
    ============================================================ */
 :root{
+  color-scheme:dark;
   --wrap:1080px;
   --nav-h:64px;
   --r-card:14px;
@@ -419,16 +420,12 @@ h1,h2,h3,h4,.hero-role{font-family:NanumSquareNeoExtraBold,Pretendard,sans-serif
 @media(max-width:640px){.wt-pages.sos-monster-gallery{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 8px}.sos-monster-gallery figure h3{font-size:11px;min-height:4.5em}.sos-monster-gallery figure img{border-radius:4px}}
 
 </style>
-<link rel="stylesheet" href="portfolio.css?v=20261020-feedback">
+<link rel="stylesheet" href="portfolio.css?v=20261023-final">
 </head>
 <body data-design="blue">
 <header class="nav"><div class="wrapx nav-in">
   <a class="brand" href="#0-0" id="brand"></a>
   <nav class="tabs" id="tabs" aria-label="섹션"></nav>
-  <div class="nav-act">
-    <button class="btn ghost sm" id="themeToggle" type="button">밝게</button>
-    <a class="btn key sm" href="admin.html">편집</a>
-  </div>
 </div></header>
 
 <main id="view"></main>
@@ -457,8 +454,11 @@ if (new URLSearchParams(location.search).has("preview")){
   } catch(_) {}
   const banner = document.createElement("div"); banner.id = "previewNotice";
   banner.textContent = previewLoaded ? "편집본 미리보기 — 아직 공개 사이트에 반영되지 않은 내용입니다." : "미리보기 내용을 찾지 못해 공개 내용을 표시합니다. 편집기에서 다시 열어 주세요.";
-  const back = document.createElement("a"); back.href = "admin.html" + location.hash; back.textContent = "편집기로 돌아가기";
-  banner.append(back); document.body.prepend(banner);
+  if (previewLoaded) {
+    const back = document.createElement("a"); back.href = "admin.html" + location.hash; back.textContent = "편집기로 돌아가기";
+    banner.append(back);
+  }
+  document.body.prepend(banner);
 }
 </script>
 
@@ -748,7 +748,7 @@ function renderFoot(){
   document.getElementById("foot").innerHTML = `<div class="wrapx foot-in">
     <div class="foot-top">
       ${MAIL ? `<a class="foot-mail" href="mailto:${esc(MAIL)}">${esc(MAIL)}</a>` : `<span class="foot-mail">${esc(PROFILE.name)}</span>`}
-      <nav class="foot-nav" aria-label="아래쪽 이동">${nav}<a href="admin.html">편집</a></nav>
+      <nav class="foot-nav" aria-label="아래쪽 이동">${nav}</nav>
     </div>
     <div class="foot-bot">
       <span>&copy; ${new Date().getFullYear()} ${esc(PROFILE.name)}</span>
@@ -777,26 +777,8 @@ function route(){
 }
 addEventListener("hashchange", route);
 
-/* ---------- 테마 ---------- */
-function setTheme(t){
-  document.documentElement.dataset.theme = t;
-  const b = document.getElementById("themeToggle");
-  if (b){
-    b.textContent = t === "dark" ? "밝게" : "어둡게";
-    b.setAttribute("aria-label", t === "dark" ? "밝은 화면으로 바꾸기" : "어두운 화면으로 바꾸기");
-  }
-  try { localStorage.setItem("pf-theme", t); } catch(_) {}
-}
-document.getElementById("themeToggle").onclick = () =>
-  setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
-
-let saved = null;
-try { saved = localStorage.getItem("pf-theme"); } catch(_) {}
-if (!saved && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) saved = "dark";
-setTheme(saved || "light");
-
 renderFoot();
 </script>
-<script src="portfolio.js?v=20261020-feedback"></script>
+<script src="portfolio.js?v=20261023-final"></script>
 </body>
 </html>

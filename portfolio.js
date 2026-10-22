@@ -4,6 +4,19 @@ const originalPane = renderPane;
 const originalFoot = renderFoot;
 const numberLabel = i => String(i + 1).padStart(2, '0');
 let questObserver;
+const planningPDFs = {
+  'Who’s Tail': 'docs/whos-tail/planning-all.pdf',
+  '메이플 배틀 아레나': 'docs/maple-arena/planning-all.pdf',
+  '외(계인)노(동)자': 'docs/alien/planning-all.pdf'
+};
+function renderPlanningDownloads() {
+  if (curU !== projIx) return;
+  const project = UNITS[curU].mids[curM];
+  const pdf = planningPDFs[project.title];
+  if (!pdf) return;
+  view.querySelector('.pane').insertAdjacentHTML('beforeend',
+    `<nav class="planning-downloads" aria-label="${esc(project.title)} 기획서 PDF"><a class="btn key" href="${pdf}" target="_blank" rel="noopener" aria-label="${esc(project.title)} 기획서 모아보기 (새 탭)">기획서 모아보기</a><a class="btn ghost" href="${pdf}" download="${pdf.split('/')[1]}-planning-all.pdf">PDF 다운로드</a></nav>`);
+}
 function renderBlueLauncher() {
   if (study !== 'blue') return;
   let dock = document.getElementById('blue-launcher');
@@ -73,6 +86,7 @@ function wrapSubsections(doc, className) {
 renderPane = function () {
   document.body.dataset.section = curU === 0 ? 'about' : curU === projIx ? 'projects' : 'activities';
   originalPane();
+  renderPlanningDownloads();
   if (curU === 0) {
     view.querySelectorAll('.doc-sec').forEach((sec,i)=>sec.querySelector('.doc-head').insertAdjacentHTML('afterbegin', `<span class="study-section-no">${numberLabel(i)}</span>`));
     wrapSubsections(view.querySelector('#d1 .doc'),'study-tool-group');
@@ -91,14 +105,4 @@ renderPane = function () {
   renderBlueLauncher();
   measureNavigation();
 };
-// Theme selection in a design study stays separate from the main portfolio preference.
-// Start with the reference's light palette; retain explicit choices when storage is available.
-let savedStudyTheme = 'light';
-try { savedStudyTheme = localStorage.getItem('pf-theme')||'light'; } catch (_) {}
-setTheme = function (t) {
-  document.documentElement.dataset.theme=t;
-  const b=document.getElementById('themeToggle');b.textContent=t==='dark'?'밝게':'어둡게';b.setAttribute('aria-label',t==='dark'?'밝은 화면으로 바꾸기':'어두운 화면으로 바꾸기');
-  try { localStorage.setItem('pf-theme',t); } catch (_) {}
-};
-setTheme(savedStudyTheme);
 route();

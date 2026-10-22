@@ -1,4 +1,7 @@
 /* Project typography and layout come from index.html; preview colors follow each study. */
+.planning-downloads{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:40px 0 16px;padding-top:28px;border-top:1px solid var(--line)}
+.planning-downloads .btn{min-height:44px;text-align:center}
+@media(max-width:480px){.planning-downloads{flex-direction:column}.planning-downloads .btn{width:100%}}
 body[data-design="blue"]{--study-key:#1458d5;--study-paper:#fff;--study-soft:#edf2ff;--study-line:#dfe3ea;--study-text:#242831;--study-muted:#525b69;--study-page:#fafaf9;--study-header:#fff}
 body[data-design="brutal"]{--study-key:#ffbf00;--study-paper:#fdfbef;--study-soft:#ddd1f3;--study-line:#202721;--study-text:#192521;--study-muted:#425c50;--study-page:#c7e3d5;--study-header:#c7e3d5}
 [data-theme="dark"] body[data-design="blue"]{--study-paper:#20242c;--study-soft:#283448;--study-line:#3c4350;--study-text:#f3f5f7;--study-muted:#bec4cf;--study-page:#15181e;--study-header:#1b1f27}
