@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>SOS 몬스터 시스템</title><link href="style.css" rel="stylesheet"/></head><body>
-<article class="sheet" id="monster-1"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>06 / 09</span></div>
+<article class="sheet" id="monster-1">
 <h1>몬스터_데이터 구조와 등급 운용</h1>
 <ul class="intro">
 <li>몬스터는 처치 대상이자 플레이어의 수명을 위협하는 존재다.</li>
@@ -38,7 +38,7 @@
 <div class="gap"></div>
 <section class="sec">
 <h2>● 등급별 약점 커맨드 운용</h2>
-<p>모든 몬스터는 약점 조합(ComboRecipe) 3개를 가진다. 전투 시작 시 등급에 따라 활성화하는 개수와 전환 방식이 달라진다.</p>
+<p>약점 커맨드는 공략에 필요한 공격 번호의 순서다. 모든 몬스터는 약점 조합(ComboRecipe) 3개를 가진다. 전투 시작 시 등급에 따라 활성화하는 개수와 전환 방식이 달라진다.</p>
 <table>
 <colgroup><col style="width:16%"/><col style="width:34%"/><col style="width:50%"/></colgroup>
 <thead><tr><th>등급</th><th>활성 커맨드</th><th>전환 조건</th></tr></thead>
@@ -63,14 +63,11 @@
 <tbody><tr><td>공격 이름</td><td>곤봉 휘두르기</td><td>목패 찍기</td><td>관복 밀치기</td></tr>
 <tr><td>효과</td><td>NormalAtk</td><td>PowerAtk</td><td>Weak</td></tr></tbody>
 </table>
-<div class="exc"><b>예외와 미정</b><ul>
-<li>커맨드가 전환될 때의 시각 피드백은 UI에서 정하기로 했으며 아직 정의되지 않았다.</li>
-<li>스탯은 플레이어 기준 스탯에 등급별 배율을 적용해 산정하며, 수치는 밸런스 테스트 후 확정한다.</li>
-</ul></div>
+
 </section>
 </article>
 
-<article class="sheet" id="monster-2"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>07 / 09</span></div>
+<article class="sheet" id="monster-2">
 <h1>몬스터_공격 효과, 상태이상, 보상</h1>
 <ul class="intro">
 <li>몬스터는 다양한 공격 패턴과 상태이상으로 플레이어를 압박한다.</li>
@@ -129,11 +126,7 @@
 </tbody>
 </table>
 <p>몬스터마다 1종으로 고정된 7대죄 조각은 장비와 별개로 판정한다. 드롭 확률에는 캐릭터의 LUK 가중치를 적용한다.</p>
-<div class="exc"><b>예외와 원문 간 차이</b><ul>
-<li>전투 기획서의 효과는 Shrink를 포함한 9종이고, 데이터 시트는 Bleed를 더하고 축소를 Mini로 적은 10종이다.</li>
-<li>Absorb의 흡수 비율(AbsorbRate)은 비어 있다. LUK 가중치 수식은 캐릭터 기획 담당 범위로 정해지지 않았다.</li>
-<li>SE_Poison은 중첩이 가능해 같은 상태이상의 갱신 규칙과 함께 처리 순서를 정해야 한다.</li>
-</ul></div>
+
 </section>
 </article>
 </body></html>

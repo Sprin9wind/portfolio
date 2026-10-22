@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>SOS 전투 시스템</title><link href="style.css" rel="stylesheet"/></head><body>
-<article class="sheet" id="battle-1"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>01 / 09</span></div>
+<article class="sheet" id="battle-1">
 <h1>전투_핵심 구조와 진행 흐름</h1>
 <ul class="intro">
-<li>적을 처치하면 적이 가진 수명을 흡수해 플레이어의 수명을 늘린다.</li>
-<li>전투 중에도 양측 수명이 계속 줄어들어, <strong>빠르게 처치할수록 얻는 수명이 많다.</strong></li>
-<li>행동 게이지(ATB)가 차면 예약한 행동이 실행되는 1:1 게이지 턴제로 진행한다.</li>
+<li>플레이어와 적이 1:1로 싸우며, 적의 HP를 0으로 만들면 처치한다.</li>
+<li>처치 보상은 적에게 남아 있는 수명이다. 이를 흡수해 플레이어의 수명을 늘린다.</li>
+<li>행동 게이지(ATB)를 충전해 행동한다. 전투가 길어지면 양측 수명이 줄어 <strong>얻을 수 있는 보상도 줄어든다.</strong></li>
 </ul>
 <div class="gap"></div>
 <section class="sec">
 <h2>● 수명 보상과 세 가지 수치</h2>
 <div class="formula">획득 수명 = 몬스터 초기 수명 − 전투 중 몬스터가 소모한 수명<small>몬스터도 행동 게이지가 충전될 때마다 수명이 줄어든다.</small></div>
-<div class="defs"><div><b>HP</b>0이 되면 전투에서 쓰러진다.</div><div><b>수명</b>생존 시간이자 처치 보상이다.</div><div><b>ATB</b>다음 행동까지의 충전량이다.</div></div>
+<div class="defs"><div><b>HP, 체력</b>공격을 견디는 수치다. 피해를 받으면 줄고, 0이면 쓰러진다.</div><div><b>수명, 남은 생존 시간</b>HP와 별개로 줄어든다. 적의 잔여 수명은 처치 시 얻는 보상이다.</div><div><b>ATB, 행동 게이지</b>행동 준비 정도다. 100%가 되면 해당 슬롯에서 행동할 수 있다.</div></div>
 </section>
 <div class="gap"></div>
 <section class="sec">
 <h2>● 진행 흐름</h2>
-<figure aria-label="전투 진행 흐름"><div class="flow">
-<div><b><span class="nb">1</span>진입</b><span>탐험 중 적 타일에 1칸 이내로 인접</span></div><i>→</i>
-<div><b><span class="nb">2</span>충전</b><span>양측 ATB 증가<br/>양측 수명 감소</span></div><i>→</i>
-<div><b><span class="nb">3</span>실행</b><span>100%가 된 쪽이 예약 행동 실행</span></div><i>→</i>
-<div><b><span class="nb">4</span>확인</b><span>피해 숫자 색과 공격 로그로 단서 확인</span></div><i>→</i>
-<div><b><span class="nb">5</span>판정</b><span>종료 조건 확인</span></div>
-</div><div class="loop-back">종료 조건에 해당하지 않으면 2번 충전으로 돌아간다</div></figure>
-<ul><li>한쪽이 행동을 실행하는 동안 다른 쪽은 대기하고, 먼저 시작한 행동이 끝나면 다음 행동을 진행한다.</li></ul>
+<figure aria-label="전투 시작, 충전과 행동 선택, 실행, 결과 확인 후 계속 또는 종료">
+<div class="flow"><div><b><span class="nb">1</span>전투 시작</b><span>양측 행동 게이지의 자동 충전 시작</span></div><i>→</i><div><b><span class="nb">2</span>행동 준비</b><span>게이지 충전, 수명 감소<br/>플레이어는 행동 선택, 예약</span></div><i>→</i><div><b><span class="nb">3</span>행동 실행</b><span>플레이어: 활성 슬롯의 행동<br/>적: 게이지 100%에서 공격</span></div><i>→</i><div><b><span class="nb">4</span>결과 확인</b><span>행동 효과와 HP 반영<br/>공격 기록, 피해 숫자 확인</span></div></div>
+<div class="progress-result"><span>전투 계속 → 다음 행동 준비</span><span>종료 조건 충족 → 승패, 보상 처리</span></div>
+</figure>
+<ul>
+<li>플레이어는 슬롯이 활성화되어도 행동을 선택하지 않았다면 실행하지 않는다. 예약한 행동이 있으면 슬롯 활성화 시 실행한다.</li>
+<li>이미 한쪽의 행동이 진행 중이면 다른 쪽의 <strong>행동 실행을 대기</strong>시킨다. 선행 행동이 끝난 뒤 다음 행동을 진행한다.</li>
+</ul>
 </section>
 <div class="gap"></div>
 <section class="sec">
@@ -31,7 +31,7 @@
 <div class="formula">충전 시간(초) = 1000 ÷ (100 + ATBSpeed ÷ 5)<small>게이지가 차는 동안 수명이 줄어든다. 속도가 빠를수록 한 번 행동하는 데 드는 수명이 적다.</small></div>
 <table>
 <colgroup><col style="width:25%"/><col style="width:12.5%"/><col style="width:12.5%"/><col style="width:12.5%"/><col style="width:12.5%"/><col style="width:12.5%"/><col style="width:12.5%"/></colgroup>
-<thead><tr><th>ATBSpeed</th><th class="num">0 (기본)</th><th class="num">100</th><th class="num">200</th><th class="num">300</th><th class="num">400</th><th class="num">500 (최대)</th></tr></thead>
+<thead><tr><th>ATBSpeed(플레이어 스탯)</th><th class="num">0 (기본)</th><th class="num">100</th><th class="num">200</th><th class="num">300</th><th class="num">400</th><th class="num">500 (표의 최대)</th></tr></thead>
 <tbody>
 <tr><td>충전 시간</td><td class="num">10.00초</td><td class="num">8.33초</td><td class="num">7.14초</td><td class="num">6.25초</td><td class="num">5.56초</td><td class="num">5.00초</td></tr>
 <tr><td>수명 소모 (원문 예시)</td><td class="num">10</td><td class="num">8</td><td class="num">7</td><td class="num">6</td><td class="num">6</td><td class="num">5</td></tr>
@@ -51,14 +51,11 @@
 <tr><td>플레이어 수명 0</td><td>런 종료</td></tr>
 </tbody>
 </table>
-<div class="exc"><b>예외와 미정</b><ul>
-<li>표의 수명 소모는 원문 예시값이다. 단위, 초당 소모율과 반올림 규칙은 검증 문서의 미결 항목에서 정리한다.</li><li>패배했을 때의 손실 규칙은 정해지지 않았다.</li>
-<li>적이 여럿이면 하나를 처치한 뒤 다음 적이 등장하는 방식은 보류한 안이다.</li>
-</ul></div>
+
 </section>
 </article>
 
-<article class="sheet" id="battle-2"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>02 / 09</span></div>
+<article class="sheet" id="battle-2">
 <h1>전투_화면 구성</h1>
 <ul class="intro">
 <li>왼쪽 아래에서 행동을 고르고, 오른쪽 아래에서 예약과 충전을 확인한다.</li>
@@ -75,7 +72,7 @@
 <span class="pin" style="left:55.4%;top:67%">6</span>
 <span class="pin" style="left:55.4%;top:77%">7</span>
 <span class="pin" style="left:55.4%;top:87%">8</span>
-</div><p class="src">전투 UI 시안, 아트: 팀 제작. 구현 완료 화면이 아니다.</p></figure>
+</div></figure>
 </section>
 <div class="gap"></div>
 <section class="sec">
@@ -93,26 +90,33 @@
 <tr><td class="c">8</td><td>행동 슬롯</td><td>예약한 행동 아이콘 4칸</td><td>활성 슬롯의 테두리 색 <span class="sw" style="background:#F3C695"></span>#F3C695</td></tr>
 </tbody>
 </table>
-<div class="exc"><b>예외와 미정</b><ul>
-<li>13개를 넘으면 가장 오래된 기록을 지운다. 새 기록은 전투 기획서에 맨 왼쪽, UI 와이어프레임에 좌→우 선입선출로 적혀 있어, 삽입 위치와 이동 방향을 명확히 정해야 한다.</li>
-<li>팀 아트 시안은 적의 다음 행동을 2번 적 정보에 표시하여, 체력바 옆에 두는 와이어프레임 배치와 다르다.</li>
-</ul></div>
+
 </section>
 </article>
 
-<article class="sheet" id="battle-3"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>03 / 09</span></div>
+<article class="sheet" id="battle-3">
 <h1>전투_행동 예약과 긴급 행동</h1>
 <ul class="intro">
-<li>행동 슬롯 4개에 다음 행동을 미리 예약해, 충전을 기다리는 동안 다음 공격 순서를 구성한다.</li>
+<li>행동 슬롯은 다음 행동을 담는 4개의 칸이다. 예약은 행동을 미리 고르는 것이고, 실행은 그 행동이 실제로 발동하는 것이다.</li>
 <li>긴급 행동은 게이지를 기다리는 대신 수명을 지불하고 즉시 사용한다.</li>
 </ul>
 <div class="gap"></div>
 <section class="sec">
 <h2>● 슬롯의 상태 전환</h2>
-<figure aria-label="행동 슬롯 상태 전환"><div class="state">
-<div>충전 중<small>게이지 증가, 수명 감소</small></div><em>게이지 100%</em><div class="key">활성<small>행동 선택 대기</small></div><em>행동 선택</em><div>즉시 실행<small>가장 오래된 활성 슬롯</small></div>
-<div>충전 중</div><em>행동 선택</em><div>사전 예약<small>충전 중인 슬롯에 등록</small></div><em>게이지 100%</em><div>즉시 실행<small>활성화되는 순간</small></div>
-</div></figure>
+<p>전투에 진입하면 행동 게이지가 자동으로 찬다. <strong>충전 중</strong>은 게이지가 차는 상태, <strong>활성</strong>은 100%가 되어 행동할 수 있는 상태다.</p>
+<figure class="slot-chart" aria-label="행동 선택 후 활성 슬롯이 있으면 바로 실행하고 없으면 사전 예약한 뒤 활성화 시 실행">
+<svg viewBox="0 0 850 230" role="img" aria-labelledby="slot-title">
+<title id="slot-title">활성 슬롯 유무에 따른 행동 예약과 실행</title>
+<defs><marker id="slot-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#555"/></marker></defs>
+<g class="chart-line"><path d="M130 105H172"/><path d="M318 105H365V42H410"/><path d="M318 105H365V159H410"/><path d="M630 42H680V210H440"/><path d="M630 159H660V210H440"/></g>
+<rect x="5" y="80" width="125" height="50"/><text x="67" y="110">행동 선택</text>
+<path class="decision" d="M245 55L318 105L245 155L172 105Z"/><text x="245" y="101"><tspan x="245">활성 슬롯이</tspan><tspan x="245" dy="20">있는가?</tspan></text>
+<text class="branch-label" x="356" y="32">있음</text><rect x="410" y="15" width="220" height="54"/><text x="520" y="38"><tspan x="520">가장 오래된 활성 슬롯</tspan><tspan x="520" dy="20">바로 실행 가능</tspan></text>
+<text class="branch-label" x="387" y="146">없음</text><rect x="410" y="116" width="220" height="59"/><text x="520" y="140"><tspan x="520">충전 중인 슬롯에 사전 예약</tspan><tspan x="520" dy="22">게이지 100% → 활성화</tspan></text>
+<rect class="execution" x="230" y="191" width="210" height="38"/><text x="335" y="216">행동 실행</text>
+</svg>
+<figcaption>두 경로 모두 행동 실행으로 이어진다. 상대 행동이 진행 중이면 그 행동이 끝난 뒤 실행한다.</figcaption>
+</figure>
 </section>
 <div class="gap"></div>
 <section class="sec">
@@ -133,15 +137,16 @@
 <div class="gap"></div>
 <section class="sec">
 <h2>● 방어와 회피의 대응 순서</h2>
+<p><strong>방어</strong>는 DEF에 따라 적 공격의 피해를 줄이는 행동이다. <strong>회피</strong>는 50% 확률로 적 공격을 피하며, 성공하면 피해 0, 실패하면 정상 피해를 받는다.</p>
 <ul>
 <li>적 공격 1회에는 먼저 사용한 방어 또는 회피 하나만 발동한다.</li>
-<li>방어나 회피가 준비된 동안에는 같은 행동을 다시 실행하거나 예약하지 않는다.</li>
+<li>방어나 회피가 예약되어 있거나 준비된 동안에는 같은 행동을 다시 실행하거나 예약하지 않는다.</li>
 </ul>
 </section>
 <div class="gap"></div>
 <section class="sec">
 <h2>● 긴급 행동</h2>
-<p><strong>플레이어와 적이 각각 1번 행동한 뒤 활성화</strong>한다. 행동 게이지와 무관하게 즉시 시전하며 플레이어의 수명을 소모한다.</p>
+<p>긴급 행동은 <strong>수명을 지불해 게이지를 기다리지 않고 대응하는 행동</strong>이다. <strong>플레이어와 적이 각각 1번 행동한 뒤 활성화</strong>한다. 행동 게이지와 무관하게 즉시 시전하며 플레이어의 수명을 소모한다.</p>
 <table>
 <colgroup><col style="width:16%"/><col style="width:50%"/><col style="width:34%"/></colgroup>
 <thead><tr><th>행동</th><th>효과</th><th>제한, 비용</th></tr></thead>
@@ -152,13 +157,11 @@
 <tr><td>후퇴</td><td>전투 즉시 종료</td><td>패배로 판정</td></tr>
 </tbody>
 </table>
-<div class="exc"><b>예외와 미정</b><ul>
-<li>긴급 행동별 기본 비용, 약점 파악의 비용 가중치, 회복 비율은 정해지지 않았다.</li>
-</ul></div>
+
 </section>
 </article>
 
-<article class="sheet" id="battle-4"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>04 / 09</span></div>
+<article class="sheet" id="battle-4">
 <h1>전투_기본 행동과 피해 규칙</h1>
 <ul class="intro">
 <li>공격 1, 2, 3의 기본 피해를 같게 두어, 가장 강한 공격 대신 <strong>약점에 포함된 공격</strong>을 찾게 한다.</li>
@@ -203,18 +206,16 @@
 <ul>
 <li>적은 게이지가 100%가 되면 <strong>공격만</strong> 실행한다. 공격 패턴과 효과는 몬스터 문서에서 정의한다.</li>
 <li>적에게 방어나 특수 행동을 주지 않는 이유는 전투가 길어지면 빠른 처치로 수명을 얻는 구조가 무너지기 때문이다.</li>
-<li>강타(PowerAtk)는 플레이어의 방어 행동을 무시한다.</li>
 </ul>
-<div class="exc"><b>예외와 미정</b><ul>
-<li>방어의 감소량, 피해 하한, 소수점 처리, ATK가 DEF 이하일 때의 피해는 정해지지 않았다.</li>
-</ul></div>
+<div class="exc"><b>예외처리사항</b><p>강타(PowerAtk)는 플레이어의 방어 행동을 무시한다.</p></div>
+
 </section>
 </article>
 
-<article class="sheet" id="battle-5"><div class="eyebrow"><span>SOS, SANDS OF SIN</span><span>05 / 09</span></div>
+<article class="sheet" id="battle-5">
 <h1>전투_약점 커맨드와 단서</h1>
 <ul class="intro">
-<li>몬스터마다 약점 커맨드가 있으며, 이를 직접 찾아내는 과정이 전투의 핵심 재미다.</li>
+<li><strong>약점 커맨드</strong>는 몬스터를 공략하는 정답 공격 순서다. 사용한 공격 기록과 피해 숫자의 단서로 이를 찾아낸다.</li>
 <li>공격 1, 2, 3을 중복 허용해 <strong>2~4자리</strong>로 조합하며, 자릿수는 등급과 무관하게 몬스터마다 기획자가 지정한다.</li>
 </ul>
 <table>
@@ -225,13 +226,14 @@
 <div class="gap"></div>
 <section class="sec">
 <h2>● 판정: 순서만 맞으면 연속하지 않아도 된다</h2>
-<p>공격 로그(최대 13개) 안에서 커맨드와 같은 순서의 <strong>부분 수열</strong>이 성립하면 성공이다. 성공을 만든 마지막 공격에 ×2.0 피해를 준다.</p>
+<p>공격 로그는 실행한 공격의 기록이다. 최대 13개의 기록 안에서 커맨드와 같은 순서로 공격을 골라낼 수 있으면 성공이다. 이를 <strong>부분 수열</strong> 판정이라 한다. 성공을 만든 마지막 공격에 ×2.0 피해를 준다.</p>
 <figure aria-label="커맨드 판정 예시"><div class="cmd">
 <b>목표 커맨드</b><div class="cells"><span class="hit">2</span><span class="hit">1</span><span class="hit">3</span></div>
 <b>성공 예시</b><div class="cells"><span class="hit">2</span><span class="skip">2</span><span class="hit">1</span><span class="skip">1</span><span class="hit">3</span><em>마지막 3에서 성공</em></div>
 <b>실패 예시</b><div class="cells"><span>3</span><span>1</span><span>2</span><em class="no">2 → 1 → 3 순서를 만들 수 없음</em></div>
 </div><figcaption>강조한 칸이 순서대로 선택된 공격이다. 사이에 있는 다른 공격은 건너뛴다.</figcaption></figure>
-<p>로그에는 공격 1, 2, 3만 기록한다. 방어, 회피, 긴급 행동은 판정에 영향을 주지 않는다.</p>
+<p>공격 모션이 시작될 때 공격 1, 2, 3만 기록한다. 예약한 행동은 아직 기록하지 않는다. 판정은 <strong>공격을 실행한 순서</strong>를 따르며, 방어, 회피, 긴급 행동은 공격 기록에 추가하지 않는다.</p>
+<div class="exc"><b>예외처리사항</b><p>13개가 찬 상태에서 새 공격이 추가되면 가장 오래된 기록을 지워 13개를 유지한다.</p></div>
 </section>
 <div class="gap"></div>
 <section class="sec">
@@ -254,9 +256,7 @@
 <section class="sec">
 <h2>● 약점 파악으로 범위 좁히기</h2>
 <figure aria-label="약점 파악 사용 횟수별 단서"><div class="steps"><div><b>1회 사용</b><span>커맨드 길이 공개, 슬롯이 반짝임</span><div class="cmd"><div class="cells"><span class="q">?</span><span class="q">?</span><span class="q">?</span><em class="no">3자리</em></div></div></div><i>→</i><div><b>2회 사용</b><span>첫 슬롯에 정답 공격 자동 예약</span><div class="cmd"><div class="cells"><span class="hit">2</span><span class="q">?</span><span class="q">?</span><em class="no">첫 슬롯에 공격 2</em></div></div></div></div><figcaption>목표 커맨드 2 → 1 → 3의 예시다.</figcaption></figure>
-<div class="exc"><b>예외와 미정</b><ul>
-<li>성공한 기록이 로그에 남아 있을 때 다음 공격에서 다시 성공으로 볼지, 커맨드 전환 시 로그를 어떻게 처리할지는 정해지지 않았다.</li>
-</ul></div>
+
 </section>
 </article>
 </body></html>

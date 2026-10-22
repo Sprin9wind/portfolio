@@ -29,16 +29,18 @@ function renderBlueLauncher() {
   view.querySelector('.project-mini')?.remove();
   const tools=view.querySelector('.project-tools'),jump=tools?.querySelector('.jump');
   if(jump){
+    const lessons=UNITS[curU].mids[curM].lessons;
+    const numbers=lessons.map(l=>l.title.match(/^(\d+)\.\s*/)?.[1]);
+    const hasIntro=!numbers[0];
     tools.insertAdjacentHTML('afterbegin',`<div class="quest-heading"><span><i aria-hidden="true">◇</i> 프로젝트 목차</span><span class="quest-position"></span></div><div class="quest-track" aria-hidden="true">${[...jump.querySelectorAll('button')].map(()=>'<span></span>').join('')}</div>`);
     jump.querySelectorAll('button').forEach((button,i)=>{
-      const match=button.textContent.match(/^(\d+)\.\s*/);
-      const title=button.textContent.replace(/^\d+\.\s*/, '');
-      const number=i===0?'◇':String(match?match[1]:i).padStart(2,'0');
+      const title=lessons[i].title.replace(/^\d+\.\s*/, '');
+      const number=i===0&&hasIntro?'◇':String(numbers[i]??(hasIntro?i:i+1)).padStart(2,'0');
       button.innerHTML=`<span class="quest-index" aria-hidden="true">${number}</span><span>${esc(title)}</span>`;
     });
     const sync=()=>{
       const buttons=[...jump.querySelectorAll('button')];const i=Math.max(0,buttons.findIndex(b=>b.classList.contains('on')));
-      tools.querySelector('.quest-position').textContent=i===0?'프로젝트 소개':`현재 항목 ${String(i).padStart(2,'0')} / ${String(buttons.length-1).padStart(2,'0')}`;
+      tools.querySelector('.quest-position').textContent=i===0&&hasIntro?'프로젝트 소개':`현재 항목 ${String(numbers[i]??(hasIntro?i:i+1)).padStart(2,'0')} / ${String(buttons.length-(hasIntro?1:0)).padStart(2,'0')}`;
       tools.querySelectorAll('.quest-track span').forEach((segment,n)=>segment.classList.toggle('is-current',n===i));
       buttons.forEach((b,n)=>{if(n===i)b.setAttribute('aria-current','location');else b.removeAttribute('aria-current');});
     };

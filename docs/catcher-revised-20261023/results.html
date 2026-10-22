@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"/><title>구현 결과와 개선</title><link href="style.css" rel="stylesheet"/></head><body><article class="sheet"><header><span class="category">구현 결과</span><h1>타자 정보와 게임 화면의 확장</h1></header><main><div class="cols"><section><h2>타자 정보에서 사인 선택으로</h2>
+<figure><img alt="타자 정보 UI" src="../../images/catcher-specs/source-20261021/source-batter-ui.jpeg"/><figcaption>타자 정보 UI</figcaption></figure>
+<div class="copy"><p>선수의 특징과 타율을 화면에 표시해, 사용자가 정보를 보고 적절한 구종과 위치를 추론하도록 구성했다.</p><p>입력한 제스처 데이터에 따라 타격 확률이 달라지도록 수정했다.</p></div></section>
+<section><h2>투구 이후의 게임 표현</h2>
+<figure><img alt="공이 날아가는 장면" src="../../images/catcher-specs/source-20261021/source-field-ui.jpeg"/><figcaption>공이 날아가는 장면</figcaption></figure>
+<div class="copy"><p>변화구의 궤적과 공이 날아가는 장면을 추가했다.</p><p>출루한 주자에 따른 베이스 현황과 아웃 카운트 등 UI를 추가했다.</p></div></section></div>
+</main></article><article class="sheet"><header><span class="category">구현 개선</span><h1>데이터셋 통합과 표본 추가</h1></header><main><h2>분리된 데이터셋을 하나로 통합</h2>
+<div class="process"><section class="state"><h2>기존 방식</h2><p>구종과 위치 데이터셋이 분리되어 있었다.<br/>입력마다 프로그램이 다시 실행되어 실행 시간이 증가했다.</p><div class="labels"><div class="tag">구종 데이터셋</div><div class="tag">위치 데이터셋</div></div></section>
+<div aria-label="변경" class="arrow">→</div>
+<section class="state after"><h2>수정 방식</h2><p>구종과 위치 정보를 하나의 데이터셋으로 합쳤다.<br/>분류할 클래스가 늘어나면서 학습 표본도 추가했다.</p><div class="labels"><div class="tag">구종 + 위치 데이터셋</div></div></section></div>
+<h2>라벨링한 표본 추가</h2>
+<div class="sample"><div><strong>800개</strong><div class="label">기존 라벨링 표본</div></div><div aria-label="증가" class="arrow">→</div><div><strong>2,000개</strong><div class="label">추가 후 표본</div></div></div>
+<p class="sample-note">평균 제스처 입력 텍스트 변환 처리 시간이 <strong>1,258ms → 572ms</strong>로 단축되었다.</p></main></article></body></html>

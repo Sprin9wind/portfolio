@@ -5,6 +5,8 @@
 <li>모든 몬스터는 고유한 약점 커맨드를 가지며, 등급에 따라 커맨드를 운용하는 방식이 달라진다.</li>
 </ul>
 
+
+
 ## ● 테이블 4종의 연결
 
 <figure aria-label="몬스터 데이터 연결"><div class="tb-map">
@@ -12,9 +14,12 @@
 <i>→</i>
 <div class="leaf">
 <div><b>MonAtkPatternTB</b>Pattern1~3Effect로 참조: 피해 배율, 방어 무시, 흡수 비율
-<div class="status-ref">↓ Debuff_ID로 참조<br><b>MonToPlayerSeTB</b>대상 스탯, 수치, 지속 턴, 피격 해제, 중첩</div></div>
+<div class="status-ref">↓ Debuff_ID로 참조<br/><b>MonToPlayerSeTB</b>대상 스탯, 수치, 지속 턴, 피격 해제, 중첩</div></div>
 <div><b>DropTB</b>DropTableID로 참조: 드롭 방식, 장비별 확률, 7대죄 조각</div>
 </div></div><figcaption>데이터 시트의 테이블 이름이다. 전투 기획서에서는 MonsterTable, AttackPatternTable, StatusEffectTable, DropTable로 표기했다.</figcaption></figure>
+
+
+
 
 ## ● 몬스터 ID 발번
 
@@ -32,9 +37,12 @@
 </table>
 </div>
 
+
+
+
 ## ● 등급별 약점 커맨드 운용
 
-<p>모든 몬스터는 약점 조합(ComboRecipe) 3개를 가진다. 전투 시작 시 등급에 따라 활성화하는 개수와 전환 방식이 달라진다.</p>
+<p>약점 커맨드는 공략에 필요한 공격 번호의 순서다. 모든 몬스터는 약점 조합(ComboRecipe) 3개를 가진다. 전투 시작 시 등급에 따라 활성화하는 개수와 전환 방식이 달라진다.</p>
 <table>
 <colgroup><col style="width:16%"/><col style="width:34%"/><col style="width:50%"/></colgroup>
 <thead><tr><th>등급</th><th>활성 커맨드</th><th>전환 조건</th></tr></thead>
@@ -45,6 +53,9 @@
 </tbody>
 </table>
 <p><strong>예시</strong>: 붉은 처형인(Elite)의 조합은 3222, 311, 3113이다. 이 중 2개를 무작위로 골라 순서대로 공략한다.</p>
+
+
+
 
 ## ● 공격 패턴 운용
 
@@ -58,10 +69,6 @@
 <tbody><tr><td>공격 이름</td><td>곤봉 휘두르기</td><td>목패 찍기</td><td>관복 밀치기</td></tr>
 <tr><td>효과</td><td>NormalAtk</td><td>PowerAtk</td><td>Weak</td></tr></tbody>
 </table>
-<div class="exc"><b>예외와 미정</b><ul>
-<li>커맨드가 전환될 때의 시각 피드백은 UI에서 정하기로 했으며 아직 정의되지 않았다.</li>
-<li>스탯은 플레이어 기준 스탯에 등급별 배율을 적용해 산정하며, 수치는 밸런스 테스트 후 확정한다.</li>
-</ul></div>
 
 # 몬스터_공격 효과, 상태이상, 보상
 
@@ -69,6 +76,8 @@
 <li>몬스터는 다양한 공격 패턴과 상태이상으로 플레이어를 압박한다.</li>
 <li>아래 값은 데이터 시트(MonsterTB_1.2)의 입력값이다.</li>
 </ul>
+
+
 
 ## ● 공격 효과 (MonAtkPatternTB)
 
@@ -87,6 +96,9 @@
 <tr><td>Mini</td><td>축소</td><td class="num">0.8</td><td class="c">-</td><td>SE_Mini</td></tr>
 </tbody>
 </table>
+
+
+
 
 ## ● 상태이상 (MonToPlayerSeTB)
 
@@ -109,6 +121,9 @@
 <li>혼란은 공격 1, 2, 3을 무작위로 바꾸며 방어, 회피는 정상 발동한다.</li>
 </ul>
 
+
+
+
 ## ● 처치 보상 (DropTB)
 
 <table class="sm">
@@ -120,8 +135,3 @@
 </tbody>
 </table>
 <p>몬스터마다 1종으로 고정된 7대죄 조각은 장비와 별개로 판정한다. 드롭 확률에는 캐릭터의 LUK 가중치를 적용한다.</p>
-<div class="exc"><b>예외와 원문 간 차이</b><ul>
-<li>전투 기획서의 효과는 Shrink를 포함한 9종이고, 데이터 시트는 Bleed를 더하고 축소를 Mini로 적은 10종이다.</li>
-<li>Absorb의 흡수 비율(AbsorbRate)은 비어 있다. LUK 가중치 수식은 캐릭터 기획 담당 범위로 정해지지 않았다.</li>
-<li>SE_Poison은 중첩이 가능해 같은 상태이상의 갱신 규칙과 함께 처리 순서를 정해야 한다.</li>
-</ul></div>

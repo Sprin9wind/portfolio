@@ -125,7 +125,7 @@ td.c,th.c{text-align:center}
 .anno img{width:100%;height:auto}
 .anno .pin{position:absolute;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#fff;color:#111;border:2px solid #111;font:700 15px/1 Pretendard,sans-serif;display:flex;align-items:center;justify-content:center}
 .src{font-size:12.5px;color:#666;margin:6px 0 0;text-align:right}
-/* 예외 상자: 미정, 원문 간 차이 */
+/* 확정된 예외 처리 규칙 */
 .exc{border:1px solid #888;padding:10px 16px 10px 14px;margin:10px 0 0}
 .exc>b{display:block;font-family:NanumSquareNeo,sans-serif;font-weight:800;font-size:14.5px;margin-bottom:2px}
 .exc li,.exc p{font-size:14.5px;margin:3px 0}
@@ -157,3 +157,19 @@ td.c,th.c{text-align:center}
 
 .status-ref{border-top:1px solid #aaa;margin-top:4px;padding-top:2px;font-size:13.5px}
 .tb-map .leaf>div{padding:6px 12px}
+
+/* 2026-10-23: 행동 준비와 실행 분기 */
+.progress-result{display:flex;gap:16px;margin-top:14px;padding-top:12px;border-top:1px solid #aaa;font-size:14px}
+.progress-result>span{flex:1;text-align:center}
+.slot-chart{padding:12px 22px}
+.slot-chart svg{display:block;width:100%;height:auto;overflow:visible}
+.slot-chart rect,.slot-chart .decision{fill:#fff;stroke:#555;stroke-width:1.2}
+.slot-chart .execution{fill:#ededed;stroke:#222;stroke-width:1.5}
+.slot-chart text{font:14px Pretendard,sans-serif;fill:#252525;text-anchor:middle}
+.slot-chart .branch-label{font-size:12.5px}
+.slot-chart .chart-line{fill:none;stroke:#555;stroke-width:1.2;marker-end:url(#slot-arrow)}
+#battle-3 .sec{padding-top:17px}
+#battle-3 .gap{max-height:8px}
+#battle-3 h2{margin-bottom:8px}
+#battle-3 table{font-size:14px;margin:8px 0}
+#battle-3 th,#battle-3 td{padding:5px 8px}

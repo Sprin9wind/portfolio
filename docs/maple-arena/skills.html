@@ -28,7 +28,17 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 .sheet .xp-groups td:first-child{width:auto}
 .sheet table+table{margin-top:24px}
 /* end-feedback-20261019 */
-.sheet:first-of-type h1+h2{margin-top:36px}</style><body><article class="sheet"><h1>스킬 슬롯과 공통 규칙</h1>
+.sheet:first-of-type h1+h2{margin-top:36px}
+
+/* priority-20261023: page two only, original type sizes retained */
+.sheet.priority-page h2{margin-top:26px;margin-bottom:12px}
+.priority-layout{column-gap:28px;margin-top:6px}
+.priority-layout>div>h2:first-child{margin-top:20px}
+.priority-layout ol{padding-left:22px}
+.priority-layout ol li{margin-bottom:8px}
+.priority-layout>div:first-child table td:first-child{width:67%}
+.priority-layout>div:last-child table td:first-child{width:30%}
+</style><body><article class="sheet"><h1>스킬 슬롯과 공통 규칙</h1>
 <h2>● 스킬 구분과 해금</h2>
 <table>
 <thead>
@@ -115,7 +125,7 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 <li>선택한 스킬은 해당 슬롯에 고정되며 교체할 수 없다.</li>
 </ul>
 <h2>● 스킬 데이터</h2>
-<p>스킬별 효과, 지속 시간, 상태 이상, 모션과 이펙트 RUID는 SkillData 시트에서 관리한다.</p></article><article class="sheet"><h1>클론, 봇 플레이어의 스킬 사용 AI 조건</h1>
+<p>스킬별 효과, 지속 시간, 상태 이상, 모션과 이펙트 RUID는 SkillData 시트에서 관리한다.</p></article><article class="sheet priority-page"><h1>클론, 봇 플레이어의 스킬 사용 AI 조건</h1>
 <p>클론과 봇 플레이어가 보유 스킬을 자동으로 사용할 시점을 판단하는 조건이다. 상대와의 거리, 방향, 체력 등의 조건을 확인해 사용할 스킬을 선택한다.</p>
 <h2>● AI의 스킬 사용 조건 조합 방식</h2>
 <ul>
@@ -161,7 +171,22 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 </tr>
 </tbody>
 </table>
-<h2>● 지연과 우선순위</h2>
+<h2>● 우선순위 선택 원칙</h2>
+<ol>
+<li><strong>후보 확인:</strong> 사용 횟수와 자체 제약을 충족한 활성 스킬 중, 지정된 AI 조건을 <strong>모두 만족(AND)</strong>한 스킬만 후보로 삼는다.</li>
+<li><strong>낮은 값 우선:</strong> 후보의 <code>aiPriority</code>를 비교해 가장 작은 값을 가진 스킬을 선택한다.</li>
+<li><strong>동률 처리:</strong> 가장 작은 값이 같은 후보가 여러 개면 그중 하나를 무작위로 선택한다.</li>
+</ol>
+<p>2단 스킬의 2타는 연계 상태이므로 이 비교에서 제외한다. 2타 조건을 충족하면 지연 없이 발동한다.</p>
+<p><strong>간단한 예시, 후보가 다음 두 스킬인 경우</strong></p>
+<ul>
+<li>매직 가드(1), 석화(2) → 매직 가드를 선택한다.</li>
+<li>페이크(3), 여제의 축복(3) → 무작위로 하나를 선택한다.</li>
+</ul>
+<p>기본 스킬의 우선순위 값은 대시 12, 방향전환 0이다.</p>
+<div class="cols priority-layout">
+<div>
+<h2>● 선택 후 발동 지연</h2>
 <table>
 <thead>
 <tr>
@@ -187,9 +212,9 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 <ul>
 <li>지연은 행동 패턴이 고정되지 않게 하기 위해 둔다.</li>
 <li>설정 대상은 공용 4종, 무기 스킬 16종(8무기 × 2), 직업 스킬 8종이다. 2단 스킬은 폭류권, 스타 더스트, 퀴버 플로우다.</li>
-<li>조건을 모두 만족한 활성 스킬 중 <code>aiPriority</code>가 낮은 스킬을 선택한다. 동률은 무작위이며, 2타 연계는 제외한다.</li>
-<li>대시 12, 방향전환 0이다. 예: 매직 가드(1)는 석화(2)보다 우선한다. 페이크와 여제의 축복(각 3)은 무작위 선택한다.</li>
 </ul>
+</div>
+<div>
 <h2>● 클론의 이동 판단</h2>
 <table>
 <thead>
@@ -213,4 +238,6 @@ table:has(th:nth-child(3)) td:first-child{width:auto}.sheet img{max-height:430px
 </tr>
 </tbody>
 </table>
-<p>대시 거리는 2.0 유닛 기준이며, 조건이 중간에 깨지면 2초 타이머를 초기화한다.</p></article></body></html>
+<p>대시 거리는 2.0 유닛 기준이며, 조건이 중간에 깨지면 2초 타이머를 초기화한다.</p>
+</div>
+</div></article></body></html>
