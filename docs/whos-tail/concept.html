@@ -53,7 +53,7 @@ table{table-layout:fixed}
 .sheet:first-of-type .relationship{margin:14px auto;padding:10px 16px 14px}
 </style></head><body><article class="sheet concept"><h1>컨셉 기획_게임 개요와 핵심 재미</h1>
 <h2>● 게임 소개</h2>
-<table aria-label="게임 소개" class="game-intro"><thead><tr><th scope="col">항목</th><th scope="col">내용</th></tr></thead><tbody><tr><th scope="row">장르</th><td>도시를 배경으로 타깃에게 접근해 꼬리를 빼앗는 3D 소셜 추격 게임.</td></tr><tr><th scope="row">플레이 구조</th><td>각 플레이어가 지정된 타깃을 쫓는 동시에, 자신을 쫓는 상대를 경계한다.</td></tr><tr><th scope="row">기본 규칙</th><td>타깃의 꼬리를 빼앗으면 타깃이 탈락하고, 내 꼬리를 빼앗기면 내가 탈락한다.<br/>꼬리를 잡는 순간 저항 미니게임이 시작되며, 대결에서 이겨야 꼬리를 빼앗을 수 있다.</td></tr><tr><th scope="row">플랫폼과 인원</th><td>PC, 6~8인 멀티플레이 목표.</td></tr><tr><th scope="row">공간</th><td>광장, 거리, 골목과 실내가 연결된 도시에서 상대를 찾고 접근한다.</td></tr></tbody></table><div class="concept-screen" data-sketch-slot="main-game"><img alt="캐릭터 뒤에서 도시를 바라보며 타깃의 꼬리 색과 주변 인물을 확인하는 메인 게임 화면 러프 스케치" src="../../images/whos-tail/refine-20261021/main-game-sketch.png"/><p class="screen-caption">캐릭터 뒤에서 도시를 바라보는 3인칭 시점. 타깃의 꼬리 색을 단서로 상대를 찾으며 주변을 경계한다.</p></div>
+<table aria-label="게임 소개" class="game-intro"><thead><tr><th scope="col">항목</th><th scope="col">내용</th></tr></thead><tbody><tr><th scope="row">장르</th><td>도시를 배경으로 타깃에게 접근해 꼬리를 빼앗는 3D 소셜 추격 게임.</td></tr><tr><th scope="row">플레이 구조</th><td>각 플레이어가 지정된 타깃을 쫓는 동시에, 자신을 쫓는 상대를 경계한다.</td></tr><tr><th scope="row">기본 규칙</th><td>타깃의 꼬리를 빼앗으면 타깃이 탈락하고, 내 꼬리를 빼앗기면 내가 탈락한다.<br/>꼬리를 잡는 순간 저항 미니게임이 시작되며, 대결에서 이겨야 꼬리를 빼앗을 수 있다.</td></tr><tr><th scope="row">플랫폼과 인원</th><td>PC, 6~12인 멀티플레이 목표.</td></tr><tr><th scope="row">공간</th><td>광장, 거리, 골목과 실내가 연결된 도시에서 상대를 찾고 접근한다.</td></tr></tbody></table><div class="concept-screen" data-sketch-slot="main-game"><img alt="캐릭터 뒤에서 도시를 바라보며 타깃의 꼬리 색과 주변 인물을 확인하는 메인 게임 화면 러프 스케치" src="../../images/whos-tail/refine-20261021/main-game-sketch.png"/><p class="screen-caption">캐릭터 뒤에서 도시를 바라보는 3인칭 시점. 타깃의 꼬리 색을 단서로 상대를 찾으며 주변을 경계한다.</p></div>
 <h2>● 핵심 재미</h2>
 <ul>
 <li><strong>쫓으면서 쫓기는 긴장감:</strong> 타깃만 쫓으면 자신에게 접근하는 상대를 놓칠 수 있고, 경계만 하면 타깃을 잡을 기회를 놓칠 수 있다.<br/>두 상황을 함께 판단하도록 한다.</li>
@@ -92,6 +92,8 @@ table{table-layout:fixed}
 <ul>
 <li><strong>탐색과 경계는 동시에 진행한다.</strong> 타깃을 찾고 접근하는 동안에도 자신을 쫓는 사람의 움직임을 살핀다.</li>
 <li>타깃의 꼬리를 잡거나 자신의 꼬리를 잡히면 저항 미니게임에 들어간다.<br/>같은 플레이어라도 상황에 따라 잡는 쪽과 잡히는 쪽이 바뀐다.</li>
+<li><strong>타깃 승계:</strong> QTE에서 승리해 포획과 상대의 탈락이 확정되면, 탈락한 상대가 쫓던 대상을 다음 타깃으로 이어받는다.</li>
+<li><strong>배틀로얄 규칙:</strong> 생존자가 줄어 마지막 두 명이 남으면 서로를 타깃으로 겨룬다.<br/>상대를 포획해 최후의 1인이 된 플레이어가 승리한다.</li>
 </ul>
 <table>
 <thead>
@@ -143,7 +145,7 @@ table{table-layout:fixed}
 <h2>● 이벤트 기획 의도</h2>
 <ul>
 <li>넓은 도시에서 모두가 서로를 경계하며 숨어 있으면 추격이 멈출 수 있다.</li>
-<li>전화부스와 황금 고블린을 이동할 이유로 두어, 같은 장소나 경로에서 타깃 또는 자신을 쫓는 상대와 마주치도록 의도한다.</li>
+<li>정보를 얻는 이벤트, 특수 아이템을 지급하는 이벤트 등으로 이동을 유도한다.<br/>같은 장소나 경로에서 타깃 또는 자신을 쫓는 상대와 마주칠 기회를 만든다.</li>
 <li>공통 목표에 관심을 갖는 동안에도 자신의 꼬리를 지켜야 한다.<br/>이벤트 참여와 주변 경계를 함께 판단하게 한다.</li>
 </ul>
 <div class="event-sketch" data-sketch-slot="events"><div aria-label="전화부스에서 정보를 얻는 장면" class="event-panel panel-0" role="img"><img alt="전화부스에서 정보를 얻는 장면" src="../../images/whos-tail/refine-20261021/events-sketch.png"/></div><div aria-label="황금 고블린을 쫓는 장면" class="event-panel panel-1" role="img"><img alt="황금 고블린을 쫓는 장면" src="../../images/whos-tail/refine-20261021/events-sketch.png"/></div></div>
