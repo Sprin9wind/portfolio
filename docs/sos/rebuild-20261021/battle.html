@@ -3,7 +3,7 @@
 <article class="sheet" id="battle-1">
 <h1>전투_핵심 구조와 진행 흐름</h1>
 <ul class="intro">
-<li>플레이어와 적이 1:1로 싸우며, 적의 HP를 0으로 만들면 처치한다.</li>
+<li>플레이어와 적이 1:1로 싸우며, 적의 HP를 0으로 만들면 처치한다. 약점 커맨드는 처치 조건이 아니라 추가 피해를 주는 수단이다.</li>
 <li>처치 보상은 적에게 남아 있는 수명이다. 이를 흡수해 플레이어의 수명을 늘린다.</li>
 <li>행동 게이지(ATB)를 충전해 행동한다. 전투가 길어지면 양측 수명이 줄어 <strong>얻을 수 있는 보상도 줄어든다.</strong></li>
 </ul>
@@ -11,7 +11,7 @@
 <section class="sec">
 <h2>● 수명 보상과 세 가지 수치</h2>
 <div class="formula">획득 수명 = 몬스터 초기 수명 − 전투 중 몬스터가 소모한 수명<small>몬스터도 행동 게이지가 충전될 때마다 수명이 줄어든다.</small></div>
-<div class="defs"><div><b>HP, 체력</b>공격을 견디는 수치다. 피해를 받으면 줄고, 0이면 쓰러진다.</div><div><b>수명, 남은 생존 시간</b>HP와 별개로 줄어든다. 적의 잔여 수명은 처치 시 얻는 보상이다.</div><div><b>ATB, 행동 게이지</b>행동 준비 정도다. 100%가 되면 해당 슬롯에서 행동할 수 있다.</div></div>
+<div class="defs"><div><b>HP, 체력</b>공격을 견디는 수치다. 피해를 받으면 줄고, 0이면 쓰러진다.</div><div><b>수명, 남은 생존 시간</b>HP와 별개로 줄어든다. 적의 잔여 수명은 처치 시 얻는 보상이다.</div><div><b>ATB, 행동 게이지</b>행동 준비 정도다. 게이지가 한 번 100%까지 차면 슬롯 1개가 활성화된다.</div></div>
 </section>
 <div class="gap"></div>
 <section class="sec">
@@ -34,7 +34,7 @@
 <thead><tr><th>ATBSpeed(플레이어 스탯)</th><th class="num">0 (기본)</th><th class="num">100</th><th class="num">200</th><th class="num">300</th><th class="num">400</th><th class="num">500 (표의 최대)</th></tr></thead>
 <tbody>
 <tr><td>충전 시간</td><td class="num">10.00초</td><td class="num">8.33초</td><td class="num">7.14초</td><td class="num">6.25초</td><td class="num">5.56초</td><td class="num">5.00초</td></tr>
-<tr><td>수명 소모 (원문 예시)</td><td class="num">10</td><td class="num">8</td><td class="num">7</td><td class="num">6</td><td class="num">6</td><td class="num">5</td></tr>
+<tr><td>수명 소모 (예시)</td><td class="num">10</td><td class="num">8</td><td class="num">7</td><td class="num">6</td><td class="num">6</td><td class="num">5</td></tr>
 </tbody>
 </table>
 </section>
@@ -103,7 +103,7 @@
 <div class="gap"></div>
 <section class="sec">
 <h2>● 슬롯의 상태 전환</h2>
-<p>전투에 진입하면 행동 게이지가 자동으로 찬다. <strong>충전 중</strong>은 게이지가 차는 상태, <strong>활성</strong>은 100%가 되어 행동할 수 있는 상태다.</p>
+<p>전투에 진입하면 행동 게이지가 자동으로 찬다. <strong>충전 중</strong>은 게이지가 차는 상태, <strong>활성</strong>은 행동할 수 있는 상태다. 게이지가 한 번 가득 찰 때마다 슬롯은 1개씩만 활성화된다.</p>
 <figure class="slot-chart" aria-label="행동 선택 후 활성 슬롯이 있으면 바로 실행하고 없으면 사전 예약한 뒤 활성화 시 실행">
 <svg viewBox="0 0 850 230" role="img" aria-labelledby="slot-title">
 <title id="slot-title">활성 슬롯 유무에 따른 행동 예약과 실행</title>
@@ -129,7 +129,7 @@
 <tr><td>수정</td><td>실행 전, 예약한 슬롯 선택 후 행동 버튼 클릭</td><td>해당 슬롯의 행동을 교체</td></tr>
 <tr><td>즉시 실행</td><td>활성 슬롯이 있을 때 행동 선택</td><td>가장 오래된 활성 슬롯에서 바로 실행</td></tr>
 <tr><td>사전 예약</td><td>활성 슬롯이 없을 때 행동 선택</td><td>충전 중인 슬롯에 예약, 활성화되는 순간 실행</td></tr>
-<tr><td><strong>입력 대기</strong></td><td><strong>4개 모두 활성, 행동 선택 없음</strong></td><td><strong>아무 행동도 실행하지 않고 플레이어 수명도 줄지 않음</strong></td></tr>
+<tr><td><strong>입력 대기</strong></td><td><strong>4개 모두 활성, 행동 선택 없음</strong></td><td><strong>플레이어의 시간 경과 수명 소모만 멈춤.</strong> 적의 게이지 충전, 공격, 수명 감소는 계속되어 피해를 받을 수 있음</td></tr>
 </tbody>
 </table>
 <div class="cmd slots"><b>예시</b><div class="cells"><span class="hit">1 활성</span><span class="hit">2 활성</span><span>3 충전 중</span><span>4 충전 중</span><em class="no">공격 2 선택 → 1번 슬롯에서 바로 실행</em></div></div>
@@ -215,7 +215,7 @@
 <article class="sheet" id="battle-5">
 <h1>전투_약점 커맨드와 단서</h1>
 <ul class="intro">
-<li><strong>약점 커맨드</strong>는 몬스터를 공략하는 정답 공격 순서다. 사용한 공격 기록과 피해 숫자의 단서로 이를 찾아낸다.</li>
+<li><strong>약점 커맨드</strong>는 큰 추가 피해를 주는 정답 공격 순서다. 사용한 공격 기록과 피해 숫자의 단서로 이를 찾아낸다.</li>
 <li>공격 1, 2, 3을 중복 허용해 <strong>2~4자리</strong>로 조합하며, 자릿수는 등급과 무관하게 몬스터마다 기획자가 지정한다.</li>
 </ul>
 <table>
@@ -233,7 +233,7 @@
 <b>실패 예시</b><div class="cells"><span>3</span><span>1</span><span>2</span><em class="no">2 → 1 → 3 순서를 만들 수 없음</em></div>
 </div><figcaption>강조한 칸이 순서대로 선택된 공격이다. 사이에 있는 다른 공격은 건너뛴다.</figcaption></figure>
 <p>공격 모션이 시작될 때 공격 1, 2, 3만 기록한다. 예약한 행동은 아직 기록하지 않는다. 판정은 <strong>공격을 실행한 순서</strong>를 따르며, 방어, 회피, 긴급 행동은 공격 기록에 추가하지 않는다.</p>
-<div class="exc"><b>예외처리사항</b><p>13개가 찬 상태에서 새 공격이 추가되면 가장 오래된 기록을 지워 13개를 유지한다.</p></div>
+<div class="exc"><b>예외처리사항</b><p>13개가 찬 상태에서 새 공격이 추가되면 가장 오래된 기록을 지워 13개를 유지한다.</p><p>커맨드가 성공하면 그 공격까지 반영한 뒤 공격 기록을 모두 비운다. 행동 슬롯의 예약과 전투는 그대로 이어지며, 다음 판정은 새로 쌓은 기록으로 한다.</p></div>
 </section>
 <div class="gap"></div>
 <section class="sec">

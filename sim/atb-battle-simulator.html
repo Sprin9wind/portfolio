@@ -101,6 +101,8 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary);co
 .badge-success{background:var(--color-background-success);color:var(--color-text-success)}
 .badge-purple{background:#2d1b4e;color:#9B59B6}
 .divider{height:0.5px;background:var(--color-border-tertiary);margin:8px 0}
+.input-wait{font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);background:var(--color-background-warning);color:var(--color-text-warning);margin-bottom:6px}
+.input-wait[hidden]{display:none}
 .recipe-hint{font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-tertiary);margin-top:6px;min-height:22px}
 select{padding:6px 8px;font-size:12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary)}
 </style>
@@ -141,7 +143,7 @@ select{padding:6px 8px;font-size:12px;border:0.5px solid var(--color-border-seco
       <div class="inp-group"><label>LIFE_DECAY</label><input type="number" id="cfg-life-decay" value="1" step="0.1"></div>
       <div class="inp-group"><label>LV_SCALE</label><input type="number" id="cfg-lv-scale" value="0.1" step="0.01"></div>
       <div class="inp-group"><label>WEAK_BONUS</label><input type="number" id="cfg-weak" value="1.1" step="0.1"></div>
-      <div class="inp-group"><label>COMBO_MULT</label><input type="number" id="cfg-combo" value="5.0" step="0.1"></div>
+      <div class="inp-group"><label>COMBO_MULT</label><input type="number" id="cfg-combo" value="2.0" step="0.1"></div>
       <div class="inp-group"><label>DEF_MULT</label><input type="number" id="cfg-def-mult" value="2.0" step="0.1"></div>
       <div class="inp-group"><label>EVADE_RATE</label><input type="number" id="cfg-evade" value="0.5" step="0.05" min="0" max="1"></div>
       <div class="inp-group"><label>WEAK_COST(수명)</label><input type="number" id="cfg-weak-cost" value="10"></div>
@@ -217,6 +219,7 @@ select{padding:6px 8px;font-size:12px;border:0.5px solid var(--color-border-seco
 
 <div class="panel">
   <div class="panel-title">행동 슬롯 <span style="color:var(--color-text-tertiary);font-weight:400;font-size:10px">행동 예약 → ATB 충전 완료 시 발동</span></div>
+  <div class="input-wait" id="input-wait" hidden>입력 대기 · 4개 슬롯 모두 활성. 행동을 고를 때까지 플레이어 자연 수명 감소 정지 (적 진행, 긴급 행동 비용은 유지)</div>
   <div class="grid4" id="slots">
     <div class="slot empty"><div class="slot-n">1</div><div class="slot-icon"><i class="ti ti-minus"></i></div><div class="slot-label">비어있음</div></div>
     <div class="slot empty"><div class="slot-n">2</div><div class="slot-icon"><i class="ti ti-minus"></i></div><div class="slot-label">비어있음</div></div>
@@ -296,10 +299,11 @@ select{padding:6px 8px;font-size:12px;border:0.5px solid var(--color-border-seco
     <li><strong>테이블에서 몬스터 불러오기</strong><p>기본 MonsterTB 테이블은 자동으로 불러옵니다. 다른 데이터를 사용하거나 목록이 비어 있으면 상단 업로드 버튼으로 MonsterTB 시트가 있는 .xlsx 파일을 선택하세요.</p></li>
     <li><strong>전투 조건 정하기</strong><p>몬스터, 인스턴스 레벨, 확인할 약점 커맨드를 선택합니다. 플레이어 스탯과 공식 변수를 조정한 뒤 <b>전투 시작</b>을 누르세요.</p></li>
     <li><strong>행동 슬롯에 예약하기</strong><p>전투 시작 후 <b>공격 1, 공격 2, 공격 3</b>을 누르면 빈 슬롯에 차례로 예약됩니다. 방어와 회피도 같은 방식으로 예약할 수 있습니다.</p></li>
-    <li><strong>ATB 충전과 공격 확인하기</strong><p>플레이어의 ATB 게이지가 가득 차면 예약한 행동이 앞에서부터 하나씩 발동합니다. 예약 없이 충전된 슬롯은 황금색으로 표시되며, 이때 행동을 선택하면 즉시 발동합니다.</p></li>
-    <li><strong>로그에서 약점 판정 읽기</strong><p><b>행동 로그</b>의 A, B, C는 각각 공격 1, 2, 3입니다. <b>배틀 로그</b>에서 일반 공격, 약점, COMBO 판정을 확인하세요. 약점은 선택 커맨드에 포함된 공격, COMBO는 공격 기록에서 커맨드 순서가 맞은 경우입니다.</p></li>
+    <li><strong>ATB 충전과 공격 확인하기</strong><p>ATB 게이지가 한 번 가득 차면 슬롯 하나가 활성화되고, 예약한 행동이 앞에서부터 하나씩 발동합니다. 예약 없이 충전된 슬롯은 황금색으로 표시되며, 이때 행동을 선택하면 즉시 발동합니다. 4개 슬롯이 모두 활성이고 고른 행동이 없으면 플레이어의 자연 수명 감소만 멈춥니다.</p></li>
+    <li><strong>로그에서 약점 판정 읽기</strong><p><b>행동 로그</b>의 A, B, C는 각각 공격 1, 2, 3입니다. <b>배틀 로그</b>에서 일반 공격, 약점, COMBO 판정을 확인하세요. 약점(기본 ×1.1)은 선택 커맨드에 포함된 공격, COMBO(기본 ×2.0)는 공격 기록에서 커맨드 순서가 맞은 경우입니다. COMBO 공격 뒤에는 공격 기록이 비워집니다.</p></li>
   </ol>
   <p class="guide-note"><b>다시 비교하려면</b><br>전투를 중지하고 조건을 바꾼 뒤 다시 시작하세요. 전투 시작 시 체력, 수명, 행동 슬롯이 초기화됩니다. <b>초기화</b>를 누르면 로그와 결과 표시도 지워집니다.</p>
+  <p class="guide-note"><b>구현 범위</b><br>공격, 예약, 약점 커맨드 흐름을 구현했습니다. 피해는 ATK − DEF이며, 최소 피해 1과 방어 시 DEF × DEF_MULT는 시뮬레이터 가정입니다. 긴급 행동은 단순화했습니다. 약점 파악 2회는 자동 예약 대신 첫 공격 힌트를 보여 주고, 비용은 고정이며 전투 시작 직후부터 쓸 수 있습니다. 체력 회복은 최대 HP 10% 고정이고 즉시 방어와 후퇴, 예약 수정, 등급별 커맨드 전환, 상태이상은 없습니다.</p>
 </aside>
 </div>
 <script>
@@ -360,14 +364,15 @@ function updateMonsterInfo(){
   $('recipe-hint').textContent='약점 파악 버튼으로 힌트를 얻으세요';
   $('recipe-hint').style.background='var(--color-background-secondary)';$('recipe-hint').style.color='var(--color-text-tertiary)';
 }
-function calcDmg(atk,def){return Math.max(1,Math.floor(atk*100/(100+def)));}
+/* 기획서 기준 피해 = ATK − DEF. 최소 1은 시뮬레이터 가정(기획 확정값 아님) */
+function calcDmg(atk,def){return Math.max(1,Math.floor(atk-def));}
 function initBattle(){
   const m=getMonData();if(!m){alert('몬스터를 선택하세요.');return false;}
   const lv=parseInt($('mon-lv').value)||1;
   g.pHPmax=cfgI('p-hp');g.pHP=g.pHPmax;g.pLifeMax=cfgI('p-life');g.pLife=g.pLifeMax;g.pATB=0;
   g.mHPmax=getActualStat(m.hp,lv);g.mHP=g.mHPmax;g.mLifeMax=getActualStat(m.lifetime,lv);g.mLife=g.mLifeMax;g.mATB=0;
-  g.slots=[0,0,0,0];g.activeQ=[];g.hist=new Array(13).fill(0);g.histLen=0;
-  g.defReady=false;g.evdReady=false;g.turnCount=0;g.battleTime=0;g.weakUseCount=0;
+  g.slots=[0,0,0,0];g.activeQ=[];g.hist=new Array(13).fill(0);g.histLen=0;g.comboCleared=false;
+  g.defReady=false;g.evdReady=false;g.inputWait=false;g.turnCount=0;g.battleTime=0;g.weakUseCount=0;
   g.monData={atk:getActualStat(m.atk,lv),def:getActualStat(m.def,lv),atbSpeed:m.atbSpeed||0,p1eff:m.p1eff,p1name:m.p1name,p2eff:m.p2eff,p2name:m.p2name,p3eff:m.p3eff,p3name:m.p3name};
   $('weak-use-count').textContent='0/2';
   $('recipe-hint').textContent='약점 파악 버튼으로 힌트를 얻으세요';
@@ -375,7 +380,7 @@ function initBattle(){
   renderSlots();renderHistory();updateUI();return true;
 }
 function startBattle(){if(g.running)return;if(!initBattle())return;g.running=true;$('sim-status').textContent='전투 중';$('sim-status').className='badge badge-warn';addLog('SYS','전투 시작','—','—','▶ BATTLE START','sys');g.tick=setInterval(onTick,200);}
-function stopBattle(){g.running=false;if(g.tick)clearInterval(g.tick);$('sim-status').textContent='중지';$('sim-status').className='badge badge-info';addLog('SYS','전투 중지','—','—','■ STOPPED','sys');}
+function stopBattle(){g.running=false;if(g.tick)clearInterval(g.tick);syncInputWait();$('sim-status').textContent='중지';$('sim-status').className='badge badge-info';addLog('SYS','전투 중지','—','—','■ STOPPED','sys');}
 function resetBattle(){stopBattle();if(!initBattle())return;clearLog();resetResultUI();$('sim-status').textContent='대기';$('sim-status').className='badge badge-info';addLog('SYS','초기화','—','—','↺ RESET','sys');}
 const TICK=0.2;
 function onTick(){
@@ -383,7 +388,9 @@ function onTick(){
   g.battleTime+=TICK;
   const baseATB=cfg('cfg-base-atb'),lifeDecay=cfg('cfg-life-decay'),pSpd=cfgI('p-spd');
   const pATBTime=baseATB*100/(100+pSpd/5);
-  g.pATB+=(TICK/pATBTime)*100;g.pLife-=TICK*lifeDecay;
+  /* 4개 슬롯이 모두 활성이고 선택한 행동이 없으면 플레이어의 자연 수명 감소만 멈춘다 */
+  g.inputWait=g.activeQ.length===4;
+  g.pATB+=(TICK/pATBTime)*100;if(!g.inputWait)g.pLife-=TICK*lifeDecay;
   while(g.pATB>=100){g.pATB-=100;activateNextSlot();}
   const mATBTime=baseATB*100/(100+g.monData.atbSpeed/5);
   g.mATB+=(TICK/mATBTime)*100;g.mLife-=TICK*lifeDecay;
@@ -427,7 +434,10 @@ function firePlayerAction(actionType){
     if(isCombo){dmg=Math.floor(base*cfg('cfg-combo'));eff=`★ COMBO x${cfg('cfg-combo').toFixed(1)}`;cls='combo';}
     else if(isWeak){dmg=Math.floor(base*cfg('cfg-weak'));eff=`▲ 약점 x${cfg('cfg-weak').toFixed(1)}`;cls='weak';}
     else{dmg=base;eff='일반 공격';}
-    g.mHP=Math.max(0,g.mHP-dmg);addLog(g.turnCount,'플레이어',actionLabels[actionType],dmg,eff,cls);renderHistory();
+    g.mHP=Math.max(0,g.mHP-dmg);addLog(g.turnCount,'플레이어',actionLabels[actionType],dmg,eff,cls);
+    /* 커맨드 성공 공격을 마친 뒤 공격 기록을 비워 같은 순서로 보너스를 반복해 받지 않게 한다 */
+    if(isCombo){g.hist=new Array(13).fill(0);g.histLen=0;g.comboCleared=true;}
+    renderHistory();
     if(g.mHP<=0){g.running=false;clearInterval(g.tick);$('sim-status').textContent='승리';$('sim-status').className='badge badge-success';addLog('SYS','전투 종료','—','—','VICTORY!','sys');showResult();updateUI();return;}
   }else if(actionType===4){g.defReady=true;addLog(g.turnCount,'플레이어','방어 준비','—','DEF READY','');}
   else if(actionType===5){g.evdReady=true;addLog(g.turnCount,'플레이어','회피 준비','—','EVD READY','');}
@@ -442,15 +452,17 @@ function fireEnemyAction(){
   else if(patEff==='Absorb'){dmg=Math.floor(calcDmg(mATK,pDEF)*1.15);const h=Math.floor(dmg*0.3);g.mHP=Math.min(g.mHPmax,g.mHP+h);eff=`흡수(+${h}HP)`;}
   else{dmg=Math.floor(calcDmg(mATK,pDEF)*(patEff==='NormalAtk'?1:0.8));eff=patEff==='NormalAtk'?'기본공격':patEff+'(상태이상)';}
   if(g.evdReady){if(Math.random()<cfg('cfg-evade')){addLog(g.turnCount,'적',patName,0,'EVADED!','');g.evdReady=false;return;}else{eff+=' [회피실패]';g.evdReady=false;}}
-  if(g.defReady&&patEff!=='PowerAtk'){dmg=Math.max(1,Math.floor(mATK*100/(100+pDEF*cfg('cfg-def-mult'))));eff=`방어[${eff}]`;g.defReady=false;}
+  if(g.defReady&&patEff!=='PowerAtk'){dmg=calcDmg(mATK,pDEF*cfg('cfg-def-mult'));eff=`방어[${eff}]`;g.defReady=false;}
   g.pHP=Math.max(0,g.pHP-dmg);addLog(g.turnCount,'적',patName,dmg,eff,'enemy');
   if(g.pHP<=0){g.running=false;clearInterval(g.tick);$('sim-status').textContent='패배';$('sim-status').className='badge badge-info';addLog('SYS','HP소진','—','—','KO → 마을귀환','sys');showResult();updateUI();return;}
   updateUI();
 }
 function isWeakAction(t){const rNo=parseInt($('recipe-no').value),m=getMonData();if(!m)return false;const r=String(rNo===1?m.recipe1:rNo===2?m.recipe2:m.recipe3||'');return r.includes(String(t));}
 function checkCombo(){const rNo=parseInt($('recipe-no').value),m=getMonData();if(!m)return false;const recipe=String(rNo===1?m.recipe1:rNo===2?m.recipe2:m.recipe3||'');if(!recipe||recipe==='-')return false;let ri=0;for(let i=0;i<g.histLen;i++){if(String(g.hist[i])===recipe[ri]){ri++;if(ri>=recipe.length)return true;}}return false;}
-function pushHistory(t){if(g.histLen<13){g.hist[g.histLen++]=t;}else{g.hist=[...g.hist.slice(1),t];}}
+function pushHistory(t){g.comboCleared=false;if(g.histLen<13){g.hist[g.histLen++]=t;}else{g.hist=[...g.hist.slice(1),t];}}
+function syncInputWait(){$('input-wait').hidden=!(g.running&&g.activeQ.length===4);}
 function updateUI(){
+  syncInputWait();
   $('d-php').textContent=`${g.pHP} / ${g.pHPmax}`;$('d-mhp').textContent=`${g.mHP} / ${g.mHPmax}`;
   $('d-patb').textContent=Math.round(g.pATB)+'%';$('d-matb').textContent=Math.round(g.mATB)+'%';
   $('d-plife').textContent=g.pLife.toFixed(1);$('d-mlife').textContent=g.mLife.toFixed(1);
@@ -463,6 +475,7 @@ function updateUI(){
 }
 function renderSlots(){
   const cells=$('slots').children;
+  syncInputWait();
   for(let i=0;i<4;i++){
     const c=cells[i],isActive=g.activeQ.includes(i),t=g.slots[i];
     c.className='slot '+(isActive?'active':t?'queued':'empty');
@@ -475,7 +488,8 @@ function renderHistory(){
   const clsMap={1:'a1',2:'a2',3:'a3'};
   for(let i=0;i<13;i++){const c=cells[i];if(i<g.histLen){const t=g.hist[i];c.textContent=t===1?'A':t===2?'B':'C';c.className='hc '+(isCombo?'combo':(clsMap[t]||''));}else{c.textContent='·';c.className='hc';}}
   const cs=$('combo-status');
-  if(isCombo){cs.innerHTML='<i class="ti ti-star" style="font-size:12px"></i> COMBO! 약점 커맨드 일치';cs.className='combo-badge hit';}
+  if(g.comboCleared){cs.innerHTML='<i class="ti ti-star" style="font-size:12px"></i> COMBO 성공 · 공격 기록 초기화 (0/13)';cs.className='combo-badge hit';}
+  else if(isCombo){cs.innerHTML='<i class="ti ti-star" style="font-size:12px"></i> COMBO! 약점 커맨드 일치';cs.className='combo-badge hit';}
   else{cs.innerHTML=`<i class="ti ti-search" style="font-size:12px"></i> COMBO 탐색 중... (${g.histLen}/13)`;cs.className='combo-badge';}
 }
 function addLog(turn,actor,action,dmg,eff,cls){
